@@ -27,3 +27,4 @@ Copy `.env.example` to `.env` and adjust `VITE_API_BASE_URL` to point at your lo
 ## Structure
 
 Source lives under `src/` and is organized by concern: `components/` for UI, `hooks/` for reusable React hooks, `lib/` for utilities and framework-agnostic helpers, `pages/` for route-level screens, `types/` for shared TypeScript types, and `assets/` for static imports. Path alias `@/*` resolves to `./src/*`. Tailwind 3.4 and shadcn/ui (neutral base, CSS variables) are pre-wired; no components have been generated yet. The app also serves the public permit verification page at `verify.nws.om/permit/:number`.
+
