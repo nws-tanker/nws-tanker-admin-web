@@ -17,3 +17,9 @@ export type {
   TankerTypeLookup,
 } from './lookups';
 export type { SidebarCounts, SidebarData } from './sidebar';
+export type {
+  TankerUploadColumn,
+  TankerUploadResponse,
+  UploadError,
+  UploadErrorType,
+} from './tankerUpload';

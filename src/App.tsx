@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 import FleetRegistryPage from '@/pages/fleet-registry';
+import TankerUploadPage from '@/pages/tanker-upload';
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
         element={<Navigate to={ROUTES.fleetRegistry} replace />}
       />
       <Route path={ROUTES.fleetRegistry} element={<FleetRegistryPage />} />
+      <Route path={ROUTES.tankerUpload} element={<TankerUploadPage />} />
       <Route
         path="*"
         element={<Navigate to={ROUTES.fleetRegistry} replace />}

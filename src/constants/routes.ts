@@ -1,6 +1,7 @@
 export const ROUTES = {
   root: '/',
   fleetRegistry: '/fleet-registry',
+  tankerUpload: '/tanker-upload',
   dashboard: '/dashboard',
   operations: '/operations',
   fleetCompliance: '/fleet-compliance',

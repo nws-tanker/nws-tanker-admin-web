@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, PageHeader, useToast } from '@/atoms';
 import { DownloadIcon, UploadIcon } from '@/atoms/icons';
 import { AppShell } from '@/common-components/AppShell';
 import { ScreenStatus } from '@/common-components/ScreenStatus';
 import { FLEET_PAGE_SIZE } from '@/constants/fleet';
+import { ROUTES } from '@/constants/routes';
 import {
   assignInspectorApi,
   clearInspectorAssignmentApi,
@@ -29,6 +31,7 @@ import { usePaginatedRows } from './hooks/usePaginatedRows';
 
 export default function FleetRegistryPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     tankers,
     lookups,
@@ -131,6 +134,7 @@ export default function FleetRegistryPage() {
               <Button
                 variant="secondary"
                 leftIcon={<UploadIcon className="h-3.5 w-3.5" />}
+                onClick={() => navigate(ROUTES.tankerUpload)}
               >
                 Upload Registrations
               </Button>

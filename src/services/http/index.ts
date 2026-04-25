@@ -9,3 +9,4 @@ export {
   put,
   type ApiRequestConfig,
 } from './request';
+export { uploadFile } from './uploadFormData';
