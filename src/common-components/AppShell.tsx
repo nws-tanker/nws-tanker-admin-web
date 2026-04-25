@@ -1,0 +1,24 @@
+import type { ReactNode } from 'react';
+import { AppSidebar } from './AppSidebar';
+import { AppTopbar } from './AppTopbar';
+
+type Props = {
+  breadcrumbs: string[];
+  children: ReactNode;
+};
+
+export function AppShell({ breadcrumbs, children }: Props) {
+  return (
+    <div className="h-[100vh] w-full overflow-hidden bg-ink-50">
+      <div className="grid h-full" style={{ gridTemplateColumns: '240px 1fr' }}>
+        <AppSidebar />
+        <div className="flex h-full min-w-0 flex-col overflow-hidden bg-ink-50">
+          <AppTopbar breadcrumbs={breadcrumbs} />
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
