@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
+import ConfigurationPage from '@/pages/configuration';
 import FleetRegistryPage from '@/pages/fleet-registry';
 import TankerUploadPage from '@/pages/tanker-upload';
 
@@ -12,6 +13,7 @@ export default function App() {
       />
       <Route path={ROUTES.fleetRegistry} element={<FleetRegistryPage />} />
       <Route path={ROUTES.tankerUpload} element={<TankerUploadPage />} />
+      <Route path={ROUTES.configuration} element={<ConfigurationPage />} />
       <Route
         path="*"
         element={<Navigate to={ROUTES.fleetRegistry} replace />}

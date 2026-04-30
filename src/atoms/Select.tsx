@@ -1,13 +1,9 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { DownIcon } from './icons';
 import type { SelectOption } from './option';
+import { SelectOptionRow } from './SelectOptionRow';
+import { panelPositionStyle, usePanelPosition } from './usePanelPosition';
 import { cn } from '@/utils';
 
 type Props<V extends string = string> = {
@@ -22,8 +18,6 @@ type Props<V extends string = string> = {
   'aria-label'?: string;
 };
 
-type PanelPos = { top: number; left: number; width: number };
-
 export function Select<V extends string = string>({
   options,
   value,
@@ -36,31 +30,9 @@ export function Select<V extends string = string>({
   'aria-label': ariaLabel,
 }: Props<V>) {
   const [open, setOpen] = useState(false);
-  const [panelPos, setPanelPos] = useState<PanelPos | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-
-  // Position the panel relative to the viewport while open. `scroll` with
-  // capture=true catches nested scrolls (e.g. modal body) so the panel stays
-  // pinned to the trigger even when the user scrolls inside an ancestor.
-  useLayoutEffect(() => {
-    if (!open || !triggerRef.current) return;
-    const updatePos = () => {
-      const rect = triggerRef.current!.getBoundingClientRect();
-      setPanelPos({
-        top: rect.bottom + 4,
-        left: rect.left,
-        width: rect.width,
-      });
-    };
-    updatePos();
-    window.addEventListener('resize', updatePos);
-    window.addEventListener('scroll', updatePos, true);
-    return () => {
-      window.removeEventListener('resize', updatePos);
-      window.removeEventListener('scroll', updatePos, true);
-    };
-  }, [open]);
+  const panelPos = usePanelPosition(open, triggerRef);
 
   useEffect(() => {
     if (!open) return;
@@ -99,16 +71,11 @@ export function Select<V extends string = string>({
           <div
             ref={panelRef}
             role="listbox"
-            style={{
-              position: 'fixed',
-              top: panelPos.top,
-              left: panelPos.left,
-              width: panelPos.width,
-            }}
-            className="z-[500] max-h-[260px] overflow-y-auto rounded-card border border-ink-200 bg-white p-1.5 shadow-dropdown"
+            style={panelPositionStyle(panelPos)}
+            className="z-[500] overflow-y-auto rounded-card border border-ink-200 bg-white p-1.5 shadow-dropdown"
           >
             {placeholder !== undefined ? (
-              <Option
+              <SelectOptionRow
                 label={placeholder}
                 selected={!hasValue}
                 muted
@@ -116,7 +83,7 @@ export function Select<V extends string = string>({
               />
             ) : null}
             {options.map((opt) => (
-              <Option
+              <SelectOptionRow
                 key={opt.value}
                 label={opt.label}
                 selected={opt.value === value}
@@ -164,36 +131,5 @@ export function Select<V extends string = string>({
       </button>
       {panel}
     </div>
-  );
-}
-
-type OptionProps = {
-  label: ReactNode;
-  selected: boolean;
-  disabled?: boolean;
-  muted?: boolean;
-  onClick: () => void;
-};
-
-function Option({ label, selected, disabled, muted, onClick }: OptionProps) {
-  return (
-    <button
-      type="button"
-      role="option"
-      aria-selected={selected}
-      disabled={disabled}
-      onClick={onClick}
-      className={cn(
-        'flex w-full items-center rounded-sm px-2 py-1.5 text-left text-[13px] transition-colors',
-        selected
-          ? 'bg-teal-50 font-medium text-teal-900'
-          : muted
-            ? 'text-ink-500 hover:bg-ink-50'
-            : 'text-ink-800 hover:bg-ink-50',
-        disabled && 'cursor-not-allowed opacity-40',
-      )}
-    >
-      {label}
-    </button>
   );
 }
