@@ -1,7 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { handleLogin } from '@/services/authenticationService';
 import { useToast } from '@/atoms';
+import { STORAGE_KEYS } from '@/constants/storageKeys';
+import { firstAllowedPath } from '@/constants/routes';
+import { useAppDispatch } from '@/store';
+import { setAuth } from '@/store/slices/authSlice';
+import { decodeJwt } from '@/utils';
 import { loginSchema } from '../schema/loginSchema';
 
 type FormValues = z.infer<typeof loginSchema>;
@@ -25,6 +31,8 @@ export function useLoginForm() {
   const { show: showToast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   function handleChange<K extends keyof FormValues>(
     field: K,
@@ -71,13 +79,23 @@ export function useLoginForm() {
     setIsLoading(true);
     try {
       const result = await handleLogin(values.email, values.password);
+      console.log('Coming here not successfull', result);
       if (!result.success) {
         showToast(result.error.description, { tone: 'error' });
         return;
       }
-      localStorage.setItem('jwt', result.data.jwt);
+
+      const { jwt } = result.data;
+      const payload = decodeJwt(jwt);
+      if (!payload) {
+        showToast('Invalid token received from server.', { tone: 'error' });
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEYS.jwt, jwt);
+      dispatch(setAuth({ token: jwt, payload }));
       showToast('Signed in successfully');
-      // TODO: redirect
+      navigate(firstAllowedPath(payload.user_access), { replace: true });
     } catch {
       showToast('Something went wrong. Please try again.', { tone: 'error' });
     } finally {
