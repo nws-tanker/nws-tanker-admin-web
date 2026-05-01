@@ -23,3 +23,4 @@ export type {
   UploadError,
   UploadErrorType,
 } from './tankerUpload';
+export type { LoginResponse } from './auth';

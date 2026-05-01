@@ -1,5 +1,5 @@
 import { post } from './http';
-import { LoginResponse } from '@/types/auth';
+import { LoginResponse } from '@/types';
 import { ApiResponse } from '@/store/types';
 import { ENDPOINTS } from '@/constants/endpoints';
 
