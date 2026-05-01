@@ -1,6 +1,9 @@
 export const ENDPOINTS = {
   fleetRegistry: '/fleet/tankers',
   lookups: '/lookups',
+  login: '/nama/v1/authentication',
+  employeeRegistration: '/nama/v1/api/users/register/employee',
+  contractorRegistration: '/nama/v1/api/users/register/contractor',
   sidebar: '/sidebar',
   assignment: '/assignments?plateNumber={plateNumber}',
   tankerUploadColumns: '/tanker-upload/columns',
