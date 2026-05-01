@@ -1,17 +1,10 @@
 import { post } from './http';
 import { ApiResponse } from '@/store/types';
 import { ENDPOINTS } from '@/constants/endpoints';
-import { ContractorData } from '@/types/contractor';
-import { EmployeeData } from '@/types/employee';
+import { RegistrationData } from '@/types/userRegistration';
 
 export async function handleEmployeeRegistration(
-  EmployeeRegistrationData: EmployeeData,
+  RegistrationData: RegistrationData,
 ): Promise<ApiResponse<null>> {
-  return post(ENDPOINTS.employeeRegistration, EmployeeRegistrationData);
-}
-
-export async function handleContractorRegistration(
-  ContractorRegistrationData: ContractorData,
-): Promise<ApiResponse<null>> {
-  return post(ENDPOINTS.contractorRegistration, ContractorRegistrationData);
+  return post(ENDPOINTS.employeeRegistration, RegistrationData);
 }

@@ -1,6 +1,6 @@
 import { Tabs } from '@/atoms';
 
-type TabType = 'login' | 'employee' | 'contractor';
+type TabType = 'login' | 'registration';
 
 type Props = {
   activeTab: TabType;
@@ -9,8 +9,7 @@ type Props = {
 
 const tabs = [
   { key: 'login' as const, label: 'Sign in' },
-  { key: 'employee' as const, label: 'Nama Employee' },
-  { key: 'contractor' as const, label: 'Contractor' },
+  { key: 'registration' as const, label: 'Registration' },
 ];
 
 export default function AuthTabs({ activeTab, onChange }: Props) {

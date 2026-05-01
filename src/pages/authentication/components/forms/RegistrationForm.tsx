@@ -1,8 +1,8 @@
 import EyeIcon from '@/atoms/icons';
-import { Input, Button, IconButton } from '@/atoms';
-import { useNamaEmployeeRegistrationForm } from '@/pages/authentication/hooks/useNamaEmployeeRegistrationForm';
+import { Input, Select, Button, IconButton } from '@/atoms';
+import { useRegistrationForm } from '@/pages/authentication/hooks/useRegistrationForm';
 
-export default function NamaEmployeeRegistrationForm() {
+export default function RegistrationForm() {
   const {
     values,
     errors,
@@ -10,24 +10,43 @@ export default function NamaEmployeeRegistrationForm() {
     showPassword,
     showConfirm,
     isLoading,
+    companyOptions,
     handleChange,
     handleSubmit,
     toggleShowPassword,
     toggleShowConfirm,
-  } = useNamaEmployeeRegistrationForm();
+  } = useRegistrationForm();
 
   return (
     <div className="bg-gray-50 flex items-center justify-center">
-      <div className="w-full max-w-sm bg-white rounded-xl shadow-sm">
+      <div className="w-full max-w-sm bg-white rounded-xl">
         <h1 className="text-[22px] font-semibold tracking-[-0.015em] text-gray-900 mb-1.5">
-          Nama Employee Registration
+          Register
         </h1>
         <p className="text-[13px] text-gray-500 mb-[22px]">
-          For Nama Water Services employees only. Submit your details and the
-          Operations Manager will assign your role and activate your account.
+          For Nama Water Services employees and licensed tanker contractors.
+          Submit your details and the Operations Manager will assign your role
+          and activate your account.
         </p>
 
         <form onSubmit={handleSubmit} noValidate>
+          <div className="grid gap-1.5 mb-[14px]">
+            <label className="text-[12px] font-medium text-gray-700">
+              Company name <span className="text-red-500">*</span>
+            </label>
+            <Select
+              options={companyOptions}
+              value={values.company!}
+              onChange={(next) => handleChange('company', next)}
+              placeholder="— Select your company —"
+              disabled={isLoading}
+              invalid={!!(touched.company && errors.company)}
+            />
+            {touched.company && errors.company && (
+              <p className="mt-1 text-xs text-red-500">{errors.company}</p>
+            )}
+          </div>
+
           <div className="flex gap-3 mb-[14px]">
             <div className="flex-1">
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">

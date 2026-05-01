@@ -1,30 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { z } from 'zod';
-import { handleContractorRegistration } from '@/services/registrationService';
+import { handleEmployeeRegistration } from '@/services/registrationService';
+import { fetchContractorsApi } from '@/services/getContracterService';
+import type { SelectOption } from '@/atoms';
 import { useToast } from '@/atoms';
-import { contractorSchema } from '../schema/contractorSchema';
+import { namaEmployeeSchema } from '../schema/employeeSchema';
 
-type FormValues = z.infer<typeof contractorSchema>;
+type FormValues = z.infer<typeof namaEmployeeSchema>;
 
 interface FormErrors {
   company?: string;
-  contactPersonName?: string;
-  mobile?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
+  mobile?: string;
   password?: string;
   confirmPassword?: string;
-  accepted?: string;
 }
 
-export function useContractorRegistrationForm() {
+export function useRegistrationForm() {
   const [values, setValues] = useState<FormValues>({
-    company: '',
-    contactPersonName: '',
-    mobile: '',
+    company: undefined,
+    firstName: '',
+    lastName: '',
     email: '',
+    mobile: '',
     password: '',
     confirmPassword: '',
-    accepted: false,
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<
@@ -34,6 +36,26 @@ export function useContractorRegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [companyOptions, setCompanyOptions] = useState<SelectOption[]>([]);
+  const [contractorIdMap, setContractorIdMap] = useState<
+    Record<string, number>
+  >({});
+
+  useEffect(() => {
+    fetchContractorsApi().then((result) => {
+      if (!result.success) return;
+      const options: SelectOption[] = result.data.map((c) => ({
+        value: c.companyNameEn,
+        label: c.companyNameEn,
+      }));
+      const idMap: Record<string, number> = {};
+      result.data.forEach((c) => {
+        idMap[c.companyNameEn] = c.contractorId;
+      });
+      setCompanyOptions(options);
+      setContractorIdMap(idMap);
+    });
+  }, []);
 
   function handleChange<K extends keyof FormValues>(
     field: K,
@@ -44,7 +66,7 @@ export function useContractorRegistrationForm() {
 
     if (!touched[field as keyof FormErrors]) return;
 
-    const result = contractorSchema.safeParse(updated);
+    const result = namaEmployeeSchema.safeParse(updated);
     const fieldErrors: FormErrors = {};
     if (!result.success) {
       for (const issue of result.error.issues) {
@@ -64,7 +86,7 @@ export function useContractorRegistrationForm() {
   }
 
   function validateForm(): boolean {
-    const result = contractorSchema.safeParse(values);
+    const result = namaEmployeeSchema.safeParse(values);
 
     if (result.success) {
       setErrors({});
@@ -85,23 +107,27 @@ export function useContractorRegistrationForm() {
 
     setTouched({
       company: true,
-      contactPersonName: true,
-      mobile: true,
+      firstName: true,
+      lastName: true,
       email: true,
+      mobile: true,
       password: true,
       confirmPassword: true,
-      accepted: true,
     });
 
     if (!validateForm()) return;
 
     setIsLoading(true);
     try {
-      const result = await handleContractorRegistration({
-        company: values.company,
-        contactPersonName: values.contactPersonName,
+      const result = await handleEmployeeRegistration({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
         mobile: values.mobile,
         password: values.password,
+        contractorId: values.company
+          ? (contractorIdMap[values.company] ?? 0)
+          : 0,
       });
       if (!result.success) {
         showToast(result.error.description, { tone: 'error' });
@@ -123,6 +149,7 @@ export function useContractorRegistrationForm() {
     showPassword,
     showConfirm,
     isLoading,
+    companyOptions,
     handleChange,
     handleSubmit,
     toggleShowPassword: () => setShowPassword((p) => !p),
