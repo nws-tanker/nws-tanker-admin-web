@@ -23,3 +23,8 @@ export type {
   UploadError,
   UploadErrorType,
 } from './tankerUpload';
+export type {
+  ActiveUserResponse,
+  ApproveUserRequest,
+  ClusterResponse,
+} from './configuration';

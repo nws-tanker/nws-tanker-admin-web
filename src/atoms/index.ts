@@ -15,5 +15,7 @@ export { Select } from './Select';
 export type { SelectOption } from './option';
 export { StatusIndicator, statusToneTextClass } from './StatusIndicator';
 export type { StatusTone } from './StatusIndicator';
+export { TabButton } from './TabButton';
+export { Textarea } from './Textarea';
 export { TextInput } from './TextInput';
 export { ToastProvider, useToast } from './Toast';
