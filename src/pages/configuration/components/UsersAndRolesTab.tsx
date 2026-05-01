@@ -68,7 +68,7 @@ export function UsersAndRolesTab() {
   const handleAddUser = () => {};
 
   // TODO: open Edit User modal/drawer
-  // const handleEdit = (_id: string) => {};
+  const handleEdit = () => {};
 
   const hasPending = pendingState === States.SUCCESS && requests.length > 0;
 
