@@ -12,7 +12,6 @@ type Props = {
 };
 
 export function ActiveUserRow({ user, onEdit }: Props) {
-  console.log('The user role is ', user.role);
   return (
     <tr className="hover:bg-ink-50">
       <td className="border-b border-ink-100 px-4 py-3">
