@@ -1,92 +1,18 @@
-import { useState } from 'react';
-import { handleLogin } from '@/services/authenticationService';
-import { useToast } from '@/atoms';
-import { z } from 'zod';
-import { loginSchema } from '../../schema/loginSchema';
-
-type FormValues = z.infer<typeof loginSchema>;
-
-interface FormErrors {
-  email?: string;
-  password?: string;
-}
+import EyeIcon from '@/atoms/icons';
+import { Input, Button } from '@/atoms';
+import { useLoginForm } from '@/pages/authentication/hooks/useLoginForm';
 
 export default function LoginForm() {
-  const [values, setValues] = useState<FormValues>({
-    email: '',
-    password: '',
-    remember: true,
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [touched, setTouched] = useState<{
-    email?: boolean;
-    password?: boolean;
-  }>({});
-  const { show: showToast } = useToast();
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  function handleChange<K extends keyof FormValues>(
-    field: K,
-    value: FormValues[K],
-  ) {
-    setValues((prev) => ({ ...prev, [field]: value }));
-
-    if (field !== 'email' && field !== 'password') return;
-    if (!touched[field as 'email' | 'password']) return;
-
-    const result = loginSchema.shape[field].safeParse(value);
-    setErrors((prev) => ({
-      ...prev,
-      [field]: result.success ? undefined : result.error.issues[0].message,
-    }));
-  }
-
-  function validateForm(): boolean {
-    const result = loginSchema.safeParse(values);
-
-    if (result.success) {
-      setErrors({});
-      return true;
-    }
-
-    const newErrors: FormErrors = {};
-    for (const issue of result.error.issues) {
-      const field = issue.path[0] as keyof FormErrors;
-      if ((field === 'email' || field === 'password') && !newErrors[field]) {
-        newErrors[field] = issue.message;
-      }
-    }
-    setErrors(newErrors);
-    return false;
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    setTouched({ email: true, password: true });
-
-    if (!validateForm()) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const result = await handleLogin(values.email, values.password);
-      if (!result.success) {
-        showToast(result.error.description, { tone: 'error' });
-        return;
-      }
-      localStorage.setItem('jwt', result.data.jwt);
-      showToast('Signed in successfully');
-      // TODO: redirect
-    } catch {
-      showToast('Something went wrong. Please try again.', { tone: 'error' });
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const {
+    values,
+    errors,
+    touched,
+    showPassword,
+    isLoading,
+    handleChange,
+    handleSubmit,
+    toggleShowPassword,
+  } = useLoginForm();
 
   return (
     <div className="bg-gray-50 flex items-center justify-center">
@@ -104,17 +30,13 @@ export default function LoginForm() {
             <label className="text-[12px] font-medium text-gray-700">
               Email address
             </label>
-            <input
+            <Input
               type="email"
               value={values.email}
               onChange={(e) => handleChange('email', e.target.value)}
               placeholder="you@example.com"
               disabled={isLoading}
-              className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                touched.email && errors.email
-                  ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-              }`}
+              invalid={!!(touched.email && errors.email)}
             />
             {touched.email && errors.email && (
               <p className="mt-1 text-xs text-red-500">{errors.email}</p>
@@ -125,65 +47,25 @@ export default function LoginForm() {
             <label className="text-[12px] font-medium text-gray-700">
               Password
             </label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={values.password}
-                onChange={(e) => handleChange('password', e.target.value)}
-                placeholder="Enter your password"
-                disabled={isLoading}
-                className={`w-full border rounded-[8px] px-3 py-[10px] pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                  touched.password && errors.password
-                    ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                    : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                }`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={isLoading}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 disabled:opacity-50"
-                tabIndex={-1}
-              >
-                {showPassword ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              value={values.password}
+              onChange={(e) => handleChange('password', e.target.value)}
+              placeholder="Enter your password"
+              disabled={isLoading}
+              invalid={!!(touched.password && errors.password)}
+              rightSlot={
+                <button
+                  type="button"
+                  onClick={toggleShowPassword}
+                  disabled={isLoading}
+                  className="text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                  tabIndex={-1}
+                >
+                  <EyeIcon open={showPassword} />
+                </button>
+              }
+            />
             {touched.password && errors.password && (
               <p className="mt-1 text-xs text-red-500">{errors.password}</p>
             )}
@@ -210,10 +92,11 @@ export default function LoginForm() {
             </a>
           </div>
 
-          <button
+          <Button
             type="submit"
+            variant="primary"
             disabled={isLoading}
-            className="w-full h-11 mt-1.5 bg-teal-800 hover:bg-teal-900 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold rounded-[8px] text-[14px] transition-colors flex items-center justify-center gap-2"
+            className="w-full h-11 mt-1.5 justify-center text-[14px]"
           >
             {isLoading ? (
               <>
@@ -241,7 +124,7 @@ export default function LoginForm() {
             ) : (
               'Sign in'
             )}
-          </button>
+          </Button>
         </form>
 
         <div className="mt-[18px] space-y-2 text-center text-[12px] text-gray-500">

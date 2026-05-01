@@ -1,120 +1,20 @@
-import { useState } from 'react';
-import { handleEmployeeRegistration } from '@/services/registrationService';
-import EyeIcon from '../EyeIcon';
-import { useToast } from '@/atoms';
-import { z } from 'zod';
-import { namaEmployeeSchema } from '@/pages/authentication/schema/employeeSchema';
-
-type FormValues = z.infer<typeof namaEmployeeSchema>;
-
-interface FormErrors {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  mobile?: string;
-  password?: string;
-  confirmPassword?: string;
-}
+import EyeIcon from '@/atoms/icons';
+import { Input, Button } from '@/atoms';
+import { useNamaEmployeeRegistrationForm } from '@/pages/authentication/hooks/useNamaEmployeeRegistrationForm';
 
 export default function NamaEmployeeRegistrationForm() {
-  const [values, setValues] = useState<FormValues>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobile: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [touched, setTouched] = useState<
-    Partial<Record<keyof FormErrors, boolean>>
-  >({});
-  const { show: showToast } = useToast();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  function handleChange<K extends keyof FormValues>(
-    field: K,
-    value: FormValues[K],
-  ) {
-    const updated = { ...values, [field]: value } as FormValues;
-    setValues(updated);
-
-    if (!touched[field as keyof FormErrors]) return;
-
-    const result = namaEmployeeSchema.safeParse(updated);
-    const fieldErrors: FormErrors = {};
-    if (!result.success) {
-      for (const issue of result.error.issues) {
-        const f = issue.path[0] as keyof FormErrors;
-        if (!fieldErrors[f]) fieldErrors[f] = issue.message;
-      }
-    }
-
-    setErrors((prev) => ({
-      ...prev,
-      [field]: fieldErrors[field as keyof FormErrors],
-      // When password changes, also re-check confirmPassword if it's been touched
-      ...(field === 'password' &&
-        touched.confirmPassword && {
-          confirmPassword: fieldErrors.confirmPassword,
-        }),
-    }));
-  }
-
-  function validateForm(): boolean {
-    const result = namaEmployeeSchema.safeParse(values);
-
-    if (result.success) {
-      setErrors({});
-      return true;
-    }
-
-    const newErrors: FormErrors = {};
-    for (const issue of result.error.issues) {
-      const field = issue.path[0] as keyof FormErrors;
-      if (!newErrors[field]) newErrors[field] = issue.message;
-    }
-    setErrors(newErrors);
-    return false;
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    setTouched({
-      firstName: true,
-      lastName: true,
-      email: true,
-      mobile: true,
-      password: true,
-      confirmPassword: true,
-    });
-
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-    try {
-      const result = await handleEmployeeRegistration({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        mobile: values.mobile,
-        password: values.password,
-      });
-      if (!result.success) {
-        showToast(result.error.description, { tone: 'error' });
-        return;
-      }
-      showToast('Registration submitted successfully');
-      // TODO: redirect
-    } catch {
-      showToast('Something went wrong. Please try again.', { tone: 'error' });
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const {
+    values,
+    errors,
+    touched,
+    showPassword,
+    showConfirm,
+    isLoading,
+    handleChange,
+    handleSubmit,
+    toggleShowPassword,
+    toggleShowConfirm,
+  } = useNamaEmployeeRegistrationForm();
 
   return (
     <div className="bg-gray-50 flex items-center justify-center">
@@ -133,17 +33,13 @@ export default function NamaEmployeeRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 First name <span className="text-red-500">*</span>
               </label>
-              <input
+              <Input
                 type="text"
                 value={values.firstName}
                 onChange={(e) => handleChange('firstName', e.target.value)}
                 placeholder="Khalid"
                 disabled={isLoading}
-                className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                  touched.firstName && errors.firstName
-                    ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                    : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                }`}
+                invalid={!!(touched.firstName && errors.firstName)}
               />
               {touched.firstName && errors.firstName && (
                 <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>
@@ -153,17 +49,13 @@ export default function NamaEmployeeRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 Last name <span className="text-red-500">*</span>
               </label>
-              <input
+              <Input
                 type="text"
                 value={values.lastName}
                 onChange={(e) => handleChange('lastName', e.target.value)}
                 placeholder="Al-Maamari"
                 disabled={isLoading}
-                className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                  touched.lastName && errors.lastName
-                    ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                    : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                }`}
+                invalid={!!(touched.lastName && errors.lastName)}
               />
               {touched.lastName && errors.lastName && (
                 <p className="mt-1 text-xs text-red-500">{errors.lastName}</p>
@@ -175,17 +67,13 @@ export default function NamaEmployeeRegistrationForm() {
             <label className="text-[12px] font-medium text-gray-700">
               Work email address <span className="text-red-500">*</span>
             </label>
-            <input
+            <Input
               type="email"
               value={values.email}
               onChange={(e) => handleChange('email', e.target.value)}
               placeholder="you@nama.om"
               disabled={isLoading}
-              className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                touched.email && errors.email
-                  ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-              }`}
+              invalid={!!(touched.email && errors.email)}
             />
             {touched.email && errors.email && (
               <p className="mt-1 text-xs text-red-500">{errors.email}</p>
@@ -196,7 +84,7 @@ export default function NamaEmployeeRegistrationForm() {
             <label className="text-[12px] font-medium text-gray-700">
               Mobile (+968) <span className="text-red-500">*</span>
             </label>
-            <input
+            <Input
               type="tel"
               value={values.mobile}
               onChange={(e) =>
@@ -204,11 +92,7 @@ export default function NamaEmployeeRegistrationForm() {
               }
               placeholder="9XXX XXXX"
               disabled={isLoading}
-              className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                touched.mobile && errors.mobile
-                  ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-              }`}
+              invalid={!!(touched.mobile && errors.mobile)}
             />
             {touched.mobile && errors.mobile && (
               <p className="mt-1 text-xs text-red-500">{errors.mobile}</p>
@@ -220,27 +104,23 @@ export default function NamaEmployeeRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 Password <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={values.password}
-                  onChange={(e) => handleChange('password', e.target.value)}
-                  placeholder="Min 8 characters"
-                  disabled={isLoading}
-                  className={`w-full border rounded-[8px] px-3 py-[10px] pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                    touched.password && errors.password
-                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                      : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <EyeIcon open={showPassword} />
-                </button>
-              </div>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={(e) => handleChange('password', e.target.value)}
+                placeholder="Min 8 characters"
+                disabled={isLoading}
+                invalid={!!(touched.password && errors.password)}
+                rightSlot={
+                  <button
+                    type="button"
+                    onClick={toggleShowPassword}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <EyeIcon open={showPassword} />
+                  </button>
+                }
+              />
               {touched.password && errors.password && (
                 <p className="mt-1 text-xs text-red-500">{errors.password}</p>
               )}
@@ -249,29 +129,25 @@ export default function NamaEmployeeRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 Confirm password <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input
-                  type={showConfirm ? 'text' : 'password'}
-                  value={values.confirmPassword}
-                  onChange={(e) =>
-                    handleChange('confirmPassword', e.target.value)
-                  }
-                  placeholder="Repeat password"
-                  disabled={isLoading}
-                  className={`w-full border rounded-[8px] px-3 py-[10px] pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                    touched.confirmPassword && errors.confirmPassword
-                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                      : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirm(!showConfirm)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <EyeIcon open={showConfirm} />
-                </button>
-              </div>
+              <Input
+                type={showConfirm ? 'text' : 'password'}
+                value={values.confirmPassword}
+                onChange={(e) =>
+                  handleChange('confirmPassword', e.target.value)
+                }
+                placeholder="Repeat password"
+                disabled={isLoading}
+                invalid={!!(touched.confirmPassword && errors.confirmPassword)}
+                rightSlot={
+                  <button
+                    type="button"
+                    onClick={toggleShowConfirm}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <EyeIcon open={showConfirm} />
+                  </button>
+                }
+              />
               {touched.confirmPassword && errors.confirmPassword && (
                 <p className="mt-1 text-xs text-red-500">
                   {errors.confirmPassword}
@@ -280,13 +156,14 @@ export default function NamaEmployeeRegistrationForm() {
             </div>
           </div>
 
-          <button
+          <Button
             type="submit"
+            variant="primary"
             disabled={isLoading}
-            className="w-full h-11 bg-teal-800 hover:bg-teal-900 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold rounded-[8px] text-[14px] transition-colors"
+            className="w-full h-11 justify-center text-[14px]"
           >
             {isLoading ? 'Submitting...' : 'Submit registration'}
-          </button>
+          </Button>
         </form>
 
         <p className="mt-[18px] text-center text-[12px] text-gray-500">

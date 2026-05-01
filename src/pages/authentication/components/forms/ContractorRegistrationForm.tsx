@@ -1,128 +1,27 @@
-import { useState } from 'react';
-import EyeIcon from '../EyeIcon';
-import { handleContractorRegistration } from '@/services/registrationService';
-import { useToast } from '@/atoms';
-import { contractorSchema } from '@/pages/authentication/schema/contractorSchema';
-import type { z } from 'zod';
+import EyeIcon from '@/atoms/icons';
+import { Input, Select, Button } from '@/atoms';
+import type { SelectOption } from '@/atoms';
+import { useContractorRegistrationForm } from '@/pages/authentication/hooks/useContractorRegistrationForm';
 
-const COMPANIES = [
-  'Al Madina Tankers LLC',
-  'Oman Tanker Services',
-  'Dhofar Compliance Co',
+const COMPANY_OPTIONS: SelectOption[] = [
+  { value: 'Al Madina Tankers LLC', label: 'Al Madina Tankers LLC' },
+  { value: 'Oman Tanker Services', label: 'Oman Tanker Services' },
+  { value: 'Dhofar Compliance Co', label: 'Dhofar Compliance Co' },
 ];
 
-type FormValues = z.infer<typeof contractorSchema>;
-
-interface FormErrors {
-  company?: string;
-  contactPersonName?: string;
-  mobile?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  accepted?: string;
-}
-
 export default function ContractorRegistrationForm() {
-  const [values, setValues] = useState<FormValues>({
-    company: '',
-    contactPersonName: '',
-    mobile: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    accepted: false,
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [touched, setTouched] = useState<
-    Partial<Record<keyof FormErrors, boolean>>
-  >({});
-  const { show: showToast } = useToast();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  function handleChange<K extends keyof FormValues>(
-    field: K,
-    value: FormValues[K],
-  ) {
-    const updated = { ...values, [field]: value } as FormValues;
-    setValues(updated);
-
-    if (!touched[field as keyof FormErrors]) return;
-
-    const result = contractorSchema.safeParse(updated);
-    const fieldErrors: FormErrors = {};
-    if (!result.success) {
-      for (const issue of result.error.issues) {
-        const f = issue.path[0] as keyof FormErrors;
-        if (!fieldErrors[f]) fieldErrors[f] = issue.message;
-      }
-    }
-
-    setErrors((prev) => ({
-      ...prev,
-      [field]: fieldErrors[field as keyof FormErrors],
-      // When password changes, also re-check confirmPassword if it's been touched
-      ...(field === 'password' &&
-        touched.confirmPassword && {
-          confirmPassword: fieldErrors.confirmPassword,
-        }),
-    }));
-  }
-
-  function validateForm(): boolean {
-    const result = contractorSchema.safeParse(values);
-
-    if (result.success) {
-      setErrors({});
-      return true;
-    }
-
-    const newErrors: FormErrors = {};
-    for (const issue of result.error.issues) {
-      const field = issue.path[0] as keyof FormErrors;
-      if (!newErrors[field]) newErrors[field] = issue.message;
-    }
-    setErrors(newErrors);
-    return false;
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    setTouched({
-      company: true,
-      contactPersonName: true,
-      mobile: true,
-      email: true,
-      password: true,
-      confirmPassword: true,
-      accepted: true,
-    });
-
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-    try {
-      const result = await handleContractorRegistration({
-        company: values.company,
-        contactPersonName: values.contactPersonName,
-        mobile: values.mobile,
-        password: values.password,
-      });
-      if (!result.success) {
-        showToast(result.error.description, { tone: 'error' });
-        return;
-      }
-      showToast('Registration submitted successfully');
-      // TODO: redirect
-    } catch {
-      showToast('Something went wrong. Please try again.', { tone: 'error' });
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const {
+    values,
+    errors,
+    touched,
+    showPassword,
+    showConfirm,
+    isLoading,
+    handleChange,
+    handleSubmit,
+    toggleShowPassword,
+    toggleShowConfirm,
+  } = useContractorRegistrationForm();
 
   return (
     <div className="bg-gray-50 flex items-center justify-center">
@@ -140,41 +39,14 @@ export default function ContractorRegistrationForm() {
             <label className="text-[12px] font-medium text-gray-700">
               Company name <span className="text-red-500">*</span>
             </label>
-            <div className="relative">
-              <select
-                value={values.company}
-                onChange={(e) => handleChange('company', e.target.value)}
-                disabled={isLoading}
-                className={`w-full border rounded-[8px] px-3 py-[10px] text-sm appearance-none focus:outline-none focus:ring-[3px] bg-white disabled:opacity-50 disabled:cursor-not-allowed ${
-                  touched.company && errors.company
-                    ? 'border-red-400 text-gray-900 focus:border-red-400 focus:ring-red-100'
-                    : 'border-gray-300 text-gray-500 focus:border-teal-600 focus:ring-teal-50'
-                }`}
-              >
-                <option value="" disabled>
-                  — Select your company —
-                </option>
-                {COMPANIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                <svg
-                  className="h-4 w-4 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
+            <Select
+              options={COMPANY_OPTIONS}
+              value={values.company}
+              onChange={(next) => handleChange('company', next)}
+              placeholder="— Select your company —"
+              disabled={isLoading}
+              invalid={!!(touched.company && errors.company)}
+            />
             {touched.company && errors.company && (
               <p className="mt-1 text-xs text-red-500">{errors.company}</p>
             )}
@@ -185,7 +57,7 @@ export default function ContractorRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 Contact person <span className="text-red-500">*</span>
               </label>
-              <input
+              <Input
                 type="text"
                 value={values.contactPersonName}
                 onChange={(e) =>
@@ -193,11 +65,9 @@ export default function ContractorRegistrationForm() {
                 }
                 placeholder="Your full name"
                 disabled={isLoading}
-                className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                  touched.contactPersonName && errors.contactPersonName
-                    ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                    : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                }`}
+                invalid={
+                  !!(touched.contactPersonName && errors.contactPersonName)
+                }
               />
               {touched.contactPersonName && errors.contactPersonName && (
                 <p className="mt-1 text-xs text-red-500">
@@ -209,7 +79,7 @@ export default function ContractorRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 Mobile (+968) <span className="text-red-500">*</span>
               </label>
-              <input
+              <Input
                 type="tel"
                 value={values.mobile}
                 onChange={(e) =>
@@ -217,11 +87,7 @@ export default function ContractorRegistrationForm() {
                 }
                 placeholder="9XXX XXXX"
                 disabled={isLoading}
-                className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                  touched.mobile && errors.mobile
-                    ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                    : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                }`}
+                invalid={!!(touched.mobile && errors.mobile)}
               />
               {touched.mobile && errors.mobile && (
                 <p className="mt-1 text-xs text-red-500">{errors.mobile}</p>
@@ -233,17 +99,13 @@ export default function ContractorRegistrationForm() {
             <label className="text-[12px] font-medium text-gray-700">
               Email address <span className="text-red-500">*</span>
             </label>
-            <input
+            <Input
               type="email"
               value={values.email}
               onChange={(e) => handleChange('email', e.target.value)}
               placeholder="ops@yourcompany.om"
               disabled={isLoading}
-              className={`w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                touched.email && errors.email
-                  ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                  : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-              }`}
+              invalid={!!(touched.email && errors.email)}
             />
             {touched.email && errors.email && (
               <p className="mt-1 text-xs text-red-500">{errors.email}</p>
@@ -255,27 +117,23 @@ export default function ContractorRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 Password <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={values.password}
-                  onChange={(e) => handleChange('password', e.target.value)}
-                  placeholder="Create a password"
-                  disabled={isLoading}
-                  className={`w-full border rounded-[8px] px-3 py-[10px] pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                    touched.password && errors.password
-                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                      : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <EyeIcon open={showPassword} />
-                </button>
-              </div>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={(e) => handleChange('password', e.target.value)}
+                placeholder="Create a password"
+                disabled={isLoading}
+                invalid={!!(touched.password && errors.password)}
+                rightSlot={
+                  <button
+                    type="button"
+                    onClick={toggleShowPassword}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <EyeIcon open={showPassword} />
+                  </button>
+                }
+              />
               {touched.password && errors.password && (
                 <p className="mt-1 text-xs text-red-500">{errors.password}</p>
               )}
@@ -284,29 +142,25 @@ export default function ContractorRegistrationForm() {
               <label className="text-[12px] font-medium text-gray-700 block mb-1.5">
                 Confirm password <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input
-                  type={showConfirm ? 'text' : 'password'}
-                  value={values.confirmPassword}
-                  onChange={(e) =>
-                    handleChange('confirmPassword', e.target.value)
-                  }
-                  placeholder="Repeat password"
-                  disabled={isLoading}
-                  className={`w-full border rounded-[8px] px-3 py-[10px] pr-10 text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] disabled:opacity-50 disabled:cursor-not-allowed ${
-                    touched.confirmPassword && errors.confirmPassword
-                      ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-                      : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50'
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirm(!showConfirm)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <EyeIcon open={showConfirm} />
-                </button>
-              </div>
+              <Input
+                type={showConfirm ? 'text' : 'password'}
+                value={values.confirmPassword}
+                onChange={(e) =>
+                  handleChange('confirmPassword', e.target.value)
+                }
+                placeholder="Repeat password"
+                disabled={isLoading}
+                invalid={!!(touched.confirmPassword && errors.confirmPassword)}
+                rightSlot={
+                  <button
+                    type="button"
+                    onClick={toggleShowConfirm}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <EyeIcon open={showConfirm} />
+                  </button>
+                }
+              />
               {touched.confirmPassword && errors.confirmPassword && (
                 <p className="mt-1 text-xs text-red-500">
                   {errors.confirmPassword}
@@ -339,13 +193,14 @@ export default function ContractorRegistrationForm() {
             )}
           </div>
 
-          <button
+          <Button
             type="submit"
+            variant="primary"
             disabled={isLoading}
-            className="w-full h-11 bg-teal-800 hover:bg-teal-900 disabled:opacity-70 disabled:cursor-not-allowed text-white font-semibold rounded-[8px] text-[14px] transition-colors"
+            className="w-full h-11 justify-center text-[14px]"
           >
             {isLoading ? 'Submitting...' : 'Submit registration'}
-          </button>
+          </Button>
         </form>
 
         <p className="mt-[18px] text-center text-[12px] text-gray-500">
