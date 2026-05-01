@@ -1,5 +1,5 @@
 import EyeIcon from '@/atoms/icons';
-import { Input, Button } from '@/atoms';
+import { Input, Button, IconButton } from '@/atoms';
 import { useLoginForm } from '@/pages/authentication/hooks/useLoginForm';
 
 export default function LoginForm() {
@@ -55,15 +55,13 @@ export default function LoginForm() {
               disabled={isLoading}
               invalid={!!(touched.password && errors.password)}
               rightSlot={
-                <button
-                  type="button"
+                <IconButton
+                  icon={<EyeIcon open={showPassword} />}
                   onClick={toggleShowPassword}
                   disabled={isLoading}
-                  className="text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                  size="sm"
                   tabIndex={-1}
-                >
-                  <EyeIcon open={showPassword} />
-                </button>
+                />
               }
             />
             {touched.password && errors.password && (

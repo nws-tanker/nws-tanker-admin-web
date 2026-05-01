@@ -1,5 +1,5 @@
 import EyeIcon from '@/atoms/icons';
-import { Input, Button } from '@/atoms';
+import { Input, Button, IconButton } from '@/atoms';
 import { useNamaEmployeeRegistrationForm } from '@/pages/authentication/hooks/useNamaEmployeeRegistrationForm';
 
 export default function NamaEmployeeRegistrationForm() {
@@ -112,13 +112,12 @@ export default function NamaEmployeeRegistrationForm() {
                 disabled={isLoading}
                 invalid={!!(touched.password && errors.password)}
                 rightSlot={
-                  <button
-                    type="button"
+                  <IconButton
+                    icon={<EyeIcon open={showPassword} />}
                     onClick={toggleShowPassword}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <EyeIcon open={showPassword} />
-                  </button>
+                    disabled={isLoading}
+                    size="sm"
+                  />
                 }
               />
               {touched.password && errors.password && (
@@ -139,13 +138,12 @@ export default function NamaEmployeeRegistrationForm() {
                 disabled={isLoading}
                 invalid={!!(touched.confirmPassword && errors.confirmPassword)}
                 rightSlot={
-                  <button
-                    type="button"
+                  <IconButton
+                    icon={<EyeIcon open={showConfirm} />}
                     onClick={toggleShowConfirm}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <EyeIcon open={showConfirm} />
-                  </button>
+                    disabled={isLoading}
+                    size="sm"
+                  />
                 }
               />
               {touched.confirmPassword && errors.confirmPassword && (
