@@ -3,8 +3,7 @@ import { ROUTES } from '@/constants/routes';
 import FleetRegistryPage from '@/pages/fleet-registry';
 // import ConfigurationPage from './pages/configuration';
 import TankerUploadPage from '@/pages/tanker-upload';
-import AuthenticationPage from './pages/authentication';
-
+import AuthenticationPage from '@/pages/authentication';
 export default function App() {
   return (
     <Routes>
