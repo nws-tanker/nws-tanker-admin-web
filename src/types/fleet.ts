@@ -21,21 +21,15 @@ export type Permit = {
   validUntil: string | null;
 };
 
-export type Assignment = {
-  inspectorId: string;
-  samplerId: string | null;
-};
-
 export type Tanker = {
   id: string;
-  plateNumber: string;
-  ownerName: string;
+  plateNo: string;
+  owner: string;
   tankerType: TankerType;
-  governorateId: string;
-  clusterId: string;
+  governorate: string;
+  cluster: string;
   contact: string;
   permit: Permit;
-  assignment: Assignment | null;
 };
 
 export type Inspector = {

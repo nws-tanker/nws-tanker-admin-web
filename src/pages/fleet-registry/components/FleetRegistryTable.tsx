@@ -1,12 +1,5 @@
 import { EmptyState, Pagination } from '@/atoms';
-import type { LookupIndex } from '@/hooks/useLookups';
-import type {
-  Cluster,
-  Governorate,
-  Inspector,
-  SampleCollector,
-  Tanker,
-} from '@/types';
+import type { Tanker } from '@/types';
 import { FleetRegistryRow } from './FleetRegistryRow';
 
 type Props = {
@@ -16,32 +9,20 @@ type Props = {
   from: number;
   to: number;
   total: number;
-  clustersById: LookupIndex<Cluster>;
-  governoratesById: LookupIndex<Governorate>;
-  inspectorsById: LookupIndex<Inspector>;
-  sampleCollectorsById: LookupIndex<SampleCollector>;
   onPageChange: (next: number) => void;
-  onAssign: (tanker: Tanker) => void;
   onView: (tanker: Tanker) => void;
 };
 
 type Column = { header: string; width: string };
 
-// Widths vary per column based on content needs:
-// - narrow columns (plate, cluster, type chip, permit badge, contact, actions)
-//   get fixed percentages sized to their content
-// - "auto" columns (Owner, Assigned Inspector) flex to absorb the remaining
-//   space, so the table always fills its container exactly — no horizontal
-//   scrollbar, columns stay proportional on any viewport width.
 const COLUMNS: Column[] = [
-  { header: 'Plate No.', width: '7%' },
-  { header: 'Owner', width: 'auto' },
+  { header: 'Plate No.', width: '12%' },
+  { header: 'Owner', width: '15%' },
   { header: 'Tanker Type', width: '13%' },
   { header: 'Governorate', width: '11%' },
   { header: 'Cluster', width: '8%' },
   { header: 'Contact', width: '11%' },
   { header: 'Permit Status', width: '10%' },
-  { header: 'Assigned Inspector', width: 'auto' },
   { header: '', width: '11%' },
 ];
 
@@ -52,12 +33,7 @@ export function FleetRegistryTable({
   from,
   to,
   total,
-  clustersById,
-  governoratesById,
-  inspectorsById,
-  sampleCollectorsById,
   onPageChange,
-  onAssign,
   onView,
 }: Props) {
   if (total === 0) {
@@ -93,29 +69,15 @@ export function FleetRegistryTable({
             </tr>
           </thead>
           <tbody>
-            {rows.map((t) => {
-              const inspector = t.assignment
-                ? (inspectorsById.get(t.assignment.inspectorId) ?? null)
-                : null;
-              const sampler =
-                t.assignment && t.assignment.samplerId
-                  ? (sampleCollectorsById.get(t.assignment.samplerId) ?? null)
-                  : null;
-              return (
-                <FleetRegistryRow
-                  key={t.id}
-                  tanker={t}
-                  governorateName={
-                    governoratesById.get(t.governorateId)?.name ?? ''
-                  }
-                  clusterName={clustersById.get(t.clusterId)?.name ?? ''}
-                  inspector={inspector}
-                  sampler={sampler}
-                  onAssign={onAssign}
-                  onView={onView}
-                />
-              );
-            })}
+            {rows.map((t) => (
+              <FleetRegistryRow
+                key={t.id}
+                tanker={t}
+                governorateName={t.governorate}
+                clusterName={t.cluster}
+                onView={onView}
+              />
+            ))}
           </tbody>
         </table>
       </div>

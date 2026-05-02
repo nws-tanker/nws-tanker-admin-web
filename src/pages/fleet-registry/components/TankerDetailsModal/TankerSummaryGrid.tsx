@@ -15,8 +15,8 @@ export function TankerSummaryGrid({
 }: Props) {
   return (
     <div className="grid grid-cols-2 gap-2.5">
-      <Field label="Plate No." value={tanker.plateNumber} mono />
-      <Field label="Owner" value={tanker.ownerName} />
+      <Field label="Plate No." value={tanker.plateNo} mono />
+      <Field label="Owner" value={tanker.owner} />
       <Field label="Tanker Type" value={TYPE_LABELS[tanker.tankerType]} />
       <Field label="Governorate" value={governorateName} />
       <Field label="Cluster" value={clusterName} />
