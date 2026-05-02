@@ -10,8 +10,7 @@ import { get, put } from './http';
 
 // JWT is read from localStorage at call time.
 // TEMP: falls back to the hardcoded dev token when localStorage has no 'jwt' key.
-const TEMP_DEV_TOKEN =
-  'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0aXJ1QGdtYWlsLmNvbSIsInVzZXJfYWNjZXNzIjpbIkVYRUNVVElWRV9EQVNIQk9BUkQiLCJPUEVSQVRJT05TIiwiRkxFRVRfQ09NUExJQU5DRSIsIklOU1BFQ1RJT05fUkVWSUVXIiwiUEVSTUlUX1JFTkVXQUwiLCJSRVBPUlRTIiwiRkxFRVRfUkVHSVNUUlkiLCJDT05GSUdfTk9USUZJQ0FUSU9OUyIsIkNPTkZJR19QRVJNSVRfU0xBX1JVTEVTIiwiQ09ORklHX1VTRVJTX1JPTEVTIiwiQ09ORklHX0lOU1BFQ1RJT05fQ0hFQ0tMSVNUIiwiQ09ORklHX0NMVVNURVJfU0VUVVAiLCJDT05GSUdfRkxFRVRfVEFSR0VUUyJdLCJyb2xlX25hbWUiOiJPcGVyYXRpb25zIE1hbmFnZXIiLCJpYXQiOjE3Nzc2NDgxNzAsImp0aSI6Im5hbWEiLCJpc3MiOiJuYW1hIiwiZXhwIjoxNzc3NzM0NTcwfQ.Q8iWdiQXaHBPOR8xo7gITwlML5C1_9MMX_JUJ1Eom_PBZpLm2oTdvU3u_LfuKQUK';
+const TEMP_DEV_TOKEN = import.meta.env.VITE_TEMP_JWT_TOKEN;
 
 function getJwtToken(): string {
   return localStorage.getItem('jwt') ?? TEMP_DEV_TOKEN;
@@ -20,6 +19,10 @@ function getJwtToken(): string {
 export async function fetchPendingUsersApi(): Promise<
   ApiResponse<PendingRequest[]>
 > {
+  console.log(
+    'Trying to featch from localStorage',
+    localStorage.getItem('jwt'),
+  );
   return get<PendingRequest[]>(ENDPOINTS.pendingRegistrations, undefined, {
     headers: { Authorization: `Bearer ${getJwtToken()}` },
   });
