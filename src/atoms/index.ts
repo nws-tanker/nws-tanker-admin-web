@@ -1,3 +1,4 @@
+export { FormField } from './FormField';
 export { Input } from './Input';
 export { Badge } from './Badge';
 export type { BadgeTone } from './Badge';

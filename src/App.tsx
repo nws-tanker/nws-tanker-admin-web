@@ -3,7 +3,7 @@ import { ROUTES } from '@/constants/routes';
 import ProtectedRoute from '@/common-components/ProtectedRoute';
 import { useAuthBootstrap } from '@/hooks/useAuthBootstrap';
 import FleetRegistryPage from '@/pages/fleet-registry';
-// import ConfigurationPage from './pages/configuration';
+import PlaceholderPage from '@/pages/placeholder';
 import TankerUploadPage from '@/pages/tanker-upload';
 import AuthenticationPage from '@/pages/authentication';
 import ForbiddenPage from '@/pages/forbidden';
@@ -35,7 +35,62 @@ export default function App() {
           </ProtectedRoute>
         }
       />
-      {/*<Route path={ROUTES.configuration} element={<ConfigurationPage />} />*/}
+      <Route
+        path={ROUTES.dashboard}
+        element={
+          <ProtectedRoute route="dashboard">
+            <PlaceholderPage title="Executive Dashboard" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.operations}
+        element={
+          <ProtectedRoute route="operations">
+            <PlaceholderPage title="Operations" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.fleetCompliance}
+        element={
+          <ProtectedRoute route="fleetCompliance">
+            <PlaceholderPage title="Fleet Compliance" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.inspectionReview}
+        element={
+          <ProtectedRoute route="inspectionReview">
+            <PlaceholderPage title="Inspection Review" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.permitRenewal}
+        element={
+          <ProtectedRoute route="permitRenewal">
+            <PlaceholderPage title="Permit Renewal" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.reports}
+        element={
+          <ProtectedRoute route="reports">
+            <PlaceholderPage title="Reports" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.configuration}
+        element={
+          <ProtectedRoute route="configuration">
+            <PlaceholderPage title="Configuration" />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="*"
         element={<Navigate to={ROUTES.fleetRegistry} replace />}
