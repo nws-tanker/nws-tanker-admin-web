@@ -1,6 +1,6 @@
 import type { TankerUploadColumn } from '@/types';
 
-export const MOCK_TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
+export const TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
   {
     name: 'Reg No. (Mulkiya)',
     required: true,

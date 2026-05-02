@@ -5,11 +5,9 @@ import {
   ClipIcon,
   DashboardIcon,
   FileIcon,
-  FlaskIcon,
   GearIcon,
   ShieldIcon,
   TruckIcon,
-  UsersIcon,
 } from '@/atoms/icons';
 import { ROUTES } from '@/constants/routes';
 import type { SidebarCounts } from '@/types';
@@ -72,12 +70,6 @@ export const NAV_SECTIONS: NavSection[] = [
         countKey: 'expiringPermitRenewals',
       },
       {
-        key: 'label-management',
-        label: 'Label Management',
-        icon: FlaskIcon,
-        path: ROUTES.labelManagement,
-      },
-      {
         key: 'reports',
         label: 'Reports',
         icon: ChartIcon,
@@ -99,12 +91,6 @@ export const NAV_SECTIONS: NavSection[] = [
         label: 'Configuration',
         icon: GearIcon,
         path: ROUTES.configuration,
-      },
-      {
-        key: 'inspector-assignment',
-        label: 'Inspector Assignment',
-        icon: UsersIcon,
-        path: ROUTES.inspectorAssignment,
       },
     ],
   },
