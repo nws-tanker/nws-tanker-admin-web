@@ -9,7 +9,10 @@ export function useAuthBootstrap() {
 
   useEffect(() => {
     const token = localStorage.getItem(STORAGE_KEYS.jwt);
-    if (!token) return;
+    if (!token) {
+      dispatch(clearAuth());
+      return;
+    }
 
     const payload = decodeJwt(token);
     if (!payload || isJwtExpired(payload)) {

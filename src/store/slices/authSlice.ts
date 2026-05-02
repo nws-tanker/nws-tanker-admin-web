@@ -6,11 +6,13 @@ import type { RootState } from '../index';
 type AuthState = {
   token: string | null;
   user: AuthUser | null;
+  bootstrapped: boolean;
 };
 
 const initialState: AuthState = {
   token: null,
   user: null,
+  bootstrapped: false,
 };
 
 const authSlice = createSlice({
@@ -23,13 +25,14 @@ const authSlice = createSlice({
     ) => {
       const { token, payload } = action.payload;
       state.token = token;
+      state.bootstrapped = true;
       state.user = {
         email: payload.sub,
         roleName: payload.role_name,
         userAccess: payload.user_access,
       };
     },
-    clearAuth: () => initialState,
+    clearAuth: () => ({ ...initialState, bootstrapped: true }),
   },
 });
 
@@ -37,6 +40,8 @@ export const { setAuth, clearAuth } = authSlice.actions;
 export default authSlice.reducer;
 
 export const selectAuthUser = (state: RootState) => state.auth.user;
+export const selectIsBootstrapped = (state: RootState) =>
+  state.auth.bootstrapped;
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.user !== null;
 export const selectUserAccess = (state: RootState) =>

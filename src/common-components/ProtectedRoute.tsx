@@ -5,6 +5,7 @@ import { useAppSelector } from '@/store';
 import {
   selectCanAccessRoute,
   selectIsAuthenticated,
+  selectIsBootstrapped,
 } from '@/store/slices/authSlice';
 
 type ProtectedRouteProps = {
@@ -16,8 +17,12 @@ export default function ProtectedRoute({
   route,
   children,
 }: ProtectedRouteProps) {
+  const isBootstrapped = useAppSelector(selectIsBootstrapped);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const canAccess = useAppSelector(selectCanAccessRoute(route));
+
+  console.log('isBootstrapped', isBootstrapped);
+  if (!isBootstrapped) return null;
 
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.authentication} replace />;
