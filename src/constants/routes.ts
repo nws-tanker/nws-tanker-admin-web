@@ -19,10 +19,10 @@ export const ROUTES = {
 
 export type RouteKey = keyof typeof ROUTES;
 
-// null = public (no auth required). Routes mapped to a UserAccess key require
-// that key in the JWT's user_access array.
-// Order matters: post-login redirect picks the first route in this list that
-// the user has access to.
+/* null = public (no auth required). Routes mapped to a UserAccess key require
+   that key in the JWT's user_access array.
+   Order matters: post-login redirect picks the first route in this list that
+   the user has access to. */
 export const POST_LOGIN_ROUTE_PRIORITY: RouteKey[] = [
   'dashboard',
   'fleetRegistry',
@@ -36,6 +36,12 @@ export const POST_LOGIN_ROUTE_PRIORITY: RouteKey[] = [
   'tankerUpload',
   'configuration',
 ];
+
+/* Walks POST_LOGIN_ROUTE_PRIORITY top-to-bottom and returns the path of the
+   first route the user's JWT user_access grants. Used after login to land
+   the user on the most relevant page for their role instead of hard-coding
+   a single default. Falls back to /forbidden if no match is found.
+*/
 
 export function firstAllowedPath(userAccess: UserAccess[]): string {
   for (const key of POST_LOGIN_ROUTE_PRIORITY) {
