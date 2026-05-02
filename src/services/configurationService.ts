@@ -19,10 +19,6 @@ function getJwtToken(): string {
 export async function fetchPendingUsersApi(): Promise<
   ApiResponse<PendingRequest[]>
 > {
-  console.log(
-    'Trying to featch from localStorage',
-    localStorage.getItem('jwt'),
-  );
   return get<PendingRequest[]>(ENDPOINTS.pendingRegistrations, undefined, {
     headers: { Authorization: `Bearer ${getJwtToken()}` },
   });

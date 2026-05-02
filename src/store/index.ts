@@ -9,14 +9,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import fleetRegistryApiReducer from './apiSlices/fleetRegistryApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import sidebarApiReducer from './apiSlices/sidebarApiSlice';
-import tankerUploadColumnsApiReducer from './apiSlices/tankerUploadColumnsApiSlice';
+import authReducer from './slices/authSlice';
 
 export const store = configureStore({
   reducer: {
     fleetRegistryApi: fleetRegistryApiReducer,
     lookupsApi: lookupsApiReducer,
     sidebarApi: sidebarApiReducer,
-    tankerUploadColumnsApi: tankerUploadColumnsApiReducer,
+    auth: authReducer,
   },
 });
 

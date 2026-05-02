@@ -1,21 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, PageHeader, useToast } from '@/atoms';
+import { Button, PageHeader } from '@/atoms';
 import { DownloadIcon, UploadIcon } from '@/atoms/icons';
 import { AppShell } from '@/common-components/AppShell';
 import { ScreenStatus } from '@/common-components/ScreenStatus';
 import { FLEET_PAGE_SIZE } from '@/constants/fleet';
 import { ROUTES } from '@/constants/routes';
-import {
-  assignInspectorApi,
-  clearInspectorAssignmentApi,
-} from '@/services/assignmentService';
-import { useAppDispatch } from '@/store';
-import { setTankerAssignment } from '@/store/apiSlices/fleetRegistryApiSlice';
 import { States } from '@/store/types';
-import type { Assignment, Tanker } from '@/types';
+import type { Tanker } from '@/types';
 import { downloadCsv } from '@/utils';
-import { AssignInspectorModal } from './components/AssignInspectorModal';
 import { FleetRegistryFilters } from './components/FleetRegistryFilters';
 import { FleetRegistryTable } from './components/FleetRegistryTable';
 import { TankerDetailsModal } from './components/TankerDetailsModal';
@@ -30,25 +23,21 @@ import { useFleetRegistryData } from './hooks/useFleetRegistryData';
 import { usePaginatedRows } from './hooks/usePaginatedRows';
 
 export default function FleetRegistryPage() {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {
-    tankers,
-    lookups,
-    clustersById,
-    governoratesById,
-    inspectorsById,
-    sampleCollectorsById,
-    state,
-    retry,
-  } = useFleetRegistryData();
+  const { tankers, lookups, state, retry } = useFleetRegistryData();
 
   const filterBag = useFleetFilters();
   const { filters } = filterBag;
 
   const filtered = useMemo(
-    () => filterTankers(tankers, filters),
-    [tankers, filters],
+    () =>
+      filterTankers(
+        tankers,
+        filters,
+        lookups?.clusters ?? [],
+        lookups?.governorates ?? [],
+      ),
+    [tankers, filters, lookups?.clusters, lookups?.governorates],
   );
   const { page, totalPages, pageRows, from, to, setPage, resetPage } =
     usePaginatedRows(filtered, FLEET_PAGE_SIZE);
@@ -57,54 +46,13 @@ export default function FleetRegistryPage() {
     resetPage();
   }, [filters, resetPage]);
 
-  const [assignTarget, setAssignTarget] = useState<Tanker | null>(null);
   const [viewTarget, setViewTarget] = useState<Tanker | null>(null);
-  const [submitting, setSubmitting] = useState<'assign' | 'clear' | null>(null);
-
-  const { show: showToast } = useToast();
 
   const filterActive = hasActiveFilters(filters);
   const total = tankers.length;
 
-  const handleAssignSave = async (tankerId: string, assignment: Assignment) => {
-    if (!assignTarget) return;
-    setSubmitting('assign');
-    const response = await assignInspectorApi(
-      assignTarget.plateNumber,
-      assignment,
-    );
-    setSubmitting(null);
-    if (response.success) {
-      dispatch(setTankerAssignment({ tankerId, assignment }));
-      setAssignTarget(null);
-    } else {
-      showToast(response.error.description, { tone: 'error' });
-    }
-  };
-
-  const handleAssignClear = async (tankerId: string) => {
-    if (!assignTarget) return;
-    setSubmitting('clear');
-    const response = await clearInspectorAssignmentApi(
-      assignTarget.plateNumber,
-    );
-    setSubmitting(null);
-    if (response.success) {
-      dispatch(setTankerAssignment({ tankerId, assignment: null }));
-      setAssignTarget(null);
-    } else {
-      showToast(response.error.description, { tone: 'error' });
-    }
-  };
-
   const handleExport = () => {
-    const rows = buildCsvRows(filtered, {
-      clustersById,
-      governoratesById,
-      inspectorsById,
-      sampleCollectorsById,
-    });
-    downloadCsv('fleet-tanker-report.csv', CSV_HEADER, rows);
+    downloadCsv('fleet-tanker-report.csv', CSV_HEADER, buildCsvRows(filtered));
   };
 
   return (
@@ -163,12 +111,7 @@ export default function FleetRegistryPage() {
               from={from}
               to={to}
               total={filtered.length}
-              clustersById={clustersById}
-              governoratesById={governoratesById}
-              inspectorsById={inspectorsById}
-              sampleCollectorsById={sampleCollectorsById}
               onPageChange={setPage}
-              onAssign={setAssignTarget}
               onView={setViewTarget}
             />
           </>
@@ -177,36 +120,10 @@ export default function FleetRegistryPage() {
         )}
       </div>
 
-      <AssignInspectorModal
-        tanker={assignTarget}
-        clusterName={
-          assignTarget
-            ? (clustersById.get(assignTarget.clusterId)?.name ?? '')
-            : ''
-        }
-        inspectors={lookups?.inspectors ?? []}
-        samplers={lookups?.sampleCollectors ?? []}
-        submitting={submitting}
-        onSave={handleAssignSave}
-        onClear={handleAssignClear}
-        onClose={() => {
-          if (submitting) return;
-          setAssignTarget(null);
-        }}
-      />
-
       <TankerDetailsModal
         tanker={viewTarget}
-        governorateName={
-          viewTarget
-            ? (governoratesById.get(viewTarget.governorateId)?.name ?? '')
-            : ''
-        }
-        clusterName={
-          viewTarget ? (clustersById.get(viewTarget.clusterId)?.name ?? '') : ''
-        }
-        inspectors={lookups?.inspectors ?? []}
-        samplers={lookups?.sampleCollectors ?? []}
+        governorateName={viewTarget?.governorate ?? ''}
+        clusterName={viewTarget?.cluster ?? ''}
         onClose={() => setViewTarget(null)}
       />
     </AppShell>

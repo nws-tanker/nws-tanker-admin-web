@@ -6,6 +6,13 @@ import {
 } from '../configurationHelpers';
 import { UserAvatar } from './UserAvatar';
 
+function formatLocalDate(utcDate: string) {
+  return new Date(utcDate).toLocaleString(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+}
+
 type Props = {
   request: PendingRequest;
   onApprove: (request: PendingRequest) => void;
@@ -42,7 +49,7 @@ export function PendingRequestRow({ request, onApprove, onReject }: Props) {
         {request.crNumber ?? '—'}
       </td>
       <td className="px-4 py-3 text-[12px] text-ink-500">
-        {request.submittedAt}
+        {formatLocalDate(request.createdDate)}
       </td>
       <td className="px-4 py-3 text-right">
         <div className="flex justify-end gap-2">

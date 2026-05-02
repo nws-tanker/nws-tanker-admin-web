@@ -1,3 +1,5 @@
+export { FormField } from './FormField';
+export { Input } from './Input';
 export { Badge } from './Badge';
 export type { BadgeTone } from './Badge';
 export { Button } from './Button';
@@ -17,5 +19,6 @@ export { StatusIndicator, statusToneTextClass } from './StatusIndicator';
 export type { StatusTone } from './StatusIndicator';
 export { TabButton } from './TabButton';
 export { Textarea } from './Textarea';
+export { Tabs } from './Tabs';
 export { TextInput } from './TextInput';
 export { ToastProvider, useToast } from './Toast';

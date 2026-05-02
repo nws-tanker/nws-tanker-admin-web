@@ -26,7 +26,7 @@ export type PendingRequest = {
   email: string;
   mobile: string;
   crNumber: string | null;
-  submittedAt: string;
+  createdDate: string;
 };
 
 export type ActiveUser = {

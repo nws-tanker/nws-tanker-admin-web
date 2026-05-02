@@ -1,13 +1,5 @@
 import { PERMIT_LABELS, TYPE_LABELS } from '@/constants/fleet';
-import type { LookupIndex } from '@/hooks/useLookups';
-import type {
-  Cluster,
-  FleetFilters,
-  Governorate,
-  Inspector,
-  SampleCollector,
-  Tanker,
-} from '@/types';
+import type { Cluster, FleetFilters, Governorate, Tanker } from '@/types';
 
 export const EMPTY_FILTERS: FleetFilters = {
   search: '',
@@ -33,23 +25,35 @@ export function governoratesForClusters(
 export function filterTankers(
   tankers: Tanker[],
   filters: FleetFilters,
+  clusters: Cluster[],
+  governorates: Governorate[],
 ): Tanker[] {
   const q = filters.search.trim().toLowerCase();
+  const clusterNames = filters.clusterIds.length
+    ? new Set(
+        clusters
+          .filter((c) => filters.clusterIds.includes(c.id))
+          .map((c) => c.name),
+      )
+    : null;
+  const governorateNames = filters.governorateIds.length
+    ? new Set(
+        governorates
+          .filter((g) => filters.governorateIds.includes(g.id))
+          .map((g) => g.name),
+      )
+    : null;
+
   return tankers.filter((t) => {
     if (q) {
       const match =
-        t.plateNumber.toLowerCase().includes(q) ||
-        t.ownerName.toLowerCase().includes(q) ||
+        t.plateNo.toLowerCase().includes(q) ||
+        t.owner.toLowerCase().includes(q) ||
         t.contact.includes(q);
       if (!match) return false;
     }
-    if (filters.clusterIds.length && !filters.clusterIds.includes(t.clusterId))
-      return false;
-    if (
-      filters.governorateIds.length &&
-      !filters.governorateIds.includes(t.governorateId)
-    )
-      return false;
+    if (clusterNames && !clusterNames.has(t.cluster)) return false;
+    if (governorateNames && !governorateNames.has(t.governorate)) return false;
     if (
       filters.tankerTypes.length &&
       !filters.tankerTypes.includes(t.tankerType)
@@ -74,47 +78,19 @@ export function hasActiveFilters(filters: FleetFilters): boolean {
   );
 }
 
-type CsvIndexes = {
-  clustersById: LookupIndex<Cluster>;
-  governoratesById: LookupIndex<Governorate>;
-  inspectorsById: LookupIndex<Inspector>;
-  sampleCollectorsById: LookupIndex<SampleCollector>;
-};
-
-export function buildCsvRows(
-  tankers: Tanker[],
-  indexes: CsvIndexes,
-): (string | number)[][] {
-  const {
-    clustersById,
-    governoratesById,
-    inspectorsById,
-    sampleCollectorsById,
-  } = indexes;
-
-  return tankers.map((t) => {
-    const inspector = t.assignment
-      ? (inspectorsById.get(t.assignment.inspectorId)?.name ?? '')
-      : '';
-    const sampler =
-      t.assignment && t.assignment.samplerId
-        ? (sampleCollectorsById.get(t.assignment.samplerId)?.name ?? '')
-        : '';
-    return [
-      t.plateNumber,
-      t.ownerName,
-      TYPE_LABELS[t.tankerType],
-      governoratesById.get(t.governorateId)?.name ?? '',
-      clustersById.get(t.clusterId)?.name ?? '',
-      t.contact,
-      PERMIT_LABELS[t.permit.status],
-      t.permit.permitNumber ?? '',
-      t.permit.issuedAt ?? '',
-      t.permit.validUntil ?? '',
-      inspector,
-      sampler,
-    ];
-  });
+export function buildCsvRows(tankers: Tanker[]): (string | number)[][] {
+  return tankers.map((t) => [
+    t.plateNo,
+    t.owner,
+    TYPE_LABELS[t.tankerType],
+    t.governorate,
+    t.cluster,
+    t.contact,
+    PERMIT_LABELS[t.permit.status],
+    t.permit.permitNumber ?? '',
+    t.permit.issuedAt ?? '',
+    t.permit.validUntil ?? '',
+  ]);
 }
 
 export const CSV_HEADER = [
@@ -128,6 +104,4 @@ export const CSV_HEADER = [
   'Permit No.',
   'Permit Issued',
   'Permit Expiry',
-  'Assigned Inspector',
-  'Sample Collector',
 ];

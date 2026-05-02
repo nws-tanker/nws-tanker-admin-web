@@ -1,34 +1,28 @@
-import { useState } from 'react';
-import { Button, PageHeader, useToast } from '@/atoms';
+import { Button, PageHeader } from '@/atoms';
 import { DownloadIcon } from '@/atoms/icons';
 import { AppShell } from '@/common-components/AppShell';
-import { downloadTankerUploadTemplateApi } from '@/services/tankerUploadService';
+import { TANKER_UPLOAD_COLUMNS } from '@/constants/tankerUpload';
+import { downloadCsv } from '@/utils';
 import { ColumnSpecTable } from './components/ColumnSpecTable';
 import { DropZone } from './components/DropZone';
-// import { ErrorRowsTable } from './components/ErrorRowsTable';
 import { ProcessingCard } from './components/ProcessingCard';
 import { UploadSummaryCard } from './components/UploadSummaryCard';
 import { useTankerUploadColumns } from './hooks/useTankerUploadColumns';
 import { useTankerUploadFlow } from './hooks/useTankerUploadFlow';
 
-export default function TankerUploadPage() {
-  const { columns, state: columnsState, retry } = useTankerUploadColumns();
-  const { phase, submit, reset } = useTankerUploadFlow();
-  const { show: showToast } = useToast();
-  const [downloadingTemplate, setDownloadingTemplate] = useState(false);
+const TEMPLATE_FILENAME = 'tanker-upload-template.csv';
 
-  const handleDownloadTemplate = async () => {
-    setDownloadingTemplate(true);
-    const response = await downloadTankerUploadTemplateApi();
-    setDownloadingTemplate(false);
-    if (response.success) {
-      showToast(
-        'Template downloaded — fill in the required columns and re-upload.',
-      );
-    } else {
-      showToast(response.error.description, { tone: 'error' });
-    }
-  };
+function handleDownloadTemplate() {
+  downloadCsv(
+    TEMPLATE_FILENAME,
+    TANKER_UPLOAD_COLUMNS.map((c) => c.name),
+    [TANKER_UPLOAD_COLUMNS.map((c) => c.example)],
+  );
+}
+
+export default function TankerUploadPage() {
+  const { columns, state, retry } = useTankerUploadColumns();
+  const { phase, submit, reset } = useTankerUploadFlow();
 
   return (
     <AppShell breadcrumbs={['Home', 'Tanker Upload']}>
@@ -42,9 +36,8 @@ export default function TankerUploadPage() {
               size="sm"
               leftIcon={<DownloadIcon className="h-3.5 w-3.5" />}
               onClick={handleDownloadTemplate}
-              disabled={downloadingTemplate}
             >
-              {downloadingTemplate ? 'Preparing…' : 'Download Template'}
+              Download Template
             </Button>
           }
         />
@@ -54,24 +47,10 @@ export default function TankerUploadPage() {
           <ProcessingCard fileName={phase.fileName} />
         ) : null}
         {phase.kind === 'done' ? (
-          <>
-            <UploadSummaryCard result={phase.result} onUploadAnother={reset} />
-            {/* Hidden until per-row fix-and-import flow is wired up.
-            {phase.result.errors.length > 0 ? (
-              <ErrorRowsTable
-                errors={phase.result.errors}
-                onDismiss={dismissError}
-              />
-            ) : null}
-            */}
-          </>
+          <UploadSummaryCard result={phase.result} onUploadAnother={reset} />
         ) : null}
 
-        <ColumnSpecTable
-          columns={columns}
-          state={columnsState}
-          onRetry={retry}
-        />
+        <ColumnSpecTable columns={columns} state={state} onRetry={retry} />
       </div>
     </AppShell>
   );

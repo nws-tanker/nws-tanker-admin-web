@@ -3,11 +3,11 @@ import type { Tanker } from '@/types';
 const SEED_TANKERS: Tanker[] = [
   {
     id: 'T-0001',
-    plateNumber: '1234 M',
-    ownerName: 'Ahmed Al-Balushi',
+    plateNo: '1234 M',
+    owner: 'Ahmed Al-Balushi',
     tankerType: 'drinking_water',
-    governorateId: 'gov-muscat',
-    clusterId: 'cluster-1',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
     contact: '+968 9123 4567',
     permit: {
       status: 'active',
@@ -15,15 +15,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '15 Jan 2026',
       validUntil: '14 Jan 2027',
     },
-    assignment: { inspectorId: 'INS-01', samplerId: 'SC-01' },
   },
   {
     id: 'T-0002',
-    plateNumber: '5521 K',
-    ownerName: 'Khalid Al-Farsi',
+    plateNo: '5521 K',
+    owner: 'Khalid Al-Farsi',
     tankerType: 'sewage_water',
-    governorateId: 'gov-muscat',
-    clusterId: 'cluster-1',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
     contact: '+968 9876 1234',
     permit: {
       status: 'expired',
@@ -31,15 +30,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '10 Mar 2025',
       validUntil: '09 Mar 2026',
     },
-    assignment: null,
   },
   {
     id: 'T-0003',
-    plateNumber: '7734 B',
-    ownerName: 'Yousuf Al-Kindi',
+    plateNo: '7734 B',
+    owner: 'Yousuf Al-Kindi',
     tankerType: 'drinking_water',
-    governorateId: 'gov-north-batinah',
-    clusterId: 'cluster-1',
+    governorate: 'North Batinah',
+    cluster: 'Cluster 1',
     contact: '+968 9234 5678',
     permit: {
       status: 'active',
@@ -47,15 +45,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '20 Feb 2026',
       validUntil: '19 Feb 2027',
     },
-    assignment: { inspectorId: 'INS-02', samplerId: null },
   },
   {
     id: 'T-0004',
-    plateNumber: '0812 M',
-    ownerName: 'Badar Al-Zaabi',
+    plateNo: '0812 M',
+    owner: 'Badar Al-Zaabi',
     tankerType: 'treated_effluent',
-    governorateId: 'gov-al-dhahirah',
-    clusterId: 'cluster-2',
+    governorate: 'Al Dhahirah',
+    cluster: 'Cluster 2',
     contact: '+968 9345 6789',
     permit: {
       status: 'active',
@@ -63,15 +60,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '01 Mar 2026',
       validUntil: '28 Feb 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0005',
-    plateNumber: '3301 A',
-    ownerName: 'Nasser Al-Rawahi',
+    plateNo: '3301 A',
+    owner: 'Nasser Al-Rawahi',
     tankerType: 'drinking_water',
-    governorateId: 'gov-al-buraimi',
-    clusterId: 'cluster-1',
+    governorate: 'Al Buraimi',
+    cluster: 'Cluster 1',
     contact: '+968 9456 7890',
     permit: {
       status: 'no_permit',
@@ -79,15 +75,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: null,
       validUntil: null,
     },
-    assignment: null,
   },
   {
     id: 'T-0006',
-    plateNumber: '9982 S',
-    ownerName: 'Hamad Al-Harthi',
+    plateNo: '9982 S',
+    owner: 'Hamad Al-Harthi',
     tankerType: 'sewage_water',
-    governorateId: 'gov-dhofar',
-    clusterId: 'cluster-3',
+    governorate: 'Dhofar',
+    cluster: 'Cluster 3',
     contact: '+968 9567 8901',
     permit: {
       status: 'active',
@@ -95,15 +90,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '05 Jan 2026',
       validUntil: '04 Jan 2027',
     },
-    assignment: { inspectorId: 'INS-05', samplerId: null },
   },
   {
     id: 'T-0007',
-    plateNumber: '4456 M',
-    ownerName: 'Salim Al-Hinai',
+    plateNo: '4456 M',
+    owner: 'Salim Al-Hinai',
     tankerType: 'drinking_water',
-    governorateId: 'gov-muscat',
-    clusterId: 'cluster-1',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
     contact: '+968 9678 9012',
     permit: {
       status: 'active',
@@ -111,15 +105,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '12 Feb 2026',
       validUntil: '11 Feb 2027',
     },
-    assignment: { inspectorId: 'INS-01', samplerId: 'SC-02' },
   },
   {
     id: 'T-0008',
-    plateNumber: '6623 K',
-    ownerName: 'Talib Al-Siyabi',
+    plateNo: '6623 K',
+    owner: 'Talib Al-Siyabi',
     tankerType: 'drinking_water',
-    governorateId: 'gov-south-batinah',
-    clusterId: 'cluster-1',
+    governorate: 'South Batinah',
+    cluster: 'Cluster 1',
     contact: '+968 9789 0123',
     permit: {
       status: 'expired',
@@ -127,15 +120,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '18 Apr 2025',
       validUntil: '17 Apr 2026',
     },
-    assignment: null,
   },
   {
     id: 'T-0009',
-    plateNumber: '2211 B',
-    ownerName: 'Hamed Al-Rashdi',
+    plateNo: '2211 B',
+    owner: 'Hamed Al-Rashdi',
     tankerType: 'sewage_water',
-    governorateId: 'gov-al-dakhiliyah',
-    clusterId: 'cluster-2',
+    governorate: 'Al Dakhiliyah',
+    cluster: 'Cluster 2',
     contact: '+968 9890 1234',
     permit: {
       status: 'active',
@@ -143,15 +135,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '22 Mar 2026',
       validUntil: '21 Mar 2027',
     },
-    assignment: { inspectorId: 'INS-03', samplerId: null },
   },
   {
     id: 'T-0010',
-    plateNumber: '8843 M',
-    ownerName: 'Faisal Al-Busaidi',
+    plateNo: '8843 M',
+    owner: 'Faisal Al-Busaidi',
     tankerType: 'treated_effluent',
-    governorateId: 'gov-north-sharqiyah',
-    clusterId: 'cluster-2',
+    governorate: 'North Sharqiyah',
+    cluster: 'Cluster 2',
     contact: '+968 9901 2345',
     permit: {
       status: 'active',
@@ -159,15 +150,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '08 Jan 2026',
       validUntil: '07 Jan 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0011',
-    plateNumber: '1122 A',
-    ownerName: 'Mansoor Al-Zadjali',
+    plateNo: '1122 A',
+    owner: 'Mansoor Al-Zadjali',
     tankerType: 'drinking_water',
-    governorateId: 'gov-south-sharqiyah',
-    clusterId: 'cluster-3',
+    governorate: 'South Sharqiyah',
+    cluster: 'Cluster 3',
     contact: '+968 9012 3456',
     permit: {
       status: 'no_permit',
@@ -175,15 +165,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: null,
       validUntil: null,
     },
-    assignment: null,
   },
   {
     id: 'T-0012',
-    plateNumber: '5577 S',
-    ownerName: 'Omar Al-Hajri',
+    plateNo: '5577 S',
+    owner: 'Omar Al-Hajri',
     tankerType: 'sewage_water',
-    governorateId: 'gov-dhofar',
-    clusterId: 'cluster-3',
+    governorate: 'Dhofar',
+    cluster: 'Cluster 3',
     contact: '+968 9123 4568',
     permit: {
       status: 'active',
@@ -191,15 +180,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '14 Feb 2026',
       validUntil: '13 Feb 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0013',
-    plateNumber: '3398 M',
-    ownerName: 'Waleed Al-Maqbali',
+    plateNo: '3398 M',
+    owner: 'Waleed Al-Maqbali',
     tankerType: 'drinking_water',
-    governorateId: 'gov-muscat',
-    clusterId: 'cluster-1',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
     contact: '+968 9234 5679',
     permit: {
       status: 'active',
@@ -207,15 +195,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '03 Mar 2026',
       validUntil: '02 Mar 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0014',
-    plateNumber: '7701 K',
-    ownerName: 'Ibrahim Al-Ghafri',
+    plateNo: '7701 K',
+    owner: 'Ibrahim Al-Ghafri',
     tankerType: 'treated_effluent',
-    governorateId: 'gov-al-buraimi',
-    clusterId: 'cluster-1',
+    governorate: 'Al Buraimi',
+    cluster: 'Cluster 1',
     contact: '+968 9345 6780',
     permit: {
       status: 'expired',
@@ -223,15 +210,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '25 Jan 2025',
       validUntil: '24 Jan 2026',
     },
-    assignment: null,
   },
   {
     id: 'T-0015',
-    plateNumber: '4499 B',
-    ownerName: 'Sulaiman Al-Qasmi',
+    plateNo: '4499 B',
+    owner: 'Sulaiman Al-Qasmi',
     tankerType: 'drinking_water',
-    governorateId: 'gov-musandam',
-    clusterId: 'cluster-2',
+    governorate: 'Musandam',
+    cluster: 'Cluster 2',
     contact: '+968 9456 7891',
     permit: {
       status: 'active',
@@ -239,15 +225,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '17 Apr 2026',
       validUntil: '16 Apr 2027',
     },
-    assignment: { inspectorId: 'INS-04', samplerId: 'SC-05' },
   },
   {
     id: 'T-0016',
-    plateNumber: '2266 M',
-    ownerName: 'Abdullah Al-Balushi',
+    plateNo: '2266 M',
+    owner: 'Abdullah Al-Balushi',
     tankerType: 'sewage_water',
-    governorateId: 'gov-north-batinah',
-    clusterId: 'cluster-1',
+    governorate: 'North Batinah',
+    cluster: 'Cluster 1',
     contact: '+968 9567 8902',
     permit: {
       status: 'active',
@@ -255,15 +240,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '09 Feb 2026',
       validUntil: '08 Feb 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0017',
-    plateNumber: '8855 A',
-    ownerName: 'Rashid Al-Amri',
+    plateNo: '8855 A',
+    owner: 'Rashid Al-Amri',
     tankerType: 'drinking_water',
-    governorateId: 'gov-al-dhahirah',
-    clusterId: 'cluster-2',
+    governorate: 'Al Dhahirah',
+    cluster: 'Cluster 2',
     contact: '+968 9678 9013',
     permit: {
       status: 'no_permit',
@@ -271,15 +255,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: null,
       validUntil: null,
     },
-    assignment: null,
   },
   {
     id: 'T-0018',
-    plateNumber: '6644 S',
-    ownerName: 'Juma Al-Muqaini',
+    plateNo: '6644 S',
+    owner: 'Juma Al-Muqaini',
     tankerType: 'treated_effluent',
-    governorateId: 'gov-al-wusta',
-    clusterId: 'cluster-3',
+    governorate: 'Al Wusta',
+    cluster: 'Cluster 3',
     contact: '+968 9789 0124',
     permit: {
       status: 'active',
@@ -287,15 +270,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '28 Jan 2026',
       validUntil: '27 Jan 2027',
     },
-    assignment: { inspectorId: 'INS-06', samplerId: null },
   },
   {
     id: 'T-0019',
-    plateNumber: '1188 M',
-    ownerName: 'Said Al-Lawati',
+    plateNo: '1188 M',
+    owner: 'Said Al-Lawati',
     tankerType: 'drinking_water',
-    governorateId: 'gov-muscat',
-    clusterId: 'cluster-1',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
     contact: '+968 9890 1235',
     permit: {
       status: 'active',
@@ -303,15 +285,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '11 Mar 2026',
       validUntil: '10 Mar 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0020',
-    plateNumber: '9933 K',
-    ownerName: 'Mohammed Al-Kalbani',
+    plateNo: '9933 K',
+    owner: 'Mohammed Al-Kalbani',
     tankerType: 'sewage_water',
-    governorateId: 'gov-south-sharqiyah',
-    clusterId: 'cluster-3',
+    governorate: 'South Sharqiyah',
+    cluster: 'Cluster 3',
     contact: '+968 9901 2346',
     permit: {
       status: 'expired',
@@ -319,15 +300,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '06 Feb 2025',
       validUntil: '05 Feb 2026',
     },
-    assignment: null,
   },
   {
     id: 'T-0021',
-    plateNumber: '3312 B',
-    ownerName: 'Turki Al-Wahaibi',
+    plateNo: '3312 B',
+    owner: 'Turki Al-Wahaibi',
     tankerType: 'drinking_water',
-    governorateId: 'gov-north-batinah',
-    clusterId: 'cluster-1',
+    governorate: 'North Batinah',
+    cluster: 'Cluster 1',
     contact: '+968 9112 3450',
     permit: {
       status: 'active',
@@ -335,15 +315,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '19 Jan 2026',
       validUntil: '18 Jan 2027',
     },
-    assignment: { inspectorId: 'INS-02', samplerId: 'SC-03' },
   },
   {
     id: 'T-0022',
-    plateNumber: '7790 M',
-    ownerName: 'Saif Al-Mahrouqi',
+    plateNo: '7790 M',
+    owner: 'Saif Al-Mahrouqi',
     tankerType: 'sewage_water',
-    governorateId: 'gov-dhofar',
-    clusterId: 'cluster-3',
+    governorate: 'Dhofar',
+    cluster: 'Cluster 3',
     contact: '+968 9223 4561',
     permit: {
       status: 'active',
@@ -351,15 +330,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '24 Mar 2026',
       validUntil: '23 Mar 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0023',
-    plateNumber: '0044 A',
-    ownerName: 'Hilal Al-Busaidi',
+    plateNo: '0044 A',
+    owner: 'Hilal Al-Busaidi',
     tankerType: 'drinking_water',
-    governorateId: 'gov-muscat',
-    clusterId: 'cluster-1',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
     contact: '+968 9334 5672',
     permit: {
       status: 'expired',
@@ -367,15 +345,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '13 Apr 2025',
       validUntil: '12 Apr 2026',
     },
-    assignment: null,
   },
   {
     id: 'T-0024',
-    plateNumber: '5589 K',
-    ownerName: 'Zaher Al-Abri',
+    plateNo: '5589 K',
+    owner: 'Zaher Al-Abri',
     tankerType: 'treated_effluent',
-    governorateId: 'gov-muscat',
-    clusterId: 'cluster-1',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
     contact: '+968 9445 6783',
     permit: {
       status: 'active',
@@ -383,15 +360,14 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: '02 Feb 2026',
       validUntil: '01 Feb 2027',
     },
-    assignment: null,
   },
   {
     id: 'T-0025',
-    plateNumber: '2277 S',
-    ownerName: 'Qais Al-Riyami',
+    plateNo: '2277 S',
+    owner: 'Qais Al-Riyami',
     tankerType: 'drinking_water',
-    governorateId: 'gov-al-wusta',
-    clusterId: 'cluster-3',
+    governorate: 'Al Wusta',
+    cluster: 'Cluster 3',
     contact: '+968 9556 7894',
     permit: {
       status: 'no_permit',
@@ -399,35 +375,22 @@ const SEED_TANKERS: Tanker[] = [
       issuedAt: null,
       validUntil: null,
     },
-    assignment: null,
   },
 ];
 
-const GOVERNORATES: Array<{ id: string; clusterId: string }> = [
-  { id: 'gov-muscat', clusterId: 'cluster-1' },
-  { id: 'gov-north-batinah', clusterId: 'cluster-1' },
-  { id: 'gov-south-batinah', clusterId: 'cluster-1' },
-  { id: 'gov-al-buraimi', clusterId: 'cluster-1' },
-  { id: 'gov-al-dakhiliyah', clusterId: 'cluster-2' },
-  { id: 'gov-al-dhahirah', clusterId: 'cluster-2' },
-  { id: 'gov-north-sharqiyah', clusterId: 'cluster-2' },
-  { id: 'gov-musandam', clusterId: 'cluster-2' },
-  { id: 'gov-dhofar', clusterId: 'cluster-3' },
-  { id: 'gov-south-sharqiyah', clusterId: 'cluster-3' },
-  { id: 'gov-al-wusta', clusterId: 'cluster-3' },
+const GOVERNORATES: Array<{ name: string; cluster: string }> = [
+  { name: 'Muscat', cluster: 'Cluster 1' },
+  { name: 'North Batinah', cluster: 'Cluster 1' },
+  { name: 'South Batinah', cluster: 'Cluster 1' },
+  { name: 'Al Buraimi', cluster: 'Cluster 1' },
+  { name: 'Al Dakhiliyah', cluster: 'Cluster 2' },
+  { name: 'Al Dhahirah', cluster: 'Cluster 2' },
+  { name: 'North Sharqiyah', cluster: 'Cluster 2' },
+  { name: 'Musandam', cluster: 'Cluster 2' },
+  { name: 'Dhofar', cluster: 'Cluster 3' },
+  { name: 'South Sharqiyah', cluster: 'Cluster 3' },
+  { name: 'Al Wusta', cluster: 'Cluster 3' },
 ];
-
-const INSPECTORS_BY_CLUSTER: Record<string, string[]> = {
-  'cluster-1': ['INS-01', 'INS-02'],
-  'cluster-2': ['INS-03', 'INS-04'],
-  'cluster-3': ['INS-05', 'INS-06'],
-};
-
-const SAMPLERS_BY_CLUSTER: Record<string, string[]> = {
-  'cluster-1': ['SC-01', 'SC-02', 'SC-03'],
-  'cluster-2': ['SC-04', 'SC-05', 'SC-06'],
-  'cluster-3': ['SC-07', 'SC-08', 'SC-09'],
-};
 
 const TANKER_TYPES = [
   'drinking_water',
@@ -568,8 +531,8 @@ function generateTanker(index: number): Tanker {
   const id = `T-${pad(index, 4)}`;
   const gov = pick(rng, GOVERNORATES);
   const tankerType = pick(rng, TANKER_TYPES);
-  const ownerName = `${pick(rng, FIRST_NAMES)} ${pick(rng, LAST_NAMES)}`;
-  const plateNumber = `${pad(Math.floor(rng() * 10000), 4)} ${pick(rng, PLATE_LETTERS)}`;
+  const owner = `${pick(rng, FIRST_NAMES)} ${pick(rng, LAST_NAMES)}`;
+  const plateNo = `${pad(Math.floor(rng() * 10000), 4)} ${pick(rng, PLATE_LETTERS)}`;
   const contact = `+968 9${pad(Math.floor(rng() * 10000000), 7)}`;
 
   const permitStatus = pick(rng, PERMIT_STATUSES);
@@ -585,36 +548,24 @@ function generateTanker(index: number): Tanker {
     const issuedYear = permitStatus === 'active' ? 2026 : 2025;
     const issuedMonth = Math.floor(rng() * 12);
     const issuedDay = 1 + Math.floor(rng() * DAYS_IN_MONTH[issuedMonth]);
-    const validYear = issuedYear + 1;
     const validDay = Math.max(1, issuedDay - 1);
     permit = {
       status: permitStatus,
       permitNumber: `PMT-${issuedYear}-${pad(index, 4)}`,
       issuedAt: formatDate(issuedDay, issuedMonth, issuedYear),
-      validUntil: formatDate(validDay, issuedMonth, validYear),
+      validUntil: formatDate(validDay, issuedMonth, issuedYear + 1),
     };
-  }
-
-  // ~45% of tankers have an assignment (only meaningful for active permits).
-  const hasAssignment = permitStatus === 'active' && rng() < 0.55;
-  let assignment: Tanker['assignment'] = null;
-  if (hasAssignment) {
-    const inspectorId = pick(rng, INSPECTORS_BY_CLUSTER[gov.clusterId]);
-    const samplerId =
-      rng() < 0.6 ? pick(rng, SAMPLERS_BY_CLUSTER[gov.clusterId]) : null;
-    assignment = { inspectorId, samplerId };
   }
 
   return {
     id,
-    plateNumber,
-    ownerName,
+    plateNo,
+    owner,
     tankerType,
-    governorateId: gov.id,
-    clusterId: gov.clusterId,
+    governorate: gov.name,
+    cluster: gov.cluster,
     contact,
     permit,
-    assignment,
   };
 }
 

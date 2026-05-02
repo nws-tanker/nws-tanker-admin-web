@@ -20,6 +20,7 @@ export function UsersAndRolesTab() {
     state: pendingState,
     retry: retryPending,
   } = usePendingUsers();
+  console.log('the pending users are ', requests);
   const { clusterOptions } = useClusters();
   const {
     users,
@@ -29,7 +30,6 @@ export function UsersAndRolesTab() {
     roleId: roleFilter ? ROLE_IDS[roleFilter] : undefined,
     clusterId: clusterFilter ? Number(clusterFilter) : undefined,
   });
-
   const [approveTarget, setApproveTarget] = useState<PendingRequest | null>(
     null,
   );

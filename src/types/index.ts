@@ -28,3 +28,4 @@ export type {
   ApproveUserRequest,
   ClusterResponse,
 } from './configuration';
+export type { AuthUser, JwtPayload, LoginResponse } from './auth';
