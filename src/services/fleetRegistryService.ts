@@ -19,6 +19,7 @@ type ApiTanker = {
   dueDate: string | null;
   daysUntilDue: number | null;
   submittedAt: string | null;
+  cluster: string | null;
 };
 
 type ApiFleetResponse = {
@@ -56,7 +57,7 @@ function mapApiTanker(raw: ApiTanker): Tanker {
     tankerType:
       TANKER_TYPE_BY_LABEL[raw.tankerType] ?? TANKER_TYPE.DRINKING_WATER,
     governorate: raw.governorate,
-    cluster: raw.operationRegion ?? '',
+    cluster: raw.cluster ?? '',
     contact: raw.contactNumber,
     permit: mapPermit(raw),
   };
