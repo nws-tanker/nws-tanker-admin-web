@@ -85,7 +85,7 @@ export function useLoginForm() {
         return;
       }
 
-      const { jwt } = result.data;
+      const { jwt, userName } = result.data;
       const payload = decodeJwt(jwt);
       if (!payload) {
         showToast('Invalid token received from server.', { tone: 'error' });
@@ -93,7 +93,8 @@ export function useLoginForm() {
       }
 
       localStorage.setItem(STORAGE_KEYS.jwt, jwt);
-      dispatch(setAuth({ token: jwt, payload }));
+      localStorage.setItem(STORAGE_KEYS.userName, userName);
+      dispatch(setAuth({ token: jwt, payload, userName }));
       showToast('Signed in successfully');
       navigate(firstAllowedPath(payload.user_access), { replace: true });
     } catch {

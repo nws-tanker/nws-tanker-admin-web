@@ -58,7 +58,7 @@ export const ROUTE_ACCESS: Record<RouteKey, UserAccess | null> = {
   authentication: null,
   forbidden: null,
   fleetRegistry: USER_ACCESS.FLEET_REGISTRY,
-  tankerUpload: USER_ACCESS.TANKER_UPLOAD,
+  tankerUpload: USER_ACCESS.FLEET_REGISTRY, // tanker upload is part of fleet management, same permission as fleetRegistry
   dashboard: USER_ACCESS.EXECUTIVE_DASHBOARD,
   operations: USER_ACCESS.OPERATIONS,
   fleetCompliance: USER_ACCESS.FLEET_COMPLIANCE,

@@ -34,11 +34,14 @@ export function useAuthBootstrap() {
      * and remove the stale token so it does not get used again. */
     if (!payload || isJwtExpired(payload)) {
       localStorage.removeItem(STORAGE_KEYS.jwt);
+      localStorage.removeItem(STORAGE_KEYS.userName);
       dispatch(clearAuth());
       return;
     }
 
+    const userName = localStorage.getItem(STORAGE_KEYS.userName) ?? payload.sub;
+
     /* Token is valid — restore the user's session in Redux. */
-    dispatch(setAuth({ token, payload }));
+    dispatch(setAuth({ token, payload, userName }));
   }, [dispatch]);
 }

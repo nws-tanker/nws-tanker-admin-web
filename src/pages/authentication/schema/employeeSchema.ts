@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 export const namaEmployeeSchema = z
   .object({
-    company: z.string().optional(),
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
     email: z
