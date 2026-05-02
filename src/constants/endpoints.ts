@@ -1,7 +1,7 @@
 export const ENDPOINTS = {
-  fleetRegistry: '/tankers',
-  lookups: '/master/lookups',
-  tankerUploadSubmit: '/tankers/upload',
+  fleetRegistry: '/fleet/tankers',
+  lookups: '/lookups',
+  tankerUploadSubmit: '/tanker-upload/submit',
   sidebar: '/sidebar',
   assignment: '/assignments?plateNumber={plateNumber}',
   pendingRegistrations: '/admin/pending-registrations',
@@ -9,4 +9,8 @@ export const ENDPOINTS = {
   rejectPendingRegistration: '/admin/pending-registrations/reject',
   activeUsers: '/admin/users',
   user: '/admin/users/{id}',
+  login: '/nama/v1/authentication',
+  employeeRegistration: '/nama/v1/api/users/register/employee',
+  contractorRegistration: '/nama/v1/api/users/register/contractor',
+  contractors: '/nama/v1/api/contractors',
 } as const;
