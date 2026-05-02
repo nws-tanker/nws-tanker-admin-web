@@ -1,7 +1,7 @@
 export const ENDPOINTS = {
-  fleetRegistry: '/fleet/tankers',
-  lookups: '/lookups',
-  tankerUploadSubmit: '/tanker-upload/submit',
+  fleetRegistry: '/tankers',
+  lookups: '/master/lookups',
+  tankerUploadSubmit: '/tankers/upload',
   sidebar: '/sidebar',
   assignment: '/assignments?plateNumber={plateNumber}',
   pendingRegistrations: '/admin/pending-registrations',
