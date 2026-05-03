@@ -19,7 +19,9 @@ function getInitials(name: string) {
 }
 
 export function AppSidebar() {
-  const sidebar = useSidebarData();
+  const sidebar = useSidebarData() as {
+    counts?: Record<string, number>;
+  } | null;
   const counts = sidebar?.counts;
   const user = useAppSelector(selectAuthUser);
   const dispatch = useAppDispatch();

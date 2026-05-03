@@ -8,20 +8,10 @@ import type {
 } from '@/types';
 import { get, put } from './http';
 
-// JWT is read from localStorage at call time.
-// TEMP: falls back to the hardcoded dev token when localStorage has no 'jwt' key.
-const TEMP_DEV_TOKEN = import.meta.env.VITE_TEMP_JWT_TOKEN;
-
-function getJwtToken(): string {
-  return localStorage.getItem('jwt') ?? TEMP_DEV_TOKEN;
-}
-
 export async function fetchPendingUsersApi(): Promise<
   ApiResponse<PendingRequest[]>
 > {
-  return get<PendingRequest[]>(ENDPOINTS.pendingRegistrations, undefined, {
-    headers: { Authorization: `Bearer ${getJwtToken()}` },
-  });
+  return get<PendingRequest[]>(ENDPOINTS.pendingRegistrations, undefined);
 }
 
 export async function rejectUserApi(
@@ -29,13 +19,7 @@ export async function rejectUserApi(
   reason: string,
 ): Promise<ApiResponse<void>> {
   const url = ENDPOINTS.rejectRegistration.replace('{userId}', userId);
-  return put<void>(
-    url,
-    { reason },
-    {
-      headers: { Authorization: `Bearer ${getJwtToken()}` },
-    },
-  );
+  return put<void>(url, { reason });
 }
 
 export async function approveUserApi(
@@ -43,9 +27,7 @@ export async function approveUserApi(
   body: ApproveUserRequest,
 ): Promise<ApiResponse<void>> {
   const url = ENDPOINTS.approveRegistration.replace('{userId}', userId);
-  return put<void>(url, body, {
-    headers: { Authorization: `Bearer ${getJwtToken()}` },
-  });
+  return put<void>(url, body);
 }
 
 export type ActiveUsersFilters = {
@@ -56,17 +38,12 @@ export type ActiveUsersFilters = {
 export async function fetchActiveUsers(
   filters?: ActiveUsersFilters,
 ): Promise<ApiResponse<ActiveUserResponse[]>> {
-  return get<ActiveUserResponse[]>(
-    ENDPOINTS.activeUsers,
-    { role: filters?.roleId, cluster: filters?.clusterId },
-    {
-      headers: { Authorization: `Bearer ${getJwtToken()}` },
-    },
-  );
+  return get<ActiveUserResponse[]>(ENDPOINTS.activeUsers, {
+    role: filters?.roleId,
+    cluster: filters?.clusterId,
+  });
 }
 
 export async function fetchClusters(): Promise<ApiResponse<ClusterResponse[]>> {
-  return get<ClusterResponse[]>(ENDPOINTS.clusters, undefined, {
-    headers: { Authorization: `Bearer ${getJwtToken()}` },
-  });
+  return get<ClusterResponse[]>(ENDPOINTS.clusters, undefined);
 }

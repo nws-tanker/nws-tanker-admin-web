@@ -1,18 +1,18 @@
-import type { Assignment } from '@/types';
+// import type { Assignment } from '@/types';
 
 export type AssignInspectorMockResponse = {
   plateNumber: string;
-  assignment: Assignment;
+  // assignment: Assignment;
   assignedAt: string;
 };
 
 export function buildAssignInspectorMock(
   plateNumber: string,
-  assignment: Assignment,
+  // assignment: Assignment,
 ): AssignInspectorMockResponse {
   return {
     plateNumber,
-    assignment,
+    // assignment,
     assignedAt: new Date().toISOString(),
   };
 }

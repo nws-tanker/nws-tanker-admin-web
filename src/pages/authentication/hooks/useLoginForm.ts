@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { handleLogin } from '@/services/authenticationService';
+import { setAuthToken } from '@/services/http';
 import { useToast } from '@/atoms';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { firstAllowedPath } from '@/constants/routes';
@@ -95,6 +96,7 @@ export function useLoginForm() {
       localStorage.setItem(STORAGE_KEYS.jwt, jwt);
       localStorage.setItem(STORAGE_KEYS.userName, userName);
       dispatch(setAuth({ token: jwt, payload, userName }));
+      setAuthToken(jwt);
       showToast('Signed in successfully');
       navigate(firstAllowedPath(payload.user_access), { replace: true });
     } catch {

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { fetchActiveUsers } from '@/services/configurationService';
 import type { ActiveUsersFilters } from '@/services/configurationService';
+// TODO: activeUsersApiSlice not yet created; activeUsersApi not yet in store
+// import { useAppSelector } from '@/store';
+// import { fetchActiveUsers } from '@/store/apiSlices/activeUsersApiSlice';
 import { States } from '@/store/types';
 import type { ActiveUser, UserRole } from '../configurationHelpers';
 
