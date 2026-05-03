@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
+import { clearAuthToken, setAuthToken } from '@/services/http';
 import { useAppDispatch } from '@/store';
 import { clearAuth, setAuth } from '@/store/slices/authSlice';
 import { decodeJwt, isJwtExpired } from '@/utils';
@@ -24,6 +25,7 @@ export function useAuthBootstrap() {
 
     /* No token saved — user has never logged in or already logged out. */
     if (!token) {
+      clearAuthToken();
       dispatch(clearAuth());
       return;
     }
@@ -34,11 +36,13 @@ export function useAuthBootstrap() {
      * and remove the stale token so it does not get used again. */
     if (!payload || isJwtExpired(payload)) {
       localStorage.removeItem(STORAGE_KEYS.jwt);
+      clearAuthToken();
       dispatch(clearAuth());
       return;
     }
 
     /* Token is valid — restore the user's session in Redux. */
+    setAuthToken(token);
     dispatch(setAuth({ token, payload }));
   }, [dispatch]);
 }
