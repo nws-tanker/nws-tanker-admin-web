@@ -15,7 +15,7 @@ export default function ConfigurationPage() {
 
   return (
     <AppShell breadcrumbs={['Home', 'Configuration']}>
-      <div className="flex min-h-0 flex-1 flex-col px-7 pt-7 pb-6">
+      <div className="flex flex-col px-7 pt-7 pb-6">
         <PageHeader
           title="Configuration"
           subtitle={

@@ -1,3 +1,4 @@
+import { format, isValid } from 'date-fns';
 import { Badge, Button, Chip } from '@/atoms';
 import {
   ROLE_CHIP_TONE,
@@ -37,7 +38,10 @@ export function ActiveUserRow({ user, onEdit }: Props) {
         </Badge>
       </td>
       <td className="border-b border-ink-100 px-4 py-3 text-[12px] text-ink-500">
-        {user.lastActive}
+        {(() => {
+          const d = user.lastActive ? new Date(user.lastActive) : null;
+          return d && isValid(d) ? format(d, 'dd MMM yyyy HH:mm') : null;
+        })()}
       </td>
       <td className="border-b border-ink-100 px-4 py-3 text-right">
         <Button variant="ghost" size="sm" onClick={() => onEdit(user.id)}>

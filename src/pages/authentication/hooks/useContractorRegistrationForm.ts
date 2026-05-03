@@ -24,7 +24,7 @@ export function useContractorRegistrationForm() {
     company: '',
     firstName: '',
     lastName: '',
-    mobile: '',
+    mobile: '968',
     email: '',
     password: '',
     confirmPassword: '',
@@ -63,6 +63,10 @@ export function useContractorRegistrationForm() {
     field: K,
     value: FormValues[K],
   ) {
+    if (field === 'mobile') {
+      const digits = (value as string).replace(/\D/g, '');
+      value = (digits.startsWith('968') ? digits : '968') as FormValues[K];
+    }
     const updated = { ...values, [field]: value } as FormValues;
     setValues(updated);
 

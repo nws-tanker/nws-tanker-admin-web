@@ -20,12 +20,6 @@ const ALL_ROLE_OPTIONS: SelectOption<UserRole>[] = (
   Object.keys(ROLE_LABELS) as UserRole[]
 ).map((r) => ({ value: r, label: ROLE_LABELS[r] }));
 
-const CLUSTER_OPTIONS: SelectOption[] = [
-  { value: '1', label: 'Cluster 1' },
-  { value: '2', label: 'Cluster 2' },
-  { value: '3', label: 'Cluster 3' },
-];
-
 const CONTRACTOR_ROLES = new Set<UserRole>([
   'CLUSTER_MANAGER',
   'SUPERVISOR',
@@ -49,7 +43,6 @@ export function ApproveRegistrationModal({
   const [selectedRole, setSelectedRole] = useState<UserRole | ''>('');
   const [selectedCluster, setSelectedCluster] = useState('');
   const [roleInvalid, setRoleInvalid] = useState(false);
-  const [clusterInvalid, setClusterInvalid] = useState(false);
 
   const isContractor = !!request?.crNumber;
   const roleOptions = isContractor
@@ -62,10 +55,7 @@ export function ApproveRegistrationModal({
       setRoleInvalid(true);
       valid = false;
     }
-    if (isContractor && !selectedCluster) {
-      setClusterInvalid(true);
-      valid = false;
-    }
+
     if (!valid || !request) return;
     console.log('The request is ', request);
     onConfirm(
@@ -80,7 +70,6 @@ export function ApproveRegistrationModal({
     setSelectedRole('');
     setSelectedCluster('');
     setRoleInvalid(false);
-    setClusterInvalid(false);
     onClose();
   };
 
@@ -145,30 +134,6 @@ export function ApproveRegistrationModal({
               <p className="text-[11px] text-red-500">Please select a role</p>
             )}
           </div>
-
-          {isContractor && (
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[13px] font-medium text-ink-700">
-                Assign cluster <span className="text-red-500">*</span>
-              </label>
-              <Select
-                options={CLUSTER_OPTIONS}
-                value={selectedCluster}
-                onChange={(v) => {
-                  setSelectedCluster(v);
-                  setClusterInvalid(false);
-                }}
-                placeholder="Select a cluster"
-                invalid={clusterInvalid}
-                aria-label="Assign cluster"
-              />
-              {clusterInvalid && (
-                <p className="text-[11px] text-red-500">
-                  Please select a cluster
-                </p>
-              )}
-            </div>
-          )}
         </div>
       )}
     </Modal>

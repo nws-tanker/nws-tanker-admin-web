@@ -47,7 +47,7 @@ export function ActiveUsersTable({
   onRetry,
 }: Props) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
+    <div className="flex flex-col rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
       <div className="flex shrink-0 items-center justify-between px-5 py-3.5">
         <span className="text-[14px] font-semibold text-ink-900">
           Active Users
@@ -81,7 +81,7 @@ export function ActiveUsersTable({
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden border-t border-ink-200">
+      <div className="overflow-x-hidden border-t border-ink-200">
         <table className="w-full table-fixed text-[13px]">
           <colgroup>
             {COLUMNS.map((col, i) => (

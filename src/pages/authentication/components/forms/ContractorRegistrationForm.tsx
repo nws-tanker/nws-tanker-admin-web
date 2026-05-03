@@ -94,21 +94,30 @@ export default function ContractorRegistrationForm({ onSwitchToLogin }: Props) {
         </div>
 
         <FormField
-          label="Mobile (+968)"
+          label="Mobile"
           required
           error={err('mobile')}
           className="mb-[14px]"
         >
-          <Input
-            type="tel"
-            value={values.mobile}
-            onChange={(e) =>
-              handleChange('mobile', e.target.value.replace(/\D/g, ''))
-            }
-            placeholder="9XXX XXXX"
-            disabled={isLoading}
-            invalid={!!err('mobile')}
-          />
+          <div
+            className={`flex rounded-[8px] border transition-colors focus-within:ring-[3px] ${
+              err('mobile')
+                ? 'border-red-400 focus-within:border-red-400 focus-within:ring-red-100'
+                : 'border-gray-300 focus-within:border-teal-600 focus-within:ring-teal-50'
+            } ${isLoading ? 'opacity-50' : ''}`}
+          >
+            <span className="flex items-center px-3 rounded-l-[8px] bg-gray-100 text-gray-500 text-sm border-r border-gray-300 select-none whitespace-nowrap">
+              +968
+            </span>
+            <input
+              type="tel"
+              value={values.mobile.slice(3)}
+              onChange={(e) => handleChange('mobile', '968' + e.target.value)}
+              placeholder="XXXXXXXX"
+              disabled={isLoading}
+              className="flex-1 min-w-0 px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none disabled:cursor-not-allowed rounded-r-[8px] bg-white"
+            />
+          </div>
         </FormField>
 
         <FormField

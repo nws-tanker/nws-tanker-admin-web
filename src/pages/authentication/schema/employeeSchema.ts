@@ -8,7 +8,9 @@ export const namaEmployeeSchema = z
       .string()
       .min(1, 'Work email address is required')
       .email('Please enter a valid email address'),
-    mobile: z.string().regex(/^\d{8}$/, 'Enter a valid 8-digit mobile number'),
+    mobile: z
+      .string()
+      .regex(/^968\d{8}$/, 'Enter a valid 8-digit mobile number'),
     password: z
       .string()
       .min(1, 'Password is required')

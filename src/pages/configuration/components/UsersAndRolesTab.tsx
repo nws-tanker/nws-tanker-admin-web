@@ -73,7 +73,7 @@ export function UsersAndRolesTab() {
   const hasPending = pendingState === States.SUCCESS && requests.length > 0;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden">
+    <div className="flex flex-col gap-4">
       {hasPending && (
         <PendingAccessRequests
           requests={requests}
