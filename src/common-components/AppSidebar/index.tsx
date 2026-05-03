@@ -5,7 +5,9 @@ import { NAV_SECTIONS, type NavItem } from './navItems';
 import { useSidebarData } from './useSidebarData';
 
 export function AppSidebar() {
-  const sidebar = useSidebarData();
+  const sidebar = useSidebarData() as {
+    counts?: Record<string, number>;
+  } | null;
   const counts = sidebar?.counts;
 
   const badgeFor = (item: NavItem) =>

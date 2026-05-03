@@ -1,5 +1,5 @@
 export type {
-  Assignment,
+  // Assignment, // TODO: not yet defined in fleet.ts
   FleetFilters,
   Inspector,
   Permit,
