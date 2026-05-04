@@ -1,5 +1,6 @@
 import { TabButton } from '@/atoms';
-import { CONFIG_TABS, type ConfigTab } from '../configurationHelpers';
+import { CONFIG_TABS } from '@/constants/configuration';
+import type { ConfigTab } from '@/types/configuration';
 
 type Props = {
   active: ConfigTab;

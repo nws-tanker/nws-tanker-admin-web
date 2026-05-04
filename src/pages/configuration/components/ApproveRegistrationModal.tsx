@@ -5,9 +5,8 @@ import {
   ROLE_IDS,
   ROLE_LABELS,
   USER_TYPE_LABELS,
-  type PendingRequest,
-  type UserRole,
-} from '../configurationHelpers';
+} from '@/constants/configuration';
+import type { PendingRequest, UserRole } from '@/types/configuration';
 
 type Props = {
   request: PendingRequest | null;

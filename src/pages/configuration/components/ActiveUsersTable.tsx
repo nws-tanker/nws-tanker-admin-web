@@ -1,7 +1,7 @@
 import { Button, Select } from '@/atoms';
 import type { SelectOption } from '@/atoms';
-import type { ActiveUser, UserRole } from '../configurationHelpers';
-import { ROLE_LABELS } from '../configurationHelpers';
+import type { ActiveUser, UserRole } from '@/types/configuration';
+import { ROLE_LABELS } from '@/constants/configuration';
 import { States } from '@/store/types';
 import { ActiveUserRow } from './ActiveUserRow';
 

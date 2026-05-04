@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
-import type { ConfigTab } from './configurationHelpers';
+import type { ConfigTab } from '@/types/configuration';
 import { ConfigurationTabs } from './components/ConfigurationTabs';
 import { PlaceholderTab } from './components/PlaceholderTab';
 import { UsersAndRolesTab } from './components/UsersAndRolesTab';

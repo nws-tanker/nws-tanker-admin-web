@@ -1,6 +1,6 @@
 import { CountBadge } from '@/atoms';
-import type { PendingRequest } from '../configurationHelpers';
 import { PendingRequestRow } from './PendingRequestRow';
+import type { PendingRequest } from '@/types/configuration';
 
 type Props = {
   requests: PendingRequest[];

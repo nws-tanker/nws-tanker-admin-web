@@ -1,10 +1,7 @@
 import { format, isValid } from 'date-fns';
 import { Badge, Button, Chip } from '@/atoms';
-import {
-  ROLE_CHIP_TONE,
-  ROLE_LABELS,
-  type ActiveUser,
-} from '../configurationHelpers';
+import { ROLE_CHIP_TONE, ROLE_LABELS } from '@/constants/configuration';
+import type { ActiveUser } from '@/types/configuration';
 import { UserAvatar } from './UserAvatar';
 
 type Props = {

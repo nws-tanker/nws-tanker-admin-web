@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { approveUserApi, rejectUserApi } from '@/services/configurationService';
 import { States } from '@/store/types';
-import type { PendingRequest, UserRole } from '../configurationHelpers';
-import { ROLE_IDS } from '../configurationHelpers';
+import type { PendingRequest, UserRole } from '@/types/configuration';
+import { ROLE_IDS } from '@/constants/configuration';
 import { useActiveUsers } from '../hooks/useActiveUsers';
 import { useClusters } from '../hooks/useClusters';
 import { usePendingUsers } from '../hooks/usePendingUsers';

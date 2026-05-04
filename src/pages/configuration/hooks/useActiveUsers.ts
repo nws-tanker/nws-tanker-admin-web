@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { fetchActiveUsers } from '@/services/configurationService';
 import type { ActiveUsersFilters } from '@/services/configurationService';
-// TODO: activeUsersApiSlice not yet created; activeUsersApi not yet in store
-// import { useAppSelector } from '@/store';
-// import { fetchActiveUsers } from '@/store/apiSlices/activeUsersApiSlice';
+import { fetchActiveUsersThunk } from '@/store/apiSlices/activeUsersApiSlice';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { States } from '@/store/types';
-import type { ActiveUser, UserRole } from '../configurationHelpers';
+import type { ActiveUser, UserRole } from '@/types/configuration';
 
 type ActiveUsersState = {
   users: ActiveUser[];
@@ -16,41 +14,27 @@ type ActiveUsersState = {
 export function useActiveUsers(
   filters: ActiveUsersFilters = {},
 ): ActiveUsersState {
-  const [users, setUsers] = useState<ActiveUser[]>([]);
-  const [state, setState] = useState(States.LOADING);
-  const [tick, setTick] = useState(0);
+  const dispatch = useAppDispatch();
+  const { data, apiState } = useAppSelector((s) => s.activeUsersApi);
+  const [version, setVersion] = useState(0);
 
   useEffect(() => {
-    let cancelled = false;
-    setState(States.LOADING);
-
-    fetchActiveUsers(filters).then((res) => {
-      if (cancelled) return;
-      if (res.success) {
-        setUsers(
-          res.data.map((u) => ({
-            id: u.userID,
-            name: u.name,
-            role: u.role as UserRole,
-            cluster: u.cluster,
-            email: u.email,
-            status: u.status === 'ACTIVE' ? 'active' : 'inactive',
-            lastActive: u.lastActive,
-          })),
-        );
-        setState(States.SUCCESS);
-      } else {
-        setState(States.ERROR);
-      }
-    });
-
-    return () => {
-      cancelled = true;
-    };
+    dispatch(fetchActiveUsersThunk(filters));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters.roleId, filters.clusterId, tick]);
+  }, [filters.roleId, filters.clusterId, version, dispatch]);
 
-  const retry = () => setTick((n) => n + 1);
+  const users: ActiveUser[] =
+    data?.map((u) => ({
+      id: u.userID,
+      name: u.name,
+      role: u.role as UserRole,
+      cluster: u.cluster,
+      email: u.email,
+      status: u.status === 'ACTIVE' ? 'active' : 'inactive',
+      lastActive: u.lastActive,
+    })) ?? [];
 
-  return { users, state, retry };
+  const retry = () => setVersion((n) => n + 1);
+
+  return { users, state: apiState, retry };
 }

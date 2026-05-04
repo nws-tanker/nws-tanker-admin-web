@@ -1,6 +1,4 @@
 export const ENDPOINTS = {
-  tankerUploadColumns: '/tanker-upload/columns',
-  tankerUploadTemplate: '/tanker-upload/template',
   pendingRegistrations: '/api/users/pending',
   approveRegistration: '/api/users/{userId}/approve',
   rejectRegistration: '/api/users/{userId}/reject',

@@ -45,7 +45,7 @@ export function useAuthBootstrap() {
     const userName = localStorage.getItem(STORAGE_KEYS.userName) ?? payload.sub;
 
     /* Token is valid — restore the user's session in Redux. */
-    dispatch(setAuth({ token, payload, userName }));
     setAuthToken(token);
+    dispatch(setAuth({ token, payload, userName }));
   }, [dispatch]);
 }

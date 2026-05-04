@@ -8,15 +8,7 @@ import { SidebarNavItem } from './SidebarNavItem';
 import { SidebarUser } from './SidebarUser';
 import { NAV_SECTIONS, type NavItem } from './navItems';
 import { useSidebarData } from './useSidebarData';
-
-function getInitials(name: string) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join('');
-}
+import { getInitials } from '@/pages/configuration/configurationHelpers';
 
 export function AppSidebar() {
   const sidebar = useSidebarData() as {

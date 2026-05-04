@@ -6,15 +6,21 @@ import {
 
 import { configureStore } from '@reduxjs/toolkit';
 
+import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
+import clustersApiReducer from './apiSlices/clustersApiSlice';
 import fleetRegistryApiReducer from './apiSlices/fleetRegistryApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
+import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
 import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
 
 export const store = configureStore({
   reducer: {
+    activeUsersApi: activeUsersApiReducer,
+    clustersApi: clustersApiReducer,
     fleetRegistryApi: fleetRegistryApiReducer,
     lookupsApi: lookupsApiReducer,
+    pendingUsersApi: pendingUsersApiReducer,
     sidebarApi: sidebarApiReducer,
     auth: authReducer,
   },

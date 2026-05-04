@@ -1,4 +1,4 @@
-import { avatarColor, initials } from '../configurationHelpers';
+import { avatarColor, getInitials } from '../configurationHelpers';
 
 type Props = {
   name: string;
@@ -15,7 +15,7 @@ export function UserAvatar({ name, size = 'md' }: Props) {
     <span
       className={`inline-flex shrink-0 items-center justify-center rounded-full font-semibold text-white ${avatarColor(name)} ${SIZE_CLASS[size]}`}
     >
-      {initials(name)}
+      {getInitials(name)}
     </span>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Modal, Textarea } from '@/atoms';
-import type { PendingRequest } from '../configurationHelpers';
+import { PendingRequest } from '@/types/configuration';
 
 type Props = {
   request: PendingRequest | null;

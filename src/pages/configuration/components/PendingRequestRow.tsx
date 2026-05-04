@@ -2,8 +2,8 @@ import { Button, Chip } from '@/atoms';
 import {
   USER_TYPE_CHIP_TONE,
   USER_TYPE_LABELS,
-  type PendingRequest,
-} from '../configurationHelpers';
+} from '@/constants/configuration';
+import type { PendingRequest } from '@/types/configuration';
 import { UserAvatar } from './UserAvatar';
 
 function formatLocalDate(utcDate: string) {

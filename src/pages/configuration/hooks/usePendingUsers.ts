@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { PendingRequest } from '../configurationHelpers';
-import { fetchPendingUsersApi } from '@/services/configurationService';
+import { fetchPendingUsersThunk } from '@/store/apiSlices/pendingUsersApiSlice';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { States } from '@/store/types';
+import type { PendingRequest } from '@/types/configuration';
 
 type PendingUsersState = {
   requests: PendingRequest[];
@@ -10,30 +11,19 @@ type PendingUsersState = {
 };
 
 export function usePendingUsers(): PendingUsersState {
-  const [requests, setRequests] = useState<PendingRequest[]>([]);
-  const [state, setState] = useState(States.LOADING);
-  const [tick, setTick] = useState(0);
+  const dispatch = useAppDispatch();
+  const { data, apiState } = useAppSelector((s) => s.pendingUsersApi);
+  const [version, setVersion] = useState(0);
 
   useEffect(() => {
-    let cancelled = false;
-    setState(States.LOADING);
+    dispatch(fetchPendingUsersThunk());
+  }, [version, dispatch]);
 
-    fetchPendingUsersApi().then((res) => {
-      if (cancelled) return;
-      if (res.success) {
-        setRequests(res.data);
-        setState(States.SUCCESS);
-      } else {
-        setState(States.ERROR);
-      }
-    });
+  const retry = () => setVersion((n) => n + 1);
 
-    return () => {
-      cancelled = true;
-    };
-  }, [tick]);
-
-  const retry = () => setTick((n) => n + 1);
-
-  return { requests, state, retry };
+  return {
+    requests: data ?? [],
+    state: apiState,
+    retry,
+  };
 }

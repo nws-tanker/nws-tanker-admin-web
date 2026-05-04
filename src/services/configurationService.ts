@@ -1,5 +1,5 @@
 import { ENDPOINTS } from '@/constants/endpoints';
-import type { PendingRequest } from '@/pages/configuration/configurationHelpers';
+import type { PendingRequest } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
   ActiveUserResponse,
