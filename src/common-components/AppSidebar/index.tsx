@@ -23,7 +23,7 @@ export function AppSidebar() {
     item.countKey && counts ? counts[item.countKey] : undefined;
 
   function handleSignOut() {
-    localStorage.removeItem(STORAGE_KEYS.jwt);
+    localStorage.removeItem(STORAGE_KEYS.accessToken);
     localStorage.removeItem(STORAGE_KEYS.userName);
     dispatch(clearAuth());
     navigate(ROUTES.authentication, { replace: true });
