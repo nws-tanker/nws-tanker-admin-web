@@ -56,7 +56,6 @@ export function ApproveRegistrationModal({
     }
 
     if (!valid || !request) return;
-    console.log('The request is ', request);
     onConfirm(
       request.userID,
       ROLE_IDS[selectedRole as UserRole],

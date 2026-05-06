@@ -31,7 +31,6 @@ export function useAuthBootstrap() {
     }
 
     const payload = decodeJwt(token);
-    console.log('the payload is ', payload);
 
     /* Token is unreadable or has expired — treat the user as logged out
      * and remove the stale token so it does not get used again. */
