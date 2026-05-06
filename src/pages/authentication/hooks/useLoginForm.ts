@@ -80,22 +80,23 @@ export function useLoginForm() {
     setIsLoading(true);
     try {
       const result = await handleLogin(values.email, values.password);
-      console.log('Coming here not successfull', result);
       if (!result.success) {
         showToast(result.error.description, { tone: 'error' });
         return;
       }
 
-      const { jwt } = result.data;
-      const payload = decodeJwt(jwt);
+      const { access_token, refresh_token, user_name } = result.data;
+      const payload = decodeJwt(access_token);
       if (!payload) {
         showToast('Invalid token received from server.', { tone: 'error' });
         return;
       }
 
-      localStorage.setItem(STORAGE_KEYS.jwt, jwt);
-      setAuthToken(jwt);
-      dispatch(setAuth({ token: jwt, payload }));
+      localStorage.setItem(STORAGE_KEYS.accessToken, access_token);
+      localStorage.setItem(STORAGE_KEYS.userName, user_name);
+      localStorage.setItem(STORAGE_KEYS.refreshToken, refresh_token);
+      setAuthToken(access_token);
+      dispatch(setAuth({ token: access_token, payload, userName: user_name }));
       showToast('Signed in successfully');
       navigate(firstAllowedPath(payload.user_access), { replace: true });
     } catch {

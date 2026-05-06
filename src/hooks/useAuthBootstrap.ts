@@ -21,7 +21,7 @@ export function useAuthBootstrap() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem(STORAGE_KEYS.jwt);
+    const token = localStorage.getItem(STORAGE_KEYS.accessToken);
 
     /* No token saved — user has never logged in or already logged out. */
     if (!token) {
@@ -35,14 +35,17 @@ export function useAuthBootstrap() {
     /* Token is unreadable or has expired — treat the user as logged out
      * and remove the stale token so it does not get used again. */
     if (!payload || isJwtExpired(payload)) {
-      localStorage.removeItem(STORAGE_KEYS.jwt);
+      localStorage.removeItem(STORAGE_KEYS.accessToken);
+      localStorage.removeItem(STORAGE_KEYS.userName);
       clearAuthToken();
       dispatch(clearAuth());
       return;
     }
 
+    const userName = localStorage.getItem(STORAGE_KEYS.userName) ?? payload.sub;
+
     /* Token is valid — restore the user's session in Redux. */
     setAuthToken(token);
-    dispatch(setAuth({ token, payload }));
+    dispatch(setAuth({ token, payload, userName }));
   }, [dispatch]);
 }

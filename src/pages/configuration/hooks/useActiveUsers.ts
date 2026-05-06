@@ -1,27 +1,40 @@
-// TODO: activeUsersApiSlice not yet created; activeUsersApi not yet in store
-import { useEffect } from 'react';
-import { useAppDispatch } from '@/store';
-// import { useAppSelector } from '@/store';
-// import { fetchActiveUsers } from '@/store/apiSlices/activeUsersApiSlice';
+import { useEffect, useState } from 'react';
+import type { ActiveUsersFilters } from '@/services/configurationService';
+import { fetchActiveUsersThunk } from '@/store/apiSlices/activeUsersApiSlice';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { States } from '@/store/types';
+import type { ActiveUser, UserRole } from '@/types/configuration';
 
-export function useActiveUsers() {
+type ActiveUsersState = {
+  users: ActiveUser[];
+  state: States;
+  retry: () => void;
+};
+
+export function useActiveUsers(
+  filters: ActiveUsersFilters = {},
+): ActiveUsersState {
   const dispatch = useAppDispatch();
-  // const { data, apiState } = useAppSelector((s) => s.activeUsersApi);
-  const data = undefined;
-  const apiState = States.PRELOADING;
+  const { data, apiState } = useAppSelector((s) => s.activeUsersApi);
+  const [version, setVersion] = useState(0);
+  const { roleId, clusterId } = filters;
 
   useEffect(() => {
-    if (apiState === States.PRELOADING) {
-      // dispatch(fetchActiveUsers());
-    }
-  }, [dispatch, apiState]);
+    dispatch(fetchActiveUsersThunk({ roleId, clusterId }));
+  }, [roleId, clusterId, version, dispatch]);
 
-  return {
-    users: data ?? [],
-    state: apiState,
-    retry: () => {
-      // dispatch(fetchActiveUsers());
-    },
-  };
+  const users: ActiveUser[] =
+    data?.map((u) => ({
+      id: u.userID,
+      name: u.name,
+      role: u.role as UserRole,
+      cluster: u.cluster,
+      email: u.email,
+      status: u.status === 'ACTIVE' ? 'active' : 'inactive',
+      lastActive: u.lastActive,
+    })) ?? [];
+
+  const retry = () => setVersion((n) => n + 1);
+
+  return { users, state: apiState, retry };
 }

@@ -2,7 +2,15 @@ import EyeIcon from '@/atoms/icons';
 import { Input, Button, IconButton } from '@/atoms';
 import { useLoginForm } from '@/pages/authentication/hooks/useLoginForm';
 
-export default function LoginForm() {
+type Props = {
+  onSwitchToEmployee: () => void;
+  onSwitchToContractor: () => void;
+};
+
+export default function LoginForm({
+  onSwitchToEmployee,
+  onSwitchToContractor,
+}: Props) {
   const {
     values,
     errors,
@@ -128,15 +136,23 @@ export default function LoginForm() {
         <div className="mt-[18px] space-y-2 text-center text-[12px] text-gray-500">
           <p>
             Nama employee?{' '}
-            <a href="#" className="text-teal-700 font-medium hover:underline">
+            <button
+              type="button"
+              onClick={onSwitchToEmployee}
+              className="text-teal-700 font-medium hover:underline"
+            >
               Register here
-            </a>
+            </button>
           </p>
           <p>
             Contractor?{' '}
-            <a href="#" className="text-teal-700 font-medium hover:underline">
+            <button
+              type="button"
+              onClick={onSwitchToContractor}
+              className="text-teal-700 font-medium hover:underline"
+            >
               Register company
-            </a>
+            </button>
           </p>
         </div>
       </div>

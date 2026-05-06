@@ -1,15 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { z } from 'zod';
 import { handleEmployeeRegistration } from '@/services/registrationService';
-import { fetchContractorsApi } from '@/services/getContracterService';
-import type { SelectOption } from '@/atoms';
 import { useToast } from '@/atoms';
 import { namaEmployeeSchema } from '../schema/employeeSchema';
 
 type FormValues = z.infer<typeof namaEmployeeSchema>;
 
 interface FormErrors {
-  company?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -18,13 +15,12 @@ interface FormErrors {
   confirmPassword?: string;
 }
 
-export function useRegistrationForm() {
+export function useEmployeeRegistrationForm() {
   const [values, setValues] = useState<FormValues>({
-    company: undefined,
     firstName: '',
     lastName: '',
     email: '',
-    mobile: '',
+    mobile: '968',
     password: '',
     confirmPassword: '',
   });
@@ -36,31 +32,15 @@ export function useRegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [companyOptions, setCompanyOptions] = useState<SelectOption[]>([]);
-  const [contractorIdMap, setContractorIdMap] = useState<
-    Record<string, number>
-  >({});
-
-  useEffect(() => {
-    fetchContractorsApi().then((result) => {
-      if (!result.success) return;
-      const options: SelectOption[] = result.data.map((c) => ({
-        value: c.companyNameEn,
-        label: c.companyNameEn,
-      }));
-      const idMap: Record<string, number> = {};
-      result.data.forEach((c) => {
-        idMap[c.companyNameEn] = c.contractorId;
-      });
-      setCompanyOptions(options);
-      setContractorIdMap(idMap);
-    });
-  }, []);
 
   function handleChange<K extends keyof FormValues>(
     field: K,
     value: FormValues[K],
   ) {
+    if (field === 'mobile') {
+      const digits = (value as string).replace(/\D/g, '');
+      value = (digits.startsWith('968') ? digits : '968') as FormValues[K];
+    }
     const updated = { ...values, [field]: value } as FormValues;
     setValues(updated);
 
@@ -106,7 +86,6 @@ export function useRegistrationForm() {
     e.preventDefault();
 
     setTouched({
-      company: true,
       firstName: true,
       lastName: true,
       email: true,
@@ -125,16 +104,13 @@ export function useRegistrationForm() {
         email: values.email,
         mobile: values.mobile,
         password: values.password,
-        contractorId: values.company
-          ? (contractorIdMap[values.company] ?? 0)
-          : 0,
+        contractorId: 0,
       });
       if (!result.success) {
         showToast(result.error.description, { tone: 'error' });
         return;
       }
       showToast('Registration submitted successfully');
-      // TODO: redirect
     } catch {
       showToast('Something went wrong. Please try again.', { tone: 'error' });
     } finally {
@@ -149,7 +125,6 @@ export function useRegistrationForm() {
     showPassword,
     showConfirm,
     isLoading,
-    companyOptions,
     handleChange,
     handleSubmit,
     toggleShowPassword: () => setShowPassword((p) => !p),

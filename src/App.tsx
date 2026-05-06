@@ -1,15 +1,33 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES, firstAllowedPath } from '@/constants/routes';
 import ProtectedRoute from '@/common-components/ProtectedRoute';
 import { useAuthBootstrap } from '@/hooks/useAuthBootstrap';
+import { useAppSelector } from '@/store';
+import {
+  selectIsAuthenticated,
+  selectIsBootstrapped,
+  selectUserAccess,
+} from '@/store/slices/authSlice';
 import FleetRegistryPage from '@/pages/fleet-registry';
 import PlaceholderPage from '@/pages/placeholder';
 import TankerUploadPage from '@/pages/tanker-upload';
 import AuthenticationPage from '@/pages/authentication';
 import ForbiddenPage from '@/pages/forbidden';
+import ConfigurationPage from './pages/configuration';
 
 export default function App() {
   useAuthBootstrap();
+
+  const isBootstrapped = useAppSelector(selectIsBootstrapped);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const userAccess = useAppSelector(selectUserAccess);
+  // Authenticated users can only access /auth page when they are logged out
+  const authElement =
+    isBootstrapped && isAuthenticated ? (
+      <Navigate to={firstAllowedPath(userAccess)} replace />
+    ) : (
+      <AuthenticationPage />
+    );
 
   return (
     <Routes>
@@ -17,7 +35,7 @@ export default function App() {
         path={ROUTES.root}
         element={<Navigate to={ROUTES.fleetRegistry} replace />}
       />
-      <Route path={ROUTES.authentication} element={<AuthenticationPage />} />
+      <Route path={ROUTES.authentication} element={authElement} />
       <Route path={ROUTES.forbidden} element={<ForbiddenPage />} />
       <Route
         path={ROUTES.fleetRegistry}
@@ -87,7 +105,7 @@ export default function App() {
         path={ROUTES.configuration}
         element={
           <ProtectedRoute route="configuration">
-            <PlaceholderPage title="Configuration" />
+            <ConfigurationPage />
           </ProtectedRoute>
         }
       />

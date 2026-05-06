@@ -23,4 +23,14 @@ export type {
   UploadError,
   UploadErrorType,
 } from './tankerUpload';
-export type { AuthUser, JwtPayload, LoginResponse } from './auth';
+export type {
+  ActiveUserResponse,
+  ApproveUserRequest,
+  ClusterResponse,
+} from './configuration';
+export type {
+  AuthUser,
+  JwtPayload,
+  LoginResponse,
+  RefreshTokenResponse,
+} from './auth';

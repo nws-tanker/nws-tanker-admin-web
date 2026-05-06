@@ -1,8 +1,10 @@
 import type { UserAccess } from '@/constants/userAccess';
 
 export type LoginResponse = {
-  jwt: string;
-  userName: string;
+  access_token: string;
+  refresh_token: string;
+  user_name: string;
+  email: string;
   userId: number;
   clusterId: number;
 };
@@ -19,6 +21,12 @@ export type JwtPayload = {
 
 export type AuthUser = {
   email: string;
+  userName: string;
   roleName: string;
   userAccess: UserAccess[];
+};
+
+export type RefreshTokenResponse = {
+  access_token: string;
+  refresh_token: string;
 };

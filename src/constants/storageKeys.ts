@@ -1,3 +1,5 @@
 export const STORAGE_KEYS = {
-  jwt: 'jwt',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  userName: 'userName',
 } as const;

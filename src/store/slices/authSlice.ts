@@ -34,13 +34,18 @@ const authSlice = createSlice({
      */
     setAuth: (
       state,
-      action: PayloadAction<{ token: string; payload: JwtPayload }>,
+      action: PayloadAction<{
+        token: string;
+        payload: JwtPayload;
+        userName: string;
+      }>,
     ) => {
-      const { token, payload } = action.payload;
+      const { token, payload, userName } = action.payload;
       state.token = token;
       state.bootstrapped = true;
       state.user = {
         email: payload.sub,
+        userName,
         roleName: payload.role_name,
         userAccess: payload.user_access,
       };

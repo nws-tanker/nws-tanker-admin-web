@@ -1,5 +1,5 @@
 import { post } from './http';
-import { LoginResponse } from '@/types';
+import { LoginResponse, RefreshTokenResponse } from '@/types';
 import { ApiResponse } from '@/store/types';
 import { ENDPOINTS } from '@/constants/endpoints';
 
@@ -8,7 +8,15 @@ export async function handleLogin(
   password: string,
 ): Promise<ApiResponse<LoginResponse>> {
   return post<LoginResponse>(ENDPOINTS.login, {
-    userName: email,
+    email,
     password,
+  });
+}
+
+export async function handleRefreshAccessToken(
+  refresh_token: string,
+): Promise<ApiResponse<RefreshTokenResponse>> {
+  return post<RefreshTokenResponse>(ENDPOINTS.refreshToken, {
+    refresh_token,
   });
 }

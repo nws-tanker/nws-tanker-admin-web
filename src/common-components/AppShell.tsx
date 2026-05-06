@@ -14,9 +14,7 @@ export function AppShell({ breadcrumbs, children }: Props) {
         <AppSidebar />
         <div className="flex h-full min-w-0 flex-col overflow-hidden bg-ink-50">
           <AppTopbar breadcrumbs={breadcrumbs} />
-          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-            {children}
-          </div>
+          <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
         </div>
       </div>
     </div>

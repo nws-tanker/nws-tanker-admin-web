@@ -1,3 +1,5 @@
+import { ChipTone } from '@/atoms';
+import { ConfigTab, UserType, UserRole } from '@/types/configuration';
 // TODO: USER_ROLE, UserRole, RegistrationType, REGISTRATION_TYPE not yet exported from @/types
 // import { USER_ROLE } from '@/types';
 // import type { UserRole, RegistrationType } from '@/types';
@@ -37,3 +39,56 @@
 //   [REGISTRATION_TYPE.NAMA_STAFF]: 'Nama Employee',
 //   [REGISTRATION_TYPE.CONTRACTOR]: 'Contractor',
 // };
+export const CONFIG_TABS: { id: ConfigTab; label: string }[] = [
+  { id: 'notifications', label: 'Notifications & Communications' },
+  { id: 'permit-sla', label: 'Permit & SLA Rules' },
+  { id: 'users-roles', label: 'Users & Roles' },
+  { id: 'inspection-checklist', label: 'Inspection Checklist' },
+  { id: 'cluster-setup', label: 'Cluster Setup' },
+  { id: 'fleet-targets', label: 'Fleet Targets' },
+];
+
+export const USER_TYPE_LABELS: Record<UserType, string> = {
+  nama_employee: 'Nama Employee',
+  contractor: 'Contractor',
+};
+
+export const USER_TYPE_CHIP_TONE: Record<UserType, ChipTone> = {
+  nama_employee: 'amber',
+  contractor: 'blue',
+};
+
+export const ROLE_LABELS: Record<UserRole, string> = {
+  OPERATIONS_MANAGER: 'Operations Manager',
+  SUPERVISOR: 'Supervisor',
+  CLUSTER_MANAGER: 'Cluster Manager',
+  EXECUTIVE: 'Executive',
+  INSPECTOR: 'Inspector',
+};
+
+export const ROLE_IDS: Record<UserRole, number> = {
+  OPERATIONS_MANAGER: 1,
+  CLUSTER_MANAGER: 2,
+  SUPERVISOR: 3,
+  EXECUTIVE: 4,
+  INSPECTOR: 5,
+};
+
+export const ROLE_CHIP_TONE: Record<UserRole, ChipTone> = {
+  OPERATIONS_MANAGER: 'teal',
+  SUPERVISOR: 'amber',
+  CLUSTER_MANAGER: 'blue',
+  EXECUTIVE: 'gray',
+  INSPECTOR: 'green',
+};
+
+export const AVATAR_PALETTE = [
+  'bg-teal-700',
+  'bg-blue-600',
+  'bg-violet-600',
+  'bg-rose-600',
+  'bg-orange-500',
+  'bg-cyan-700',
+  'bg-emerald-700',
+  'bg-indigo-600',
+];
