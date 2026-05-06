@@ -4,7 +4,11 @@ import {
   mapInspectionResponse,
 } from '@/pages/inspection/inspectionHelpers';
 import type { ApiResponse } from '@/store/types';
-import type { InspectionScreenData, InspectionTab } from '@/types/inspection';
+import type {
+  InspectionScreenData,
+  InspectionTab,
+  InspectionDetailsApiResponse,
+} from '@/types/inspection';
 import type { ApiInspectionPagedData } from '@/types/inspection';
 import { get } from './http';
 
@@ -30,4 +34,14 @@ export async function fetchInspectionReviewApi(
 
   if (!response.success) return response;
   return { success: true, data: mapInspectionResponse(response.data) };
+}
+
+export async function fetchInspectionDetails(
+  inspectionId: string,
+): Promise<ApiResponse<InspectionDetailsApiResponse>> {
+  const url = ENDPOINTS.inspectionDetails.replace(
+    '{inspectionId}',
+    inspectionId,
+  );
+  return await get<InspectionDetailsApiResponse>(url);
 }

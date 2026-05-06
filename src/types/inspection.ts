@@ -87,3 +87,81 @@ export type ApiInspectionPagedData = {
   page: number;
   size: number;
 };
+
+export type InspectionDetailsApiResponse = {
+  id: string;
+  status: string;
+  tanker: {
+    plate: string;
+    type: 'DW' | 'SW' | 'TE';
+    owner: {
+      name: string;
+      phone: string;
+      whatsapp: string | null;
+      email: string | null;
+    };
+    cluster: string;
+    governorate: string;
+    capacity_litres: number | null;
+  };
+  assignment: {
+    inspector_name: string;
+    scheduled_date: string | null;
+    physical_date: string | null;
+    physical_score: number | null;
+    submitted_at: string | null;
+  };
+  permit: {
+    status: string | null;
+    permit_number: string | null;
+    issued_at: string | null;
+    expires_at: string | null;
+  };
+  rejection: {
+    reason: string | null;
+    stage: string | null;
+  };
+  inspection: {
+    sections: {
+      section: string;
+      items: {
+        item: string;
+        result: 'pass' | 'fail';
+        comment: string;
+        photos: {
+          id: string;
+          presigned_url: string;
+          presigned_thumbnail_url: string | null;
+          presigned_url_expires_at: string;
+        }[];
+      }[];
+    }[];
+    final_result: string | null;
+    inspector_comments: string | null;
+    required_documents: unknown[];
+  };
+  lab: {
+    required: boolean;
+    status: string | null;
+    report: {
+      id: string | null;
+      presigned_url: string | null;
+      presigned_thumbnail_url: string | null;
+      presigned_url_expires_at: string | null;
+    };
+  };
+  timeline: {
+    at: string;
+    event: string;
+    actor: string;
+    note: string | null;
+  }[];
+  is_reinspection: boolean;
+  reinspection_of: string | null;
+  permit_history: {
+    permit_number: string;
+    issued_at: string | null;
+    expires_at: string | null;
+    status: string;
+  }[];
+};

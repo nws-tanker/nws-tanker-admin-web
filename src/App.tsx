@@ -15,6 +15,7 @@ import AuthenticationPage from '@/pages/authentication';
 import ForbiddenPage from '@/pages/forbidden';
 import ConfigurationPage from './pages/configuration';
 import InspectionPage from './pages/inspection';
+import InspectionDetailsPage from '@/pages/inspection-details';
 
 export default function App() {
   useAuthBootstrap();
@@ -64,6 +65,14 @@ export default function App() {
         }
       ></Route>
 
+      <Route
+        path={ROUTES.inspectionDetails}
+        element={
+          <ProtectedRoute route="inspectionDetails">
+            <InspectionDetailsPage />
+          </ProtectedRoute>
+        }
+      ></Route>
       <Route
         path={ROUTES.dashboard}
         element={
