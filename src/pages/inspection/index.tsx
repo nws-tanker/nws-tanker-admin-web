@@ -2,7 +2,7 @@ import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
 import { ScreenStatus } from '@/common-components/ScreenStatus';
 import { States } from '@/store/types';
-// import type { InspectionRecord } from '@/types/inspection';
+import type { InspectionRecord } from '@/types/inspection';
 import { InspectionKpiStrip } from './components/InspectionKpiStrip';
 import { InspectionTable } from './components/InspectionTable';
 import { InspectionTabs } from './components/InspectionTabs';
@@ -20,17 +20,18 @@ export default function InspectionPage() {
     ? `${counts.pendingReview} pending review · ${counts.pendingInspection} pending inspection · ${counts.labTesting} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
     : 'Loading…';
 
-  // function handleView(_record: InspectionRecord) {
-  //   // TODO: open detail drawer/modal
-  // }
-
-  // function handleReview(_record: InspectionRecord) {
-  //   // TODO: open review & approve modal
-  // }
-
-  // function handleQueueReinspection(_record: InspectionRecord) {
-  //   // TODO: open queue re-inspection modal
-  // }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  function handleView(_record: InspectionRecord) {
+    // TODO: open detail drawer/modal
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  function handleReview(_record: InspectionRecord) {
+    // TODO: open review & approve modal
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  function handleQueueReinspection(_record: InspectionRecord) {
+    // TODO: open queue re-inspection modal
+  }
 
   return (
     <AppShell breadcrumbs={['Home', 'Inspection Review']}>
