@@ -9,6 +9,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
 import clustersApiReducer from './apiSlices/clustersApiSlice';
 import fleetRegistryApiReducer from './apiSlices/fleetRegistryApiSlice';
+import inspectionApiReducer from './apiSlices/inspectionApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
 import sidebarApiReducer from './apiSlices/sidebarApiSlice';
@@ -19,6 +20,7 @@ export const store = configureStore({
     activeUsersApi: activeUsersApiReducer,
     clustersApi: clustersApiReducer,
     fleetRegistryApi: fleetRegistryApiReducer,
+    inspectionApi: inspectionApiReducer,
     lookupsApi: lookupsApiReducer,
     pendingUsersApi: pendingUsersApiReducer,
     sidebarApi: sidebarApiReducer,

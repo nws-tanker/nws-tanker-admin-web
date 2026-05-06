@@ -1,0 +1,327 @@
+import type {
+  InspectionRecord,
+  InspectionScreenData,
+  InspectionTab,
+  InspectionTabCounts,
+} from '@/types/inspection';
+
+export const MOCK_INSPECTION_RECORDS: InspectionRecord[] = [
+  // Pending Review
+  {
+    id: 'INS-C1-005',
+    inspectionId: 5,
+    plate: '6620 F',
+    tankerType: 'DW',
+    governorate: 'South Batinah',
+    cluster: 'Cluster 1',
+    inspectorName: 'Ahmed Al-Rashidi',
+    submittedAt: '2026-05-05T11:38:41.703245',
+    priorStage: 'pending_review',
+    inspectionDate: '2026-04-05',
+    scheduledDate: null,
+    physicalDate: '2026-04-05',
+    physicalScore: null,
+    permitNumber: 'PRM-2025-0001',
+    permitExpiresAt: '2026-07-04',
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+  {
+    id: 'INS-C1-015',
+    inspectionId: 15,
+    plate: 'TE-T016 A',
+    tankerType: 'TE',
+    governorate: 'Al Buraimi',
+    cluster: 'Cluster 1',
+    inspectorName: 'Ahmed Al-Rashidi',
+    submittedAt: '2025-05-20T11:38:41.703245',
+    priorStage: 'pending_review',
+    inspectionDate: '2025-05-20',
+    scheduledDate: null,
+    physicalDate: '2025-05-20',
+    physicalScore: null,
+    permitNumber: 'PRM-2025-0003',
+    permitExpiresAt: '2026-05-20',
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+  {
+    id: 'INS-C1-010',
+    inspectionId: 10,
+    plate: 'SW-T011 A',
+    tankerType: 'SW',
+    governorate: 'South Batinah',
+    cluster: 'Cluster 1',
+    inspectorName: 'Ahmed Al-Rashidi',
+    submittedAt: '2025-04-30T11:38:41.703245',
+    priorStage: 'pending_review',
+    inspectionDate: '2025-04-30',
+    scheduledDate: null,
+    physicalDate: '2025-04-30',
+    physicalScore: null,
+    permitNumber: 'PRM-2025-0002',
+    permitExpiresAt: '2026-05-05',
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+
+  // Pending Inspection
+  {
+    id: 'INS-P001',
+    inspectionId: 21,
+    plate: 'OM 47 AB',
+    tankerType: 'DW',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
+    inspectorName: 'Ahmed Al-Balushi',
+    submittedAt: null,
+    priorStage: 'pending_inspection',
+    inspectionDate: null,
+    scheduledDate: '25 Apr 2026',
+    physicalDate: null,
+    physicalScore: null,
+    permitNumber: null,
+    permitExpiresAt: null,
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+
+  // Lab Testing
+  {
+    id: 'INS-R007',
+    inspectionId: 7,
+    plate: '2201 M',
+    tankerType: 'DW',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
+    inspectorName: 'Ahmed Al-Balushi',
+    submittedAt: '2026-04-14T09:00:00',
+    priorStage: 'lab_testing',
+    inspectionDate: '2026-04-14',
+    scheduledDate: null,
+    physicalDate: '2026-04-14',
+    physicalScore: 76,
+    permitNumber: null,
+    permitExpiresAt: null,
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+
+  // Approved
+  {
+    id: 'INS-C1-004',
+    inspectionId: 4,
+    plate: 'DW-T007 A',
+    tankerType: 'DW',
+    governorate: 'South Batinah',
+    cluster: 'Cluster 1',
+    inspectorName: 'Ahmed Al-Rashidi',
+    submittedAt: '2025-03-06T11:38:41.703245',
+    priorStage: 'approved',
+    inspectionDate: '2025-03-06',
+    scheduledDate: null,
+    physicalDate: '2025-03-06',
+    physicalScore: null,
+    permitNumber: 'PRM-2024-0001',
+    permitExpiresAt: '2026-03-06',
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+  {
+    id: 'INS-R011',
+    inspectionId: 11,
+    plate: 'OM 22 AJ',
+    tankerType: 'TE',
+    governorate: 'North Sharqiyah',
+    cluster: 'Cluster 2',
+    inspectorName: 'Salim Al-Hinai',
+    submittedAt: '2026-04-08T10:00:00',
+    priorStage: 'approved',
+    inspectionDate: '2026-04-08',
+    scheduledDate: null,
+    physicalDate: '2026-04-08',
+    physicalScore: 91,
+    permitNumber: 'PRM-2026-00041',
+    permitExpiresAt: '2027-04-07',
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+  {
+    id: 'INS-R012',
+    inspectionId: 12,
+    plate: 'OM 53 CL',
+    tankerType: 'SW',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
+    inspectorName: 'Fatma Al-Zadjali',
+    submittedAt: '2026-04-07T10:00:00',
+    priorStage: 'approved',
+    inspectionDate: '2026-04-07',
+    scheduledDate: null,
+    physicalDate: '2026-04-07',
+    physicalScore: 80,
+    permitNumber: 'PRM-2026-00040',
+    permitExpiresAt: '2027-04-06',
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+  {
+    id: 'INS-R013',
+    inspectionId: 13,
+    plate: 'OM 28 BN',
+    tankerType: 'DW',
+    governorate: 'Dhofar',
+    cluster: 'Cluster 3',
+    inspectorName: 'Hamed Al-Rashdi',
+    submittedAt: '2026-04-05T10:00:00',
+    priorStage: 'approved',
+    inspectionDate: '2026-04-05',
+    scheduledDate: null,
+    physicalDate: '2026-04-05',
+    physicalScore: 74,
+    permitNumber: 'PRM-2026-00039',
+    permitExpiresAt: '2027-04-04',
+    rejectionReason: null,
+    rejectionStage: null,
+  },
+
+  // Rejected
+  {
+    id: 'INS-R015',
+    inspectionId: 15,
+    plate: 'OM 44 BC',
+    tankerType: 'SW',
+    governorate: 'Al Dakhiliyah',
+    cluster: 'Cluster 2',
+    inspectorName: 'Khalid Al-Rawahi',
+    submittedAt: '2026-04-06T10:00:00',
+    priorStage: 'rejected',
+    inspectionDate: '2026-04-06',
+    scheduledDate: null,
+    physicalDate: '2026-04-06',
+    physicalScore: 51,
+    permitNumber: null,
+    permitExpiresAt: null,
+    rejectionReason:
+      'Severe rust damage on tanker body and compromised hatch sealing.',
+    rejectionStage: 'inspection',
+  },
+  {
+    id: 'INS-R016',
+    inspectionId: 16,
+    plate: 'OM 09 AD',
+    tankerType: 'DW',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
+    inspectorName: 'Omar Al-Siyabi',
+    submittedAt: '2026-04-04T10:00:00',
+    priorStage: 'rejected',
+    inspectionDate: '2026-04-04',
+    scheduledDate: null,
+    physicalDate: '2026-04-04',
+    physicalScore: 68,
+    permitNumber: null,
+    permitExpiresAt: null,
+    rejectionReason: 'Auto-rejected: E. coli detected at 4 CFU/100mL (max: 0).',
+    rejectionStage: 'lab',
+  },
+  {
+    id: 'INS-R017',
+    inspectionId: 17,
+    plate: 'OM 31 BE',
+    tankerType: 'TE',
+    governorate: 'Dhofar',
+    cluster: 'Cluster 3',
+    inspectorName: 'Fatma Al-Zadjali',
+    submittedAt: '2026-04-02T10:00:00',
+    priorStage: 'rejected',
+    inspectionDate: '2026-04-02',
+    scheduledDate: null,
+    physicalDate: '2026-04-02',
+    physicalScore: 58,
+    permitNumber: null,
+    permitExpiresAt: null,
+    rejectionReason:
+      'Multiple safety equipment failures: fire extinguisher expired, GPS tracker non-functional.',
+    rejectionStage: 'inspection',
+  },
+  {
+    id: 'INS-R021',
+    inspectionId: 21,
+    plate: 'OM 74 BH',
+    tankerType: 'DW',
+    governorate: 'Muscat',
+    cluster: 'Cluster 1',
+    inspectorName: 'Ahmed Al-Balushi',
+    submittedAt: '2026-04-23T10:00:00',
+    priorStage: 'rejected',
+    inspectionDate: '2026-04-23',
+    scheduledDate: null,
+    physicalDate: '2026-04-23',
+    physicalScore: 62,
+    permitNumber: null,
+    permitExpiresAt: null,
+    rejectionReason:
+      'Lab results exceeded turbidity threshold (8.4 NTU, max 4 NTU).',
+    rejectionStage: 'lab',
+  },
+];
+
+const STAGE_BY_TAB: Record<InspectionTab, InspectionRecord['priorStage']> = {
+  'pending-review': 'pending_review',
+  'pending-inspection': 'pending_inspection',
+  'lab-testing': 'lab_testing',
+  approved: 'approved',
+  rejected: 'rejected',
+};
+
+export function buildMockInspectionResponse(
+  tab: InspectionTab,
+  search: string,
+  page: number,
+  size: number,
+): InspectionScreenData {
+  const counts: InspectionTabCounts = {
+    pendingReview: MOCK_INSPECTION_RECORDS.filter(
+      (r) => r.priorStage === 'pending_review',
+    ).length,
+    pendingInspection: MOCK_INSPECTION_RECORDS.filter(
+      (r) => r.priorStage === 'pending_inspection',
+    ).length,
+    labTesting: MOCK_INSPECTION_RECORDS.filter(
+      (r) => r.priorStage === 'lab_testing',
+    ).length,
+    approved: MOCK_INSPECTION_RECORDS.filter((r) => r.priorStage === 'approved')
+      .length,
+    rejected: MOCK_INSPECTION_RECORDS.filter((r) => r.priorStage === 'rejected')
+      .length,
+  };
+
+  let records = MOCK_INSPECTION_RECORDS.filter(
+    (r) => r.priorStage === STAGE_BY_TAB[tab],
+  );
+
+  if (search) {
+    const q = search.toLowerCase();
+    records = records.filter(
+      (r) =>
+        r.id.toLowerCase().includes(q) ||
+        r.plate.toLowerCase().includes(q) ||
+        r.inspectorName.toLowerCase().includes(q),
+    );
+  }
+
+  const totalElements = records.length;
+  const totalPages = Math.max(1, Math.ceil(totalElements / size));
+  const start = page * size;
+  const pageRecords = records.slice(start, start + size);
+
+  return {
+    counts,
+    records: pageRecords,
+    totalElements,
+    totalPages,
+    page,
+    size,
+  };
+}

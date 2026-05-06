@@ -17,4 +17,5 @@ export const ENDPOINTS = {
   employeeRegistration: '/api/users/register/employee',
   contractorRegistration: '/api/users/register/contractor',
   contractors: '/api/contractors',
+  inspectionReview: '/api/inspection/review-screen',
 } as const;
