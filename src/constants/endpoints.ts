@@ -2,8 +2,6 @@ export const ENDPOINTS = {
   pendingRegistrations: '/api/users/pending',
   approveRegistration: '/api/users/{userId}/approve',
   rejectRegistration: '/api/users/{userId}/reject',
-  approvePendingRegistration: '/admin/pending-registrations/approve',
-  rejectPendingRegistration: '/admin/pending-registrations/reject',
   activeUsers: '/api/users',
   clusters: '/api/master/clusters',
   fleetRegistry: '/api/tankers',

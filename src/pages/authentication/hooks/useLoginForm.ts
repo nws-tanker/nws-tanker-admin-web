@@ -80,7 +80,6 @@ export function useLoginForm() {
     setIsLoading(true);
     try {
       const result = await handleLogin(values.email, values.password);
-      console.log('Coming here not successfull', result);
       if (!result.success) {
         showToast(result.error.description, { tone: 'error' });
         return;
@@ -96,8 +95,8 @@ export function useLoginForm() {
       localStorage.setItem(STORAGE_KEYS.accessToken, access_token);
       localStorage.setItem(STORAGE_KEYS.userName, user_name);
       localStorage.setItem(STORAGE_KEYS.refreshToken, refresh_token);
-      dispatch(setAuth({ token: access_token, payload, userName: user_name }));
       setAuthToken(access_token);
+      dispatch(setAuth({ token: access_token, payload, userName: user_name }));
       showToast('Signed in successfully');
       navigate(firstAllowedPath(payload.user_access), { replace: true });
     } catch {
