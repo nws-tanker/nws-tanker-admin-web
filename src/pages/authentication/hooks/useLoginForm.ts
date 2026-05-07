@@ -80,7 +80,6 @@ export function useLoginForm() {
     setIsLoading(true);
     try {
       const result = await handleLogin(values.email, values.password);
-      console.log('Coming here not successfull', result);
       if (!result.success) {
         showToast(result.error.description, { tone: 'error' });
         return;

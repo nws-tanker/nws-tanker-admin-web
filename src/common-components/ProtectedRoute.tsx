@@ -21,7 +21,6 @@ export default function ProtectedRoute({
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const canAccess = useAppSelector(selectCanAccessRoute(route));
 
-  console.log('isBootstrapped', isBootstrapped);
   if (!isBootstrapped) return null;
 
   if (!isAuthenticated) {

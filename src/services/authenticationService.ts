@@ -16,7 +16,6 @@ export async function handleLogin(
 export async function handleRefreshAccessToken(
   refresh_token: string,
 ): Promise<ApiResponse<RefreshTokenResponse>> {
-  console.log('the refresh token at service layer is ', refresh_token);
   return post<RefreshTokenResponse>(ENDPOINTS.refreshToken, {
     refresh_token,
   });

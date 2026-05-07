@@ -20,7 +20,6 @@ export function UsersAndRolesTab() {
     state: pendingState,
     retry: retryPending,
   } = usePendingUsers();
-  console.log('the pending users are ', requests);
   const { clusterOptions } = useClusters();
   const {
     users,
