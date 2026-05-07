@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import type { ActiveUsersFilters } from '@/services/configurationService';
-import { fetchActiveUsersThunk } from '@/store/apiSlices/activeUsersApiSlice';
+import {
+  fetchActiveUsersThunk,
+  resetActiveUsers,
+} from '@/store/apiSlices/activeUsersApiSlice';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { States } from '@/store/types';
 import type { ActiveUser, UserRole } from '@/types/configuration';
@@ -34,7 +37,10 @@ export function useActiveUsers(
       lastActive: u.lastActive,
     })) ?? [];
 
-  const retry = () => setVersion((n) => n + 1);
+  const retry = () => {
+    dispatch(resetActiveUsers());
+    setVersion((n) => n + 1);
+  };
 
   return { users, state: apiState, retry };
 }

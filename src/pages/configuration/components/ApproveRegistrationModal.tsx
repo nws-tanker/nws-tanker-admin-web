@@ -59,7 +59,11 @@ export function ApproveRegistrationModal({
     onConfirm(
       request.userID,
       ROLE_IDS[selectedRole as UserRole],
-      isContractor ? Number(selectedCluster) : undefined,
+      isContractor
+        ? selectedCluster
+          ? Number(selectedCluster)
+          : undefined
+        : undefined,
     );
   };
 

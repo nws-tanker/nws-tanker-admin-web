@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useToast } from '@/atoms';
 import { approveUserApi, rejectUserApi } from '@/services/configurationService';
 import { States } from '@/store/types';
 import type { PendingRequest, UserRole } from '@/types/configuration';
@@ -12,6 +13,7 @@ import { PendingAccessRequests } from './PendingAccessRequests';
 import { RejectRegistrationModal } from './RejectRegistrationModal';
 
 export function UsersAndRolesTab() {
+  const { show: showToast } = useToast();
   const [roleFilter, setRoleFilter] = useState<UserRole | ''>('');
   const [clusterFilter, setClusterFilter] = useState('');
 
@@ -48,8 +50,9 @@ export function UsersAndRolesTab() {
       setApproveTarget(null);
       retryPending();
       retryUsers();
+    } else {
+      showToast(res.error.description, { tone: 'error' });
     }
-    // TODO: show toast on res.success === false with res.error.description
   };
 
   const handleRejectConfirm = async (userId: string, reason: string) => {
@@ -59,8 +62,9 @@ export function UsersAndRolesTab() {
     if (res.success) {
       setRejectTarget(null);
       retryPending();
+    } else {
+      showToast(res.error.description, { tone: 'error' });
     }
-    // TODO: show toast on res.success === false with res.error.description
   };
 
   // TODO: open Add User modal

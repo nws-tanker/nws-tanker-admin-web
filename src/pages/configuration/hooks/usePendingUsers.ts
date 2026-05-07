@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { fetchPendingUsersThunk } from '@/store/apiSlices/pendingUsersApiSlice';
+import {
+  fetchPendingUsersThunk,
+  resetPendingUsers,
+} from '@/store/apiSlices/pendingUsersApiSlice';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { States } from '@/store/types';
 import type { PendingRequest } from '@/types/configuration';
@@ -16,10 +19,15 @@ export function usePendingUsers(): PendingUsersState {
   const [version, setVersion] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchPendingUsersThunk());
-  }, [version, dispatch]);
+    if (apiState === States.PRELOADING) {
+      dispatch(fetchPendingUsersThunk());
+    }
+  }, [apiState, version, dispatch]);
 
-  const retry = () => setVersion((n) => n + 1);
+  const retry = () => {
+    dispatch(resetPendingUsers());
+    setVersion((n) => n + 1);
+  };
 
   return {
     requests: data ?? [],

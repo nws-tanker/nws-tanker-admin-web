@@ -2,12 +2,12 @@ import axios from 'axios';
 
 import { ENDPOINTS } from '@/constants/endpoints';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
+import { store } from '@/store';
+import { clearAuth } from '@/store/slices/authSlice';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 
 const TOKEN_EXPIRED_CODE = 'UNAUTHORIZED';
-const TOKEN_EXPIRED_DESCRIPTION =
-  'Your session has expired or the token is no longer valid. Please sign in again.';
 
 export const DEFAULT_TIMEOUT = 30_000;
 
@@ -37,7 +37,7 @@ function forceLogout() {
   clearAuthToken();
   localStorage.removeItem(STORAGE_KEYS.accessToken);
   localStorage.removeItem(STORAGE_KEYS.refreshToken);
-  window.location.href = '/login';
+  store.dispatch(clearAuth());
 }
 
 /**
@@ -51,9 +51,7 @@ client.interceptors.response.use(
   (response) => response,
   async (error) => {
     const errorData = error.response?.data?.error;
-    const isTokenExpired =
-      errorData?.code === TOKEN_EXPIRED_CODE &&
-      errorData?.description === TOKEN_EXPIRED_DESCRIPTION;
+    const isTokenExpired = errorData?.code === TOKEN_EXPIRED_CODE;
 
     if (!isTokenExpired) return Promise.reject(error);
 
