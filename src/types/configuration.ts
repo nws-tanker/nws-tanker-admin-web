@@ -1,3 +1,34 @@
+export type ClusterId = 1 | 2 | 3;
+
+export type ClusterMeta = {
+  name: string;
+  contractor: string;
+  manager: string;
+  color: string;
+};
+
+export type Governorate = {
+  name: string;
+  fleet: number;
+  region: string;
+  cluster: ClusterId;
+};
+
+export type FleetTarget = {
+  gov: string;
+  dw: number;
+  sw: number;
+  te: number;
+  custom: boolean;
+};
+
+export type FleetTotals = {
+  dw: number;
+  sw: number;
+  te: number;
+  total: number;
+};
+
 export type ClusterResponse = {
   id: number;
   name: string;

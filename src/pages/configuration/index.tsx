@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
 import type { ConfigTab } from '@/types/configuration';
+import { ClusterSetupTab } from './components/ClusterSetupTab';
 import { ConfigurationTabs } from './components/ConfigurationTabs';
+import { FleetTargetsTab } from './components/FleetTargetsTab';
 import { PlaceholderTab } from './components/PlaceholderTab';
 import { UsersAndRolesTab } from './components/UsersAndRolesTab';
 
@@ -43,12 +45,8 @@ export default function ConfigurationPage() {
         {activeTab === 'inspection-checklist' && (
           <PlaceholderTab label="Inspection Checklist" />
         )}
-        {activeTab === 'cluster-setup' && (
-          <PlaceholderTab label="Cluster Setup" />
-        )}
-        {activeTab === 'fleet-targets' && (
-          <PlaceholderTab label="Fleet Targets" />
-        )}
+        {activeTab === 'cluster-setup' && <ClusterSetupTab />}
+        {activeTab === 'fleet-targets' && <FleetTargetsTab />}
       </div>
     </AppShell>
   );

@@ -1,5 +1,11 @@
 import { ChipTone } from '@/atoms';
-import { ConfigTab, UserType, UserRole } from '@/types/configuration';
+import {
+  ClusterId,
+  ConfigTab,
+  FleetTarget,
+  UserType,
+  UserRole,
+} from '@/types/configuration';
 // TODO: USER_ROLE, UserRole, RegistrationType, REGISTRATION_TYPE not yet exported from @/types
 // import { USER_ROLE } from '@/types';
 // import type { UserRole, RegistrationType } from '@/types';
@@ -91,4 +97,63 @@ export const AVATAR_PALETTE = [
   'bg-cyan-700',
   'bg-emerald-700',
   'bg-indigo-600',
+];
+
+export const CLUSTER_IDS = [1, 2, 3] as const;
+
+export const CLUSTER_META: Record<
+  ClusterId,
+  { name: string; contractor: string; manager: string; color: string }
+> = {
+  1: {
+    name: 'Cluster 1',
+    contractor: 'Aldar',
+    manager: 'Hamed Al-Rashdi',
+    color: '#117680',
+  },
+  2: {
+    name: 'Cluster 2',
+    contractor: 'Maulam',
+    manager: 'Khalifa Al-Badi',
+    color: '#D97706',
+  },
+  3: {
+    name: 'Cluster 3',
+    contractor: 'National Strategic',
+    manager: 'Said Al-Mashani',
+    color: '#7C3AED',
+  },
+};
+
+export const GOVERNORATES: {
+  name: string;
+  fleet: number;
+  region: string;
+  cluster: ClusterId;
+}[] = [
+  { name: 'Muscat', fleet: 812, region: 'Central', cluster: 1 },
+  { name: 'North Batinah', fleet: 704, region: 'North', cluster: 1 },
+  { name: 'South Batinah', fleet: 596, region: 'North', cluster: 1 },
+  { name: 'Al Buraimi', fleet: 212, region: 'North-West', cluster: 1 },
+  { name: 'Al Dakhiliyah', fleet: 412, region: 'Central', cluster: 2 },
+  { name: 'Al Dhahirah', fleet: 504, region: 'North-West', cluster: 2 },
+  { name: 'North Sharqiyah', fleet: 548, region: 'East', cluster: 2 },
+  { name: 'Musandam', fleet: 188, region: 'North', cluster: 2 },
+  { name: 'Dhofar', fleet: 428, region: 'South', cluster: 3 },
+  { name: 'South Sharqiyah', fleet: 482, region: 'East', cluster: 3 },
+  { name: 'Al Wusta', fleet: 218, region: 'South', cluster: 3 },
+];
+
+export const DEFAULT_FLEET_TARGETS: FleetTarget[] = [
+  { gov: 'Muscat', dw: 400, sw: 200, te: 100, custom: false },
+  { gov: 'North Batinah', dw: 350, sw: 165, te: 82, custom: false },
+  { gov: 'South Batinah', dw: 300, sw: 140, te: 70, custom: false },
+  { gov: 'Al Buraimi', dw: 110, sw: 50, te: 25, custom: false },
+  { gov: 'Al Dakhiliyah', dw: 200, sw: 95, te: 48, custom: false },
+  { gov: 'Al Dhahirah', dw: 250, sw: 120, te: 60, custom: false },
+  { gov: 'North Sharqiyah', dw: 280, sw: 130, te: 65, custom: false },
+  { gov: 'Musandam', dw: 95, sw: 45, te: 22, custom: false },
+  { gov: 'Dhofar', dw: 200, sw: 100, te: 50, custom: false },
+  { gov: 'South Sharqiyah', dw: 240, sw: 110, te: 55, custom: false },
+  { gov: 'Al Wusta', dw: 55, sw: 28, te: 14, custom: false },
 ];
