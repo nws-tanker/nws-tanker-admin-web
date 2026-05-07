@@ -37,7 +37,6 @@ export function useAuthBootstrap() {
     if (!payload || isJwtExpired(payload)) {
       localStorage.removeItem(STORAGE_KEYS.accessToken);
       localStorage.removeItem(STORAGE_KEYS.userName);
-      //expiration logic check here j
       clearAuthToken();
       dispatch(clearAuth());
       return;

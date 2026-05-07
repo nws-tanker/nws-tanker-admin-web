@@ -24,7 +24,7 @@ import { usePaginatedRows } from './hooks/usePaginatedRows';
 
 export default function FleetRegistryPage() {
   const navigate = useNavigate();
-  const { tankers, lookups, state, retry } = useFleetRegistryData();
+  const { tankers, lookups, fleetState, retry } = useFleetRegistryData();
 
   const filterBag = useFleetFilters();
   const { filters } = filterBag;
@@ -75,7 +75,9 @@ export default function FleetRegistryPage() {
                 size="sm"
                 leftIcon={<DownloadIcon className="h-3.5 w-3.5" />}
                 onClick={handleExport}
-                disabled={state !== States.SUCCESS || filtered.length === 0}
+                disabled={
+                  fleetState !== States.SUCCESS || filtered.length === 0
+                }
               >
                 Export Report{filterActive ? ' (filtered)' : ''}
               </Button>
@@ -90,19 +92,21 @@ export default function FleetRegistryPage() {
           }
         />
 
-        {state === States.SUCCESS && lookups ? (
+        {fleetState === States.SUCCESS ? (
           <>
-            <FleetRegistryFilters
-              filters={filters}
-              hasActive={filterActive}
-              lookups={lookups}
-              onSearch={filterBag.setSearch}
-              onClusterIds={filterBag.setClusterIds}
-              onGovernorateIds={filterBag.setGovernorateIds}
-              onTankerTypes={filterBag.setTankerTypes}
-              onPermitStatuses={filterBag.setPermitStatuses}
-              onReset={filterBag.reset}
-            />
+            {lookups && (
+              <FleetRegistryFilters
+                filters={filters}
+                hasActive={filterActive}
+                lookups={lookups}
+                onSearch={filterBag.setSearch}
+                onClusterIds={filterBag.setClusterIds}
+                onGovernorateIds={filterBag.setGovernorateIds}
+                onTankerTypes={filterBag.setTankerTypes}
+                onPermitStatuses={filterBag.setPermitStatuses}
+                onReset={filterBag.reset}
+              />
+            )}
 
             <FleetRegistryTable
               rows={pageRows}
@@ -116,7 +120,7 @@ export default function FleetRegistryPage() {
             />
           </>
         ) : (
-          <ScreenStatus state={state} onRetry={retry} />
+          <ScreenStatus state={fleetState} onRetry={retry} />
         )}
       </div>
 

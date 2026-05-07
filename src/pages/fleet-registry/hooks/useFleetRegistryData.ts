@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLookups } from '@/hooks/useLookups';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchFleetTankers } from '@/store/apiSlices/fleetRegistryApiSlice';
-import { rollupApiStates, States } from '@/store/types';
+import { States } from '@/store/types';
 
 export function useFleetRegistryData() {
   const dispatch = useAppDispatch();
@@ -13,7 +13,6 @@ export function useFleetRegistryData() {
     governoratesById,
     inspectorsById,
     sampleCollectorsById,
-    state: lookupsState,
     retry: retryLookups,
   } = useLookups();
 
@@ -23,8 +22,6 @@ export function useFleetRegistryData() {
     }
   }, [dispatch, fleet.apiState]);
 
-  const rollupState = rollupApiStates(fleet.apiState, lookupsState);
-
   return {
     tankers: fleet.data ?? [],
     lookups,
@@ -32,7 +29,7 @@ export function useFleetRegistryData() {
     governoratesById,
     inspectorsById,
     sampleCollectorsById,
-    state: rollupState,
+    fleetState: fleet.apiState,
     retry: () => {
       dispatch(fetchFleetTankers());
       retryLookups();

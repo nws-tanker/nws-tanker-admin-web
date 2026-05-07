@@ -17,11 +17,11 @@ export function useActiveUsers(
   const dispatch = useAppDispatch();
   const { data, apiState } = useAppSelector((s) => s.activeUsersApi);
   const [version, setVersion] = useState(0);
+  const { roleId, clusterId } = filters;
 
   useEffect(() => {
-    dispatch(fetchActiveUsersThunk(filters));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters.roleId, filters.clusterId, version, dispatch]);
+    dispatch(fetchActiveUsersThunk({ roleId, clusterId }));
+  }, [roleId, clusterId, version, dispatch]);
 
   const users: ActiveUser[] =
     data?.map((u) => ({
