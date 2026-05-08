@@ -101,6 +101,13 @@ export const AVATAR_PALETTE = [
 
 export const CLUSTER_IDS = [1, 2, 3] as const;
 
+export const CLUSTER_COLORS: Record<number, string> = {
+  1: '#117680',
+  2: '#D97706',
+  3: '#7C3AED',
+};
+export const DEFAULT_CLUSTER_COLOR = '#6B7280';
+
 export const CLUSTER_META: Record<
   ClusterId,
   { name: string; contractor: string; manager: string; color: string }
@@ -145,15 +152,15 @@ export const GOVERNORATES: {
 ];
 
 export const DEFAULT_FLEET_TARGETS: FleetTarget[] = [
-  { gov: 'Muscat', dw: 400, sw: 200, te: 100, custom: false },
-  { gov: 'North Batinah', dw: 350, sw: 165, te: 82, custom: false },
-  { gov: 'South Batinah', dw: 300, sw: 140, te: 70, custom: false },
-  { gov: 'Al Buraimi', dw: 110, sw: 50, te: 25, custom: false },
-  { gov: 'Al Dakhiliyah', dw: 200, sw: 95, te: 48, custom: false },
-  { gov: 'Al Dhahirah', dw: 250, sw: 120, te: 60, custom: false },
-  { gov: 'North Sharqiyah', dw: 280, sw: 130, te: 65, custom: false },
-  { gov: 'Musandam', dw: 95, sw: 45, te: 22, custom: false },
-  { gov: 'Dhofar', dw: 200, sw: 100, te: 50, custom: false },
-  { gov: 'South Sharqiyah', dw: 240, sw: 110, te: 55, custom: false },
-  { gov: 'Al Wusta', dw: 55, sw: 28, te: 14, custom: false },
+  { id: 0, gov: 'Muscat', dw: 400, sw: 200, te: 100, custom: false },
+  { id: 0, gov: 'North Batinah', dw: 350, sw: 165, te: 82, custom: false },
+  { id: 0, gov: 'South Batinah', dw: 300, sw: 140, te: 70, custom: false },
+  { id: 0, gov: 'Al Buraimi', dw: 110, sw: 50, te: 25, custom: false },
+  { id: 0, gov: 'Al Dakhiliyah', dw: 200, sw: 95, te: 48, custom: false },
+  { id: 0, gov: 'Al Dhahirah', dw: 250, sw: 120, te: 60, custom: false },
+  { id: 0, gov: 'North Sharqiyah', dw: 280, sw: 130, te: 65, custom: false },
+  { id: 0, gov: 'Musandam', dw: 95, sw: 45, te: 22, custom: false },
+  { id: 0, gov: 'Dhofar', dw: 200, sw: 100, te: 50, custom: false },
+  { id: 0, gov: 'South Sharqiyah', dw: 240, sw: 110, te: 55, custom: false },
+  { id: 0, gov: 'Al Wusta', dw: 55, sw: 28, te: 14, custom: false },
 ];

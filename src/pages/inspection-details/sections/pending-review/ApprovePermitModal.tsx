@@ -1,20 +1,51 @@
+import { useState } from 'react';
 import { Modal } from '@/atoms/Modal';
+import { approveInspection } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 
 type Props = {
   open: boolean;
   onClose: () => void;
   data: InspectionDetailsApiResponse;
+  onSuccess: () => void;
 };
 
-export function ApprovePermitModal({ open, onClose, data }: Props) {
+export function ApprovePermitModal({ open, onClose, data, onSuccess }: Props) {
   const { tanker, assignment } = data;
   const hasWhatsApp = !!tanker.owner.whatsapp;
+  const [approving, setApproving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleClose = () => {
+    if (approving) return;
+    setError(null);
+    onClose();
+  };
+
+  const handleConfirm = async () => {
+    setApproving(true);
+    setError(null);
+    try {
+      const res = await approveInspection(data.id);
+      if (!res.success) {
+        setError(
+          res.error?.description ?? 'Approval failed. Please try again.',
+        );
+        return;
+      }
+      onClose();
+      onSuccess();
+    } catch {
+      setError('Approval failed. Please try again.');
+    } finally {
+      setApproving(false);
+    }
+  };
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       title="Approve & Generate Permit"
       subtitle={`${tanker.plate} — ${data.id}`}
       width={480}
@@ -22,16 +53,19 @@ export function ApprovePermitModal({ open, onClose, data }: Props) {
         <>
           <button
             type="button"
-            onClick={onClose}
-            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50"
+            onClick={handleClose}
+            disabled={approving}
+            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             type="button"
-            className="h-9 rounded-lg bg-teal-700 px-4 text-[13px] font-semibold text-white hover:bg-teal-800"
+            onClick={handleConfirm}
+            disabled={approving}
+            className="h-9 rounded-lg bg-teal-700 px-4 text-[13px] font-semibold text-white hover:bg-teal-800 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Confirm Approval
+            {approving ? 'Approving…' : 'Confirm Approval'}
           </button>
         </>
       }
@@ -79,6 +113,12 @@ export function ApprovePermitModal({ open, onClose, data }: Props) {
             ? `📱 Permit will be sent automatically via WhatsApp to ${tanker.owner.whatsapp}.`
             : '⚠️ No WhatsApp number on record — permit cannot be sent automatically.'}
         </p>
+
+        {error && (
+          <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[12px] text-red-600">
+            {error}
+          </p>
+        )}
       </div>
     </Modal>
   );

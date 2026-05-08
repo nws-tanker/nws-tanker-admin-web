@@ -8,7 +8,9 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
 import clustersApiReducer from './apiSlices/clustersApiSlice';
+import clusterSetupApiReducer from './apiSlices/clusterSetupApiSlice';
 import fleetRegistryApiReducer from './apiSlices/fleetRegistryApiSlice';
+import fleetTargetsApiReducer from './apiSlices/fleetTargetsApiSlice';
 import inspectionApiReducer from './apiSlices/inspectionApiSlice';
 import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
@@ -20,7 +22,9 @@ export const store = configureStore({
   reducer: {
     activeUsersApi: activeUsersApiReducer,
     clustersApi: clustersApiReducer,
+    clusterSetupApi: clusterSetupApiReducer,
     fleetRegistryApi: fleetRegistryApiReducer,
+    fleetTargetsApi: fleetTargetsApiReducer,
     inspectionApi: inspectionApiReducer,
     inspectionDetailsApi: inspectionDetailsApiReducer,
     lookupsApi: lookupsApiReducer,

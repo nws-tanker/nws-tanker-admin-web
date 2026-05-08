@@ -46,21 +46,6 @@ function formatAt(at: string): string {
 export function ActivityTimeline({ data }: Props) {
   const { timeline } = data;
 
-  if (timeline.length === 0) {
-    return (
-      <div className="overflow-hidden rounded-card border border-ink-200 shadow-card-sm">
-        <div className="border-b border-ink-100 bg-white px-4 py-3">
-          <span className="text-[14px] font-semibold text-ink-800">
-            Activity Timeline
-          </span>
-        </div>
-        <div className="bg-white px-4 py-8 text-center text-[13px] text-ink-400">
-          No activity has been recorded for this inspection yet.
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="overflow-hidden rounded-card border border-ink-200 shadow-card-sm">
       <div className="border-b border-ink-100 bg-white px-4 py-3">

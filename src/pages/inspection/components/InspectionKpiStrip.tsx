@@ -21,6 +21,12 @@ const KPI_CONFIG: KpiConfig[] = [
     valueClass: 'text-cyan-600',
   },
   {
+    label: 'Inspection Submitted',
+    tab: 'submitted',
+    sub: 'Submitted by inspector',
+    valueClass: 'text-blue-600',
+  },
+  {
     label: 'Lab Testing',
     tab: 'lab-testing',
     sub: 'Awaiting lab results',
@@ -41,9 +47,10 @@ const KPI_CONFIG: KpiConfig[] = [
 ];
 
 const COUNT_MAP: Record<InspectionTab, keyof InspectionTabCounts> = {
-  'pending-review': 'pendingReview',
-  'pending-inspection': 'pendingInspection',
-  'lab-testing': 'labTesting',
+  'pending-review': 'in_review',
+  'pending-inspection': 'pending',
+  submitted: 'submitted',
+  'lab-testing': 'lab_pending',
   approved: 'approved',
   rejected: 'rejected',
 };
@@ -56,7 +63,7 @@ type Props = {
 
 export function InspectionKpiStrip({ counts, activeTab, onTabChange }: Props) {
   return (
-    <div className="mb-5 grid grid-cols-5 gap-3.5">
+    <div className="mb-5 grid grid-cols-6 gap-3.5">
       {KPI_CONFIG.map((cfg) => {
         const isActive = activeTab === cfg.tab;
         const value = counts ? counts[COUNT_MAP[cfg.tab]] : null;

@@ -1,7 +1,7 @@
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
-import { PendingInspectionSidebar } from '../components/PendingInspectionSidebar';
-import { TankerInformation } from '../components/TankerInformation';
-import { TraceabilityChain } from '../components/TraceabilityChain';
+import { PendingInspectionSidebar } from './PendingInspectionSidebar';
+import { TankerInformation } from '../../components/TankerInformation';
+import { TraceabilityChain } from '../../components/TraceabilityChain';
 
 type Props = { data: InspectionDetailsApiResponse };
 

@@ -1,12 +1,12 @@
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
-import { ActivityTimeline } from '../components/ActivityTimeline';
-import { InspectionSummaryTiles } from '../components/InspectionSummaryTiles';
-import { PhysicalInspectionChecklist } from '../components/PhysicalInspectionChecklist';
-import { RecordLocked } from '../components/RecordLocked';
-import { RejectedSidebar } from '../components/RejectedSidebar';
-import { RejectionBanner } from '../components/RejectionBanner';
-import { TankerInformation } from '../components/TankerInformation';
-import { TraceabilityChain } from '../components/TraceabilityChain';
+import { ActivityTimeline } from '../../components/ActivityTimeline';
+import { InspectionSummaryTiles } from '../../components/InspectionSummaryTiles';
+import { PhysicalInspectionChecklist } from '../../components/PhysicalInspectionChecklist';
+import { RecordLocked } from './RecordLocked';
+import { RejectedSidebar } from './RejectedSidebar';
+import { RejectionBanner } from './RejectionBanner';
+import { TankerInformation } from '../../components/TankerInformation';
+import { TraceabilityChain } from '../../components/TraceabilityChain';
 
 type Props = { data: InspectionDetailsApiResponse };
 
@@ -19,7 +19,7 @@ export default function RejectedInspectionDetails({ data }: Props) {
         <RejectionBanner data={data} />
         <TankerInformation data={data} />
         <InspectionSummaryTiles data={data} />
-        <PhysicalInspectionChecklist />
+        <PhysicalInspectionChecklist sections={data.inspection.sections} />
         <ActivityTimeline data={data} />
       </div>
       <div className="sticky top-6">

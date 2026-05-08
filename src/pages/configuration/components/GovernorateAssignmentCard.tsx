@@ -1,19 +1,31 @@
 import { ClusterPill } from '@/atoms/ClusterPill';
 import {
-  CLUSTER_IDS,
-  CLUSTER_META,
-  GOVERNORATES,
+  CLUSTER_COLORS,
+  DEFAULT_CLUSTER_COLOR,
 } from '@/constants/configuration';
-import type { ClusterId } from '@/types/configuration';
+import type {
+  ClusterSetupCluster,
+  ClusterSetupGovernorate,
+} from '@/types/configuration';
 
 type Props = {
-  assignments: Record<string, ClusterId>;
-  onAssign: (governorate: string, cluster: ClusterId) => void;
+  governorates: ClusterSetupGovernorate[];
+  clusters: ClusterSetupCluster[];
+  assignments: Record<string, number>;
+  onAssign: (governorate: string, clusterId: number) => void;
 };
 
-const totalFleet = GOVERNORATES.reduce((s, g) => s + g.fleet, 0);
+export function GovernorateAssignmentCard({
+  governorates,
+  clusters,
+  assignments,
+  onAssign,
+}: Props) {
+  const totalTankers = governorates.reduce(
+    (s, g) => s + g.dwCount + g.swCount + g.teCount,
+    0,
+  );
 
-export function GovernorateAssignmentCard({ assignments, onAssign }: Props) {
   return (
     <div className="rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
       <div className="flex items-center justify-between border-b border-ink-200 px-5 py-3.5">
@@ -22,7 +34,7 @@ export function GovernorateAssignmentCard({ assignments, onAssign }: Props) {
             Governorate → Cluster assignment
           </h3>
           <p className="mt-0.5 text-[12px] text-ink-500">
-            {GOVERNORATES.length} governorates · {totalFleet.toLocaleString()}{' '}
+            {governorates.length} governorates · {totalTankers.toLocaleString()}{' '}
             total tankers
           </p>
         </div>
@@ -49,9 +61,9 @@ export function GovernorateAssignmentCard({ assignments, onAssign }: Props) {
             </tr>
           </thead>
           <tbody>
-            {GOVERNORATES.map((g, i) => (
+            {governorates.map((g, i) => (
               <tr
-                key={g.name}
+                key={g.id}
                 className="border-b border-ink-100 last:border-0 hover:bg-ink-50"
               >
                 <td className="px-4 py-2.5 font-mono text-[12px] text-ink-400">
@@ -62,13 +74,15 @@ export function GovernorateAssignmentCard({ assignments, onAssign }: Props) {
                 </td>
                 <td className="px-4 py-2.5">
                   <div className="flex flex-wrap gap-1">
-                    {CLUSTER_IDS.map((c) => (
+                    {clusters.map((c) => (
                       <ClusterPill
-                        key={c}
-                        label={CLUSTER_META[c].name}
-                        color={CLUSTER_META[c].color}
-                        active={assignments[g.name] === c}
-                        onClick={() => onAssign(g.name, c)}
+                        key={c.clusterId}
+                        label={c.name}
+                        color={
+                          CLUSTER_COLORS[c.clusterId] ?? DEFAULT_CLUSTER_COLOR
+                        }
+                        active={assignments[g.name] === c.clusterId}
+                        onClick={() => onAssign(g.name, c.clusterId)}
                       />
                     ))}
                   </div>

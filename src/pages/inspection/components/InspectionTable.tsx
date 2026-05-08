@@ -1,10 +1,11 @@
 import { EmptyState, Pagination, SearchInput } from '@/atoms';
-import type { InspectionRecord, InspectionTab } from '@/types/inspection';
-import { ApprovedRow } from './ApprovedRow';
-import { LabTestingRow } from './LabTestingRow';
-import { PendingInspectionRow } from './PendingInspectionRow';
-import { PendingReviewRow } from './PendingReviewRow';
-import { RejectedRow } from './RejectedRow';
+import type { ApiInspectionRecord, InspectionTab } from '@/types/inspection';
+import { ApprovedRow } from './rows/ApprovedRow';
+import { LabTestingRow } from './rows/LabTestingRow';
+import { PendingInspectionRow } from './rows/PendingInspectionRow';
+import { PendingReviewRow } from './rows/PendingReviewRow';
+import { RejectedRow } from './rows/RejectedRow';
+import { SubmittedRow } from './rows/SubmittedRow';
 
 const HEADERS: Record<InspectionTab, string[]> = {
   'pending-review': [
@@ -24,6 +25,14 @@ const HEADERS: Record<InspectionTab, string[]> = {
     'Cluster',
     'Inspector',
     'Scheduled Date',
+  ],
+  submitted: [
+    'Plate',
+    'Type',
+    'Governorate',
+    'Cluster',
+    'Inspector',
+    'Submitted At',
     '',
   ],
   'lab-testing': [
@@ -61,16 +70,21 @@ const HEADERS: Record<InspectionTab, string[]> = {
 
 type Props = {
   activeTab: InspectionTab;
-  records: InspectionRecord[];
+  records: ApiInspectionRecord[];
   totalElements: number;
   totalPages: number;
   page: number;
   search: string;
   onSearch: (s: string) => void;
   onPageChange: (p: number) => void;
-  onView: (record: InspectionRecord) => void;
-  onReview: (record: InspectionRecord) => void;
-  onQueueReinspection: (record: InspectionRecord) => void;
+  onView: (record: ApiInspectionRecord) => void;
+  onReview: (record: ApiInspectionRecord) => void;
+  onQueueReinspection: (record: ApiInspectionRecord) => void;
+  onAssignInspector: (
+    record: ApiInspectionRecord,
+    inspector: string,
+    date: string,
+  ) => void;
 };
 
 export function InspectionTable({
@@ -85,6 +99,7 @@ export function InspectionTable({
   onView,
   onReview,
   onQueueReinspection,
+  onAssignInspector,
 }: Props) {
   const headers = HEADERS[activeTab];
   const displayPage = page + 1;
@@ -139,10 +154,14 @@ export function InspectionTable({
                   ))}
                 {activeTab === 'pending-inspection' &&
                   records.map((r) => (
-                    <PendingInspectionRow
+                    <PendingInspectionRow key={r.id} record={r} />
+                  ))}
+                {activeTab === 'submitted' &&
+                  records.map((r) => (
+                    <SubmittedRow
                       key={r.id}
                       record={r}
-                      onView={onView}
+                      onAssign={onAssignInspector}
                     />
                   ))}
                 {activeTab === 'lab-testing' &&

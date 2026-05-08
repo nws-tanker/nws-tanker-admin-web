@@ -1,8 +1,10 @@
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
 import { ScreenStatus } from '@/common-components/ScreenStatus';
+import { ROUTES } from '@/constants/routes';
 import { States } from '@/store/types';
-import type { InspectionRecord } from '@/types/inspection';
+import type { ApiInspectionRecord } from '@/types/inspection';
+import { useNavigate } from 'react-router-dom';
 import { InspectionKpiStrip } from './components/InspectionKpiStrip';
 import { InspectionTable } from './components/InspectionTable';
 import { InspectionTabs } from './components/InspectionTabs';
@@ -10,6 +12,7 @@ import { useInspectionData } from './hooks/useInspectionData';
 import { useInspectionFilters } from './hooks/useInspectionFilters';
 
 export default function InspectionPage() {
+  const navigate = useNavigate();
   const { activeTab, search, page, setActiveTab, setSearch, setPage } =
     useInspectionFilters();
 
@@ -17,20 +20,27 @@ export default function InspectionPage() {
     useInspectionData({ activeTab, search, page });
 
   const subtitle = counts
-    ? `${counts.pendingReview} pending review · ${counts.pendingInspection} pending inspection · ${counts.labTesting} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
+    ? `${counts.in_review} pending review · ${counts.pending} pending inspection · ${counts.submitted} submitted · ${counts.lab_pending} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
     : 'Loading…';
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleView(_record: InspectionRecord) {
-    // TODO: open detail drawer/modal
+  function handleView(record: ApiInspectionRecord) {
+    navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
+  }
+
+  function handleReview(record: ApiInspectionRecord) {
+    navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleReview(_record: InspectionRecord) {
-    // TODO: open review & approve modal
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleQueueReinspection(_record: InspectionRecord) {
+  function handleQueueReinspection(_record: ApiInspectionRecord) {
     // TODO: open queue re-inspection modal
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  function handleAssignInspector(
+    _record: ApiInspectionRecord,
+    _inspector: string,
+    _date: string,
+  ) {
+    // TODO: dispatch assign inspector API call
   }
 
   return (
@@ -70,6 +80,7 @@ export default function InspectionPage() {
                 onView={handleView}
                 onReview={handleReview}
                 onQueueReinspection={handleQueueReinspection}
+                onAssignInspector={handleAssignInspector}
               />
             )}
           </>

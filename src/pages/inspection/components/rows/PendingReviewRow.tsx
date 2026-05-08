@@ -1,16 +1,16 @@
 import { Badge, Button } from '@/atoms';
-import type { InspectionRecord } from '@/types/inspection';
-import { formatInspectionDate } from '../inspectionHelpers';
-import { TankerTypeChip } from './TankerTypeChip';
+import type { ApiInspectionRecord } from '@/types/inspection';
+import { formatInspectionDate } from '../../inspectionHelpers';
+import { TankerTypeChip } from '../TankerTypeChip';
 
 type Props = {
-  record: InspectionRecord;
-  onReview: (record: InspectionRecord) => void;
+  record: ApiInspectionRecord;
+  onReview: (record: ApiInspectionRecord) => void;
 };
 
 export function PendingReviewRow({ record, onReview }: Props) {
   const priorStage =
-    record.tankerType === 'DW' ? (
+    record.tanker_type === 'DW' ? (
       <Badge tone="blue" withDot>
         Lab Testing
       </Badge>
@@ -26,22 +26,22 @@ export function PendingReviewRow({ record, onReview }: Props) {
         {record.plate}
       </td>
       <td className="px-4 py-3">
-        <TankerTypeChip type={record.tankerType} />
+        <TankerTypeChip type={record.tanker_type as 'DW' | 'SW' | 'TE'} />
       </td>
       <td className="px-4 py-3 text-[13px] text-ink-700">
         {record.governorate}
       </td>
       <td className="px-4 py-3 text-[13px] text-ink-700">{record.cluster}</td>
       <td className="px-4 py-3 text-[13px] text-ink-700">
-        {record.inspectorName}
+        {record.inspector_name}
       </td>
       <td className="px-4 py-3">
         <span className="text-[12px] text-ink-600">
-          {formatInspectionDate(record.physicalDate)}
+          {formatInspectionDate(record.physical_date)}
         </span>
-        {record.physicalScore !== null && (
+        {record.physical_score !== null && (
           <span className="ml-1 text-[11px] text-ink-400">
-            · Score {record.physicalScore}/100
+            · Score {record.physical_score}/100
           </span>
         )}
       </td>

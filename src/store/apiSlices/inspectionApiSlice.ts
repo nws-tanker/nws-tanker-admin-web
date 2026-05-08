@@ -4,11 +4,11 @@ import {
   fetchInspectionReviewApi,
   type InspectionApiParams,
 } from '@/services/inspectionService';
-import type { InspectionScreenData } from '@/types/inspection';
+import type { ApiInspectionPagedData } from '@/types/inspection';
 
 import { type ApiError, type ApiState, States } from '../types';
 
-type InspectionApiState = ApiState<InspectionScreenData>;
+type InspectionApiState = ApiState<ApiInspectionPagedData>;
 
 const initialState: InspectionApiState = {
   apiState: States.PRELOADING,
@@ -17,7 +17,7 @@ const initialState: InspectionApiState = {
 };
 
 export const fetchInspectionReview = createAsyncThunk<
-  InspectionScreenData,
+  ApiInspectionPagedData,
   InspectionApiParams,
   { rejectValue: ApiError }
 >(

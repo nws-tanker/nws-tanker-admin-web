@@ -17,4 +17,13 @@ export const ENDPOINTS = {
   contractors: '/api/contractors',
   inspectionReview: '/api/inspection/review-screen',
   inspectionDetails: '/api/inspection/review-screen/{inspectionId}/detail',
+  fleetTargets: '/api/configurations/fleet-targets',
+  clusterSetup: '/api/configurations/cluster-setup',
+  labResult: '/api/inspection/review-screen/{inspectionId}/lab-result',
+  approveInspection: '/api/inspection/review-screen/{inspectionId}/approve',
+  rejectInspection: '/api/inspection/review-screen/{inspectionId}/reject',
+  cancelInspection: '/api/inspection/review-screen/{inspectionId}/cancel',
+  inspectorsByRole: '/api/users/by-role',
+  assignInspector:
+    '/api/inspection/review-screen/{inspectionId}/assign-inspector/{inspectorId}',
 } as const;

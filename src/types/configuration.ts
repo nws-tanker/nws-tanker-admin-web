@@ -1,5 +1,45 @@
 export type ClusterId = 1 | 2 | 3;
 
+export type ClusterSetupSummary = {
+  totalClusters: number;
+  totalGovernorates: number;
+  totalTankers: number;
+};
+
+export type ClusterSetupCluster = {
+  clusterId: number;
+  name: string;
+  code: string;
+  governorateCount: number;
+  tankerCount: number;
+  contractorId: number;
+  contractorName: string;
+};
+
+export type ClusterSetupGovernorate = {
+  id: number;
+  name: string;
+  code: string;
+  clusterId: number;
+  dwCount: number;
+  swCount: number;
+  teCount: number;
+};
+
+export type ClusterSetupContractor = {
+  clusterId: number;
+  clusterName: string;
+  contractorId: number;
+  contractorName: string;
+};
+
+export type ClusterSetupApiResponse = {
+  summary: ClusterSetupSummary;
+  clusters: ClusterSetupCluster[];
+  governorates: ClusterSetupGovernorate[];
+  contractors: ClusterSetupContractor[];
+};
+
 export type ClusterMeta = {
   name: string;
   contractor: string;
@@ -14,12 +54,41 @@ export type Governorate = {
   cluster: ClusterId;
 };
 
+export type FleetTargetsApiResponse = {
+  dashboard: {
+    grandTotal: number;
+    totalDw: number;
+    totalSw: number;
+    totalTe: number;
+  };
+  governorates: {
+    id: number;
+    name: string;
+    code: string;
+    clusterId: number;
+    dwCount: number;
+    swCount: number;
+    teCount: number;
+    rowTotal: number;
+  }[];
+};
+
 export type FleetTarget = {
+  id: number;
   gov: string;
   dw: number;
   sw: number;
   te: number;
   custom: boolean;
+};
+
+export type SaveFleetTargetsRequest = {
+  governorates: {
+    id: number;
+    dwCount: number;
+    swCount: number;
+    teCount: number;
+  }[];
 };
 
 export type FleetTotals = {

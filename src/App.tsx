@@ -58,20 +58,12 @@ export default function App() {
 
       <Route
         path={ROUTES.inspectionReview}
-        element={
-          <ProtectedRoute route="inspectionReview">
-            <InspectionPage />
-          </ProtectedRoute>
-        }
+        element={<InspectionPage />}
       ></Route>
 
       <Route
         path={ROUTES.inspectionDetails}
-        element={
-          <ProtectedRoute route="inspectionDetails">
-            <InspectionDetailsPage />
-          </ProtectedRoute>
-        }
+        element={<InspectionDetailsPage />}
       ></Route>
       <Route
         path={ROUTES.dashboard}

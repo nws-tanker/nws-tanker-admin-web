@@ -4,10 +4,9 @@ type Props = { data: InspectionDetailsApiResponse };
 
 export function InspectionSummaryTiles({ data }: Props) {
   const { assignment, inspection } = data;
-  const allItems = inspection.sections.flatMap((s) => s.items);
-  const passed = allItems.filter((i) => i.result === 'pass').length;
-  const failed = allItems.filter((i) => i.result === 'fail').length;
-  const total = allItems.length;
+  const passed = inspection.checklistStatus.pass;
+  const failed = inspection.checklistStatus.fail ?? 0;
+  const total = passed + failed;
   const passRate = total > 0 ? Math.round((passed / total) * 100) : 0;
 
   return (

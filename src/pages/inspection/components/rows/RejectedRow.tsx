@@ -1,12 +1,12 @@
 import { Button } from '@/atoms';
-import type { InspectionRecord } from '@/types/inspection';
-import { formatInspectionDate } from '../inspectionHelpers';
-import { TankerTypeChip } from './TankerTypeChip';
+import type { ApiInspectionRecord } from '@/types/inspection';
+import { formatInspectionDate } from '../../inspectionHelpers';
+import { TankerTypeChip } from '../TankerTypeChip';
 
 type Props = {
-  record: InspectionRecord;
-  onView: (record: InspectionRecord) => void;
-  onQueueReinspection: (record: InspectionRecord) => void;
+  record: ApiInspectionRecord;
+  onView: (record: ApiInspectionRecord) => void;
+  onQueueReinspection: (record: ApiInspectionRecord) => void;
 };
 
 export function RejectedRow({ record, onView, onQueueReinspection }: Props) {
@@ -16,20 +16,20 @@ export function RejectedRow({ record, onView, onQueueReinspection }: Props) {
         {record.plate}
       </td>
       <td className="px-4 py-3">
-        <TankerTypeChip type={record.tankerType} />
+        <TankerTypeChip type={record.tanker_type as 'DW' | 'SW' | 'TE'} />
       </td>
       <td className="px-4 py-3 text-[13px] text-ink-700">
         {record.governorate}
       </td>
       <td className="px-4 py-3 text-[13px] text-ink-700">{record.cluster}</td>
       <td className="px-4 py-3 text-[13px] text-ink-700">
-        {record.inspectorName}
+        {record.inspector_name}
       </td>
       <td className="px-4 py-3 text-[12px] text-ink-600">
-        {formatInspectionDate(record.physicalDate)}
+        {formatInspectionDate(record.physical_date)}
       </td>
       <td className="max-w-[260px] px-4 py-3 text-[12px] text-red-700">
-        {record.rejectionReason ?? '—'}
+        {record.rejection_reason ?? '—'}
       </td>
       <td className="whitespace-nowrap px-4 py-3 text-right">
         <div className="flex items-center justify-end gap-1.5">

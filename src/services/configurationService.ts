@@ -1,5 +1,8 @@
 import { ENDPOINTS } from '@/constants/endpoints';
-import type { PendingRequest } from '@/types/configuration';
+import type {
+  PendingRequest,
+  ClusterSetupApiResponse,
+} from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
   ActiveUserResponse,
@@ -46,4 +49,10 @@ export async function fetchActiveUsers(
 
 export async function fetchClusters(): Promise<ApiResponse<ClusterResponse[]>> {
   return get<ClusterResponse[]>(ENDPOINTS.clusters, undefined);
+}
+
+export async function fetchClusterSetupApi(): Promise<
+  ApiResponse<ClusterSetupApiResponse>
+> {
+  return get<ClusterSetupApiResponse>(ENDPOINTS.clusterSetup, undefined);
 }

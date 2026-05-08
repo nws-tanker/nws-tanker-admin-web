@@ -1,19 +1,26 @@
 import { ClusterPill } from '@/atoms/ClusterPill';
-import { CLUSTER_IDS, CLUSTER_META } from '@/constants/configuration';
-import type { ClusterId } from '@/types/configuration';
+import {
+  CLUSTER_COLORS,
+  DEFAULT_CLUSTER_COLOR,
+} from '@/constants/configuration';
+import type {
+  ClusterSetupCluster,
+  ClusterSetupContractor,
+} from '@/types/configuration';
 
 type Props = {
-  assignments: Record<string, ClusterId>;
-  onAssign: (contractor: string, cluster: ClusterId) => void;
+  contractors: ClusterSetupContractor[];
+  clusters: ClusterSetupCluster[];
+  assignments: Record<string, number>;
+  onAssign: (contractorName: string, clusterId: number) => void;
 };
 
-const CONTRACTORS = [
-  CLUSTER_META[1].contractor,
-  CLUSTER_META[2].contractor,
-  CLUSTER_META[3].contractor,
-] as const;
-
-export function ClusterContractorsCard({ assignments, onAssign }: Props) {
+export function ClusterContractorsCard({
+  contractors,
+  clusters,
+  assignments,
+  onAssign,
+}: Props) {
   return (
     <div className="rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
       <div className="border-b border-ink-200 px-5 py-3.5">
@@ -42,21 +49,25 @@ export function ClusterContractorsCard({ assignments, onAssign }: Props) {
             </tr>
           </thead>
           <tbody>
-            {CONTRACTORS.map((name) => (
+            {contractors.map((ct) => (
               <tr
-                key={name}
+                key={ct.contractorId}
                 className="border-b border-ink-100 last:border-0 hover:bg-ink-50"
               >
-                <td className="px-4 py-2.5 font-medium text-ink-800">{name}</td>
+                <td className="px-4 py-2.5 font-medium text-ink-800">
+                  {ct.contractorName}
+                </td>
                 <td className="px-4 py-2.5">
                   <div className="flex flex-wrap gap-1">
-                    {CLUSTER_IDS.map((c) => (
+                    {clusters.map((c) => (
                       <ClusterPill
-                        key={c}
-                        label={CLUSTER_META[c].name}
-                        color={CLUSTER_META[c].color}
-                        active={assignments[name] === c}
-                        onClick={() => onAssign(name, c)}
+                        key={c.clusterId}
+                        label={c.name}
+                        color={
+                          CLUSTER_COLORS[c.clusterId] ?? DEFAULT_CLUSTER_COLOR
+                        }
+                        active={assignments[ct.contractorName] === c.clusterId}
+                        onClick={() => onAssign(ct.contractorName, c.clusterId)}
                       />
                     ))}
                   </div>

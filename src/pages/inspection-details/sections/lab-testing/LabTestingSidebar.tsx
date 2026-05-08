@@ -1,17 +1,36 @@
 import { useState } from 'react';
+import { ApprovePermitModal } from '../pending-review/ApprovePermitModal';
+import { CancelInspectionModal } from '../pending-review/CancelInspectionModal';
+import { ReassignInspectorModal } from '../pending-review/ReassignInspectorModal';
+import { RejectInspectionModal } from '../pending-review/RejectInspectionModal';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
-import { ApprovePermitModal } from './ApprovePermitModal';
-import { RejectInspectionModal } from './RejectInspectionModal';
 
-type Props = { data: InspectionDetailsApiResponse };
+type Props = { data: InspectionDetailsApiResponse; onRefetch: () => void };
 
-export function PendingReviewSidebar({ data }: Props) {
+export function LabTestingSidebar({ data, onRefetch }: Props) {
+  const labUploaded = !!data.lab.report.id;
   const [approveOpen, setApproveOpen] = useState(false);
   const [rejectOpen, setRejectOpen] = useState(false);
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const [reassignOpen, setReassignOpen] = useState(false);
 
   return (
     <>
       <div className="flex flex-col gap-3">
+        {!labUploaded && (
+          <div className="bg-[#f5f3ff] border border-[#ddd6fe] rounded-card p-3.5 flex gap-2.5">
+            <span style={{ fontSize: 18 }}>📄</span>
+            <div>
+              <p className="text-[12px] font-bold text-purple-700">
+                Lab Report Required
+              </p>
+              <p className="text-[11px] text-purple-600 mt-0.5">
+                Approval is blocked until lab test report PDF is uploaded.
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="rounded-card border border-ink-200 shadow-card-sm overflow-hidden bg-white">
           <div className="bg-ink-50 border-b border-ink-100 px-4 py-2.5">
             <span className="text-[11px] font-bold tracking-widest uppercase text-ink-500">
@@ -20,8 +39,9 @@ export function PendingReviewSidebar({ data }: Props) {
           </div>
           <div className="flex flex-col gap-2 p-3.5">
             <button
+              disabled={!labUploaded}
               onClick={() => setApproveOpen(true)}
-              className="w-full h-[46px] text-[14px] font-semibold bg-teal-700 text-white rounded-card hover:bg-teal-800 transition-colors"
+              className={`w-full h-[46px] text-[14px] font-semibold bg-teal-700 text-white rounded-card ${!labUploaded ? 'opacity-50 cursor-not-allowed' : 'hover:bg-teal-800'}`}
             >
               ✓ Approve &amp; Generate Permit
             </button>
@@ -31,10 +51,16 @@ export function PendingReviewSidebar({ data }: Props) {
             >
               ✕ Reject Inspection
             </button>
-            <button className="w-full h-10 border border-ink-200 text-ink-700 rounded-card text-[13px] bg-white hover:bg-ink-50 transition-colors">
+            <button
+              onClick={() => setCancelOpen(true)}
+              className="w-full h-10 border border-ink-200 text-ink-700 rounded-card text-[13px] bg-white hover:bg-ink-50 transition-colors"
+            >
               Cancel Inspection
             </button>
-            <button className="w-full h-10 border border-ink-200 text-ink-700 rounded-card text-[13px] bg-white hover:bg-ink-50 transition-colors">
+            <button
+              onClick={() => setReassignOpen(true)}
+              className="w-full h-10 border border-ink-200 text-ink-700 rounded-card text-[13px] bg-white hover:bg-ink-50 transition-colors"
+            >
               Reassign Inspector
             </button>
           </div>
@@ -114,7 +140,7 @@ export function PendingReviewSidebar({ data }: Props) {
               (WhatsApp) &amp;{' '}
               <span className="font-mono text-ink-700">permits@nama.om</span>
             </div>
-            <button className="w-full h-[42px] text-[14px] font-semibold bg-teal-700 text-white rounded-card hover:bg-teal-800 transition-colors">
+            <button className="w-full h-[42px] text-[14px] font-semibold bg-teal-700 text-white rounded-card">
               Send Now
             </button>
           </div>
@@ -125,11 +151,25 @@ export function PendingReviewSidebar({ data }: Props) {
         open={approveOpen}
         onClose={() => setApproveOpen(false)}
         data={data}
+        onSuccess={onRefetch}
       />
       <RejectInspectionModal
         open={rejectOpen}
         onClose={() => setRejectOpen(false)}
         data={data}
+        onSuccess={onRefetch}
+      />
+      <CancelInspectionModal
+        open={cancelOpen}
+        onClose={() => setCancelOpen(false)}
+        data={data}
+        onSuccess={onRefetch}
+      />
+      <ReassignInspectorModal
+        open={reassignOpen}
+        onClose={() => setReassignOpen(false)}
+        data={data}
+        onSuccess={onRefetch}
       />
     </>
   );

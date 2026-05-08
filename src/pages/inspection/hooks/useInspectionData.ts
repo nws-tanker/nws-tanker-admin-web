@@ -29,7 +29,7 @@ export function useInspectionData({ activeTab, search, page }: Params) {
   return {
     state: apiState,
     counts: data?.counts ?? null,
-    records: data?.records ?? [],
+    records: data?.data ?? [],
     totalElements: data?.totalElements ?? 0,
     totalPages: data?.totalPages ?? 1,
     error,

@@ -1,57 +1,21 @@
 export type InspectionTankerType = 'DW' | 'SW' | 'TE';
 
-export type InspectionPriorStage =
-  | 'pending_review'
-  | 'pending_inspection'
-  | 'lab_testing'
-  | 'approved'
-  | 'rejected';
-
-export type InspectionRecord = {
-  id: string;
-  inspectionId: number;
-  plate: string;
-  tankerType: InspectionTankerType;
-  governorate: string;
-  cluster: string;
-  inspectorName: string;
-  submittedAt: string | null;
-  priorStage: InspectionPriorStage;
-  inspectionDate: string | null;
-  scheduledDate: string | null;
-  physicalDate: string | null;
-  physicalScore: number | null;
-  permitNumber: string | null;
-  permitExpiresAt: string | null;
-  rejectionReason: string | null;
-  rejectionStage: string | null;
-};
-
 export type InspectionTab =
   | 'pending-review'
   | 'pending-inspection'
+  | 'submitted'
   | 'lab-testing'
   | 'approved'
   | 'rejected';
 
 export type InspectionTabCounts = {
-  pendingReview: number;
-  pendingInspection: number;
-  labTesting: number;
+  in_review: number;
+  pending: number;
+  submitted: number;
+  lab_pending: number;
   approved: number;
   rejected: number;
 };
-
-export type InspectionScreenData = {
-  counts: InspectionTabCounts;
-  records: InspectionRecord[];
-  totalElements: number;
-  totalPages: number;
-  page: number;
-  size: number;
-};
-
-// ── Raw API response shapes (snake_case, as returned by the backend) ──
 
 export type ApiInspectionRecord = {
   id: string;
@@ -75,11 +39,13 @@ export type ApiInspectionRecord = {
 
 export type ApiInspectionPagedData = {
   counts: {
-    pending_review: number;
-    pending_inspection: number;
-    lab_testing: number;
+    in_review: number;
+    pending: number;
+    submitted: number;
+    lab_pending: number;
     approved: number;
     rejected: number;
+    cancelled: number;
   };
   data: ApiInspectionRecord[];
   totalElements: number;
@@ -113,6 +79,7 @@ export type InspectionDetailsApiResponse = {
   };
   permit: {
     status: string | null;
+    filePath: string | null;
     permit_number: string | null;
     issued_at: string | null;
     expires_at: string | null;
@@ -136,6 +103,10 @@ export type InspectionDetailsApiResponse = {
         }[];
       }[];
     }[];
+    checklistStatus: {
+      pass: number;
+      fail: number | null;
+    };
     final_result: string | null;
     inspector_comments: string | null;
     required_documents: unknown[];
@@ -154,8 +125,10 @@ export type InspectionDetailsApiResponse = {
     at: string;
     event: string;
     actor: string;
-    note: string | null;
+    status: string;
+    note?: string | null;
   }[];
+  inspection_ref: string;
   is_reinspection: boolean;
   reinspection_of: string | null;
   permit_history: {

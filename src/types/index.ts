@@ -35,7 +35,7 @@ export type {
   RefreshTokenResponse,
 } from './auth';
 export type {
-  InspectionRecord,
+  ApiInspectionRecord,
   InspectionTab,
   InspectionTabCounts,
   InspectionTankerType,

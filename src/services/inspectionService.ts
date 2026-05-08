@@ -1,16 +1,12 @@
 import { ENDPOINTS } from '@/constants/endpoints';
-import {
-  INSPECTION_TAB_API_PARAM,
-  mapInspectionResponse,
-} from '@/pages/inspection/inspectionHelpers';
+import { INSPECTION_TAB_API_PARAM } from '@/pages/inspection/inspectionHelpers';
 import type { ApiResponse } from '@/store/types';
 import type {
-  InspectionScreenData,
-  InspectionTab,
+  ApiInspectionPagedData,
   InspectionDetailsApiResponse,
+  InspectionTab,
 } from '@/types/inspection';
-import type { ApiInspectionPagedData } from '@/types/inspection';
-import { get } from './http';
+import { get, post, uploadFile } from './http';
 
 export type InspectionApiParams = {
   tab: InspectionTab;
@@ -21,19 +17,13 @@ export type InspectionApiParams = {
 
 export async function fetchInspectionReviewApi(
   params: InspectionApiParams,
-): Promise<ApiResponse<InspectionScreenData>> {
-  const response = await get<ApiInspectionPagedData>(
-    ENDPOINTS.inspectionReview,
-    {
-      tab: INSPECTION_TAB_API_PARAM[params.tab],
-      search: params.search,
-      page: params.page ?? 0,
-      size: params.size ?? 20,
-    },
-  );
-
-  if (!response.success) return response;
-  return { success: true, data: mapInspectionResponse(response.data) };
+): Promise<ApiResponse<ApiInspectionPagedData>> {
+  return get<ApiInspectionPagedData>(ENDPOINTS.inspectionReview, {
+    status: INSPECTION_TAB_API_PARAM[params.tab],
+    search: params.search,
+    page: params.page ?? 0,
+    size: params.size ?? 20,
+  });
 }
 
 export async function fetchInspectionDetails(
@@ -43,5 +33,68 @@ export async function fetchInspectionDetails(
     '{inspectionId}',
     inspectionId,
   );
-  return await get<InspectionDetailsApiResponse>(url);
+  return get<InspectionDetailsApiResponse>(url);
+}
+
+export async function approveInspection(
+  inspectionId: string,
+): Promise<ApiResponse<unknown>> {
+  const url = ENDPOINTS.approveInspection.replace(
+    '{inspectionId}',
+    inspectionId,
+  );
+  return post<unknown>(url);
+}
+
+export type InspectorOption = { userID: string; name: string };
+
+export async function fetchInspectors(): Promise<
+  ApiResponse<InspectorOption[]>
+> {
+  return get<InspectorOption[]>(ENDPOINTS.inspectorsByRole, {
+    role: 'INSPECTOR',
+  });
+}
+
+export async function assignInspector(
+  inspectionId: string,
+  inspectorId: string,
+): Promise<ApiResponse<unknown>> {
+  const url = ENDPOINTS.assignInspector
+    .replace('{inspectionId}', inspectionId)
+    .replace('{inspectorId}', inspectorId);
+  return post<unknown>(url);
+}
+
+export async function cancelInspection(
+  inspectionId: string,
+  cancellationReason: string,
+): Promise<ApiResponse<unknown>> {
+  const url = ENDPOINTS.cancelInspection.replace(
+    '{inspectionId}',
+    inspectionId,
+  );
+  return post<unknown>(url, { cancellationReason });
+}
+
+export async function rejectInspection(
+  inspectionId: string,
+  body: {
+    rejectionStage: 'physical_inspection' | 'lab_results';
+    rejectionReason: string;
+  },
+): Promise<ApiResponse<unknown>> {
+  const url = ENDPOINTS.rejectInspection.replace(
+    '{inspectionId}',
+    inspectionId,
+  );
+  return post<unknown>(url, body);
+}
+
+export async function uploadLabReport(
+  inspectionId: string,
+  file: File,
+): Promise<ApiResponse<unknown>> {
+  const url = ENDPOINTS.labResult.replace('{inspectionId}', inspectionId);
+  return uploadFile<unknown>(url, { file, fieldName: 'file' });
 }

@@ -1,23 +1,67 @@
 import { useState } from 'react';
 import { Modal } from '@/atoms/Modal';
+import { rejectInspection } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 
 type Props = {
   open: boolean;
   onClose: () => void;
   data: InspectionDetailsApiResponse;
+  onSuccess: () => void;
 };
 
-export function RejectInspectionModal({ open, onClose, data }: Props) {
+export function RejectInspectionModal({
+  open,
+  onClose,
+  data,
+  onSuccess,
+}: Props) {
   const { tanker, lab } = data;
   const isDW = tanker.type === 'DW';
   const labUploaded = !!lab.report.id;
 
   const [stage, setStage] = useState<'inspection' | 'lab' | null>(null);
+  const [reason, setReason] = useState('');
+  const [rejecting, setRejecting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const stageRequired = isDW && stage === null;
+  const canSubmit = !stageRequired && reason.trim().length > 0 && !rejecting;
 
   function handleClose() {
+    if (rejecting) return;
     setStage(null);
+    setReason('');
+    setError(null);
     onClose();
+  }
+
+  async function handleConfirm() {
+    if (!canSubmit) return;
+    setRejecting(true);
+    setError(null);
+
+    const rejectionStage: 'physical_inspection' | 'lab_results' =
+      isDW && stage === 'lab' ? 'lab_results' : 'physical_inspection';
+
+    try {
+      const res = await rejectInspection(data.id, {
+        rejectionStage,
+        rejectionReason: reason.trim(),
+      });
+      if (!res.success) {
+        setError(
+          res.error?.description ?? 'Rejection failed. Please try again.',
+        );
+        return;
+      }
+      onClose();
+      onSuccess();
+    } catch {
+      setError('Rejection failed. Please try again.');
+    } finally {
+      setRejecting(false);
+    }
   }
 
   return (
@@ -32,15 +76,18 @@ export function RejectInspectionModal({ open, onClose, data }: Props) {
           <button
             type="button"
             onClick={handleClose}
-            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50"
+            disabled={rejecting}
+            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             type="button"
-            className="h-9 rounded-lg bg-red-600 px-4 text-[13px] font-semibold text-white hover:bg-red-700"
+            onClick={handleConfirm}
+            disabled={!canSubmit}
+            className="h-9 rounded-lg bg-red-600 px-4 text-[13px] font-semibold text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Confirm Rejection
+            {rejecting ? 'Rejecting…' : 'Confirm Rejection'}
           </button>
         </>
       }
@@ -115,10 +162,18 @@ export function RejectInspectionModal({ open, onClose, data }: Props) {
           </p>
           <textarea
             rows={4}
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
             placeholder="Enter rejection reason…"
             className="w-full resize-vertical rounded-lg border border-ink-200 px-3 py-2 text-[13px] text-ink-700 placeholder:text-ink-300 focus:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-100"
           />
         </div>
+
+        {error && (
+          <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-[12px] text-red-600">
+            {error}
+          </p>
+        )}
       </div>
     </Modal>
   );

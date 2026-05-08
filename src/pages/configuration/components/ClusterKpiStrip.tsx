@@ -1,25 +1,33 @@
 import {
-  CLUSTER_IDS,
-  CLUSTER_META,
-  GOVERNORATES,
+  CLUSTER_COLORS,
+  DEFAULT_CLUSTER_COLOR,
 } from '@/constants/configuration';
-import type { ClusterId } from '@/types/configuration';
+import type {
+  ClusterSetupCluster,
+  ClusterSetupGovernorate,
+  ClusterSetupSummary,
+} from '@/types/configuration';
 
 type Props = {
-  govAssignments: Record<string, ClusterId>;
+  summary: ClusterSetupSummary;
+  clusters: ClusterSetupCluster[];
+  governorates: ClusterSetupGovernorate[];
+  govAssignments: Record<string, number>;
 };
 
-export function ClusterKpiStrip({ govAssignments }: Props) {
-  const totalFleet = GOVERNORATES.reduce((s, g) => s + g.fleet, 0);
+export function ClusterKpiStrip({
+  summary,
+  clusters,
+  governorates,
+  govAssignments,
+}: Props) {
+  const govCountFor = (clusterId: number) =>
+    governorates.filter((g) => govAssignments[g.name] === clusterId).length;
 
-  const govCountFor = (c: ClusterId) =>
-    GOVERNORATES.filter((g) => govAssignments[g.name] === c).length;
-
-  const fleetFor = (c: ClusterId) =>
-    GOVERNORATES.filter((g) => govAssignments[g.name] === c).reduce(
-      (s, g) => s + g.fleet,
-      0,
-    );
+  const tankerCountFor = (clusterId: number) =>
+    governorates
+      .filter((g) => govAssignments[g.name] === clusterId)
+      .reduce((s, g) => s + g.dwCount + g.swCount + g.teCount, 0);
 
   return (
     <div className="grid grid-cols-4 gap-3">
@@ -29,43 +37,46 @@ export function ClusterKpiStrip({ govAssignments }: Props) {
         </div>
         <div className="mt-1.5 flex items-baseline gap-1">
           <span className="text-[28px] font-bold leading-none text-white">
-            3
+            {summary.totalClusters}
           </span>
         </div>
         <div className="mt-1 text-[11.5px] text-teal-400">
-          Fixed operational model
+          {summary.totalGovernorates} governorates · {summary.totalTankers}{' '}
+          tankers
         </div>
       </div>
 
-      {CLUSTER_IDS.map((c) => {
-        const m = CLUSTER_META[c];
+      {clusters.map((c) => {
+        const color = CLUSTER_COLORS[c.clusterId] ?? DEFAULT_CLUSTER_COLOR;
         return (
           <div
-            key={c}
+            key={c.clusterId}
             className="rounded-card-lg border border-ink-200 bg-white px-4 py-3 shadow-card-sm"
-            style={{ borderLeftWidth: 3, borderLeftColor: m.color }}
+            style={{ borderLeftWidth: 3, borderLeftColor: color }}
           >
             <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-500">
-              {m.name}
+              {c.name}
             </div>
             <div className="mt-1.5 flex items-baseline gap-1">
               <span
                 className="text-[28px] font-bold leading-none"
-                style={{ color: m.color }}
+                style={{ color }}
               >
-                {govCountFor(c)}
+                {govCountFor(c.clusterId)}
               </span>
               <span className="text-[13px] text-ink-400">govs</span>
             </div>
             <div className="mt-1 text-[11.5px] text-ink-500">
-              {fleetFor(c).toLocaleString()} tankers · {m.contractor}
+              {tankerCountFor(c.clusterId).toLocaleString()} tankers ·{' '}
+              {c.contractorName}
             </div>
           </div>
         );
       })}
 
       <div className="col-span-4 -mt-1 text-right text-[11px] text-ink-400">
-        {totalFleet.toLocaleString()} total tankers across all clusters
+        {summary.totalTankers.toLocaleString()} total tankers across all
+        clusters
       </div>
     </div>
   );
