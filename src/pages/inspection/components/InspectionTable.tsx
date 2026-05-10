@@ -162,6 +162,7 @@ export function InspectionTable({
                       key={r.id}
                       record={r}
                       onAssign={onAssignInspector}
+                      onView={onView}
                     />
                   ))}
                 {activeTab === 'lab-testing' &&

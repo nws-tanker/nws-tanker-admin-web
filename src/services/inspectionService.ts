@@ -46,7 +46,7 @@ export async function approveInspection(
   return post<unknown>(url);
 }
 
-export type InspectorOption = { userID: string; name: string };
+export type InspectorOption = { userId: string; name: string };
 
 export async function fetchInspectors(): Promise<
   ApiResponse<InspectorOption[]>
@@ -58,11 +58,11 @@ export async function fetchInspectors(): Promise<
 
 export async function assignInspector(
   inspectionId: string,
-  inspectorId: string,
+  inspectorID: string,
 ): Promise<ApiResponse<unknown>> {
   const url = ENDPOINTS.assignInspector
     .replace('{inspectionId}', inspectionId)
-    .replace('{inspectorId}', inspectorId);
+    .replace('{inspectorID}', inspectorID);
   return post<unknown>(url);
 }
 
@@ -97,4 +97,14 @@ export async function uploadLabReport(
 ): Promise<ApiResponse<unknown>> {
   const url = ENDPOINTS.labResult.replace('{inspectionId}', inspectionId);
   return uploadFile<unknown>(url, { file, fieldName: 'file' });
+}
+
+export async function requeueInspection(
+  inspectionId: string,
+): Promise<ApiResponse<unknown>> {
+  const url = ENDPOINTS.requeueInspection.replace(
+    '{inspectionId}',
+    inspectionId,
+  );
+  return post<unknown>(url, {});
 }

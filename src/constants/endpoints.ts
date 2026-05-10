@@ -25,5 +25,6 @@ export const ENDPOINTS = {
   cancelInspection: '/api/inspection/review-screen/{inspectionId}/cancel',
   inspectorsByRole: '/api/users/by-role',
   assignInspector:
-    '/api/inspection/review-screen/{inspectionId}/assign-inspector/{inspectorId}',
+    '/api/inspection/review-screen/{inspectionId}/assign-inspector/{inspectorID}',
+  requeueInspection: '/api/inspection/review-screen/{inspectionId}/requeue',
 } as const;

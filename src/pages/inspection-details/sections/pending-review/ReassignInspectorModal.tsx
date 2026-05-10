@@ -135,7 +135,7 @@ export function ReassignInspectorModal({
                 : '— Select new inspector —'}
             </option>
             {inspectors.map((insp) => (
-              <option key={insp.userID} value={insp.userID}>
+              <option key={insp.userId} value={insp.userId}>
                 {insp.name}
               </option>
             ))}

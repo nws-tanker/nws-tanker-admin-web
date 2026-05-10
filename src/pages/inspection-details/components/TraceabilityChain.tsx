@@ -8,6 +8,7 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
   const { tanker, assignment, lab, permit, status } = data;
   const isDW = tanker.type === 'DW';
   const decided = status === 'approved' || status === 'rejected';
+  const inReview = status === 'in_review';
   const labUploaded = !!lab.report.id;
   const physDone = !!assignment.physical_date;
 
@@ -17,6 +18,7 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
       : decided
         ? 'Rejected'
         : 'Decision';
+
   const decisionRef =
     status === 'approved'
       ? (permit.permit_number ?? 'Issued')
@@ -39,8 +41,8 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
       },
       {
         label: 'CM\nReview',
-        ref: decided ? 'Reviewed' : 'Pending',
-        done: decided,
+        ref: decided ? 'Reviewed' : inReview ? 'In Review' : 'Pending',
+        done: decided || inReview,
       },
       { label: decisionLabel, ref: decisionRef, done: decided },
     ];
@@ -54,8 +56,8 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
     },
     {
       label: 'CM\nReview',
-      ref: decided ? 'Reviewed' : 'Pending',
-      done: decided,
+      ref: decided ? 'Reviewed' : inReview ? 'In Review' : 'Pending',
+      done: decided || inReview,
     },
     { label: decisionLabel, ref: decisionRef, done: decided },
   ];

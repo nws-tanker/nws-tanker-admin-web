@@ -9,6 +9,7 @@ import ApprovedInspectionDetails from './sections/approved/ApprovedInspectionDet
 import LabTestingInspectionDetails from './sections/lab-testing/LabTestingInspectionDetails';
 import PendingReviewInspectionDetails from './sections/pending-review/PendingReviewInspectionDetails';
 import RejectedInspectionDetails from './sections/rejected/RejectedInspectionDetails';
+import SubmittedInspectionDetails from './sections/submitted/SubmittedInspectionDetails';
 
 function SkeletonBlock({ className }: { className?: string }) {
   return (
@@ -124,6 +125,7 @@ export default function InspectionDetailsPage() {
 
   const statusComponent: Record<string, React.ReactNode> = data
     ? {
+        submitted: <SubmittedInspectionDetails data={data} onRefetch={retry} />,
         lab_pending: (
           <LabTestingInspectionDetails data={data} onRefetch={retry} />
         ),

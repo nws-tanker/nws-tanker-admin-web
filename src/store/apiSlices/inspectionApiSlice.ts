@@ -46,6 +46,7 @@ const inspectionApiSlice = createSlice({
     builder
       .addCase(fetchInspectionReview.pending, (state) => {
         state.apiState = States.LOADING;
+        state.data = null;
         state.error = null;
       })
       .addCase(fetchInspectionReview.fulfilled, (state, action) => {

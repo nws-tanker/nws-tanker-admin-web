@@ -7,6 +7,7 @@ import { RejectedSidebar } from './RejectedSidebar';
 import { RejectionBanner } from './RejectionBanner';
 import { TankerInformation } from '../../components/TankerInformation';
 import { TraceabilityChain } from '../../components/TraceabilityChain';
+import { PermitHistory } from '../../components/PermitHistory';
 
 type Props = { data: InspectionDetailsApiResponse };
 
@@ -19,6 +20,7 @@ export default function RejectedInspectionDetails({ data }: Props) {
         <RejectionBanner data={data} />
         <TankerInformation data={data} />
         <InspectionSummaryTiles data={data} />
+        <PermitHistory data={data} />
         <PhysicalInspectionChecklist sections={data.inspection.sections} />
         <ActivityTimeline data={data} />
       </div>
