@@ -120,6 +120,51 @@ export type ActiveUserResponse = {
   lastActive: string;
 };
 
+export type ChecklistEvidenceType = 'photo' | 'document';
+export type ChecklistSeverity = 'mandatory' | 'optional';
+
+export type ChecklistItemResponse = {
+  id: number;
+  itemKey: string;
+  description: string;
+  severity: ChecklistSeverity;
+  evidenceType: ChecklistEvidenceType;
+  appliesToDw: boolean;
+  appliesToSw: boolean;
+  appliesToTe: boolean;
+  sortOrder: number;
+  displayIndex: string;
+  checkItem: string;
+};
+
+export type ChecklistCategoryResponse = {
+  id: number;
+  name: string;
+  sortOrder: number;
+  displayIndex: string;
+  itemCount: number;
+  itemsSummaryCaption: string;
+  items: ChecklistItemResponse[];
+};
+
+export type ChecklistSummary = {
+  totalItems: number;
+  totalItemsCaption: string;
+  categoryCount: number;
+  appliesToDisplay: string;
+  passThresholdDisplay: string;
+};
+
+export type InspectionChecklistResponse = {
+  versionId: number;
+  versionNumber: number;
+  label: string;
+  effectiveFrom: string;
+  isActive: boolean;
+  summary: ChecklistSummary;
+  categories: ChecklistCategoryResponse[];
+};
+
 export type ConfigTab =
   | 'notifications'
   | 'permit-sla'
@@ -157,4 +202,20 @@ export type ActiveUser = {
   email?: string;
   status: 'active' | 'inactive';
   lastActive: string;
+};
+
+export type InspectionDataToBeEdited = {
+  categories: {
+    categoryId: number;
+    items: {
+      id: number;
+      description: string;
+      severity: string;
+      evidenceType: string;
+      appliesToDw: boolean;
+      appliesToSw: boolean;
+      appliesToTe: boolean;
+      sortOrder: number;
+    }[];
+  }[];
 };

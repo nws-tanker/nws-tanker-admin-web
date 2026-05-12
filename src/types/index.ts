@@ -27,6 +27,7 @@ export type {
   ActiveUserResponse,
   ApproveUserRequest,
   ClusterResponse,
+  InspectionDataToBeEdited,
 } from './configuration';
 export type {
   AuthUser,

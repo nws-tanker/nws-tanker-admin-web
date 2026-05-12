@@ -58,13 +58,21 @@ export default function App() {
 
       <Route
         path={ROUTES.inspectionReview}
-        element={<InspectionPage />}
-      ></Route>
+        element={
+          <ProtectedRoute route="inspectionReview">
+            <InspectionPage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path={ROUTES.inspectionDetails}
-        element={<InspectionDetailsPage />}
-      ></Route>
+        element={
+          <ProtectedRoute route="inspectionReview">
+            <InspectionDetailsPage />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path={ROUTES.dashboard}
         element={
@@ -86,14 +94,6 @@ export default function App() {
         element={
           <ProtectedRoute route="fleetCompliance">
             <PlaceholderPage title="Fleet Compliance" />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={ROUTES.inspectionReview}
-        element={
-          <ProtectedRoute route="inspectionReview">
-            <PlaceholderPage title="Inspection Review" />
           </ProtectedRoute>
         }
       />
