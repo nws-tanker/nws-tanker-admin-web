@@ -3,6 +3,7 @@ import { Button } from '@/atoms';
 import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import { WhatHappensNextPanel } from '../../components/WhatHappensNextPanel';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
 import { RejectInspectionModal } from '../pending-review/RejectInspectionModal';
 
 const NEXT_STEPS = [
@@ -75,6 +76,7 @@ export function SubmittedSidebar({ data, onRefetch }: Props) {
           </div>
         </div>
 
+        <InspectionInfoPanel data={data} />
         <WhatHappensNextPanel items={NEXT_STEPS} />
         <NotifyOwnerPanel data={data} />
       </div>

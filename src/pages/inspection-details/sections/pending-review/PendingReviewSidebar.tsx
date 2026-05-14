@@ -3,6 +3,7 @@ import { Button } from '@/atoms';
 import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import { WhatHappensNextPanel } from '../../components/WhatHappensNextPanel';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
 import { ApprovePermitModal } from './ApprovePermitModal';
 import { CancelInspectionModal } from './CancelInspectionModal';
 import { ReassignInspectorModal } from './ReassignInspectorModal';
@@ -65,6 +66,7 @@ export function PendingReviewSidebar({ data, onRefetch }: Props) {
           </div>
         </div>
 
+        <InspectionInfoPanel data={data} />
         <WhatHappensNextPanel items={NEXT_STEPS} />
         <NotifyOwnerPanel data={data} />
       </div>

@@ -7,6 +7,7 @@ import { CancelInspectionModal } from '../pending-review/CancelInspectionModal';
 import { ReassignInspectorModal } from '../pending-review/ReassignInspectorModal';
 import { RejectInspectionModal } from '../pending-review/RejectInspectionModal';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
 
 const NEXT_STEPS = [
   'If approved, a permit will be generated',
@@ -81,6 +82,7 @@ export function LabTestingSidebar({ data, onRefetch }: Props) {
           </div>
         </div>
 
+        <InspectionInfoPanel data={data} />
         <WhatHappensNextPanel items={NEXT_STEPS} />
         <NotifyOwnerPanel data={data} />
       </div>

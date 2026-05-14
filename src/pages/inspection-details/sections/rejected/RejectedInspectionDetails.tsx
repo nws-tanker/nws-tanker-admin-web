@@ -25,7 +25,7 @@ export default function RejectedInspectionDetails({ data }: Props) {
         <ActivityTimeline data={data} />
       </div>
       <div className="sticky top-6">
-        <RejectedSidebar />
+        <RejectedSidebar data={data} />
       </div>
     </div>
   );

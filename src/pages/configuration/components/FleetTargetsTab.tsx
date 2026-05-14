@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 import { Button, useToast } from '@/atoms';
 import { InfoIcon } from '@/atoms/icons';
 import { useAppDispatch, useAppSelector } from '@/store';
-import {
-  fetchFleetTargets,
-  saveFleetTargets,
-} from '@/store/apiSlices/fleetTargetsApiSlice';
+import { fetchFleetTargets } from '@/store/apiSlices/fleetTargetsApiSlice';
+import { saveFleetTargetsApi } from '@/services/fleetTargetsService';
 import { States } from '@/store/types';
 import type { FleetTarget, FleetTotals } from '@/types/configuration';
 import { FleetTargetsKpiStrip } from './FleetTargetsKpiStrip';
@@ -21,10 +19,9 @@ function computeTotals(targets: FleetTarget[]): FleetTotals {
 export function FleetTargetsTab() {
   const dispatch = useAppDispatch();
   const toast = useToast();
-  const { apiState, data, saveState, saveError } = useAppSelector(
-    (s) => s.fleetTargetsApi,
-  );
+  const { apiState, data } = useAppSelector((s) => s.fleetTargetsApi);
   const [targets, setTargets] = useState<FleetTarget[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     dispatch(fetchFleetTargets());
@@ -61,16 +58,6 @@ export function FleetTargetsTab() {
     setTargets((prev) => prev.filter((_, i) => i !== index));
   };
 
-  useEffect(() => {
-    if (saveState === States.SUCCESS) {
-      toast.show('Fleet targets saved successfully');
-    } else if (saveState === States.ERROR) {
-      toast.show(saveError?.description ?? 'Failed to save fleet targets', {
-        tone: 'error',
-      });
-    }
-  }, [saveState, saveError?.description, toast]);
-
   const handleReset = () => {
     if (apiState === States.SUCCESS && data) {
       setTargets(
@@ -86,17 +73,32 @@ export function FleetTargetsTab() {
     }
   };
 
-  const handleSave = () => {
-    dispatch(
-      saveFleetTargets({
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const response = await saveFleetTargetsApi({
         governorates: targets.map((t) => ({
           id: t.id,
           dwCount: t.dw,
           swCount: t.sw,
           teCount: t.te,
         })),
-      }),
-    );
+      });
+      if (response.success) {
+        toast.show('Fleet targets saved successfully');
+      } else {
+        toast.show(
+          response.error?.description ?? 'Failed to save fleet targets',
+          {
+            tone: 'error',
+          },
+        );
+      }
+    } catch {
+      toast.show('Failed to save fleet targets', { tone: 'error' });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -123,12 +125,8 @@ export function FleetTargetsTab() {
         <Button variant="secondary" onClick={handleReset}>
           Reset to Defaults
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleSave}
-          disabled={saveState === States.LOADING}
-        >
-          {saveState === States.LOADING ? 'Saving…' : 'Save Fleet Targets'}
+        <Button variant="primary" onClick={handleSave} disabled={isSaving}>
+          {isSaving ? 'Saving…' : 'Save Fleet Targets'}
         </Button>
       </div>
     </div>

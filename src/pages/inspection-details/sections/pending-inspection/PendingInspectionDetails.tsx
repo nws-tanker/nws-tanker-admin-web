@@ -13,7 +13,7 @@ export default function PendingInspectionDetails({ data }: Props) {
         <TankerInformation data={data} />
       </div>
       <div className="sticky top-6">
-        <PendingInspectionSidebar />
+        <PendingInspectionSidebar data={data} />
       </div>
     </div>
   );
