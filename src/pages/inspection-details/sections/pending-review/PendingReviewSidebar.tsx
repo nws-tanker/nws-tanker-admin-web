@@ -4,10 +4,10 @@ import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import { WhatHappensNextPanel } from '../../components/WhatHappensNextPanel';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
-import { ApprovePermitModal } from './ApprovePermitModal';
-import { CancelInspectionModal } from './CancelInspectionModal';
-import { ReassignInspectorModal } from './ReassignInspectorModal';
-import { RejectInspectionModal } from './RejectInspectionModal';
+import { ApprovePermitModal } from '../../components/ApprovePermitModal';
+import { CancelInspectionModal } from '../../components/CancelInspectionModal';
+import { ReassignInspectorModal } from '../../components/ReassignInspectorModal';
+import { RejectInspectionModal } from '../../components/RejectInspectionModal';
 
 const NEXT_STEPS = [
   'If approved, a permit will be generated',

@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Button } from '@/atoms';
 import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import { WhatHappensNextPanel } from '../../components/WhatHappensNextPanel';
-import { ApprovePermitModal } from '../pending-review/ApprovePermitModal';
-import { CancelInspectionModal } from '../pending-review/CancelInspectionModal';
-import { ReassignInspectorModal } from '../pending-review/ReassignInspectorModal';
-import { RejectInspectionModal } from '../pending-review/RejectInspectionModal';
+import { ApprovePermitModal } from '../../components/ApprovePermitModal';
+import { CancelInspectionModal } from '../../components/CancelInspectionModal';
+import { ReassignInspectorModal } from '../../components/ReassignInspectorModal';
+import { RejectInspectionModal } from '../../components/RejectInspectionModal';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
 

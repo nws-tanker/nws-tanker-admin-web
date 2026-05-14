@@ -4,9 +4,9 @@ import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import { WhatHappensNextPanel } from '../../components/WhatHappensNextPanel';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
-import { CancelInspectionModal } from '../pending-review/CancelInspectionModal';
-import { ReassignInspectorModal } from '../pending-review/ReassignInspectorModal';
-import { RejectInspectionModal } from '../pending-review/RejectInspectionModal';
+import { CancelInspectionModal } from '../../components/CancelInspectionModal';
+import { ReassignInspectorModal } from '../../components/ReassignInspectorModal';
+import { RejectInspectionModal } from '../../components/RejectInspectionModal';
 
 const NEXT_STEPS = [
   'Inspection moves to pending review queue',
