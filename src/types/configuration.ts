@@ -204,6 +204,15 @@ export type ActiveUser = {
   lastActive: string;
 };
 
+export type NewChecklistItemData = {
+  description: string;
+  severity: ChecklistSeverity;
+  evidenceType: ChecklistEvidenceType;
+  appliesToDw: boolean;
+  appliesToSw: boolean;
+  appliesToTe: boolean;
+};
+
 export type InspectionDataToBeEdited = {
   categories: {
     categoryId: number;
@@ -219,3 +228,4 @@ export type InspectionDataToBeEdited = {
     }[];
   }[];
 };
+

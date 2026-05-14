@@ -30,7 +30,7 @@ let queue: Array<(token: string) => void> = [];
 function flushQueue(token: string) {
   queue.forEach((cb) => cb(token));
   queue = [];
-}
+} 
 
 function forceLogout() {
   queue = [];

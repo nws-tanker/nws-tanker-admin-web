@@ -3,7 +3,7 @@ import { Button, useToast } from '@/atoms';
 import { States } from '@/store/types';
 import { useInspectionChecklist } from '../../hooks/useInspectionChecklist';
 import { ChecklistSection } from './ChecklistSection';
-import type { InspectionDataToBeEdited } from '@/types/configuration';
+import type { InspectionDataToBeEdited, NewChecklistItemData } from '@/types/configuration';
 import { saveInspectionChecklist } from '@/services/configurationService';
 
 export default function InspectionChecklist() {
@@ -11,6 +11,9 @@ export default function InspectionChecklist() {
   const [dataToBeEdited, setDataToBeEdited] =
     useState<InspectionDataToBeEdited>({ categories: [] });
   const [saving, setSaving] = useState(false);
+  const [openDraftCounts, setOpenDraftCounts] = useState<Record<number, number>>({});
+
+  const hasOpenDrafts = Object.values(openDraftCounts).some((c) => c > 0);
   const toast = useToast();
 
   useEffect(() => {
@@ -32,6 +35,7 @@ export default function InspectionChecklist() {
     });
   }, [data]);
 
+
   async function handleSaveChanges() {
     setSaving(true);
     try {
@@ -51,8 +55,8 @@ export default function InspectionChecklist() {
   }
 
   function handleItemSave(
-    categoryId: number,
     itemId: number,
+    categoryId: number,
     severity: string,
     evidenceType: string,
   ) {
@@ -67,6 +71,38 @@ export default function InspectionChecklist() {
               ),
             },
       ),
+    }));
+  }
+
+  function handleDraftChange(categoryId: number, openCount: number) {
+    setOpenDraftCounts((prev) => ({ ...prev, [categoryId]: openCount }));
+  }
+
+  function handleAddItem(categoryId: number, newItem: NewChecklistItemData) {
+    setDataToBeEdited((prev) => ({
+      categories: prev.categories.map((cat) => {
+        if (cat.categoryId !== categoryId) return cat;
+        const maxSortOrder = cat.items.reduce(
+          (max, item) => Math.max(max, item.sortOrder),
+          0,
+        );
+        return {
+          ...cat,
+          items: [
+            ...cat.items,
+            {
+              id: 0,
+              description: newItem.description,
+              severity: newItem.severity,
+              evidenceType: newItem.evidenceType,
+              appliesToDw: newItem.appliesToDw,
+              appliesToSw: newItem.appliesToSw,
+              appliesToTe: newItem.appliesToTe,
+              sortOrder: maxSortOrder + 1,
+            },
+          ],
+        };
+      }),
     }));
   }
 
@@ -95,7 +131,7 @@ export default function InspectionChecklist() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <KpiCard
           label="Total Items"
           value={summary.totalItems}
@@ -147,12 +183,23 @@ export default function InspectionChecklist() {
             category={category}
             categoryIndex={index}
             onItemSave={handleItemSave}
+            onAddItem={handleAddItem}
+            onDraftChange={handleDraftChange}
           />
         ))}
       </div>
 
-      <div className="flex justify-end pt-1">
-        <Button variant="primary" onClick={handleSaveChanges} disabled={saving}>
+      <div className="flex items-center justify-end gap-3 pt-1">
+        {hasOpenDrafts && (
+          <p className="text-[12px] text-amber-600">
+            Finish or cancel all open rows before saving.
+          </p>
+        )}
+        <Button
+          variant="primary"
+          onClick={handleSaveChanges}
+          disabled={saving || hasOpenDrafts}
+        >
           {saving ? 'Saving…' : 'Save Changes'}
         </Button>
       </div>
