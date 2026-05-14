@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, useToast } from '@/atoms';
+import { InfoIcon } from '@/atoms/icons';
 import { useAppDispatch, useAppSelector } from '@/store';
 import {
   fetchFleetTargets,
@@ -70,13 +71,6 @@ export function FleetTargetsTab() {
     }
   }, [saveState, saveError?.description, toast]);
 
-  const handleAddRow = () => {
-    setTargets((prev) => [
-      ...prev,
-      { id: 0, gov: 'New Governorate', dw: 0, sw: 0, te: 0, custom: true },
-    ]);
-  };
-
   const handleReset = () => {
     if (apiState === States.SUCCESS && data) {
       setTargets(
@@ -110,21 +104,7 @@ export function FleetTargetsTab() {
       <FleetTargetsKpiStrip totals={totals} />
 
       <div className="flex items-center gap-2.5 rounded-card border border-blue-200 bg-blue-50 px-4 py-3 text-[13px] text-blue-800">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="shrink-0"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="8" />
-          <line x1="12" y1="12" x2="12" y2="16" />
-        </svg>
+        <InfoIcon width={16} height={16} strokeWidth={2} className="shrink-0" />
         <span>
           Planning benchmarks only — not actual tanker records. Used as
           denominators for compliance rate on the Operations Dashboard,
@@ -137,7 +117,6 @@ export function FleetTargetsTab() {
         totals={totals}
         onUpdate={handleUpdate}
         onDelete={handleDelete}
-        onAddRow={handleAddRow}
       />
 
       <div className="flex justify-end gap-2">

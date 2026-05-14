@@ -1,4 +1,6 @@
+import { CheckIcon } from '@/atoms/icons';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { formatDate } from '@/utils';
 
 type Step = { label: string; ref: string; done: boolean };
 
@@ -30,7 +32,7 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
     return [
       {
         label: 'Physical\nInspection',
-        ref: assignment.physical_date ?? '—',
+        ref: formatDate(assignment.physical_date),
         done: physDone,
       },
       { label: 'Sample\nDispatched', ref: '—', done: physDone },
@@ -51,7 +53,7 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
   return [
     {
       label: 'Physical\nInspection',
-      ref: assignment.physical_date ?? '—',
+      ref: formatDate(assignment.physical_date),
       done: physDone,
     },
     {
@@ -61,20 +63,6 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
     },
     { label: decisionLabel, ref: decisionRef, done: decided },
   ];
-}
-
-function CheckIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path
-        d="M2 6L5 9L10 3"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
 }
 
 export function TraceabilityChain({ data }: Props) {
@@ -99,7 +87,16 @@ export function TraceabilityChain({ data }: Props) {
                 <div
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold ${step.done ? 'bg-green-600 text-white' : 'bg-ink-200 text-ink-500'}`}
                 >
-                  {step.done ? <CheckIcon /> : labelLines[0][0]}
+                  {step.done ? (
+                    <CheckIcon
+                      width={12}
+                      height={12}
+                      stroke="white"
+                      strokeWidth={2}
+                    />
+                  ) : (
+                    labelLines[0][0]
+                  )}
                 </div>
                 <div className="mt-1.5 w-full text-center">
                   <div

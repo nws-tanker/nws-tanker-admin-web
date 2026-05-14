@@ -23,11 +23,7 @@ export default function InspectionPage() {
     ? `${counts.in_review} pending review · ${counts.pending} pending inspection · ${counts.submitted} submitted · ${counts.lab_pending} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
     : 'Loading…';
 
-  function handleView(record: ApiInspectionRecord) {
-    navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
-  }
-
-  function handleReview(record: ApiInspectionRecord) {
+  function handleNavigateToDetails(record: ApiInspectionRecord) {
     navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,8 +32,11 @@ export default function InspectionPage() {
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function handleAssignInspector(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _record: ApiInspectionRecord,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _inspector: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _date: string,
   ) {
     // TODO: dispatch assign inspector API call
@@ -77,8 +76,8 @@ export default function InspectionPage() {
                 search={search}
                 onSearch={setSearch}
                 onPageChange={setPage}
-                onView={handleView}
-                onReview={handleReview}
+                onView={handleNavigateToDetails}
+                onReview={handleNavigateToDetails}
                 onQueueReinspection={handleQueueReinspection}
                 onAssignInspector={handleAssignInspector}
               />

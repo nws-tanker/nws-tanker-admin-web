@@ -12,7 +12,6 @@ type Props = {
     value: number | string,
   ) => void;
   onDelete: (index: number) => void;
-  onAddRow: () => void;
 };
 
 const NUM_INPUT_CLASS =
@@ -32,7 +31,6 @@ export function FleetTargetsTable({
   totals,
   onUpdate,
   onDelete,
-  onAddRow,
 }: Props) {
   const handleNum =
     (index: number, field: NumField) =>
@@ -52,9 +50,6 @@ export function FleetTargetsTable({
             Edit cells directly — totals update instantly
           </p>
         </div>
-        <Button variant="secondary" size="sm" onClick={onAddRow}>
-          + Add Row
-        </Button>
       </div>
 
       <div className="overflow-x-auto">
@@ -73,7 +68,7 @@ export function FleetTargetsTable({
               <th className={`${TH_CLASS} text-right`}>DW</th>
               <th className={`${TH_CLASS} text-right`}>SW</th>
               <th className={`${TH_CLASS} text-right`}>TE</th>
-              <th className={`${TH_CLASS} text-right`}>Row Total</th>
+              <th className={`${TH_CLASS} text-right`}>Grand Total</th>
               <th className={TH_CLASS} />
             </tr>
           </thead>

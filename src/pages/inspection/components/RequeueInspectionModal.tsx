@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal } from '@/atoms';
+import { Button, Modal } from '@/atoms';
 import { requeueInspection } from '@/services/inspectionService';
 import type { ApiInspectionRecord } from '@/types/inspection';
 
@@ -64,22 +64,21 @@ export default function RequeueInspectionModal({
       width={520}
       footer={
         <>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={handleClose}
             disabled={submitting}
-            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-50"
           >
             Cancel
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="primary"
             onClick={handleSubmit}
             disabled={submitting}
-            className="h-9 rounded-lg bg-orange-600 px-4 text-[13px] font-semibold text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
+            className="bg-orange-600 border-orange-600 hover:bg-orange-700 hover:border-orange-700"
           >
             {submitting ? 'Queuing…' : 'Confirm & Queue'}
-          </button>
+          </Button>
         </>
       }
     >

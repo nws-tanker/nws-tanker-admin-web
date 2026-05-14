@@ -1,4 +1,5 @@
 import { AVATAR_PALETTE } from '@/constants/configuration';
+import type { ClusterSetupGovernorate } from '@/types/configuration';
 
 export function avatarColor(name: string): string {
   let hash = 0;
@@ -14,4 +15,23 @@ export function getInitials(name: string) {
     .slice(0, 2)
     .map((w) => w[0].toUpperCase())
     .join('');
+}
+
+export function getGovCountForCluster(
+  clusterId: number,
+  governorates: ClusterSetupGovernorate[],
+  govAssignments: Record<string, number>,
+): number {
+  return governorates.filter((g) => govAssignments[g.name] === clusterId)
+    .length;
+}
+
+export function getTankerCountForCluster(
+  clusterId: number,
+  governorates: ClusterSetupGovernorate[],
+  govAssignments: Record<string, number>,
+): number {
+  return governorates
+    .filter((g) => govAssignments[g.name] === clusterId)
+    .reduce((s, g) => s + g.dwCount + g.swCount + g.teCount, 0);
 }

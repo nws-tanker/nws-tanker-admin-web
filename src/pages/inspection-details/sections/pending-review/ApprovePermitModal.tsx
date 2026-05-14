@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/atoms';
 import { Modal } from '@/atoms/Modal';
 import { approveInspection } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
@@ -51,22 +52,20 @@ export function ApprovePermitModal({ open, onClose, data, onSuccess }: Props) {
       width={480}
       footer={
         <>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={handleClose}
             disabled={approving}
-            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-50"
           >
             Cancel
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="primary"
             onClick={handleConfirm}
             disabled={approving}
-            className="h-9 rounded-lg bg-teal-700 px-4 text-[13px] font-semibold text-white hover:bg-teal-800 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {approving ? 'Approving…' : 'Confirm Approval'}
-          </button>
+          </Button>
         </>
       }
     >

@@ -1,3 +1,5 @@
+import { CheckIcon } from '@/atoms/icons';
+
 export function RejectedSidebar() {
   return (
     <div className="flex flex-col gap-3">
@@ -9,52 +11,19 @@ export function RejectedSidebar() {
           Inspection Status
         </p>
         <div className="flex items-center gap-2 mb-1.5">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#059669"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+          <CheckIcon width={14} height={14} stroke="#059669" strokeWidth={3} />
           <span className="text-[12px] text-ink-600">
             Inspection has been reviewed
           </span>
         </div>
         <div className="flex items-center gap-2 mb-1.5">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#059669"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+          <CheckIcon width={14} height={14} stroke="#059669" strokeWidth={3} />
           <span className="text-[12px] text-ink-600">
             Decision recorded in system
           </span>
         </div>
         <div className="flex items-center gap-2 mb-1.5">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#059669"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
+          <CheckIcon width={14} height={14} stroke="#059669" strokeWidth={3} />
           <span className="text-[12px] text-ink-600">
             Inspector has been notified
           </span>

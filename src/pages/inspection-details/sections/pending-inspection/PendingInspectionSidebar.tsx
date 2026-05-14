@@ -1,3 +1,5 @@
+import { Button } from '@/atoms';
+
 export function PendingInspectionSidebar() {
   return (
     <div className="flex flex-col gap-3">
@@ -48,12 +50,12 @@ export function PendingInspectionSidebar() {
           </span>
         </div>
         <div className="p-3.5 flex flex-col gap-2">
-          <button className="w-full h-10 border border-ink-200 text-ink-700 rounded-card text-[13px] bg-white">
+          <Button variant="secondary" className="w-full justify-center">
             Cancel Inspection
-          </button>
-          <button className="w-full h-10 border border-ink-200 text-ink-700 rounded-card text-[13px] bg-white">
+          </Button>
+          <Button variant="secondary" className="w-full justify-center">
             Reassign Inspector
-          </button>
+          </Button>
         </div>
       </div>
     </div>

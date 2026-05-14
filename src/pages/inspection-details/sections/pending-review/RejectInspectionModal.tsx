@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button, Textarea } from '@/atoms';
 import { Modal } from '@/atoms/Modal';
 import { rejectInspection } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
@@ -73,22 +74,20 @@ export function RejectInspectionModal({
       width={500}
       footer={
         <>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={handleClose}
             disabled={rejecting}
-            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-50"
           >
             Cancel
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="danger"
             onClick={handleConfirm}
             disabled={!canSubmit}
-            className="h-9 rounded-lg bg-red-600 px-4 text-[13px] font-semibold text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {rejecting ? 'Rejecting…' : 'Confirm Rejection'}
-          </button>
+          </Button>
         </>
       }
     >
@@ -160,12 +159,11 @@ export function RejectInspectionModal({
           <p className="text-[12px] text-ink-500">
             The inspector will be notified with this reason.
           </p>
-          <textarea
+          <Textarea
             rows={4}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             placeholder="Enter rejection reason…"
-            className="w-full resize-vertical rounded-lg border border-ink-200 px-3 py-2 text-[13px] text-ink-700 placeholder:text-ink-300 focus:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-100"
           />
         </div>
 

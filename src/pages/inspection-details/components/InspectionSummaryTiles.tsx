@@ -1,4 +1,5 @@
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { formatDate } from '@/utils';
 
 type Props = { data: InspectionDetailsApiResponse };
 
@@ -36,7 +37,7 @@ export function InspectionSummaryTiles({ data }: Props) {
         </div>
       </div>
       <div className="text-[12px] text-ink-400">
-        Inspection date: {assignment.physical_date ?? '—'} · Inspector:{' '}
+        Inspection date: {formatDate(assignment.physical_date)} · Inspector:{' '}
         {assignment.inspector_name}
       </div>
     </div>
