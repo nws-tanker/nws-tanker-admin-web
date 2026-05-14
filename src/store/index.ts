@@ -5,7 +5,6 @@ import {
 } from 'react-redux';
 
 import { configureStore } from '@reduxjs/toolkit';
-
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
 import clustersApiReducer from './apiSlices/clustersApiSlice';
 import clusterSetupApiReducer from './apiSlices/clusterSetupApiSlice';
