@@ -9,16 +9,11 @@ type Props = {
 };
 
 export function PendingReviewRow({ record, onReview }: Props) {
-  const priorStage =
-    record.tanker_type === 'DW' ? (
-      <Badge tone="blue" withDot>
-        Lab Testing
-      </Badge>
-    ) : (
-      <Badge tone="blue" withDot>
-        Physical Inspection
-      </Badge>
-    );
+  const priorStage = (
+    <Badge tone="blue" withDot>
+      {record.prior_stage}
+    </Badge>
+  );
 
   return (
     <tr className="border-b border-ink-100 hover:bg-ink-25">

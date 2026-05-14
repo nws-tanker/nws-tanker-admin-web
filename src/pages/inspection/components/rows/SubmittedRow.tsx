@@ -5,11 +5,6 @@ import { TankerTypeChip } from '../TankerTypeChip';
 
 type Props = {
   record: ApiInspectionRecord;
-  onAssign: (
-    record: ApiInspectionRecord,
-    inspector: string,
-    date: string,
-  ) => void;
   onView?: (record: ApiInspectionRecord) => void;
 };
 

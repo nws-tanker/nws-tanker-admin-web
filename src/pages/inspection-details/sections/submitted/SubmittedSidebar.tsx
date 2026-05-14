@@ -4,6 +4,8 @@ import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import { WhatHappensNextPanel } from '../../components/WhatHappensNextPanel';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
+import { CancelInspectionModal } from '../pending-review/CancelInspectionModal';
+import { ReassignInspectorModal } from '../pending-review/ReassignInspectorModal';
 import { RejectInspectionModal } from '../pending-review/RejectInspectionModal';
 
 const NEXT_STEPS = [
@@ -20,6 +22,8 @@ type Props = {
 
 export function SubmittedSidebar({ data, onRefetch }: Props) {
   const [rejectOpen, setRejectOpen] = useState(false);
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const [reassignOpen, setReassignOpen] = useState(false);
 
   return (
     <>
@@ -61,14 +65,14 @@ export function SubmittedSidebar({ data, onRefetch }: Props) {
             </Button>
             <Button
               variant="secondary"
-              disabled
+              onClick={() => setCancelOpen(true)}
               className="w-full justify-center"
             >
               Cancel Inspection
             </Button>
             <Button
               variant="secondary"
-              disabled
+              onClick={() => setReassignOpen(true)}
               className="w-full justify-center"
             >
               Reassign Inspector
@@ -84,6 +88,18 @@ export function SubmittedSidebar({ data, onRefetch }: Props) {
       <RejectInspectionModal
         open={rejectOpen}
         onClose={() => setRejectOpen(false)}
+        data={data}
+        onSuccess={onRefetch}
+      />
+      <CancelInspectionModal
+        open={cancelOpen}
+        onClose={() => setCancelOpen(false)}
+        data={data}
+        onSuccess={onRefetch}
+      />
+      <ReassignInspectorModal
+        open={reassignOpen}
+        onClose={() => setReassignOpen(false)}
         data={data}
         onSuccess={onRefetch}
       />

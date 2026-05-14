@@ -33,21 +33,6 @@ export default function InspectionPage() {
   function handleNavigateToDetails(record: ApiInspectionRecord) {
     navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleQueueReinspection(_record: ApiInspectionRecord) {
-    // TODO: open queue re-inspection modal
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleAssignInspector(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _record: ApiInspectionRecord,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _inspector: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _date: string,
-  ) {
-    // TODO: dispatch assign inspector API call
-  }
 
   return (
     <AppShell breadcrumbs={['Home', 'Inspection Review']}>
@@ -85,8 +70,6 @@ export default function InspectionPage() {
                 onPageChange={setPage}
                 onView={handleNavigateToDetails}
                 onReview={handleNavigateToDetails}
-                onQueueReinspection={handleQueueReinspection}
-                onAssignInspector={handleAssignInspector}
               />
             )}
           </>

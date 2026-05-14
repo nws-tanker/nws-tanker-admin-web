@@ -54,7 +54,7 @@ export default function InspectionDetailsPage() {
         <Button
           variant="ghost"
           onClick={() => navigate(ROUTES.inspectionReview)}
-          className="mb-4"
+          className="mb-4 w-fit -ml-2.5"
         >
           ← Back to Inspection Review
         </Button>

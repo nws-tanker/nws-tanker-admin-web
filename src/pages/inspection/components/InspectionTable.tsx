@@ -79,12 +79,6 @@ type Props = {
   onPageChange: (p: number) => void;
   onView: (record: ApiInspectionRecord) => void;
   onReview: (record: ApiInspectionRecord) => void;
-  onQueueReinspection: (record: ApiInspectionRecord) => void;
-  onAssignInspector: (
-    record: ApiInspectionRecord,
-    inspector: string,
-    date: string,
-  ) => void;
 };
 
 export function InspectionTable({
@@ -98,8 +92,6 @@ export function InspectionTable({
   onPageChange,
   onView,
   onReview,
-  onQueueReinspection,
-  onAssignInspector,
 }: Props) {
   const headers = HEADERS[activeTab];
   const displayPage = page + 1;
@@ -158,12 +150,7 @@ export function InspectionTable({
                   ))}
                 {activeTab === 'submitted' &&
                   records.map((r) => (
-                    <SubmittedRow
-                      key={r.id}
-                      record={r}
-                      onAssign={onAssignInspector}
-                      onView={onView}
-                    />
+                    <SubmittedRow key={r.id} record={r} onView={onView} />
                   ))}
                 {activeTab === 'lab-testing' &&
                   records.map((r) => (
@@ -175,12 +162,7 @@ export function InspectionTable({
                   ))}
                 {activeTab === 'rejected' &&
                   records.map((r) => (
-                    <RejectedRow
-                      key={r.id}
-                      record={r}
-                      onView={onView}
-                      onQueueReinspection={onQueueReinspection}
-                    />
+                    <RejectedRow key={r.id} record={r} onView={onView} />
                   ))}
               </tbody>
             </table>
