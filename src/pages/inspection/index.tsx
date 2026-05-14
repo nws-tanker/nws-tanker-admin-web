@@ -13,11 +13,18 @@ import { useInspectionFilters } from './hooks/useInspectionFilters';
 
 export default function InspectionPage() {
   const navigate = useNavigate();
-  const { activeTab, search, page, setActiveTab, setSearch, setPage } =
-    useInspectionFilters();
+  const {
+    activeTab,
+    search,
+    debouncedSearch,
+    page,
+    setActiveTab,
+    setSearch,
+    setPage,
+  } = useInspectionFilters();
 
   const { state, counts, records, totalElements, totalPages, retry } =
-    useInspectionData({ activeTab, search, page });
+    useInspectionData({ activeTab, search: debouncedSearch, page });
 
   const subtitle = counts
     ? `${counts.in_review} pending review · ${counts.pending} pending inspection · ${counts.submitted} submitted · ${counts.lab_pending} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
