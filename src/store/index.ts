@@ -15,7 +15,7 @@ import inspectionApiReducer from './apiSlices/inspectionApiSlice';
 import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
-import sidebarApiReducer from './apiSlices/sidebarApiSlice';
+// import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
 
 export const store = configureStore({
@@ -29,7 +29,7 @@ export const store = configureStore({
     inspectionDetailsApi: inspectionDetailsApiReducer,
     lookupsApi: lookupsApiReducer,
     pendingUsersApi: pendingUsersApiReducer,
-    sidebarApi: sidebarApiReducer,
+    // sidebarApi: sidebarApiReducer,
     auth: authReducer,
   },
 });
