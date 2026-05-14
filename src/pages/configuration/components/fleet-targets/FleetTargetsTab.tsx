@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button, useToast } from '@/atoms';
+import { InfoIcon } from '@/atoms/icons';
 import { useAppDispatch, useAppSelector } from '@/store';
-import {
-  fetchFleetTargets,
-  saveFleetTargets,
-} from '@/store/apiSlices/fleetTargetsApiSlice';
+import { fetchFleetTargets } from '@/store/apiSlices/fleetTargetsApiSlice';
+import { saveFleetTargetsApi } from '@/services/fleetTargetsService';
 import { States } from '@/store/types';
 import type { FleetTarget, FleetTotals } from '@/types/configuration';
 import { FleetTargetsKpiStrip } from './FleetTargetsKpiStrip';
@@ -20,10 +19,9 @@ function computeTotals(targets: FleetTarget[]): FleetTotals {
 export function FleetTargetsTab() {
   const dispatch = useAppDispatch();
   const toast = useToast();
-  const { apiState, data, saveState, saveError } = useAppSelector(
-    (s) => s.fleetTargetsApi,
-  );
+  const { apiState, data } = useAppSelector((s) => s.fleetTargetsApi);
   const [targets, setTargets] = useState<FleetTarget[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     dispatch(fetchFleetTargets());
@@ -60,23 +58,6 @@ export function FleetTargetsTab() {
     setTargets((prev) => prev.filter((_, i) => i !== index));
   };
 
-  useEffect(() => {
-    if (saveState === States.SUCCESS) {
-      toast.show('Fleet targets saved successfully');
-    } else if (saveState === States.ERROR) {
-      toast.show(saveError?.description ?? 'Failed to save fleet targets', {
-        tone: 'error',
-      });
-    }
-  }, [saveState, saveError?.description, toast]);
-
-  const handleAddRow = () => {
-    setTargets((prev) => [
-      ...prev,
-      { id: 0, gov: 'New Governorate', dw: 0, sw: 0, te: 0, custom: true },
-    ]);
-  };
-
   const handleReset = () => {
     if (apiState === States.SUCCESS && data) {
       setTargets(
@@ -92,17 +73,32 @@ export function FleetTargetsTab() {
     }
   };
 
-  const handleSave = () => {
-    dispatch(
-      saveFleetTargets({
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const response = await saveFleetTargetsApi({
         governorates: targets.map((t) => ({
           id: t.id,
           dwCount: t.dw,
           swCount: t.sw,
           teCount: t.te,
         })),
-      }),
-    );
+      });
+      if (response.success) {
+        toast.show('Fleet targets saved successfully');
+      } else {
+        toast.show(
+          response.error?.description ?? 'Failed to save fleet targets',
+          {
+            tone: 'error',
+          },
+        );
+      }
+    } catch {
+      toast.show('Failed to save fleet targets', { tone: 'error' });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -110,21 +106,7 @@ export function FleetTargetsTab() {
       <FleetTargetsKpiStrip totals={totals} />
 
       <div className="flex items-center gap-2.5 rounded-card border border-blue-200 bg-blue-50 px-4 py-3 text-[13px] text-blue-800">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="shrink-0"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="8" />
-          <line x1="12" y1="12" x2="12" y2="16" />
-        </svg>
+        <InfoIcon width={16} height={16} strokeWidth={2} className="shrink-0" />
         <span>
           Planning benchmarks only — not actual tanker records. Used as
           denominators for compliance rate on the Operations Dashboard,
@@ -137,19 +119,14 @@ export function FleetTargetsTab() {
         totals={totals}
         onUpdate={handleUpdate}
         onDelete={handleDelete}
-        onAddRow={handleAddRow}
       />
 
       <div className="flex justify-end gap-2">
         <Button variant="secondary" onClick={handleReset}>
           Reset to Defaults
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleSave}
-          disabled={saveState === States.LOADING}
-        >
-          {saveState === States.LOADING ? 'Saving…' : 'Save Fleet Targets'}
+        <Button variant="primary" onClick={handleSave} disabled={isSaving}>
+          {isSaving ? 'Saving…' : 'Save Fleet Targets'}
         </Button>
       </div>
     </div>

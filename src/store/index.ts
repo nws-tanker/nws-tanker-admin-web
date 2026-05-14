@@ -5,7 +5,6 @@ import {
 } from 'react-redux';
 
 import { configureStore } from '@reduxjs/toolkit';
-
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
 import clustersApiReducer from './apiSlices/clustersApiSlice';
 import clusterSetupApiReducer from './apiSlices/clusterSetupApiSlice';
@@ -16,7 +15,7 @@ import inspectionChecklistApiReducer from './apiSlices/inspectionChecklistApiSli
 import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
-import sidebarApiReducer from './apiSlices/sidebarApiSlice';
+// import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
 
 export const store = configureStore({
@@ -31,7 +30,7 @@ export const store = configureStore({
     inspectionDetailsApi: inspectionDetailsApiReducer,
     lookupsApi: lookupsApiReducer,
     pendingUsersApi: pendingUsersApiReducer,
-    sidebarApi: sidebarApiReducer,
+    // sidebarApi: sidebarApiReducer,
     auth: authReducer,
   },
 });

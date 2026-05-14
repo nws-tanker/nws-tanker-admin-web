@@ -1,5 +1,5 @@
 import { ENDPOINTS } from '@/constants/endpoints';
-import { INSPECTION_TAB_API_PARAM } from '@/pages/inspection/inspectionHelpers';
+import { INSPECTION_TAB_API_PARAM } from '@/types/inspection';
 import type { ApiResponse } from '@/store/types';
 import type {
   ApiInspectionPagedData,

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button, Textarea } from '@/atoms';
 import { Modal } from '@/atoms/Modal';
 import { cancelInspection } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
@@ -63,22 +64,20 @@ export function CancelInspectionModal({
       width={460}
       footer={
         <>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={handleClose}
             disabled={cancelling}
-            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-50"
           >
             Go Back
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="danger"
             onClick={handleConfirm}
             disabled={cancelling}
-            className="h-9 rounded-lg bg-red-600 px-4 text-[13px] font-semibold text-white hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {cancelling ? 'Cancelling…' : 'Confirm Cancellation'}
-          </button>
+          </Button>
         </>
       }
     >
@@ -99,7 +98,7 @@ export function CancelInspectionModal({
             This reason will be recorded in the audit trail and visible to all
             stakeholders.
           </p>
-          <textarea
+          <Textarea
             rows={3}
             value={reason}
             onChange={(e) => {
@@ -107,11 +106,7 @@ export function CancelInspectionModal({
               if (e.target.value.trim()) setReasonError(false);
             }}
             placeholder="Enter reason…"
-            className={`w-full resize-vertical rounded-lg border px-3 py-2 text-[13px] text-ink-700 placeholder:text-ink-300 focus:outline-none focus:ring-2 ${
-              reasonError
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-100'
-                : 'border-ink-200 focus:border-ink-400 focus:ring-ink-100'
-            }`}
+            invalid={reasonError}
           />
           {reasonError && (
             <p className="text-[11px] text-red-600">

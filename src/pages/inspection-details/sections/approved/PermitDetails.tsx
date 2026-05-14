@@ -1,5 +1,7 @@
-import { DownloadIcon } from '@/atoms/icons';
+import { Button } from '@/atoms';
+import { CheckIcon, DownloadIcon } from '@/atoms/icons';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { formatDate } from '@/utils';
 
 const TANKER_TYPE_LABEL: Record<string, string> = {
   DW: 'Drinking Water',
@@ -13,13 +15,37 @@ function daysRemaining(expiresAt: string | null): number | null {
   return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 }
 
-function formatDate(iso: string | null): string {
-  if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
+function buildPermitFields(
+  permit: InspectionDetailsApiResponse['permit'],
+  tanker: InspectionDetailsApiResponse['tanker'],
+) {
+  return [
+    {
+      label: 'Permit Number',
+      value: permit.permit_number,
+      mono: true,
+      large: true,
+    },
+    { label: 'Plate Number', value: tanker.plate, mono: false, large: false },
+    {
+      label: 'Tanker Type',
+      value: TANKER_TYPE_LABEL[tanker.type] ?? tanker.type,
+      mono: false,
+      large: false,
+    },
+    {
+      label: 'Issued Date',
+      value: formatDate(permit.issued_at),
+      mono: false,
+      large: false,
+    },
+    {
+      label: 'Valid Until',
+      value: formatDate(permit.expires_at),
+      mono: false,
+      large: false,
+    },
+  ];
 }
 
 type Props = { data: InspectionDetailsApiResponse };
@@ -56,68 +82,28 @@ export function PermitDetails({ data }: Props) {
           </div>
 
           {/* Fields */}
-          {[
-            {
-              label: 'Permit Number',
-              value: permit.permit_number,
-              mono: true,
-              large: true,
-            },
-            {
-              label: 'Plate Number',
-              value: tanker.plate,
-              mono: false,
-              large: false,
-            },
-            {
-              label: 'Tanker Type',
-              value: TANKER_TYPE_LABEL[tanker.type] ?? tanker.type,
-              mono: false,
-              large: false,
-            },
-            {
-              label: 'Issued Date',
-              value: formatDate(permit.issued_at),
-              mono: false,
-              large: false,
-            },
-            {
-              label: 'Valid Until',
-              value: formatDate(permit.expires_at),
-              mono: false,
-              large: false,
-            },
-          ].map(({ label, value, mono, large }) => (
-            <div key={label} className="mb-2.5">
-              <div className="mb-0.5 text-[9px] font-semibold uppercase tracking-widest text-white/45">
-                {label}
+          {buildPermitFields(permit, tanker).map(
+            ({ label, value, mono, large }) => (
+              <div key={label} className="mb-2.5">
+                <div className="mb-0.5 text-[9px] font-semibold uppercase tracking-widest text-white/45">
+                  {label}
+                </div>
+                <div
+                  className={[
+                    large ? 'text-[15px] font-bold' : 'text-[12px]',
+                    mono ? 'font-mono' : '',
+                    'text-white',
+                  ].join(' ')}
+                >
+                  {value}
+                </div>
               </div>
-              <div
-                className={[
-                  large ? 'text-[15px] font-bold' : 'text-[12px]',
-                  mono ? 'font-mono' : '',
-                  'text-white',
-                ].join(' ')}
-              >
-                {value}
-              </div>
-            </div>
-          ))}
+            ),
+          )}
 
           {/* Status badge */}
           <div className="mt-3 flex items-center gap-1.5 rounded-card bg-emerald-600 px-3 py-2">
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+            <CheckIcon width={12} height={12} stroke="white" strokeWidth={3} />
             <span className="text-[11px] font-semibold text-white">
               Valid Permit{days !== null ? ` · ${days} days remaining` : ''}
             </span>
@@ -158,13 +144,17 @@ export function PermitDetails({ data }: Props) {
             )}
           </div>
 
-          <button className="flex w-full items-center justify-center gap-2 rounded-card bg-teal-800 px-4 py-2.5 text-[13px] font-medium text-white hover:bg-teal-700">
+          <Button variant="primary" size="lg" className="w-full justify-center">
             View Permit Report
-          </button>
-          <button className="flex w-full items-center justify-center gap-2 rounded-card border border-ink-200 bg-white px-4 py-2.5 text-[13px] font-medium text-ink-700 hover:bg-ink-50">
-            <DownloadIcon width={14} height={14} />
+          </Button>
+          <Button
+            variant="secondary"
+            size="lg"
+            leftIcon={<DownloadIcon width={14} height={14} />}
+            className="w-full justify-center"
+          >
             Download Permit (PDF)
-          </button>
+          </Button>
         </div>
       </div>
     </div>

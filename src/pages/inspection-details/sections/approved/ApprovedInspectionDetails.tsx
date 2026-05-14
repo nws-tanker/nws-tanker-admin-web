@@ -23,7 +23,7 @@ export default function ApprovedInspectionDetails({ data }: Props) {
         <ActivityTimeline data={data} />
       </div>
       <div className="sticky top-6">
-        <ApprovedSidebar />
+        <ApprovedSidebar data={data} />
       </div>
     </div>
   );

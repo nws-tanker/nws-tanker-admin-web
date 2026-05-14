@@ -1,3 +1,5 @@
+import { ImageIcon } from '@/atoms/icons';
+
 type Photo = { id: string; url: string; thumb: string | null };
 
 export type ChecklistItem = {
@@ -38,20 +40,7 @@ export function ChecklistItemRow({ item, onOpenPhoto }: Props) {
                 onClick={() => onOpenPhoto(item.photos, pi)}
                 className="flex items-center gap-1.5 rounded-full bg-teal-50 px-2.5 py-0.5 text-[11px] font-medium text-teal-700 hover:bg-teal-100 transition-colors"
               >
-                <svg
-                  width="11"
-                  height="11"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
+                <ImageIcon width={11} height={11} strokeWidth={2} />
                 {item.photos.length > 1 ? `Photo ${pi + 1}` : 'View photo'}
               </button>
             ))}

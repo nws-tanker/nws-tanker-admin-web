@@ -1,9 +1,17 @@
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { formatDate } from '@/utils';
 
 type Props = { data: InspectionDetailsApiResponse };
 
 export function InspectionSummaryTiles({ data }: Props) {
   const { assignment, inspection } = data;
+
+  if (
+    inspection.checklistStatus.pass == null &&
+    inspection.checklistStatus.fail == null
+  )
+    return null;
+
   const passed = inspection.checklistStatus.pass;
   const failed = inspection.checklistStatus.fail ?? 0;
   const total = passed + failed;
@@ -36,8 +44,9 @@ export function InspectionSummaryTiles({ data }: Props) {
         </div>
       </div>
       <div className="text-[12px] text-ink-400">
-        Inspection date: {assignment.physical_date ?? '—'} · Inspector:{' '}
-        {assignment.inspector_name}
+        Inspection date:{' '}
+        {assignment.physical_date ? formatDate(assignment.physical_date) : '—'}{' '}
+        · Inspector: {assignment.inspector_name}
       </div>
     </div>
   );

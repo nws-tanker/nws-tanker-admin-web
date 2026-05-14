@@ -1,116 +1,14 @@
 import { useState } from 'react';
-import { Button, FileUploadZone, Modal } from '@/atoms';
+import { Button } from '@/atoms';
 import { FilePlusIcon, FileTextIcon, UploadIcon } from '@/atoms/icons';
-import { uploadLabReport } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { UploadReportModal } from './UploadReportModal';
+import { ViewReportModal } from './ViewReportModal';
 
 type Props = {
   data: InspectionDetailsApiResponse;
   onUploadSuccess: () => void;
 };
-
-function ViewReportModal({
-  open,
-  onClose,
-  url,
-  reportId,
-}: {
-  open: boolean;
-  onClose: () => void;
-  url: string;
-  reportId: string;
-}) {
-  return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      title="Lab Test Report"
-      subtitle={reportId}
-      width={960}
-    >
-      <div className="-mx-6 -my-5">
-        <iframe
-          src={url}
-          title="Lab Test Report"
-          className="h-[75vh] w-full border-0"
-        />
-      </div>
-    </Modal>
-  );
-}
-
-function UploadReportModal({
-  open,
-  onClose,
-  inspectionId,
-  onUploadSuccess,
-}: {
-  open: boolean;
-  onClose: () => void;
-  inspectionId: string;
-  onUploadSuccess: () => void;
-}) {
-  const [file, setFile] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleClose = () => {
-    if (uploading) return;
-    setFile(null);
-    setError(null);
-    onClose();
-  };
-
-  const handleUpload = async () => {
-    if (!file) return;
-    setUploading(true);
-    setError(null);
-    try {
-      const res = await uploadLabReport(inspectionId, file);
-      if (!res.success) {
-        setError(res.error?.description ?? 'Upload failed. Please try again.');
-        return;
-      }
-      setFile(null);
-      onClose();
-      onUploadSuccess();
-    } catch {
-      setError('Upload failed. Please try again.');
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      title="Upload Lab Test Report"
-      subtitle="PDF format only · Max 10 MB"
-      footer={
-        <div className="flex w-full justify-end gap-2">
-          <Button
-            variant="secondary"
-            onClick={handleClose}
-            disabled={uploading}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            disabled={!file || uploading}
-            onClick={handleUpload}
-          >
-            {uploading ? 'Uploading…' : 'Upload Report'}
-          </Button>
-        </div>
-      }
-    >
-      <FileUploadZone accept=".pdf" file={file} onFile={setFile} />
-      {error && <p className="mt-2 text-[12px] text-red-600">{error}</p>}
-    </Modal>
-  );
-}
 
 export function LabReport({ data, onUploadSuccess }: Props) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -154,19 +52,21 @@ export function LabReport({ data, onUploadSuccess }: Props) {
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-1.5">
-              <button
+              <Button
+                variant="secondary"
+                size="sm"
                 onClick={() => setViewModalOpen(true)}
-                className="rounded-card border border-ink-200 bg-white px-3 py-1.5 text-[12px] font-medium text-ink-700 hover:bg-ink-50"
               >
                 View Report
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                leftIcon={<UploadIcon width={13} height={13} />}
                 onClick={() => setModalOpen(true)}
-                className="flex items-center gap-1.5 rounded-card border border-ink-200 bg-white px-3 py-1.5 text-[12px] font-medium text-ink-600 hover:bg-ink-50"
               >
-                <UploadIcon width={13} height={13} />
                 Upload lab test results
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -205,13 +105,13 @@ export function LabReport({ data, onUploadSuccess }: Props) {
             <div className="mb-3.5 text-[12px] text-ink-400">
               PDF format only · Max 10 MB
             </div>
-            <button
+            <Button
+              variant="secondary"
+              leftIcon={<UploadIcon width={14} height={14} />}
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-card border border-ink-200 bg-white px-4 py-2 text-[12px] font-medium text-ink-700 hover:bg-ink-50"
             >
-              <UploadIcon width={14} height={14} />
               Upload lab test results
-            </button>
+            </Button>
           </div>
         </div>
       </div>

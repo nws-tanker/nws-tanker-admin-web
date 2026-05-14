@@ -190,6 +190,31 @@ export function CloseIcon(p: IconProps) {
     </svg>
   );
 }
+export function InfoIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+      <line x1="12" y1="12" x2="12" y2="16" />
+    </svg>
+  );
+}
+export function CheckIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+export function ImageIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <circle cx="8.5" cy="8.5" r="1.5" />
+      <polyline points="21 15 16 10 5 21" />
+    </svg>
+  );
+}
 export default function EyeIcon({ open }: { open: boolean }) {
   return open ? (
     <svg

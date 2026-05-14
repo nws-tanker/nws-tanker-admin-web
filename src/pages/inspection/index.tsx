@@ -13,34 +13,25 @@ import { useInspectionFilters } from './hooks/useInspectionFilters';
 
 export default function InspectionPage() {
   const navigate = useNavigate();
-  const { activeTab, search, page, setActiveTab, setSearch, setPage } =
-    useInspectionFilters();
+  const {
+    activeTab,
+    search,
+    debouncedSearch,
+    page,
+    setActiveTab,
+    setSearch,
+    setPage,
+  } = useInspectionFilters();
 
   const { state, counts, records, totalElements, totalPages, retry } =
-    useInspectionData({ activeTab, search, page });
+    useInspectionData({ activeTab, search: debouncedSearch, page });
 
   const subtitle = counts
     ? `${counts.in_review} pending review · ${counts.pending} pending inspection · ${counts.submitted} submitted · ${counts.lab_pending} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
     : 'Loading…';
 
-  function handleView(record: ApiInspectionRecord) {
+  function handleNavigateToDetails(record: ApiInspectionRecord) {
     navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
-  }
-
-  function handleReview(record: ApiInspectionRecord) {
-    navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleQueueReinspection(_record: ApiInspectionRecord) {
-    // TODO: open queue re-inspection modal
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleAssignInspector(
-    _record: ApiInspectionRecord,
-    _inspector: string,
-    _date: string,
-  ) {
-    // TODO: dispatch assign inspector API call
   }
 
   return (
@@ -77,10 +68,8 @@ export default function InspectionPage() {
                 search={search}
                 onSearch={setSearch}
                 onPageChange={setPage}
-                onView={handleView}
-                onReview={handleReview}
-                onQueueReinspection={handleQueueReinspection}
-                onAssignInspector={handleAssignInspector}
+                onView={handleNavigateToDetails}
+                onReview={handleNavigateToDetails}
               />
             )}
           </>

@@ -8,7 +8,6 @@ import { useState } from 'react';
 type Props = {
   record: ApiInspectionRecord;
   onView: (record: ApiInspectionRecord) => void;
-  onQueueReinspection: (record: ApiInspectionRecord) => void;
 };
 
 export function RejectedRow({ record, onView }: Props) {

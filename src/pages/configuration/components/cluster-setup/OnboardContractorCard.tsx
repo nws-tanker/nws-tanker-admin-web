@@ -53,10 +53,10 @@ export function OnboardContractorCard() {
     setErrors({});
     setSubmitting(true);
     // TODO: call register contractor API
-    setTimeout(() => {
-      setSubmitting(false);
-      setForm(EMPTY_FORM);
-    }, 2000);
+    // setTimeout(() => {
+    //   setSubmitting(false);
+    //   setForm(EMPTY_FORM);
+    // }, 2000);
   };
 
   return (

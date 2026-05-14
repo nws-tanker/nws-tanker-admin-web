@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Button, Select } from '@/atoms';
 import { Modal } from '@/atoms/Modal';
 import {
   assignInspector,
@@ -84,22 +85,20 @@ export function ReassignInspectorModal({
       width={460}
       footer={
         <>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={handleClose}
             disabled={submitting}
-            className="h-9 rounded-lg border border-ink-200 bg-white px-4 text-[13px] font-medium text-ink-700 hover:bg-ink-50 disabled:opacity-50"
           >
             Cancel
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="primary"
             onClick={handleReassign}
             disabled={submitting || loadingInspectors}
-            className="h-9 rounded-lg bg-teal-700 px-4 text-[13px] font-semibold text-white hover:bg-teal-800 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? 'Reassigning…' : 'Reassign Inspector'}
-          </button>
+          </Button>
         </>
       }
     >
@@ -116,30 +115,29 @@ export function ReassignInspectorModal({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <select
+          <Select
+            options={useMemo(
+              () =>
+                inspectors.map((insp) => ({
+                  value: insp.userId,
+                  label: insp.name,
+                })),
+              [inspectors],
+            )}
             value={selectedId}
-            onChange={(e) => {
-              setSelectedId(e.target.value);
-              if (e.target.value) setSelectError(false);
+            onChange={(next) => {
+              setSelectedId(next);
+              if (next) setSelectError(false);
             }}
-            disabled={loadingInspectors}
-            className={`w-full rounded-lg border bg-white px-3 py-2 text-[13px] text-ink-700 focus:outline-none focus:ring-2 disabled:opacity-60 ${
-              selectError
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-100'
-                : 'border-ink-200 focus:border-ink-400 focus:ring-ink-100'
-            }`}
-          >
-            <option value="">
-              {loadingInspectors
+            placeholder={
+              loadingInspectors
                 ? 'Loading inspectors…'
-                : '— Select new inspector —'}
-            </option>
-            {inspectors.map((insp) => (
-              <option key={insp.userId} value={insp.userId}>
-                {insp.name}
-              </option>
-            ))}
-          </select>
+                : '— Select new inspector —'
+            }
+            disabled={loadingInspectors}
+            invalid={selectError}
+            className="w-full"
+          />
           {selectError && (
             <p className="text-[11px] text-red-600">
               Please select an inspector.

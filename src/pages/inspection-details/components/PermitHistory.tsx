@@ -1,13 +1,5 @@
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
-
-function formatDate(iso: string | null): string {
-  if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
-}
+import { formatDate } from '@/utils';
 
 function isActive(status: string, expiresAt: string | null): boolean {
   if (status?.toLowerCase() === 'active') return true;

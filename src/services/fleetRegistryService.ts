@@ -3,8 +3,6 @@ import type { ApiResponse } from '@/store/types';
 import type { Permit, PermitStatus, Tanker, TankerType } from '@/types';
 import { PERMIT_STATUS, TANKER_TYPE } from '@/types';
 import { get } from './http';
-import { mockDelay, USE_MOCK } from './mockConfig';
-import { MOCK_TANKERS } from '@/mocks/fleet-registry/tankers';
 
 type ApiTanker = {
   plateNumber: string;
@@ -64,11 +62,6 @@ function mapApiTanker(raw: ApiTanker): Tanker {
 }
 
 export async function fetchFleetTankersApi(): Promise<ApiResponse<Tanker[]>> {
-  if (USE_MOCK) {
-    await mockDelay();
-    return { success: true, data: MOCK_TANKERS };
-  }
-
   const response = await get<ApiFleetResponse>(ENDPOINTS.fleetRegistry);
   if (!response.success) return response;
   return { success: true, data: response.data.vehicles.map(mapApiTanker) };

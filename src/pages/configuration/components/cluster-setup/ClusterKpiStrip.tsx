@@ -8,6 +8,11 @@ import type {
   ClusterSetupSummary,
 } from '@/types/configuration';
 
+import {
+  getGovCountForCluster,
+  getTankerCountForCluster,
+} from '../../configurationHelpers';
+
 type Props = {
   summary: ClusterSetupSummary;
   clusters: ClusterSetupCluster[];
@@ -21,14 +26,6 @@ export function ClusterKpiStrip({
   governorates,
   govAssignments,
 }: Props) {
-  const govCountFor = (clusterId: number) =>
-    governorates.filter((g) => govAssignments[g.name] === clusterId).length;
-
-  const tankerCountFor = (clusterId: number) =>
-    governorates
-      .filter((g) => govAssignments[g.name] === clusterId)
-      .reduce((s, g) => s + g.dwCount + g.swCount + g.teCount, 0);
-
   return (
     <div className="grid grid-cols-4 gap-3">
       <div className="rounded-card-lg border border-teal-200 bg-teal-900 px-4 py-3 shadow-card-sm">
@@ -62,13 +59,21 @@ export function ClusterKpiStrip({
                 className="text-[28px] font-bold leading-none"
                 style={{ color }}
               >
-                {govCountFor(c.clusterId)}
+                {getGovCountForCluster(
+                  c.clusterId,
+                  governorates,
+                  govAssignments,
+                )}
               </span>
               <span className="text-[13px] text-ink-400">govs</span>
             </div>
             <div className="mt-1 text-[11.5px] text-ink-500">
-              {tankerCountFor(c.clusterId).toLocaleString()} tankers ·{' '}
-              {c.contractorName}
+              {getTankerCountForCluster(
+                c.clusterId,
+                governorates,
+                govAssignments,
+              ).toLocaleString()}{' '}
+              tankers · {c.contractorName}
             </div>
           </div>
         );
