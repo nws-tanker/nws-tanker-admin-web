@@ -53,6 +53,26 @@ export function FileIcon(p: IconProps) {
     </svg>
   );
 }
+export function FileTextIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="9" y1="13" x2="15" y2="13" />
+      <line x1="9" y1="17" x2="13" y2="17" />
+    </svg>
+  );
+}
+export function FilePlusIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="12" y1="18" x2="12" y2="12" />
+      <line x1="9" y1="15" x2="15" y2="15" />
+    </svg>
+  );
+}
 export function FlaskIcon(p: IconProps) {
   return (
     <svg {...base} {...p}>
@@ -167,6 +187,31 @@ export function CloseIcon(p: IconProps) {
     <svg {...base} {...p}>
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+export function InfoIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+      <line x1="12" y1="12" x2="12" y2="16" />
+    </svg>
+  );
+}
+export function CheckIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+export function ImageIcon(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <circle cx="8.5" cy="8.5" r="1.5" />
+      <polyline points="21 15 16 10 5 21" />
     </svg>
   );
 }

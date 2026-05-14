@@ -10,6 +10,7 @@ export const ROUTES = {
   operations: '/operations',
   fleetCompliance: '/fleet-compliance',
   inspectionReview: '/inspection-review',
+  inspectionDetails: '/inspection-details/:inspectionId',
   permitRenewal: '/permit-renewal',
   labelManagement: '/label-management',
   reports: '/reports',
@@ -22,7 +23,7 @@ export type RouteKey = keyof typeof ROUTES;
 /* null = public (no auth required). Routes mapped to a UserAccess key require
    that key in the JWT's user_access array.
    Order matters: post-login redirect picks the first route in this list that
-   the user has access to. */
+    the user has access to. */
 export const POST_LOGIN_ROUTE_PRIORITY: RouteKey[] = [
   'dashboard',
   'fleetRegistry',
@@ -63,6 +64,7 @@ export const ROUTE_ACCESS: Record<RouteKey, UserAccess | null> = {
   operations: USER_ACCESS.OPERATIONS,
   fleetCompliance: USER_ACCESS.FLEET_COMPLIANCE,
   inspectionReview: USER_ACCESS.INSPECTION_REVIEW,
+  inspectionDetails: USER_ACCESS.INSPECTION_REVIEW,
   permitRenewal: USER_ACCESS.PERMIT_RENEWAL,
   labelManagement: USER_ACCESS.LABEL_MANAGEMENT,
   reports: USER_ACCESS.REPORTS,

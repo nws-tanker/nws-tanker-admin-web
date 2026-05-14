@@ -92,3 +92,12 @@ export const AVATAR_PALETTE = [
   'bg-emerald-700',
   'bg-indigo-600',
 ];
+
+export const CLUSTER_IDS = [1, 2, 3] as const;
+
+export const CLUSTER_COLORS: Record<number, string> = {
+  1: '#117680',
+  2: '#D97706',
+  3: '#7C3AED',
+};
+export const DEFAULT_CLUSTER_COLOR = '#6B7280';

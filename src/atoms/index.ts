@@ -1,3 +1,5 @@
+export { ClusterPill } from './ClusterPill';
+export { FileUploadZone } from './FileUploadZone';
 export { FormField } from './FormField';
 export { Input } from './Input';
 export { Badge } from './Badge';

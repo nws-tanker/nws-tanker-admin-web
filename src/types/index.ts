@@ -34,3 +34,9 @@ export type {
   LoginResponse,
   RefreshTokenResponse,
 } from './auth';
+export type {
+  ApiInspectionRecord,
+  InspectionTab,
+  InspectionTabCounts,
+  InspectionTankerType,
+} from './inspection';
