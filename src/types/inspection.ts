@@ -17,6 +17,15 @@ export type InspectionTabCounts = {
   rejected: number;
 };
 
+export const INSPECTION_TAB_API_PARAM: Record<InspectionTab, string> = {
+  'pending-review': 'in_review',
+  'pending-inspection': 'pending',
+  submitted: 'submitted',
+  'lab-testing': 'lab_pending',
+  approved: 'approved',
+  rejected: 'rejected',
+};
+
 export type ApiInspectionRecord = {
   id: string;
   inspection_id: number;
