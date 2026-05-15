@@ -23,7 +23,6 @@ export function UserStatusModal({
     ? 'This user will immediately lose access to the system and will not be able to sign in until reactivated.'
     : 'This user will regain access to the system and be able to sign in again.';
 
-  console.log('the user is ', user);
   const handleClose = () => {
     if (submitting) return;
     onClose();
