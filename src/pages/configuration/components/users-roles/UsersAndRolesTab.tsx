@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useToast } from '@/atoms';
 import {
   approveUserApi,
   rejectUserApi,
@@ -21,6 +22,7 @@ import { RejectRegistrationModal } from './RejectRegistrationModal';
 import { UserStatusModal } from './UserStatusModal';
 
 export function UsersAndRolesTab() {
+  const toast = useToast();
   const [roleFilter, setRoleFilter] = useState<UserRole | ''>('');
   const [clusterFilter, setClusterFilter] = useState('');
 
@@ -93,10 +95,15 @@ export function UsersAndRolesTab() {
     if (res.success) {
       setStatusTarget(null);
       retryUsers();
+      toast.show(
+        `User ${nextStatus === 'ACTIVE' ? 'activated' : 'deactivated'} successfully`,
+      );
+    } else {
+      toast.show(res.error?.description ?? 'Failed to update user status', {
+        tone: 'error',
+      });
     }
-    // TODO: show toast on res.success === false with res.error.description
   };
-  console.log('The users are ', users);
 
   const hasPending = pendingState === States.SUCCESS && requests.length > 0;
 
