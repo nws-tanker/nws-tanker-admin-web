@@ -33,6 +33,7 @@ export type {
   ApproveUserRequest,
   ClusterResponse,
   InspectionDataToBeEdited,
+  PermitSlaApiResponse,
 } from './configuration';
 export type {
   AuthUser,

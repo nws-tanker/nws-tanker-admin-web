@@ -4,6 +4,10 @@ import type {
   ClusterSetupApiResponse,
   InspectionChecklistResponse,
   UpdateEmployeeRequest,
+  PermitSlaApiResponse,
+  NotificationContactsApiResponse,
+  UpdatePermitSlaRequest,
+  UpdateNotificationContactsRequest,
 } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
@@ -71,6 +75,36 @@ export async function updateUserStatusApi(
 ): Promise<ApiResponse<void>> {
   const url = ENDPOINTS.updateEmployeeStatus.replace('{userId}', userId);
   return put<void>(url, body);
+}
+
+export async function fetchPermitSlaApi(): Promise<
+  ApiResponse<PermitSlaApiResponse>
+> {
+  return get<PermitSlaApiResponse>(ENDPOINTS.permitSla, undefined);
+}
+
+export async function fetchNotificationContactsApi(): Promise<
+  ApiResponse<NotificationContactsApiResponse>
+> {
+  return get<NotificationContactsApiResponse>(
+    ENDPOINTS.notificationContacts,
+    undefined,
+  );
+}
+
+export async function updatePermitSlaApi(
+  body: UpdatePermitSlaRequest,
+): Promise<ApiResponse<PermitSlaApiResponse>> {
+  return put<PermitSlaApiResponse>(ENDPOINTS.permitSla, body);
+}
+
+export async function updateNotificationContactsApi(
+  body: UpdateNotificationContactsRequest,
+): Promise<ApiResponse<NotificationContactsApiResponse>> {
+  return put<NotificationContactsApiResponse>(
+    ENDPOINTS.notificationContacts,
+    body,
+  );
 }
 
 export async function fetchClusters(): Promise<ApiResponse<ClusterResponse[]>> {
