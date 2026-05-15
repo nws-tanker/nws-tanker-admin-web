@@ -8,7 +8,7 @@ import type {
   TankerTypeLookup,
 } from '@/types';
 import { PERMIT_STATUS } from '@/types';
-import { PERMIT_STATUS_BY_API, TANKER_TYPE_BY_CODE } from './fleetMappings';
+import { PERMIT_STATUS_BY_API, TANKER_TYPE_BY_CODE } from '@/constants/fleet';
 import { get } from './http';
 
 type ApiTankerTypeLookup = { id: string; name: string };

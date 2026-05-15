@@ -96,7 +96,6 @@ export function UsersAndRolesTab() {
     }
     // TODO: show toast on res.success === false with res.error.description
   };
-  console.log('The users are ', users);
 
   const hasPending = pendingState === States.SUCCESS && requests.length > 0;
 
