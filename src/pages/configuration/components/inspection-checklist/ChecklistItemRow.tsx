@@ -85,6 +85,7 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
               setLocalEvidenceType(v as typeof localEvidenceType)
             }
             size="sm"
+            disabled
           />
         ) : (
           <span className="capitalize">{localEvidenceType}</span>
