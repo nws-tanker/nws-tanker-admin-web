@@ -1,16 +1,16 @@
 import { TabButton } from '@/atoms';
-import { CONFIG_TABS } from '@/constants/configuration';
 import type { ConfigTab } from '@/types/configuration';
 
 type Props = {
+  tabs: { id: ConfigTab; label: string }[];
   active: ConfigTab;
   onChange: (tab: ConfigTab) => void;
 };
 
-export function ConfigurationTabs({ active, onChange }: Props) {
+export function ConfigurationTabs({ tabs, active, onChange }: Props) {
   return (
     <div className="flex border-b border-ink-200">
-      {CONFIG_TABS.map((tab) => (
+      {tabs.map((tab) => (
         <TabButton
           key={tab.id}
           active={tab.id === active}

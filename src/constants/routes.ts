@@ -46,28 +46,51 @@ export const POST_LOGIN_ROUTE_PRIORITY: RouteKey[] = [
 
 export function firstAllowedPath(userAccess: UserAccess[]): string {
   for (const key of POST_LOGIN_ROUTE_PRIORITY) {
-    const required = ROUTE_ACCESS[key];
-    if (required === null || userAccess.includes(required)) {
-      return ROUTES[key];
-    }
+    if (hasRouteAccess(key, userAccess)) return ROUTES[key];
   }
   return ROUTES.forbidden;
 }
 
-export const ROUTE_ACCESS: Record<RouteKey, UserAccess | null> = {
-  root: null,
-  authentication: null,
-  forbidden: null,
-  fleetRegistry: USER_ACCESS.FLEET_REGISTRY,
-  tankerUpload: USER_ACCESS.FLEET_REGISTRY, // tanker upload is part of fleet management, same permission as fleetRegistry
-  dashboard: USER_ACCESS.EXECUTIVE_DASHBOARD,
-  operations: USER_ACCESS.OPERATIONS,
-  fleetCompliance: USER_ACCESS.FLEET_COMPLIANCE,
-  inspectionReview: USER_ACCESS.INSPECTION_REVIEW,
-  inspectionDetails: USER_ACCESS.INSPECTION_REVIEW,
-  permitRenewal: USER_ACCESS.PERMIT_RENEWAL,
-  labelManagement: USER_ACCESS.LABEL_MANAGEMENT,
-  reports: USER_ACCESS.REPORTS,
-  configuration: USER_ACCESS.CONFIG_NOTIFICATIONS,
-  inspectorAssignment: USER_ACCESS.INSPECTOR_ASSIGNMENT,
-};
+/* A route can require:
+   - null               -> public, anyone can enter
+   - UserAccess         -> must hold that single permission
+   - UserAccess[]       -> must hold AT LEAST ONE of these (any-of). Used for
+                           multi-section pages like Configuration where
+                           different tabs map to different permissions. */
+export const ROUTE_ACCESS: Record<RouteKey, UserAccess | UserAccess[] | null> =
+  {
+    root: null,
+    authentication: null,
+    forbidden: null,
+    fleetRegistry: USER_ACCESS.FLEET_REGISTRY,
+    tankerUpload: USER_ACCESS.FLEET_REGISTRY, // tanker upload is part of fleet management, same permission as fleetRegistry
+    dashboard: USER_ACCESS.EXECUTIVE_DASHBOARD,
+    operations: USER_ACCESS.OPERATIONS,
+    fleetCompliance: USER_ACCESS.FLEET_COMPLIANCE,
+    inspectionReview: USER_ACCESS.INSPECTION_REVIEW,
+    inspectionDetails: USER_ACCESS.INSPECTION_REVIEW,
+    permitRenewal: USER_ACCESS.PERMIT_RENEWAL,
+    labelManagement: USER_ACCESS.LABEL_MANAGEMENT,
+    reports: USER_ACCESS.REPORTS,
+    configuration: [
+      USER_ACCESS.CONFIG_NOTIFICATIONS,
+      USER_ACCESS.CONFIG_PERMIT_SLA_RULES,
+      USER_ACCESS.CONFIG_USERS_ROLES,
+      USER_ACCESS.CONFIG_INSPECTION_CHECKLIST,
+      USER_ACCESS.CONFIG_CLUSTER_SETUP,
+      USER_ACCESS.CONFIG_FLEET_TARGETS,
+    ],
+    inspectorAssignment: USER_ACCESS.INSPECTOR_ASSIGNMENT,
+  };
+
+export function hasRouteAccess(
+  routeKey: RouteKey,
+  userAccess: UserAccess[],
+): boolean {
+  const required = ROUTE_ACCESS[routeKey];
+  if (required === null) return true;
+  if (Array.isArray(required)) {
+    return required.some((p) => userAccess.includes(p));
+  }
+  return userAccess.includes(required);
+}

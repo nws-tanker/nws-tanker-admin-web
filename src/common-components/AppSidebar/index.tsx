@@ -1,7 +1,12 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { clearAuth, selectAuthUser } from '@/store/slices/authSlice';
-import { ROUTES } from '@/constants/routes';
+import {
+  clearAuth,
+  selectAuthUser,
+  selectUserAccess,
+} from '@/store/slices/authSlice';
+import { ROUTES, hasRouteAccess } from '@/constants/routes';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
 import { SidebarBrand } from './SidebarBrand';
 import { SidebarNavItem } from './SidebarNavItem';
@@ -16,8 +21,18 @@ export function AppSidebar() {
   } | null;
   const counts = sidebar?.counts;
   const user = useAppSelector(selectAuthUser);
+  const userAccess = useAppSelector(selectUserAccess);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const visibleSections = useMemo(() => {
+    return NAV_SECTIONS.map((section) => ({
+      ...section,
+      items: section.items.filter((item) =>
+        hasRouteAccess(item.routeKey, userAccess),
+      ),
+    })).filter((section) => section.items.length > 0);
+  }, [userAccess]);
 
   const badgeFor = (item: NavItem) =>
     item.countKey && counts ? counts[item.countKey] : undefined;
@@ -33,7 +48,7 @@ export function AppSidebar() {
     <aside className="flex flex-col overflow-y-auto overflow-x-hidden bg-teal-900 py-5 text-white/80">
       <SidebarBrand />
 
-      {NAV_SECTIONS.map((section) => (
+      {visibleSections.map((section) => (
         <div key={section.heading} className="mt-4 first:mt-4">
           <div className="px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/45">
             {section.heading}
