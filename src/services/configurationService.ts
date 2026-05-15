@@ -3,6 +3,7 @@ import type {
   PendingRequest,
   ClusterSetupApiResponse,
   InspectionChecklistResponse,
+  UpdateEmployeeRequest,
 } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
@@ -63,15 +64,6 @@ export async function fetchActiveUsers(
     cluster: filters?.clusterId,
   });
 }
-
-export type UpdateUserStatusValue = 'ACTIVE' | 'INACTIVE';
-
-export type UpdateEmployeeRequest = {
-  firstName: string;
-  lastName: string;
-  mobileNo: string;
-  status: UpdateUserStatusValue;
-};
 
 export async function updateUserStatusApi(
   userId: string,

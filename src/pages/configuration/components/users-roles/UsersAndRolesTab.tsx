@@ -61,8 +61,12 @@ export function UsersAndRolesTab() {
       setApproveTarget(null);
       retryPending();
       retryUsers();
+      toast.show('User approved successfully');
+    } else {
+      toast.show(res.error?.description ?? 'Failed to approve user', {
+        tone: 'error',
+      });
     }
-    // TODO: show toast on res.success === false with res.error.description
   };
 
   const handleRejectConfirm = async (userId: string, reason: string) => {
@@ -72,8 +76,12 @@ export function UsersAndRolesTab() {
     if (res.success) {
       setRejectTarget(null);
       retryPending();
+      toast.show('User registration rejected');
+    } else {
+      toast.show(res.error?.description ?? 'Failed to reject user', {
+        tone: 'error',
+      });
     }
-    // TODO: show toast on res.success === false with res.error.description
   };
 
   // TODO: open Add User modal

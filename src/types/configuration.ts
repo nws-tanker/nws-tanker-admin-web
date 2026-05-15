@@ -230,3 +230,12 @@ export type InspectionDataToBeEdited = {
     }[];
   }[];
 };
+
+export type UpdateUserStatusValue = 'ACTIVE' | 'INACTIVE';
+
+export type UpdateEmployeeRequest = {
+  firstName: string;
+  lastName: string;
+  mobileNo: string;
+  status: UpdateUserStatusValue;
+};
