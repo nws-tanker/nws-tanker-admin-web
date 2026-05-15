@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { approveUserApi, rejectUserApi } from '@/services/configurationService';
 import { States } from '@/store/types';
-import type { PendingRequest, UserRole } from '@/types/configuration';
+import type {
+  ActiveUser,
+  PendingRequest,
+  UserRole,
+} from '@/types/configuration';
 import { ROLE_IDS } from '@/constants/configuration';
 import { useActiveUsers } from '../../hooks/useActiveUsers';
 import { useClusters } from '../../hooks/useClusters';
@@ -10,6 +14,7 @@ import { ActiveUsersTable } from './ActiveUsersTable';
 import { ApproveRegistrationModal } from './ApproveRegistrationModal';
 import { PendingAccessRequests } from './PendingAccessRequests';
 import { RejectRegistrationModal } from './RejectRegistrationModal';
+import { UserStatusModal } from './UserStatusModal';
 
 export function UsersAndRolesTab() {
   const [roleFilter, setRoleFilter] = useState<UserRole | ''>('');
@@ -35,6 +40,7 @@ export function UsersAndRolesTab() {
   const [rejectTarget, setRejectTarget] = useState<PendingRequest | null>(null);
   const [approving, setApproving] = useState(false);
   const [rejecting, setRejecting] = useState(false);
+  const [statusTarget, setStatusTarget] = useState<ActiveUser | null>(null);
 
   const handleApproveConfirm = async (
     userId: string,
@@ -69,6 +75,11 @@ export function UsersAndRolesTab() {
   // TODO: open Edit User modal/drawer
   const handleEdit = () => {};
 
+  // TODO: wire to activate/deactivate user API
+  const handleStatusConfirm = () => {
+    setStatusTarget(null);
+  };
+
   const hasPending = pendingState === States.SUCCESS && requests.length > 0;
 
   return (
@@ -90,6 +101,7 @@ export function UsersAndRolesTab() {
         onClusterFilter={setClusterFilter}
         onAddUser={handleAddUser}
         onEdit={handleEdit}
+        onToggleStatus={setStatusTarget}
         onRetry={retryUsers}
       />
 
@@ -106,6 +118,12 @@ export function UsersAndRolesTab() {
         submitting={rejecting}
         onConfirm={handleRejectConfirm}
         onClose={() => setRejectTarget(null)}
+      />
+      <UserStatusModal
+        key={statusTarget?.id ?? 'status-closed'}
+        user={statusTarget}
+        onConfirm={handleStatusConfirm}
+        onClose={() => setStatusTarget(null)}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import { TYPE_LABELS } from '@/constants/fleet';
 import type { Tanker } from '@/types';
+import { formatPhone } from '@/utils';
 import { Field } from './Field';
 
 type Props = {
@@ -20,7 +21,7 @@ export function TankerSummaryGrid({
       <Field label="Tanker Type" value={TYPE_LABELS[tanker.tankerType]} />
       <Field label="Governorate" value={governorateName} />
       <Field label="Cluster" value={clusterName} />
-      <Field label="Contact" value={tanker.contact} mono />
+      <Field label="Contact" value={formatPhone(tanker.contact)} mono />
     </div>
   );
 }

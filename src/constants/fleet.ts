@@ -18,18 +18,20 @@ export const TYPE_CHIP_COLOR: Record<TankerType, 'blue' | 'amber' | 'green'> = {
 };
 
 export const PERMIT_LABELS: Record<PermitStatus, string> = {
-  [PERMIT_STATUS.ACTIVE]: 'Active',
+  [PERMIT_STATUS.ACTIVE]: 'Valid',
   [PERMIT_STATUS.EXPIRED]: 'Expired',
   [PERMIT_STATUS.NO_PERMIT]: 'No Permit',
+  [PERMIT_STATUS.INSPECTION_IN_PROGRESS]: 'Inspection In Progress',
 };
 
 export const PERMIT_BADGE_COLOR: Record<
   PermitStatus,
-  'green' | 'red' | 'gray'
+  'green' | 'red' | 'gray' | 'blue'
 > = {
   [PERMIT_STATUS.ACTIVE]: 'green',
   [PERMIT_STATUS.EXPIRED]: 'red',
   [PERMIT_STATUS.NO_PERMIT]: 'gray',
+  [PERMIT_STATUS.INSPECTION_IN_PROGRESS]: 'blue',
 };
 
 export const FLEET_PAGE_SIZE = 25;

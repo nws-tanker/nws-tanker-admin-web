@@ -7,9 +7,11 @@ import { UserAvatar } from './UserAvatar';
 type Props = {
   user: ActiveUser;
   onEdit: (id: string) => void;
+  onToggleStatus: (user: ActiveUser) => void;
 };
 
-export function ActiveUserRow({ user, onEdit }: Props) {
+export function ActiveUserRow({ user, onEdit, onToggleStatus }: Props) {
+  const isActive = user.status === 'active';
   return (
     <tr className="hover:bg-ink-50">
       <td className="border-b border-ink-100 px-4 py-3">
@@ -41,9 +43,18 @@ export function ActiveUserRow({ user, onEdit }: Props) {
         })()}
       </td>
       <td className="border-b border-ink-100 px-4 py-3 text-right">
-        <Button variant="ghost" size="sm" onClick={() => onEdit(user.id)}>
-          Edit
-        </Button>
+        <div className="flex justify-end gap-1">
+          <Button variant="ghost" size="sm" onClick={() => onEdit(user.id)}>
+            Edit
+          </Button>
+          <Button
+            variant={isActive ? 'danger' : 'primary'}
+            size="sm"
+            onClick={() => onToggleStatus(user)}
+          >
+            {isActive ? 'Deactivate' : 'Activate'}
+          </Button>
+        </div>
       </td>
     </tr>
   );

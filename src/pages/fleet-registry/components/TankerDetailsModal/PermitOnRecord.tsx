@@ -21,7 +21,7 @@ export function PermitOnRecord({ permit }: Props) {
         <PermitField label="Issued" value={formatDate(permit.issuedAt)} />
         <PermitField
           label="Expiry"
-          value={permit.validUntil!}
+          value={formatDate(permit.validUntil)}
           valueClassName={`font-bold ${expiryClass}`}
         />
       </div>

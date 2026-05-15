@@ -10,6 +10,7 @@ export const PERMIT_STATUS = {
   ACTIVE: 'active',
   EXPIRED: 'expired',
   NO_PERMIT: 'no_permit',
+  INSPECTION_IN_PROGRESS: 'inspection_in_progress',
 } as const;
 
 export type PermitStatus = (typeof PERMIT_STATUS)[keyof typeof PERMIT_STATUS];

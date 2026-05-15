@@ -6,6 +6,7 @@ import {
   TYPE_LABELS,
 } from '@/constants/fleet';
 import type { Tanker } from '@/types';
+import { formatPhone } from '@/utils';
 
 type Props = {
   tanker: Tanker;
@@ -40,7 +41,7 @@ export function FleetRegistryRow({
         {clusterName}
       </td>
       <td className="border-b border-ink-100 px-4 py-3 font-mono text-[12px] text-ink-500">
-        {tanker.contact}
+        {formatPhone(tanker.contact)}
       </td>
       <td className="border-b border-ink-100 px-4 py-3">
         <Badge tone={PERMIT_BADGE_COLOR[tanker.permit.status]}>
