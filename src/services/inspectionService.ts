@@ -108,3 +108,17 @@ export async function requeueInspection(
   );
   return post<unknown>(url, {});
 }
+
+export type SendNotificationRequest = {
+  email: string;
+  mobileNo: string;
+  sendEmail: boolean;
+  sendWhatsapp: boolean;
+  inspectionId: number;
+};
+
+export async function sendNotificationApi(
+  body: SendNotificationRequest,
+): Promise<ApiResponse<unknown>> {
+  return post<unknown>(ENDPOINTS.sendNotification, body);
+}
