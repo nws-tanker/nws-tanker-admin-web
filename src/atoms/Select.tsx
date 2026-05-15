@@ -13,6 +13,7 @@ type Props<V extends string = string> = {
   placeholder?: string;
   invalid?: boolean;
   disabled?: boolean;
+  size?: 'sm' | 'md';
   className?: string;
   minWidth?: number;
   'aria-label'?: string;
@@ -25,6 +26,7 @@ export function Select<V extends string = string>({
   placeholder,
   invalid,
   disabled,
+  size = 'md',
   className,
   minWidth,
   'aria-label': ariaLabel,
@@ -115,7 +117,8 @@ export function Select<V extends string = string>({
         aria-expanded={open}
         aria-label={ariaLabel}
         className={cn(
-          'flex h-[38px] w-full items-center gap-1.5 rounded-card border bg-white px-3 text-left text-[13px] hover:border-ink-400 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600/20 disabled:cursor-not-allowed disabled:bg-ink-50',
+          'flex w-full items-center gap-1.5 rounded-card border bg-white text-left text-[13px] hover:border-ink-400 focus:border-teal-600 focus:outline-none focus:ring-1 focus:ring-teal-600/20 disabled:cursor-not-allowed disabled:bg-ink-50',
+          size === 'sm' ? 'h-7 px-2' : 'h-[38px] px-3',
           invalid ? 'border-red-500' : 'border-ink-300',
         )}
       >

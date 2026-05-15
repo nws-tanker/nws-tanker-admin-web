@@ -1,6 +1,6 @@
 import type { ApiInspectionRecord } from '@/types/inspection';
 import { formatInspectionDate } from '../../inspectionHelpers';
-import { TankerTypeChip } from '../TankerTypeChip';
+import { TankerTypeChip } from './TankerTypeChip';
 
 type Props = { record: ApiInspectionRecord };
 

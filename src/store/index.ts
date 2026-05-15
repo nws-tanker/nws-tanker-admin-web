@@ -11,6 +11,7 @@ import clusterSetupApiReducer from './apiSlices/clusterSetupApiSlice';
 import fleetRegistryApiReducer from './apiSlices/fleetRegistryApiSlice';
 import fleetTargetsApiReducer from './apiSlices/fleetTargetsApiSlice';
 import inspectionApiReducer from './apiSlices/inspectionApiSlice';
+import inspectionChecklistApiReducer from './apiSlices/inspectionChecklistApiSlice';
 import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
@@ -25,6 +26,7 @@ export const store = configureStore({
     fleetRegistryApi: fleetRegistryApiReducer,
     fleetTargetsApi: fleetTargetsApiReducer,
     inspectionApi: inspectionApiReducer,
+    inspectionChecklistApi: inspectionChecklistApiReducer,
     inspectionDetailsApi: inspectionDetailsApiReducer,
     lookupsApi: lookupsApiReducer,
     pendingUsersApi: pendingUsersApiReducer,

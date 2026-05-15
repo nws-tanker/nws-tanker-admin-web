@@ -7,10 +7,11 @@ import type {
   ClusterSetupGovernorate,
   ClusterSetupSummary,
 } from '@/types/configuration';
+
 import {
   getGovCountForCluster,
   getTankerCountForCluster,
-} from '../configurationHelpers';
+} from '../../configurationHelpers';
 
 type Props = {
   summary: ClusterSetupSummary;

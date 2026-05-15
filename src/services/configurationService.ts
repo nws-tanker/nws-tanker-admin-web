@@ -2,12 +2,14 @@ import { ENDPOINTS } from '@/constants/endpoints';
 import type {
   PendingRequest,
   ClusterSetupApiResponse,
+  InspectionChecklistResponse,
 } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
   ActiveUserResponse,
   ApproveUserRequest,
   ClusterResponse,
+  InspectionDataToBeEdited,
 } from '@/types';
 import { get, put } from './http';
 
@@ -37,6 +39,21 @@ export type ActiveUsersFilters = {
   roleId?: number;
   clusterId?: number;
 };
+
+export async function fetchInspectionChecklist(): Promise<
+  ApiResponse<InspectionChecklistResponse>
+> {
+  return get<InspectionChecklistResponse>(
+    ENDPOINTS.inspectionChecklist,
+    undefined,
+  );
+}
+
+export async function saveInspectionChecklist(
+  body: InspectionDataToBeEdited,
+): Promise<ApiResponse<void>> {
+  return put(ENDPOINTS.inspectionChecklist, body);
+}
 
 export async function fetchActiveUsers(
   filters?: ActiveUsersFilters,

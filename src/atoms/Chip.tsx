@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/utils';
+import { Button } from './Button';
 
 export type ChipTone = 'blue' | 'amber' | 'green' | 'teal' | 'gray';
 
@@ -15,18 +16,25 @@ type Props = {
   tone?: ChipTone;
   children: ReactNode;
   className?: string;
+  onClick?: () => void;
 };
 
-export function Chip({ tone = 'gray', children, className }: Props) {
-  return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-card-sm border px-2.5 py-[3px] text-[11px] font-medium',
-        TONE_CLASS[tone],
-        className,
-      )}
-    >
-      {children}
-    </span>
+export function Chip({ tone = 'gray', children, className, onClick }: Props) {
+  const cls = cn(
+    'inline-flex items-center gap-1.5 rounded-card-sm border px-2.5 py-[3px] text-[11px] font-medium',
+    TONE_CLASS[tone],
+    onClick &&
+      'cursor-pointer select-none focus:outline-none focus:ring-1 focus:ring-offset-1',
+    className,
   );
+
+  if (onClick) {
+    return (
+      <Button onClick={onClick} className={cls}>
+        {children}
+      </Button>
+    );
+  }
+
+  return <span className={cls}>{children}</span>;
 }

@@ -15,6 +15,7 @@ export const ENDPOINTS = {
   employeeRegistration: '/api/users/register/employee',
   contractorRegistration: '/api/users/register/contractor',
   contractors: '/api/contractors',
+  inspectionChecklist: '/api/configurations/inspection-checklist',
   inspectionReview: '/api/inspection/review-screen',
   inspectionDetails: '/api/inspection/review-screen/{inspectionId}/detail',
   fleetTargets: '/api/configurations/fleet-targets',

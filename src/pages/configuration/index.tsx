@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
 import type { ConfigTab } from '@/types/configuration';
-import { ClusterSetupTab } from './components/ClusterSetupTab';
+import { ClusterSetupTab } from './components/cluster-setup/ClusterSetupTab';
 import { ConfigurationTabs } from './components/ConfigurationTabs';
-import { FleetTargetsTab } from './components/FleetTargetsTab';
+import { FleetTargetsTab } from './components/fleet-targets/FleetTargetsTab';
 import { PlaceholderTab } from './components/PlaceholderTab';
-import { UsersAndRolesTab } from './components/UsersAndRolesTab';
+import { UsersAndRolesTab } from './components/users-roles/UsersAndRolesTab';
+import InspectionChecklist from './components/inspection-checklist/InspectionChecklist';
 
 // TODO: fetch last-modified metadata from the configuration API
 const LAST_MODIFIED_BY = 'Hamed Al-Rashdi';
@@ -42,9 +43,7 @@ export default function ConfigurationPage() {
           <PlaceholderTab label="Permit & SLA Rules" />
         )}
         {activeTab === 'users-roles' && <UsersAndRolesTab />}
-        {activeTab === 'inspection-checklist' && (
-          <PlaceholderTab label="Inspection Checklist" />
-        )}
+        {activeTab === 'inspection-checklist' && <InspectionChecklist />}
         {activeTab === 'cluster-setup' && <ClusterSetupTab />}
         {activeTab === 'fleet-targets' && <FleetTargetsTab />}
       </div>
