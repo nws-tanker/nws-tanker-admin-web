@@ -14,7 +14,6 @@ type Props = {
   onRoleFilter: (role: UserRole | '') => void;
   onClusterFilter: (cluster: string) => void;
   onAddUser: () => void;
-  onEdit: (id: string) => void;
   onToggleStatus: (user: ActiveUser) => void;
   onRetry: () => void;
 };
@@ -44,7 +43,6 @@ export function ActiveUsersTable({
   onRoleFilter,
   onClusterFilter,
   onAddUser,
-  onEdit,
   onToggleStatus,
   onRetry,
 }: Props) {
@@ -144,7 +142,6 @@ export function ActiveUsersTable({
                 <ActiveUserRow
                   key={user.id}
                   user={user}
-                  onEdit={onEdit}
                   onToggleStatus={onToggleStatus}
                 />
               ))}

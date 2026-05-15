@@ -30,6 +30,7 @@ export function useActiveUsers(
       role: u.role as UserRole,
       cluster: u.cluster,
       email: u.email,
+      mobile: u.mobile,
       status: u.status === 'ACTIVE' ? 'active' : 'inactive',
       lastActive: u.lastActive,
     })) ?? [];

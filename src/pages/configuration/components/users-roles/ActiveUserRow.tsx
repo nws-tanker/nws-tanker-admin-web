@@ -6,12 +6,12 @@ import { UserAvatar } from './UserAvatar';
 
 type Props = {
   user: ActiveUser;
-  onEdit: (id: string) => void;
   onToggleStatus: (user: ActiveUser) => void;
 };
 
-export function ActiveUserRow({ user, onEdit, onToggleStatus }: Props) {
+export function ActiveUserRow({ user, onToggleStatus }: Props) {
   const isActive = user.status === 'active';
+  const roleLabel = user.role ? ROLE_LABELS[user.role] : undefined;
   return (
     <tr className="hover:bg-ink-50">
       <td className="border-b border-ink-100 px-4 py-3">
@@ -22,8 +22,12 @@ export function ActiveUserRow({ user, onEdit, onToggleStatus }: Props) {
           </span>
         </div>
       </td>
-      <td className="border-b border-ink-100 px-4 py-3">
-        <Chip tone={ROLE_CHIP_TONE[user.role]}>{ROLE_LABELS[user.role]}</Chip>
+      <td className="border-b border-ink-100 px-4 py-3 text-[13px] text-ink-600">
+        {roleLabel ? (
+          <Chip tone={ROLE_CHIP_TONE[user.role]}>{roleLabel}</Chip>
+        ) : (
+          '-'
+        )}
       </td>
       <td className="border-b border-ink-100 px-4 py-3 text-[13px] text-ink-600">
         {user.cluster}
@@ -39,14 +43,11 @@ export function ActiveUserRow({ user, onEdit, onToggleStatus }: Props) {
       <td className="border-b border-ink-100 px-4 py-3 text-[12px] text-ink-500">
         {(() => {
           const d = user.lastActive ? new Date(user.lastActive) : null;
-          return d && isValid(d) ? format(d, 'dd MMM yyyy HH:mm') : null;
+          return d && isValid(d) ? format(d, 'dd MMM yyyy HH:mm') : '-';
         })()}
       </td>
       <td className="border-b border-ink-100 px-4 py-3 text-right">
         <div className="flex justify-end gap-1">
-          <Button variant="ghost" size="sm" onClick={() => onEdit(user.id)}>
-            Edit
-          </Button>
           <Button
             variant={isActive ? 'danger' : 'primary'}
             size="sm"

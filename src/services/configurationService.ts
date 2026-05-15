@@ -64,6 +64,23 @@ export async function fetchActiveUsers(
   });
 }
 
+export type UpdateUserStatusValue = 'ACTIVE' | 'INACTIVE';
+
+export type UpdateEmployeeRequest = {
+  firstName: string;
+  lastName: string;
+  mobileNo: string;
+  status: UpdateUserStatusValue;
+};
+
+export async function updateUserStatusApi(
+  userId: string,
+  body: UpdateEmployeeRequest,
+): Promise<ApiResponse<void>> {
+  const url = ENDPOINTS.updateEmployeeStatus.replace('{userId}', userId);
+  return put<void>(url, body);
+}
+
 export async function fetchClusters(): Promise<ApiResponse<ClusterResponse[]>> {
   return get<ClusterResponse[]>(ENDPOINTS.clusters, undefined);
 }
