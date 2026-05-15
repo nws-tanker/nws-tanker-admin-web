@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchInspectionChecklist } from '@/store/apiSlices/inspectionChecklistApiSlice';
 import { States } from '@/store/types';
@@ -16,18 +15,11 @@ export function useInspectionChecklist(): UseInspectionChecklistResult {
   const { apiState, data, error } = useAppSelector(
     (s) => s.inspectionChecklistApi,
   );
-  const [fetchTrigger, setFetchTrigger] = useState(0);
-
-  useEffect(() => {
-    dispatch(fetchInspectionChecklist());
-  }, [fetchTrigger, dispatch]);
-
-  const retry = () => setFetchTrigger((n) => n + 1);
 
   return {
     data,
     state: apiState,
     error: error?.description ?? null,
-    retry,
+    retry: () => dispatch(fetchInspectionChecklist()),
   };
 }

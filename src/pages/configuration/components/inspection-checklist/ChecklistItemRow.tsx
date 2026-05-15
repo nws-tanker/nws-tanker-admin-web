@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Chip } from '@/atoms';
+import { Button, Chip, Select } from '@/atoms';
 import type { ChecklistItemResponse } from '@/types/configuration';
 
 const TANKER_TYPES = [
@@ -8,8 +8,14 @@ const TANKER_TYPES = [
   { code: 'TE' as const, tone: 'green' as const },
 ];
 
-const REQUIRED_TYPES = ['mandatory', 'optional'];
-const EVIDENCE_TYPES = ['photo', 'document'];
+const REQUIRED_TYPES: { value: string; label: string }[] = [
+  { value: 'mandatory', label: 'Mandatory' },
+  { value: 'optional', label: 'Optional' },
+];
+const EVIDENCE_TYPES: { value: string; label: string }[] = [
+  { value: 'photo', label: 'Photo' },
+  { value: 'document', label: 'Document' },
+];
 
 type Props = {
   item: ChecklistItemResponse;
@@ -60,38 +66,26 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
       </td>
       <td className="px-4 py-3 text-ink-800">
         {editable ? (
-          <select
+          <Select
+            options={REQUIRED_TYPES}
             value={localSeverity}
-            onChange={(e) =>
-              setLocalSeverity(e.target.value as typeof localSeverity)
-            }
-            className="h-7 rounded border border-ink-300 px-2 text-[13px] capitalize text-ink-800 outline-none focus:border-teal-600"
-          >
-            {REQUIRED_TYPES.map((type) => (
-              <option key={type} value={type} className="capitalize">
-                {type}
-              </option>
-            ))}
-          </select>
+            onChange={(v) => setLocalSeverity(v as typeof localSeverity)}
+            size="sm"
+          />
         ) : (
           <span className="capitalize">{localSeverity}</span>
         )}
       </td>
       <td className="px-4 py-3 text-ink-800">
         {editable ? (
-          <select
+          <Select
+            options={EVIDENCE_TYPES}
             value={localEvidenceType}
-            onChange={(e) =>
-              setLocalEvidenceType(e.target.value as typeof localEvidenceType)
+            onChange={(v) =>
+              setLocalEvidenceType(v as typeof localEvidenceType)
             }
-            className="h-7 rounded border border-ink-300 px-2 text-[13px] capitalize text-ink-800 outline-none focus:border-teal-600"
-          >
-            {EVIDENCE_TYPES.map((type) => (
-              <option key={type} value={type} className="capitalize">
-                {type}
-              </option>
-            ))}
-          </select>
+            size="sm"
+          />
         ) : (
           <span className="capitalize">{localEvidenceType}</span>
         )}
