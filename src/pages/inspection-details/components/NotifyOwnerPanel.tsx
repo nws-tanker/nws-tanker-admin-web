@@ -19,20 +19,25 @@ export function NotifyOwnerPanel({ data }: Props) {
   const handleSend = async () => {
     if (!hasChannel) return;
     setSubmitting(true);
-    const res = await sendNotificationApi({
-      email: email ?? '',
-      mobileNo: (phone ?? '').replace(/\+/g, '').trim(),
-      sendEmail,
-      sendWhatsapp,
-      inspectionId: Number(data.id),
-    });
-    setSubmitting(false);
-    if (res.success) {
-      toast.show('Notification sent to owner');
-    } else {
-      toast.show(res.error.description || 'Failed to send notification', {
-        tone: 'error',
+    try {
+      const res = await sendNotificationApi({
+        email: email ?? '',
+        mobileNo: (phone ?? '').replace(/\+/g, '').trim(),
+        sendEmail,
+        sendWhatsapp,
+        inspectionId: Number(data.id),
       });
+      if (res.success) {
+        toast.show('Notification sent to owner');
+      } else {
+        toast.show(res.error.description || 'Failed to send notification', {
+          tone: 'error',
+        });
+      }
+    } catch {
+      toast.show('Failed to send notification', { tone: 'error' });
+    } finally {
+      setSubmitting(false);
     }
   };
 

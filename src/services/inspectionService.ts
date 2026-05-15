@@ -5,6 +5,7 @@ import type {
   ApiInspectionPagedData,
   InspectionDetailsApiResponse,
   InspectionTab,
+  SendNotificationRequest,
 } from '@/types/inspection';
 import { get, post, uploadFile } from './http';
 
@@ -108,14 +109,6 @@ export async function requeueInspection(
   );
   return post<unknown>(url, {});
 }
-
-export type SendNotificationRequest = {
-  email: string;
-  mobileNo: string;
-  sendEmail: boolean;
-  sendWhatsapp: boolean;
-  inspectionId: number;
-};
 
 export async function sendNotificationApi(
   body: SendNotificationRequest,
