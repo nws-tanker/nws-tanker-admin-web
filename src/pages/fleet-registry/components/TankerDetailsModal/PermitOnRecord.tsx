@@ -2,6 +2,7 @@ import { StatusIndicator, statusToneTextClass } from '@/atoms';
 import { PERMIT_LABELS } from '@/constants/fleet';
 import { PERMIT_STATUS } from '@/types';
 import type { Permit } from '@/types';
+import { formatDate } from '@/utils';
 import { PermitField } from './PermitField';
 import { PERMIT_TONE } from './permitStyle';
 
@@ -17,7 +18,7 @@ export function PermitOnRecord({ permit }: Props) {
     <>
       <div className="grid grid-cols-3 gap-2">
         <PermitField label="Permit No." value={permit.permitNumber!} mono />
-        <PermitField label="Issued" value={permit.issuedAt!} />
+        <PermitField label="Issued" value={formatDate(permit.issuedAt)} />
         <PermitField
           label="Expiry"
           value={permit.validUntil!}

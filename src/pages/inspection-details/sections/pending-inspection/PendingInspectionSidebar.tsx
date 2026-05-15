@@ -1,5 +1,6 @@
 import { Button } from '@/atoms';
 import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
+import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 
 type Props = { data: InspectionDetailsApiResponse };
@@ -24,6 +25,8 @@ export function PendingInspectionSidebar({ data }: Props) {
           </Button>
         </div>
       </div>
+
+      <NotifyOwnerPanel data={data} />
     </div>
   );
 }

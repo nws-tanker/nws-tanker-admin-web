@@ -1,5 +1,6 @@
 import { CheckIcon } from '@/atoms/icons';
 import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
+import { NotifyOwnerPanel } from '../../components/NotifyOwnerPanel';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 
 type Props = { data: InspectionDetailsApiResponse };
@@ -41,6 +42,7 @@ export function ApprovedSidebar({ data }: Props) {
       </div>
 
       <InspectionInfoPanel data={data} />
+      <NotifyOwnerPanel data={data} />
     </div>
   );
 }
