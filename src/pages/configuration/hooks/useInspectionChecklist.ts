@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchInspectionChecklist } from '@/store/apiSlices/inspectionChecklistApiSlice';
 import { States } from '@/store/types';
@@ -15,6 +16,12 @@ export function useInspectionChecklist(): UseInspectionChecklistResult {
   const { apiState, data, error } = useAppSelector(
     (s) => s.inspectionChecklistApi,
   );
+
+  useEffect(() => {
+    if (apiState === States.PRELOADING) {
+      dispatch(fetchInspectionChecklist());
+    }
+  }, [apiState, dispatch]);
 
   return {
     data,
