@@ -1,7 +1,16 @@
 import { useState } from 'react';
-import { approveUserApi, rejectUserApi } from '@/services/configurationService';
+import { useToast } from '@/atoms';
+import {
+  approveUserApi,
+  rejectUserApi,
+  updateUserStatusApi,
+} from '@/services/configurationService';
 import { States } from '@/store/types';
-import type { PendingRequest, UserRole } from '@/types/configuration';
+import type {
+  ActiveUser,
+  PendingRequest,
+  UserRole,
+} from '@/types/configuration';
 import { ROLE_IDS } from '@/constants/configuration';
 import { useActiveUsers } from '../../hooks/useActiveUsers';
 import { useClusters } from '../../hooks/useClusters';
@@ -10,8 +19,10 @@ import { ActiveUsersTable } from './ActiveUsersTable';
 import { ApproveRegistrationModal } from './ApproveRegistrationModal';
 import { PendingAccessRequests } from './PendingAccessRequests';
 import { RejectRegistrationModal } from './RejectRegistrationModal';
+import { UserStatusModal } from './UserStatusModal';
 
 export function UsersAndRolesTab() {
+  const toast = useToast();
   const [roleFilter, setRoleFilter] = useState<UserRole | ''>('');
   const [clusterFilter, setClusterFilter] = useState('');
 
@@ -35,6 +46,8 @@ export function UsersAndRolesTab() {
   const [rejectTarget, setRejectTarget] = useState<PendingRequest | null>(null);
   const [approving, setApproving] = useState(false);
   const [rejecting, setRejecting] = useState(false);
+  const [statusTarget, setStatusTarget] = useState<ActiveUser | null>(null);
+  const [statusSubmitting, setStatusSubmitting] = useState(false);
 
   const handleApproveConfirm = async (
     userId: string,
@@ -48,8 +61,12 @@ export function UsersAndRolesTab() {
       setApproveTarget(null);
       retryPending();
       retryUsers();
+      toast.show('User approved successfully');
+    } else {
+      toast.show(res.error?.description ?? 'Failed to approve user', {
+        tone: 'error',
+      });
     }
-    // TODO: show toast on res.success === false with res.error.description
   };
 
   const handleRejectConfirm = async (userId: string, reason: string) => {
@@ -59,15 +76,42 @@ export function UsersAndRolesTab() {
     if (res.success) {
       setRejectTarget(null);
       retryPending();
+      toast.show('User registration rejected');
+    } else {
+      toast.show(res.error?.description ?? 'Failed to reject user', {
+        tone: 'error',
+      });
     }
-    // TODO: show toast on res.success === false with res.error.description
   };
 
   // TODO: open Add User modal
   const handleAddUser = () => {};
 
-  // TODO: open Edit User modal/drawer
-  const handleEdit = () => {};
+  const handleStatusConfirm = async (userId: string) => {
+    if (!statusTarget) return;
+    const nextStatus = statusTarget.status === 'active' ? 'INACTIVE' : 'ACTIVE';
+    const [firstName = '', ...rest] = statusTarget.name.trim().split(/\s+/);
+    const lastName = rest.join(' ');
+    setStatusSubmitting(true);
+    const res = await updateUserStatusApi(userId, {
+      firstName,
+      lastName,
+      mobileNo: statusTarget.mobile ?? '',
+      status: nextStatus,
+    });
+    setStatusSubmitting(false);
+    if (res.success) {
+      setStatusTarget(null);
+      retryUsers();
+      toast.show(
+        `User ${nextStatus === 'ACTIVE' ? 'activated' : 'deactivated'} successfully`,
+      );
+    } else {
+      toast.show(res.error?.description ?? 'Failed to update user status', {
+        tone: 'error',
+      });
+    }
+  };
 
   const hasPending = pendingState === States.SUCCESS && requests.length > 0;
 
@@ -89,7 +133,7 @@ export function UsersAndRolesTab() {
         onRoleFilter={setRoleFilter}
         onClusterFilter={setClusterFilter}
         onAddUser={handleAddUser}
-        onEdit={handleEdit}
+        onToggleStatus={setStatusTarget}
         onRetry={retryUsers}
       />
 
@@ -106,6 +150,13 @@ export function UsersAndRolesTab() {
         submitting={rejecting}
         onConfirm={handleRejectConfirm}
         onClose={() => setRejectTarget(null)}
+      />
+      <UserStatusModal
+        key={statusTarget?.id ?? 'status-closed'}
+        user={statusTarget}
+        submitting={statusSubmitting}
+        onConfirm={handleStatusConfirm}
+        onClose={() => setStatusTarget(null)}
       />
     </div>
   );

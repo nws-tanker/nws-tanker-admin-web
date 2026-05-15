@@ -1,23 +1,45 @@
 import { ENDPOINTS } from '@/constants/endpoints';
 import type { ApiResponse } from '@/store/types';
-import type { Permit, PermitStatus, Tanker, TankerType } from '@/types';
-import { PERMIT_STATUS, TANKER_TYPE } from '@/types';
+import type { Permit, Tanker } from '@/types';
+import {
+  PERMIT_STATUS,
+  TANKER_TYPE,
+  PERMIT_STATUS_BY_API,
+  TANKER_TYPE_BY_CODE,
+} from '@/types';
 import { get } from './http';
+
+type ApiPermit = {
+  permitNo: string | null;
+  permitStatus: string;
+  issuedAt: string | null;
+  expiry: string | null;
+};
 
 type ApiTanker = {
   plateNumber: string;
   tankerType: string;
   ownerName: string;
-  status: string | null;
+  inspectionStatus: string | null;
   cardNo: string | null;
-  contractType: string;
-  governorate: string;
+  contractType: number | string | null;
+  capacityM3: number | null;
+  capacityGallons: number | null;
+  sizeCategory: number | null;
+  governorateId: number | null;
+  clusterId: number | null;
+  cluster: string | null;
+  governorate: string | null;
+  wilayat: string | null;
   operationRegion: string | null;
+  tfs: string | null;
   contactNumber: string;
+  email: string | null;
   dueDate: string | null;
   daysUntilDue: number | null;
+  createdAt: string | null;
   submittedAt: string | null;
-  cluster: string | null;
+  permit: ApiPermit | null;
 };
 
 type ApiFleetResponse = {
@@ -25,25 +47,24 @@ type ApiFleetResponse = {
   metaData: { renewalThresholdDays: number };
 };
 
-const TANKER_TYPE_BY_LABEL: Record<string, TankerType> = {
-  'Drinking Water': TANKER_TYPE.DRINKING_WATER,
-  'Sewage Water': TANKER_TYPE.SEWAGE_WATER,
-  'Treated Effluent': TANKER_TYPE.TREATED_EFFLUENT,
-};
+const IN_PROGRESS_INSPECTION_STATES = new Set(['submitted']);
 
-function mapPermit(raw: ApiTanker): Permit {
-  let status: PermitStatus = PERMIT_STATUS.NO_PERMIT;
-  if (raw.status === 'approved') {
-    status =
-      raw.daysUntilDue !== null && raw.daysUntilDue < 0
-        ? PERMIT_STATUS.EXPIRED
-        : PERMIT_STATUS.ACTIVE;
+function mapPermit(
+  raw: ApiPermit | null,
+  inspectionStatus: string | null,
+): Permit {
+  if (!raw) {
+    const status =
+      inspectionStatus && IN_PROGRESS_INSPECTION_STATES.has(inspectionStatus)
+        ? PERMIT_STATUS.INSPECTION_IN_PROGRESS
+        : PERMIT_STATUS.NO_PERMIT;
+    return { status, permitNumber: null, issuedAt: null, validUntil: null };
   }
   return {
-    status,
-    permitNumber: raw.cardNo,
-    issuedAt: raw.submittedAt,
-    validUntil: raw.dueDate,
+    status: PERMIT_STATUS_BY_API[raw.permitStatus] ?? PERMIT_STATUS.NO_PERMIT,
+    permitNumber: raw.permitNo,
+    issuedAt: raw.issuedAt,
+    validUntil: raw.expiry,
   };
 }
 
@@ -53,11 +74,11 @@ function mapApiTanker(raw: ApiTanker): Tanker {
     plateNo: raw.plateNumber,
     owner: raw.ownerName,
     tankerType:
-      TANKER_TYPE_BY_LABEL[raw.tankerType] ?? TANKER_TYPE.DRINKING_WATER,
-    governorate: raw.governorate,
+      TANKER_TYPE_BY_CODE[raw.tankerType] ?? TANKER_TYPE.DRINKING_WATER,
+    governorate: raw.governorate ?? '',
     cluster: raw.cluster ?? '',
     contact: raw.contactNumber,
-    permit: mapPermit(raw),
+    permit: mapPermit(raw.permit, raw.inspectionStatus),
   };
 }
 

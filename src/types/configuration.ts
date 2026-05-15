@@ -116,6 +116,7 @@ export type ActiveUserResponse = {
   role: string;
   cluster?: number;
   email?: string;
+  mobile?: string;
   status: 'ACTIVE' | 'INACTIVE';
   lastActive: string;
 };
@@ -200,6 +201,7 @@ export type ActiveUser = {
   role: UserRole;
   cluster?: number;
   email?: string;
+  mobile?: string;
   status: 'active' | 'inactive';
   lastActive: string;
 };
@@ -229,3 +231,11 @@ export type InspectionDataToBeEdited = {
   }[];
 };
 
+export type UpdateUserStatusValue = 'ACTIVE' | 'INACTIVE';
+
+export type UpdateEmployeeRequest = {
+  firstName: string;
+  lastName: string;
+  mobileNo: string;
+  status: UpdateUserStatusValue;
+};
