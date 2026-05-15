@@ -3,6 +3,7 @@ export const ENDPOINTS = {
   approveRegistration: '/api/users/{userId}/approve',
   rejectRegistration: '/api/users/{userId}/reject',
   activeUsers: '/api/users',
+  updateEmployeeStatus: '/api/users/employees/{userId}',
   clusters: '/api/master/clusters',
   fleetRegistry: '/api/tankers',
   lookups: '/api/master/lookups',

@@ -3,6 +3,7 @@ import type {
   PendingRequest,
   ClusterSetupApiResponse,
   InspectionChecklistResponse,
+  UpdateEmployeeRequest,
 } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
@@ -62,6 +63,14 @@ export async function fetchActiveUsers(
     role: filters?.roleId,
     cluster: filters?.clusterId,
   });
+}
+
+export async function updateUserStatusApi(
+  userId: string,
+  body: UpdateEmployeeRequest,
+): Promise<ApiResponse<void>> {
+  const url = ENDPOINTS.updateEmployeeStatus.replace('{userId}', userId);
+  return put<void>(url, body);
 }
 
 export async function fetchClusters(): Promise<ApiResponse<ClusterResponse[]>> {

@@ -14,7 +14,7 @@ type Props = {
   onRoleFilter: (role: UserRole | '') => void;
   onClusterFilter: (cluster: string) => void;
   onAddUser: () => void;
-  onEdit: (id: string) => void;
+  onToggleStatus: (user: ActiveUser) => void;
   onRetry: () => void;
 };
 
@@ -30,8 +30,8 @@ const COLUMNS: Column[] = [
   { header: 'Cluster', width: '12%' },
   { header: 'Email', width: '22%' },
   { header: 'Status', width: '9%' },
-  { header: 'Last Active', width: '16%' },
-  { header: '', width: '7%' },
+  { header: 'Last Active', width: '14%' },
+  { header: '', width: '15%' },
 ];
 
 export function ActiveUsersTable({
@@ -43,7 +43,7 @@ export function ActiveUsersTable({
   onRoleFilter,
   onClusterFilter,
   onAddUser,
-  onEdit,
+  onToggleStatus,
   onRetry,
 }: Props) {
   return (
@@ -139,7 +139,11 @@ export function ActiveUsersTable({
             )}
             {usersState === States.SUCCESS &&
               users.map((user) => (
-                <ActiveUserRow key={user.id} user={user} onEdit={onEdit} />
+                <ActiveUserRow
+                  key={user.id}
+                  user={user}
+                  onToggleStatus={onToggleStatus}
+                />
               ))}
           </tbody>
         </table>

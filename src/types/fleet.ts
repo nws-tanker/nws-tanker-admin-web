@@ -10,9 +10,23 @@ export const PERMIT_STATUS = {
   ACTIVE: 'active',
   EXPIRED: 'expired',
   NO_PERMIT: 'no_permit',
+  INSPECTION_IN_PROGRESS: 'inspection_in_progress',
 } as const;
 
 export type PermitStatus = (typeof PERMIT_STATUS)[keyof typeof PERMIT_STATUS];
+
+// API code → internal enum mappings. Kept here so the type definitions and the
+// values that produce them live in one place.
+export const TANKER_TYPE_BY_CODE: Record<string, TankerType> = {
+  DW: TANKER_TYPE.DRINKING_WATER,
+  SW: TANKER_TYPE.SEWAGE_WATER,
+  TE: TANKER_TYPE.TREATED_EFFLUENT,
+};
+
+export const PERMIT_STATUS_BY_API: Record<string, PermitStatus> = {
+  valid: PERMIT_STATUS.ACTIVE,
+  expired: PERMIT_STATUS.EXPIRED,
+};
 
 export type Permit = {
   status: PermitStatus;
