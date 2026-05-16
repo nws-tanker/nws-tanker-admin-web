@@ -47,9 +47,9 @@ export function filterTankers(
   return tankers.filter((t) => {
     if (q) {
       const match =
-        t.plateNo.toLowerCase().includes(q) ||
-        t.owner.toLowerCase().includes(q) ||
-        t.contact.includes(q);
+        (t.plateNo?.toLowerCase().includes(q) ?? false) ||
+        (t.owner?.toLowerCase().includes(q) ?? false) ||
+        (t.contact?.includes(q) ?? false);
       if (!match) return false;
     }
     if (clusterNames && !clusterNames.has(t.cluster)) return false;
