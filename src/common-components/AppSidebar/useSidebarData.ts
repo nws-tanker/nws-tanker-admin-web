@@ -1,18 +1,23 @@
-// import { useEffect } from 'react';
-// import { fetchSidebarData } from '@/store/apiSlices/sidebarApiSlice';
-// import { useAppDispatch, useAppSelector } from '@/store';
-// import { States } from '@/store/types';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { fetchInspectorDashboard } from '@/store/apiSlices/inspectorDashboardApiSlice';
+import type { SidebarData } from '@/types';
 
-export function useSidebarData() {
-  // const dispatch = useAppDispatch();
-  // const { data, apiState } = useAppSelector((s) => s.sidebarApi);
+export function useSidebarData(): SidebarData | null {
+  const dispatch = useAppDispatch();
+  const dashboard = useAppSelector((s) => s.inspectorDashboardApi.data);
 
-  // useEffect(() => {
-  //   if (apiState === States.PRELOADING) {
-  //     dispatch(fetchSidebarData());
-  //   }
-  // }, [dispatch, apiState]);
+  useEffect(() => {
+    dispatch(fetchInspectorDashboard());
+  }, [dispatch]);
 
-  // return data;
-  return null;
+  if (!dashboard) return null;
+
+  const stats = dashboard.statsByType.all.inspectionStats;
+  return {
+    counts: {
+      pendingInspectionReviews: stats.review,
+      expiringPermitRenewals: 0,
+    },
+  };
 }
