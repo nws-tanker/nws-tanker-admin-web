@@ -16,9 +16,7 @@ import { useSidebarData } from './useSidebarData';
 import { getInitials } from '@/utils';
 
 export function AppSidebar() {
-  const sidebar = useSidebarData() as {
-    counts?: Record<string, number>;
-  } | null;
+  const sidebar = useSidebarData();
   const counts = sidebar?.counts;
   const user = useAppSelector(selectAuthUser);
   const userAccess = useAppSelector(selectUserAccess);

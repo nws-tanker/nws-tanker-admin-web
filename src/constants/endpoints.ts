@@ -15,6 +15,9 @@ export const ENDPOINTS = {
   assignment: '/api/assignments?plateNumber={plateNumber}',
   user: '/api/admin/users/{id}',
   login: '/api/authenticate',
+  forgetPassword: '/authentication/forgetPassword',
+  validateOtp: '/authentication/validateOtp',
+  resetPassword: '/authentication/setPassword',
   employeeRegistration: '/api/users/register/employee',
   contractorRegistration: '/api/users/register/contractor',
   contractors: '/api/contractors',
@@ -36,4 +39,5 @@ export const ENDPOINTS = {
   executiveDashboardTrend: '/api/dashboard/executive/trend',
   executiveDashboardClusters: '/api/dashboard/executive/clusters',
   executiveDashboardHeatmap: '/api/dashboard/executive/heatmap',
+  inspectorDashboard: '/api/inspector/dashboard',
 } as const;

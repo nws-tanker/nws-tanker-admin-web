@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Toggle, useToast } from '@/atoms';
 import { sendNotificationApi } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { useNotificationContacts } from '../hooks/useNotificationContacts';
 
 type Props = { data: InspectionDetailsApiResponse };
 
@@ -10,6 +11,8 @@ export function NotifyOwnerPanel({ data }: Props) {
   const [sendWhatsapp, setSendWhatsapp] = useState(true);
   const [sendEmail, setSendEmail] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const { mobileNo: senderMobile, email: senderEmail } =
+    useNotificationContacts();
 
   const phone = data.tanker.owner.phone;
   const email = data.tanker.owner.email;
@@ -83,9 +86,9 @@ export function NotifyOwnerPanel({ data }: Props) {
         </div>
         <div className="bg-ink-50 rounded-card p-2.5 text-[11px] text-ink-500">
           Sent from{' '}
-          <span className="font-mono text-ink-700">+968 9100 7700</span>{' '}
+          <span className="font-mono text-ink-700">{senderMobile ?? '—'}</span>{' '}
           (WhatsApp) &amp;{' '}
-          <span className="font-mono text-ink-700">permits@nama.om</span>
+          <span className="font-mono text-ink-700">{senderEmail ?? '—'}</span>
         </div>
         {!permitGenerated && (
           <div className="rounded-card border border-amber-100 bg-amber-50 px-3 py-2 text-[11px] leading-snug text-amber-800">
