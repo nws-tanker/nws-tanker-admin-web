@@ -13,7 +13,7 @@ import { SidebarNavItem } from './SidebarNavItem';
 import { SidebarUser } from './SidebarUser';
 import { NAV_SECTIONS, type NavItem } from './navItems';
 import { useSidebarData } from './useSidebarData';
-import { getInitials } from '@/pages/configuration/configurationHelpers';
+import { getInitials } from '@/utils';
 
 export function AppSidebar() {
   const sidebar = useSidebarData() as {
@@ -49,7 +49,7 @@ export function AppSidebar() {
       <SidebarBrand />
 
       {visibleSections.map((section) => (
-        <div key={section.heading} className="mt-4 first:mt-4">
+        <div key={section.heading} className="mt-4 first:mt-0">
           <div className="px-4 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white/45">
             {section.heading}
           </div>

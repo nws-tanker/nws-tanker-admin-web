@@ -3,7 +3,7 @@ import type { ConfigTab } from '@/types/configuration';
 
 type Props = {
   tabs: { id: ConfigTab; label: string }[];
-  active: ConfigTab;
+  active: ConfigTab | undefined;
   onChange: (tab: ConfigTab) => void;
 };
 

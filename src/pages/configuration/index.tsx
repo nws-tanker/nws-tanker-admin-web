@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
 import { CONFIG_TABS, CONFIG_TAB_ACCESS } from '@/constants/configuration';
@@ -29,6 +29,13 @@ export default function ConfigurationPage() {
   const [activeTab, setActiveTab] = useState<ConfigTab | undefined>(
     visibleTabs[0]?.id,
   );
+
+  useEffect(() => {
+    if (!activeTab || !visibleTabs.find((t) => t.id === activeTab)) {
+      setActiveTab(visibleTabs[0]?.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleTabs]);
 
   return (
     <AppShell breadcrumbs={['Home', 'Configuration']}>

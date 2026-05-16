@@ -1,4 +1,5 @@
-import { avatarColor, getInitials } from '../../configurationHelpers';
+import { getInitials } from '@/utils';
+import { avatarColor } from '../../configurationHelpers';
 
 type Props = {
   name: string;

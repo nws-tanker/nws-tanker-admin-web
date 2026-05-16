@@ -44,13 +44,6 @@ export const POST_LOGIN_ROUTE_PRIORITY: RouteKey[] = [
    a single default. Falls back to /forbidden if no match is found.
 */
 
-export function firstAllowedPath(userAccess: UserAccess[]): string {
-  for (const key of POST_LOGIN_ROUTE_PRIORITY) {
-    if (hasRouteAccess(key, userAccess)) return ROUTES[key];
-  }
-  return ROUTES.forbidden;
-}
-
 /* A route can require:
    - null               -> public, anyone can enter
    - UserAccess         -> must hold that single permission
@@ -93,4 +86,11 @@ export function hasRouteAccess(
     return required.some((p) => userAccess.includes(p));
   }
   return userAccess.includes(required);
+}
+
+export function firstAllowedPath(userAccess: UserAccess[]): string {
+  for (const key of POST_LOGIN_ROUTE_PRIORITY) {
+    if (hasRouteAccess(key, userAccess)) return ROUTES[key];
+  }
+  return ROUTES.forbidden;
 }
