@@ -14,39 +14,44 @@ export function ActiveUserRow({ user, onToggleStatus }: Props) {
   const roleLabel = user.role ? ROLE_LABELS[user.role] : undefined;
   return (
     <tr className="hover:bg-ink-50">
-      <td className="border-b border-ink-100 px-4 py-3">
-        <div className="flex items-center gap-2.5">
+      <td className="border-b border-ink-100 px-4 py-3 align-middle">
+        <div className="flex min-w-0 items-center gap-2.5">
           <UserAvatar name={user.name} />
-          <span className="text-[13px] font-semibold text-ink-900">
+          <span
+            className="truncate text-[13px] font-semibold text-ink-900"
+            title={user.name}
+          >
             {user.name}
           </span>
         </div>
       </td>
-      <td className="border-b border-ink-100 px-4 py-3 text-[13px] text-ink-600">
+      <td className="border-b border-ink-100 px-4 py-3 align-middle whitespace-nowrap text-[13px] text-ink-600">
         {roleLabel ? (
           <Chip tone={ROLE_CHIP_TONE[user.role]}>{roleLabel}</Chip>
         ) : (
           '-'
         )}
       </td>
-      <td className="border-b border-ink-100 px-4 py-3 text-[13px] text-ink-600">
+      <td className="border-b border-ink-100 px-4 py-3 align-middle whitespace-nowrap text-[13px] text-ink-600">
         {user.cluster}
       </td>
-      <td className="border-b border-ink-100 px-4 py-3 text-[13px] text-ink-600">
-        {user.email}
+      <td className="border-b border-ink-100 px-4 py-3 align-middle text-[13px] text-ink-600">
+        <span className="block truncate" title={user.email}>
+          {user.email}
+        </span>
       </td>
-      <td className="border-b border-ink-100 px-4 py-3">
+      <td className="border-b border-ink-100 px-4 py-3 align-middle whitespace-nowrap">
         <Badge tone={user.status === 'active' ? 'green' : 'gray'}>
           {user.status === 'active' ? 'Active' : 'Inactive'}
         </Badge>
       </td>
-      <td className="border-b border-ink-100 px-4 py-3 text-[12px] text-ink-500">
+      <td className="border-b border-ink-100 px-4 py-3 align-middle whitespace-nowrap text-[12px] text-ink-500">
         {(() => {
           const d = user.lastActive ? new Date(user.lastActive) : null;
           return d && isValid(d) ? format(d, 'dd MMM yyyy HH:mm') : '-';
         })()}
       </td>
-      <td className="border-b border-ink-100 px-4 py-3 text-right">
+      <td className="border-b border-ink-100 px-4 py-3 align-middle whitespace-nowrap text-right">
         <div className="flex justify-end gap-1">
           <Button
             variant={isActive ? 'danger' : 'primary'}

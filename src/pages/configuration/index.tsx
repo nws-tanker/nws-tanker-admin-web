@@ -5,7 +5,8 @@ import type { ConfigTab } from '@/types/configuration';
 import { ClusterSetupTab } from './components/cluster-setup/ClusterSetupTab';
 import { ConfigurationTabs } from './components/ConfigurationTabs';
 import { FleetTargetsTab } from './components/fleet-targets/FleetTargetsTab';
-import { PlaceholderTab } from './components/PlaceholderTab';
+import { NotificationsTab } from './components/notifications/NotificationsTab';
+import { PermitSlaTab } from './components/permit-sla/PermitSlaTab';
 import { UsersAndRolesTab } from './components/users-roles/UsersAndRolesTab';
 import InspectionChecklist from './components/inspection-checklist/InspectionChecklist';
 
@@ -14,7 +15,7 @@ const LAST_MODIFIED_BY = 'Hamed Al-Rashdi';
 const LAST_MODIFIED_ON = '12 Apr 2026';
 
 export default function ConfigurationPage() {
-  const [activeTab, setActiveTab] = useState<ConfigTab>('users-roles');
+  const [activeTab, setActiveTab] = useState<ConfigTab>('notifications');
 
   return (
     <AppShell breadcrumbs={['Home', 'Configuration']}>
@@ -36,12 +37,8 @@ export default function ConfigurationPage() {
           <ConfigurationTabs active={activeTab} onChange={setActiveTab} />
         </div>
 
-        {activeTab === 'notifications' && (
-          <PlaceholderTab label="Notifications & Communications" />
-        )}
-        {activeTab === 'permit-sla' && (
-          <PlaceholderTab label="Permit & SLA Rules" />
-        )}
+        {activeTab === 'notifications' && <NotificationsTab />}
+        {activeTab === 'permit-sla' && <PermitSlaTab />}
         {activeTab === 'users-roles' && <UsersAndRolesTab />}
         {activeTab === 'inspection-checklist' && <InspectionChecklist />}
         {activeTab === 'cluster-setup' && <ClusterSetupTab />}
