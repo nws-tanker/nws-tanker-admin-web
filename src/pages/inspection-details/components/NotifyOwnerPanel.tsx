@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Toggle, useToast } from '@/atoms';
 import { sendNotificationApi } from '@/services/inspectionService';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { formatPhone } from '@/utils';
 import { useNotificationContacts } from '../hooks/useNotificationContacts';
 
 type Props = { data: InspectionDetailsApiResponse };
@@ -74,7 +75,9 @@ export function NotifyOwnerPanel({ data }: Props) {
           <div>
             <p className="text-[11px] text-ink-400">Phone Number</p>
             <p className="text-[13px] font-semibold text-ink-800">
-              {phone || '—'}
+              {data.tanker.owner.phone
+                ? formatPhone(data.tanker.owner.phone)
+                : '—'}
             </p>
           </div>
           <div>

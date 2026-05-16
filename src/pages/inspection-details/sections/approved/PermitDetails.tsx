@@ -4,6 +4,7 @@ import { CheckIcon, DownloadIcon } from '@/atoms/icons';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { downloadFile, formatDate } from '@/utils';
 import { PermitReportModal } from '../../components/PermitReportModal';
+import { formatPhone } from '@/utils';
 
 const TANKER_TYPE_LABEL: Record<string, string> = {
   DW: '💧 Drinking Water',
@@ -141,7 +142,7 @@ export function PermitDetails({ data }: Props) {
                     ✓ Sent via WhatsApp
                   </div>
                   <div className="mt-0.5 font-mono text-[11px] text-ink-500">
-                    {tanker.owner.whatsapp}
+                    {formatPhone(tanker.owner.whatsapp)}
                   </div>
                 </div>
               </div>
