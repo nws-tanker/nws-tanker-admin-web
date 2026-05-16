@@ -27,7 +27,7 @@ export default function InspectionPage() {
     useInspectionData({ activeTab, search: debouncedSearch, page });
 
   const subtitle = counts
-    ? `${counts.in_review} pending review · ${counts.pending} pending inspection · ${counts.submitted} submitted · ${counts.lab_pending} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
+    ? `${counts.submitted} submitted · ${counts.in_review} pending review · ${counts.pending} pending inspection · ${counts.lab_pending} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
     : 'Loading…';
 
   function handleNavigateToDetails(record: ApiInspectionRecord) {
