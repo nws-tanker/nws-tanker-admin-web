@@ -5,11 +5,13 @@ import { useLoginForm } from '@/pages/authentication/hooks/useLoginForm';
 type Props = {
   onSwitchToEmployee: () => void;
   onSwitchToContractor: () => void;
+  onForgotPassword: () => void;
 };
 
 export default function LoginForm({
   onSwitchToEmployee,
   onSwitchToContractor,
+  onForgotPassword,
 }: Props) {
   const {
     values,
@@ -90,12 +92,13 @@ export default function LoginForm({
                 Remember me on this device
               </span>
             </label>
-            <a
-              href="#"
+            <button
+              type="button"
+              onClick={onForgotPassword}
               className="text-[12px] text-teal-700 font-medium hover:underline"
             >
               Forgot password?
-            </a>
+            </button>
           </div>
 
           <Button
