@@ -230,3 +230,37 @@ export type InspectionDataToBeEdited = {
     }[];
   }[];
 };
+
+export type UpdateUserStatusValue = 'ACTIVE' | 'INACTIVE';
+
+export type UpdateEmployeeRequest = {
+  firstName: string;
+  lastName: string;
+  mobileNo: string;
+  status: UpdateUserStatusValue;
+};
+
+export type PermitSlaApiResponse = {
+  id: number;
+  permitValidityMonths: number;
+  labSlaDays: number;
+  renewalReminderDays: number;
+};
+
+export type NotificationContactsApiResponse = {
+  contractorId: number | null;
+  email: string;
+  mobileNo: string;
+};
+
+export type UpdatePermitSlaRequest = {
+  permitValidityMonths: number;
+  labSlaDays: number;
+  renewalReminderDays: number;
+};
+
+export type UpdateNotificationContactsRequest = {
+  contractorId: number | null;
+  email: string;
+  mobileNo: string;
+};

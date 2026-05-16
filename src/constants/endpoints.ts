@@ -10,6 +10,8 @@ export const ENDPOINTS = {
   refreshToken: '/api/refresh-token',
   tankerUploadSubmit: '/api/tankers/upload',
   sidebar: '/api/sidebar',
+  permitSla: '/api/configurations/permit-sla',
+  notificationContacts: '/api/configurations/notification-contacts',
   assignment: '/api/assignments?plateNumber={plateNumber}',
   user: '/api/admin/users/{id}',
   login: '/api/authenticate',
@@ -29,4 +31,5 @@ export const ENDPOINTS = {
   assignInspector:
     '/api/inspection/review-screen/{inspectionId}/assign-inspector/{inspectorID}',
   requeueInspection: '/api/inspection/review-screen/{inspectionId}/requeue',
+  sendNotification: '/api/inspection/review-screen/send-notification',
 } as const;

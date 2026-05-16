@@ -25,6 +25,7 @@ type Props = {
     categoryId: number,
     severity: string,
     evidenceType: string,
+    appliesTo: { dw: boolean; sw: boolean; te: boolean },
   ) => void;
   onAddItem: (categoryId: number, item: NewChecklistItemData) => void;
   onDraftChange: (categoryId: number, openCount: number) => void;
@@ -103,8 +104,14 @@ export function ChecklistSection({
                 key={item.id}
                 item={item}
                 itemNumber={item.displayIndex}
-                onSave={(severity, evidenceType) =>
-                  onItemSave(item.id, category.id, severity, evidenceType)
+                onSave={(severity, evidenceType, appliesTo) =>
+                  onItemSave(
+                    item.id,
+                    category.id,
+                    severity,
+                    evidenceType,
+                    appliesTo,
+                  )
                 }
               />
             ))}

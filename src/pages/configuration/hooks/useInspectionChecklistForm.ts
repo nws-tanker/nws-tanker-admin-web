@@ -61,6 +61,7 @@ export function useInspectionChecklistForm() {
     categoryId: number,
     severity: string,
     evidenceType: string,
+    appliesTo: { dw: boolean; sw: boolean; te: boolean },
   ) {
     setDataToBeEdited((prev) => ({
       categories: prev.categories.map((cat) =>
@@ -69,7 +70,16 @@ export function useInspectionChecklistForm() {
           : {
               ...cat,
               items: cat.items.map((item) =>
-                item.id !== itemId ? item : { ...item, severity, evidenceType },
+                item.id !== itemId
+                  ? item
+                  : {
+                      ...item,
+                      severity,
+                      evidenceType,
+                      appliesToDw: appliesTo.dw,
+                      appliesToSw: appliesTo.sw,
+                      appliesToTe: appliesTo.te,
+                    },
               ),
             },
       ),

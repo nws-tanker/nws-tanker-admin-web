@@ -147,3 +147,11 @@ export type InspectionDetailsApiResponse = {
     status: string;
   }[];
 };
+
+export type SendNotificationRequest = {
+  email: string;
+  mobileNo: string;
+  sendEmail: boolean;
+  sendWhatsapp: boolean;
+  inspectionId: number;
+};

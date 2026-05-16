@@ -3,6 +3,11 @@ import type {
   PendingRequest,
   ClusterSetupApiResponse,
   InspectionChecklistResponse,
+  UpdateEmployeeRequest,
+  PermitSlaApiResponse,
+  NotificationContactsApiResponse,
+  UpdatePermitSlaRequest,
+  UpdateNotificationContactsRequest,
 } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
@@ -64,21 +69,39 @@ export async function fetchActiveUsers(
   });
 }
 
-export type UpdateUserStatusValue = 'ACTIVE' | 'INACTIVE';
-
-export type UpdateEmployeeRequest = {
-  firstName: string;
-  lastName: string;
-  mobileNo: string;
-  status: UpdateUserStatusValue;
-};
-
 export async function updateUserStatusApi(
   userId: string,
   body: UpdateEmployeeRequest,
 ): Promise<ApiResponse<void>> {
   const url = ENDPOINTS.updateEmployeeStatus.replace('{userId}', userId);
   return put<void>(url, body);
+}
+
+export async function fetchPermitSlaApi(): Promise<
+  ApiResponse<PermitSlaApiResponse>
+> {
+  return get<PermitSlaApiResponse>(ENDPOINTS.permitSla);
+}
+
+export async function fetchNotificationContactsApi(): Promise<
+  ApiResponse<NotificationContactsApiResponse>
+> {
+  return get<NotificationContactsApiResponse>(ENDPOINTS.notificationContacts);
+}
+
+export async function updatePermitSlaApi(
+  body: UpdatePermitSlaRequest,
+): Promise<ApiResponse<PermitSlaApiResponse>> {
+  return put<PermitSlaApiResponse>(ENDPOINTS.permitSla, body);
+}
+
+export async function updateNotificationContactsApi(
+  body: UpdateNotificationContactsRequest,
+): Promise<ApiResponse<NotificationContactsApiResponse>> {
+  return put<NotificationContactsApiResponse>(
+    ENDPOINTS.notificationContacts,
+    body,
+  );
 }
 
 export async function fetchClusters(): Promise<ApiResponse<ClusterResponse[]>> {
