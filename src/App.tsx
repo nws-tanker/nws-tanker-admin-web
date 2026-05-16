@@ -9,6 +9,7 @@ import {
   selectUserAccess,
 } from '@/store/slices/authSlice';
 import FleetRegistryPage from '@/pages/fleet-registry';
+import ExecutiveDashboardPage from '@/pages/executive-dashboard';
 import PlaceholderPage from '@/pages/placeholder';
 import TankerUploadPage from '@/pages/tanker-upload';
 import AuthenticationPage from '@/pages/authentication';
@@ -77,7 +78,7 @@ export default function App() {
         path={ROUTES.dashboard}
         element={
           <ProtectedRoute route="dashboard">
-            <PlaceholderPage title="Executive Dashboard" />
+            <ExecutiveDashboardPage />
           </ProtectedRoute>
         }
       />
