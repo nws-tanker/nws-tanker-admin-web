@@ -23,7 +23,7 @@ export function Chip({ tone = 'gray', children, className, onClick }: Props) {
     'inline-flex items-center gap-1.5 rounded-card-sm border px-2.5 py-[3px] text-[11px] font-medium leading-none',
     TONE_CLASS[tone],
     onClick &&
-      'cursor-pointer select-none focus:outline-none focus:ring-1 focus:ring-offset-1',
+      'cursor-pointer select-none focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-teal-600',
     className,
   );
 

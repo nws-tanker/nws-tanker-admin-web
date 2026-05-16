@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Chip, Select } from '@/atoms';
 import type { ChecklistItemResponse } from '@/types/configuration';
 
@@ -29,10 +29,14 @@ type Props = {
   ) => void;
 };
 
+const APPLIES_KEY: Record<'DW' | 'SW' | 'TE', keyof AppliesTo> = {
+  DW: 'dw',
+  SW: 'sw',
+  TE: 'te',
+};
+
 function isApplied(applies: AppliesTo, code: 'DW' | 'SW' | 'TE'): boolean {
-  if (code === 'DW') return applies.dw;
-  if (code === 'SW') return applies.sw;
-  return applies.te;
+  return applies[APPLIES_KEY[code]];
 }
 
 export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
@@ -44,6 +48,26 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
     sw: item.appliesToSw,
     te: item.appliesToTe,
   });
+
+  // item.id change means the parent replaced this row's data (e.g. after a save);
+  // reset local state so the row doesn't show stale edits from the previous item.
+  useEffect(() => {
+    setLocalSeverity(item.severity);
+    setLocalEvidenceType(item.evidenceType);
+    setLocalApplies({
+      dw: item.appliesToDw,
+      sw: item.appliesToSw,
+      te: item.appliesToTe,
+    });
+    setEditable(false);
+  }, [
+    item.id,
+    item.severity,
+    item.evidenceType,
+    item.appliesToDw,
+    item.appliesToSw,
+    item.appliesToTe,
+  ]);
 
   function toggleApplies(code: 'DW' | 'SW' | 'TE') {
     setLocalApplies((prev) => ({
@@ -81,7 +105,7 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
                 {type.code}
                 {editable && active && (
                   <span aria-hidden className="ml-0.5 text-[10px] opacity-70">
-                    ✕
+                    &times;
                   </span>
                 )}
               </Chip>
