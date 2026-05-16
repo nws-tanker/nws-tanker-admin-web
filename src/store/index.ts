@@ -14,7 +14,9 @@ import inspectionApiReducer from './apiSlices/inspectionApiSlice';
 import inspectionChecklistApiReducer from './apiSlices/inspectionChecklistApiSlice';
 import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
+import notificationContactsApiReducer from './apiSlices/notificationContactsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
+import permitSlaApiReducer from './apiSlices/permitSlaApiSlice';
 // import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
 
@@ -29,7 +31,9 @@ export const store = configureStore({
     inspectionChecklistApi: inspectionChecklistApiReducer,
     inspectionDetailsApi: inspectionDetailsApiReducer,
     lookupsApi: lookupsApiReducer,
+    notificationContactsApi: notificationContactsApiReducer,
     pendingUsersApi: pendingUsersApiReducer,
+    permitSlaApi: permitSlaApiReducer,
     // sidebarApi: sidebarApiReducer,
     auth: authReducer,
   },
