@@ -1,4 +1,11 @@
-export type InspectionTankerType = 'DW' | 'SW' | 'TE';
+export const INSPECTION_TANKER_TYPE = {
+  DW: 'DW',
+  SW: 'SW',
+  TE: 'TE',
+} as const;
+
+export type InspectionTankerType =
+  (typeof INSPECTION_TANKER_TYPE)[keyof typeof INSPECTION_TANKER_TYPE];
 
 export type InspectionTab =
   | 'pending-review'
@@ -24,6 +31,24 @@ export const INSPECTION_TAB_API_PARAM: Record<InspectionTab, string> = {
   'lab-testing': 'lab_pending',
   approved: 'approved',
   rejected: 'rejected',
+};
+
+export const INSPECTION_STATUS_LABEL: Record<string, string> = {
+  submitted: 'Inspection Submitted',
+  in_review: 'Pending Review',
+  pending: 'Pending Inspection',
+  lab_pending: 'Lab Testing',
+  approved: 'Approved',
+  rejected: 'Rejected',
+};
+
+export const INSPECTION_STATUS_PILL_CLASS: Record<string, string> = {
+  approved: 'bg-green-50 text-green-600 border-green-200',
+  rejected: 'bg-red-50 text-red-600 border-red-200',
+  lab_pending: 'bg-purple-50 text-purple-600 border-purple-200',
+  submitted: 'bg-amber-50 text-amber-700 border-amber-100',
+  in_review: 'bg-amber-50 text-amber-700 border-amber-100',
+  pending: 'bg-amber-50 text-amber-700 border-amber-100',
 };
 
 export type ApiInspectionRecord = {
@@ -68,7 +93,7 @@ export type InspectionDetailsApiResponse = {
   status: string;
   tanker: {
     plate: string;
-    type: 'DW' | 'SW' | 'TE';
+    type: InspectionTankerType;
     owner: {
       name: string;
       phone: string;

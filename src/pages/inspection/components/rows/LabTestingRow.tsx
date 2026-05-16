@@ -27,11 +27,6 @@ export function LabTestingRow({ record, onView }: Props) {
       <td className="px-4 py-3 text-[12px] text-ink-600">
         {formatInspectionDate(record.physical_date)}
       </td>
-      <td className="px-4 py-3 text-[12px] text-ink-500">
-        {record.physical_score !== null
-          ? `Score ${record.physical_score}/100`
-          : '—'}
-      </td>
       <td className="whitespace-nowrap px-4 py-3 text-right">
         <Button size="sm" variant="ghost" onClick={() => onView(record)}>
           View Details

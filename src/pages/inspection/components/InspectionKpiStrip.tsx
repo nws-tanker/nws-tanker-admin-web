@@ -9,6 +9,12 @@ type KpiConfig = {
 
 const KPI_CONFIG: KpiConfig[] = [
   {
+    label: 'Inspection Submitted',
+    tab: 'submitted',
+    sub: 'Submitted by inspector',
+    valueClass: 'text-blue-600',
+  },
+  {
     label: 'Pending Review',
     tab: 'pending-review',
     sub: 'Awaiting CM decision',
@@ -20,12 +26,7 @@ const KPI_CONFIG: KpiConfig[] = [
     sub: 'Scheduled, not done yet',
     valueClass: 'text-cyan-600',
   },
-  {
-    label: 'Inspection Submitted',
-    tab: 'submitted',
-    sub: 'Submitted by inspector',
-    valueClass: 'text-blue-600',
-  },
+
   {
     label: 'Lab Testing',
     tab: 'lab-testing',

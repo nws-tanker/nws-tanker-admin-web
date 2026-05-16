@@ -8,6 +8,7 @@ import { ReassignInspectorModal } from '../../components/ReassignInspectorModal'
 import { RejectInspectionModal } from '../../components/RejectInspectionModal';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
+import { FailedItemsBanner } from '../../components/FailedItemsBanner';
 
 const NEXT_STEPS = [
   'If approved, a permit will be generated',
@@ -28,6 +29,7 @@ export function LabTestingSidebar({ data, onRefetch }: Props) {
   return (
     <>
       <div className="flex flex-col gap-3">
+        <FailedItemsBanner data={data} />
         {!labUploaded && (
           <div className="bg-[#f5f3ff] border border-[#ddd6fe] rounded-card p-3.5 flex gap-2.5">
             <span style={{ fontSize: 18 }}>📄</span>
@@ -82,8 +84,8 @@ export function LabTestingSidebar({ data, onRefetch }: Props) {
           </div>
         </div>
 
-        <InspectionInfoPanel data={data} />
         <WhatHappensNextPanel items={NEXT_STEPS} />
+        <InspectionInfoPanel data={data} />
         <NotifyOwnerPanel data={data} />
       </div>
 

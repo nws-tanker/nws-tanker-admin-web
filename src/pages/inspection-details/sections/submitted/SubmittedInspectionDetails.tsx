@@ -3,6 +3,7 @@ import { ActivityTimeline } from '../../components/ActivityTimeline';
 import { InspectionSummaryTiles } from '../../components/InspectionSummaryTiles';
 import { LabReport } from '../../components/LabReport';
 import { PhysicalInspectionChecklist } from '../../components/PhysicalInspectionChecklist';
+import { RecordLocked } from '../../components/RecordLocked';
 import { TankerInformation } from '../../components/TankerInformation';
 import { TraceabilityChain } from '../../components/TraceabilityChain';
 import { PermitHistory } from '../../components/PermitHistory';
@@ -15,6 +16,7 @@ export default function SubmittedInspectionDetails({ data, onRefetch }: Props) {
     <div className="grid grid-cols-[1fr_300px] gap-6 items-start">
       <div className="flex flex-col gap-4">
         <TraceabilityChain data={data} />
+        <RecordLocked data={data} />
         <TankerInformation data={data} />
         <InspectionSummaryTiles data={data} />
         <PermitHistory data={data} />

@@ -10,7 +10,7 @@ export function InspectionInfoPanel({ data }: Props) {
     { label: 'Inspector', value: assignment.inspector_name },
     { label: 'Type', value: is_reinspection ? 'Reinspection' : 'Annual' },
     {
-      label: 'Scheduled Date',
+      label: 'Date',
       value: assignment.scheduled_date
         ? formatDate(assignment.scheduled_date)
         : 'Not scheduled',

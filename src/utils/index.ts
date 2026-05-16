@@ -1,5 +1,6 @@
 export { cn } from './cn';
 export { downloadCsv } from './csv';
+export { downloadFile } from './downloadFile';
 export { formatDate } from './date';
 export { getInitials } from './initials';
 export { formatPhone } from './phone';

@@ -24,7 +24,6 @@ const HEADERS: Record<InspectionTab, string[]> = {
     'Governorate',
     'Cluster',
     'Inspector',
-    'Scheduled Date',
   ],
   submitted: [
     'Plate',
@@ -42,7 +41,6 @@ const HEADERS: Record<InspectionTab, string[]> = {
     'Cluster',
     'Inspector',
     'Submitted',
-    'Score',
     '',
   ],
   approved: [

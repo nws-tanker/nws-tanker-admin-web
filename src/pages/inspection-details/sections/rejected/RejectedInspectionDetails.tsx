@@ -2,7 +2,7 @@ import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { ActivityTimeline } from '../../components/ActivityTimeline';
 import { InspectionSummaryTiles } from '../../components/InspectionSummaryTiles';
 import { PhysicalInspectionChecklist } from '../../components/PhysicalInspectionChecklist';
-import { RecordLocked } from './RecordLocked';
+import { RecordLocked } from '../../components/RecordLocked';
 import { RejectedSidebar } from './RejectedSidebar';
 import { RejectionBanner } from './RejectionBanner';
 import { TankerInformation } from '../../components/TankerInformation';

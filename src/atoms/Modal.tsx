@@ -4,8 +4,8 @@ import { cn } from '@/utils';
 
 type Props = {
   open: boolean;
-  title: string;
-  subtitle?: string;
+  title: ReactNode;
+  subtitle?: ReactNode;
   width?: number;
   onClose: () => void;
   children: ReactNode;
@@ -42,7 +42,7 @@ export function Modal({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={title}
+        aria-label={typeof title === 'string' ? title : undefined}
         className={cn(
           'relative z-10 flex max-h-[92vh] w-[94vw] flex-col rounded-card-xl bg-white shadow-card-lg',
         )}

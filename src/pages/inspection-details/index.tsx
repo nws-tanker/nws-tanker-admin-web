@@ -6,6 +6,7 @@ import { States } from '@/store/types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useInspectionDetailsData } from './hooks/useInspectionData';
 import InspectionDetailsSkeleton from './components/InspectionDetailsSkeleton';
+import { InspectionStatusPill } from './components/InspectionStatusPill';
 import ApprovedInspectionDetails from './sections/approved/ApprovedInspectionDetails';
 import LabTestingInspectionDetails from './sections/lab-testing/LabTestingInspectionDetails';
 import PendingReviewInspectionDetails from './sections/pending-review/PendingReviewInspectionDetails';
@@ -54,11 +55,22 @@ export default function InspectionDetailsPage() {
         <Button
           variant="ghost"
           onClick={() => navigate(ROUTES.inspectionReview)}
-          className="mb-4 w-fit -ml-2.5"
+          className="mb-4 w-fit -ml-2.5 text-teal-800 hover:text-teal-900"
         >
           ← Back to Inspection Review
         </Button>
-        <PageHeader title={pageTitle} subtitle={pageSubtitle} />
+        <PageHeader
+          title={pageTitle}
+          subtitle={pageSubtitle}
+          actions={
+            data ? (
+              <InspectionStatusPill
+                status={data.status}
+                inspectionRef={data.inspection_ref}
+              />
+            ) : null
+          }
+        />
 
         <div>
           {isLoading ? (

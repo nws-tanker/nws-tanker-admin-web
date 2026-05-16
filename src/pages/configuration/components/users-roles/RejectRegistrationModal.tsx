@@ -36,8 +36,15 @@ export function RejectRegistrationModal({
   return (
     <Modal
       open={request !== null}
-      title="Reject Registration"
-      subtitle={request ? `Request from ${request.name}` : undefined}
+      title={<span className="font-bold">Reject Registration</span>}
+      subtitle={
+        request ? (
+          <>
+            Request from{' '}
+            <span className="font-bold text-ink-800">{request.name}</span>
+          </>
+        ) : undefined
+      }
       width={500}
       onClose={handleClose}
       footer={
@@ -53,7 +60,7 @@ export function RejectRegistrationModal({
     >
       {request && (
         <div className="flex flex-col gap-1.5">
-          <label className="text-[13px] font-medium text-ink-700">
+          <label className="text-[13px] font-bold text-ink-700">
             Reason for rejection <span className="text-red-500">*</span>
           </label>
           <Textarea
