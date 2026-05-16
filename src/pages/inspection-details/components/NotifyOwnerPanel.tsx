@@ -30,7 +30,7 @@ export function NotifyOwnerPanel({ data }: Props) {
       if (res.success) {
         toast.show('Notification sent to owner');
       } else {
-        toast.show(res.error.description || 'Failed to send notification', {
+        toast.show(res.error?.description ?? 'Failed to send notification', {
           tone: 'error',
         });
       }
