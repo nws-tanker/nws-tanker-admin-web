@@ -4,30 +4,35 @@ import AuthTabs from './components/AuthTabs';
 import LoginForm from './components/forms/LoginForm';
 import EmployeeRegistrationForm from './components/forms/EmployeeRegistrationForm';
 import ContractorRegistrationForm from './components/forms/ContractorRegistrationForm';
+import ForgotPasswordForm from './components/forms/ForgotPassword';
 
-type TabType = 'login' | 'employee' | 'contractor';
+type AuthView = 'login' | 'employee' | 'contractor' | 'forgot';
 
 export default function AuthenticationPage() {
-  const [activeTab, setActiveTab] = useState<TabType>('login');
+  const [view, setView] = useState<AuthView>('login');
+
+  const isTabbedView = view !== 'forgot';
 
   return (
     <AuthLayout>
-      <AuthTabs activeTab={activeTab} onChange={setActiveTab} />
-      {activeTab === 'login' && (
+      {isTabbedView && (
+        <AuthTabs activeTab={view} onChange={(t) => setView(t)} />
+      )}
+      {view === 'login' && (
         <LoginForm
-          onSwitchToEmployee={() => setActiveTab('employee')}
-          onSwitchToContractor={() => setActiveTab('contractor')}
+          onSwitchToEmployee={() => setView('employee')}
+          onSwitchToContractor={() => setView('contractor')}
+          onForgotPassword={() => setView('forgot')}
         />
       )}
-      {activeTab === 'employee' && (
-        <EmployeeRegistrationForm
-          onSwitchToLogin={() => setActiveTab('login')}
-        />
+      {view === 'employee' && (
+        <EmployeeRegistrationForm onSwitchToLogin={() => setView('login')} />
       )}
-      {activeTab === 'contractor' && (
-        <ContractorRegistrationForm
-          onSwitchToLogin={() => setActiveTab('login')}
-        />
+      {view === 'contractor' && (
+        <ContractorRegistrationForm onSwitchToLogin={() => setView('login')} />
+      )}
+      {view === 'forgot' && (
+        <ForgotPasswordForm onBackToLogin={() => setView('login')} />
       )}
     </AuthLayout>
   );
