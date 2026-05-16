@@ -1,4 +1,11 @@
-export type InspectionTankerType = 'DW' | 'SW' | 'TE';
+export const INSPECTION_TANKER_TYPE = {
+  DW: 'DW',
+  SW: 'SW',
+  TE: 'TE',
+} as const;
+
+export type InspectionTankerType =
+  (typeof INSPECTION_TANKER_TYPE)[keyof typeof INSPECTION_TANKER_TYPE];
 
 export type InspectionTab =
   | 'pending-review'
@@ -86,7 +93,7 @@ export type InspectionDetailsApiResponse = {
   status: string;
   tanker: {
     plate: string;
-    type: 'DW' | 'SW' | 'TE';
+    type: InspectionTankerType;
     owner: {
       name: string;
       phone: string;

@@ -1,4 +1,7 @@
-import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import {
+  INSPECTION_TANKER_TYPE,
+  type InspectionDetailsApiResponse,
+} from '@/types/inspection';
 
 export type DotColor = 'blue' | 'green' | 'purple' | 'red' | 'gray';
 
@@ -97,7 +100,7 @@ function findByEvent(
 
 export function buildSteps(data: InspectionDetailsApiResponse): TimelineStep[] {
   const { timeline, tanker, lab, status, assignment, permit, rejection } = data;
-  const isDW = tanker.type === 'DW';
+  const isDW = tanker.type === INSPECTION_TANKER_TYPE.DW;
   const isApproved = status === 'approved';
   const isRejected = status === 'rejected';
   const permitIssued = !!permit.permit_number;
