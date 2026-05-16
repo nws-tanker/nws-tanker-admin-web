@@ -15,6 +15,9 @@ export const ENDPOINTS = {
   assignment: '/api/assignments?plateNumber={plateNumber}',
   user: '/api/admin/users/{id}',
   login: '/api/authenticate',
+  forgetPassword: '/authentication/forgetPassword',
+  validateOtp: '/authentication/validateOtp',
+  resetPassword: '/authentication/setPassword',
   employeeRegistration: '/api/users/register/employee',
   contractorRegistration: '/api/users/register/contractor',
   contractors: '/api/contractors',
@@ -32,4 +35,5 @@ export const ENDPOINTS = {
     '/api/inspection/review-screen/{inspectionId}/assign-inspector/{inspectorID}',
   requeueInspection: '/api/inspection/review-screen/{inspectionId}/requeue',
   sendNotification: '/api/inspection/review-screen/send-notification',
+  inspectorDashboard: '/api/inspector/dashboard',
 } as const;

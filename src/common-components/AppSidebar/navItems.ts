@@ -67,7 +67,6 @@ export const NAV_SECTIONS: NavSection[] = [
         label: 'Permit Renewal',
         icon: FileIcon,
         routeKey: 'permitRenewal',
-        countKey: 'expiringPermitRenewals',
       },
       {
         key: 'reports',

@@ -17,6 +17,7 @@ import fleetTargetsApiReducer from './apiSlices/fleetTargetsApiSlice';
 import inspectionApiReducer from './apiSlices/inspectionApiSlice';
 import inspectionChecklistApiReducer from './apiSlices/inspectionChecklistApiSlice';
 import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
+import inspectorDashboardApiReducer from './apiSlices/inspectorDashboardApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import notificationContactsApiReducer from './apiSlices/notificationContactsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
@@ -35,6 +36,7 @@ const appReducer = combineReducers({
   inspectionApi: inspectionApiReducer,
   inspectionChecklistApi: inspectionChecklistApiReducer,
   inspectionDetailsApi: inspectionDetailsApiReducer,
+  inspectorDashboardApi: inspectorDashboardApiReducer,
   lookupsApi: lookupsApiReducer,
   notificationContactsApi: notificationContactsApiReducer,
   pendingUsersApi: pendingUsersApiReducer,

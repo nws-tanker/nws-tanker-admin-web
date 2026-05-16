@@ -137,26 +137,30 @@ export default function ContractorRegistrationForm({ onSwitchToLogin }: Props) {
         </FormField>
 
         <div className="flex gap-3 mb-[14px]">
-          <PasswordField
-            label="Password"
-            value={values.password}
-            onChange={(v) => handleChange('password', v)}
-            placeholder="Create a password"
-            show={showPassword}
-            onToggle={toggleShowPassword}
-            disabled={isLoading}
-            error={err('password')}
-          />
-          <PasswordField
-            label="Confirm password"
-            value={values.confirmPassword}
-            onChange={(v) => handleChange('confirmPassword', v)}
-            placeholder="Repeat password"
-            show={showConfirm}
-            onToggle={toggleShowConfirm}
-            disabled={isLoading}
-            error={err('confirmPassword')}
-          />
+          <div className="flex-1 min-w-0">
+            <PasswordField
+              label="Password"
+              value={values.password}
+              onChange={(v) => handleChange('password', v)}
+              placeholder="Create a password"
+              show={showPassword}
+              onToggle={toggleShowPassword}
+              disabled={isLoading}
+              error={err('password')}
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <PasswordField
+              label="Confirm password"
+              value={values.confirmPassword}
+              onChange={(v) => handleChange('confirmPassword', v)}
+              placeholder="Repeat password"
+              show={showConfirm}
+              onToggle={toggleShowConfirm}
+              disabled={isLoading}
+              error={err('confirmPassword')}
+            />
+          </div>
         </div>
 
         <div className="mb-[14px]">
