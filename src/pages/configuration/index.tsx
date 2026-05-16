@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
+import { CONFIG_TABS, CONFIG_TAB_ACCESS } from '@/constants/configuration';
+import { useAppSelector } from '@/store';
+import { selectUserAccess } from '@/store/slices/authSlice';
 import type { ConfigTab } from '@/types/configuration';
 import { ClusterSetupTab } from './components/cluster-setup/ClusterSetupTab';
 import { ConfigurationTabs } from './components/ConfigurationTabs';
@@ -15,7 +18,24 @@ const LAST_MODIFIED_BY = 'Hamed Al-Rashdi';
 const LAST_MODIFIED_ON = '12 Apr 2026';
 
 export default function ConfigurationPage() {
-  const [activeTab, setActiveTab] = useState<ConfigTab>('notifications');
+  const userAccess = useAppSelector(selectUserAccess);
+
+  const visibleTabs = useMemo(
+    () =>
+      CONFIG_TABS.filter((t) => userAccess.includes(CONFIG_TAB_ACCESS[t.id])),
+    [userAccess],
+  );
+
+  const [activeTab, setActiveTab] = useState<ConfigTab | undefined>(
+    visibleTabs[0]?.id,
+  );
+
+  useEffect(() => {
+    if (!activeTab || !visibleTabs.find((t) => t.id === activeTab)) {
+      setActiveTab(visibleTabs[0]?.id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleTabs]);
 
   return (
     <AppShell breadcrumbs={['Home', 'Configuration']}>
@@ -34,7 +54,11 @@ export default function ConfigurationPage() {
         />
 
         <div className="mb-4">
-          <ConfigurationTabs active={activeTab} onChange={setActiveTab} />
+          <ConfigurationTabs
+            tabs={visibleTabs}
+            active={activeTab ?? visibleTabs[0]?.id}
+            onChange={setActiveTab}
+          />
         </div>
 
         {activeTab === 'notifications' && <NotificationsTab />}

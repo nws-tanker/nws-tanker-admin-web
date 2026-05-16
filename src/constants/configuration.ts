@@ -1,5 +1,6 @@
 import { ChipTone } from '@/atoms';
 import { ConfigTab, UserType, UserRole } from '@/types/configuration';
+import { USER_ACCESS, type UserAccess } from '@/constants/userAccess';
 // TODO: USER_ROLE, UserRole, RegistrationType, REGISTRATION_TYPE not yet exported from @/types
 // import { USER_ROLE } from '@/types';
 // import type { UserRole, RegistrationType } from '@/types';
@@ -47,6 +48,18 @@ export const CONFIG_TABS: { id: ConfigTab; label: string }[] = [
   { id: 'cluster-setup', label: 'Cluster Setup' },
   { id: 'fleet-targets', label: 'Fleet Targets' },
 ];
+
+/* Per-tab access requirements. The user must hold the mapped permission for
+   the tab to be visible inside the Configuration page. The page itself is
+   gated at the route level by any-of these (see ROUTE_ACCESS.configuration). */
+export const CONFIG_TAB_ACCESS: Record<ConfigTab, UserAccess> = {
+  notifications: USER_ACCESS.CONFIG_NOTIFICATIONS,
+  'permit-sla': USER_ACCESS.CONFIG_PERMIT_SLA_RULES,
+  'users-roles': USER_ACCESS.CONFIG_USERS_ROLES,
+  'inspection-checklist': USER_ACCESS.CONFIG_INSPECTION_CHECKLIST,
+  'cluster-setup': USER_ACCESS.CONFIG_CLUSTER_SETUP,
+  'fleet-targets': USER_ACCESS.CONFIG_FLEET_TARGETS,
+};
 
 export const USER_TYPE_LABELS: Record<UserType, string> = {
   nama_employee: 'Nama Employee',

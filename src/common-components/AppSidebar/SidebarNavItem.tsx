@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { CountBadge } from '@/atoms';
+import { ROUTES } from '@/constants/routes';
 import { cn } from '@/utils';
 import type { NavItem } from './navItems';
 
@@ -13,7 +14,7 @@ export function SidebarNavItem({ item, badge }: Props) {
 
   return (
     <NavLink
-      to={item.path}
+      to={ROUTES[item.routeKey]}
       end
       className={({ isActive }) =>
         cn(

@@ -35,3 +35,16 @@ export const PERMIT_BADGE_COLOR: Record<
 };
 
 export const FLEET_PAGE_SIZE = 25;
+
+// API code → internal enum mappings. Used by services that translate raw API
+// payloads into the typed domain shapes.
+export const TANKER_TYPE_BY_CODE: Record<string, TankerType> = {
+  DW: TANKER_TYPE.DRINKING_WATER,
+  SW: TANKER_TYPE.SEWAGE_WATER,
+  TE: TANKER_TYPE.TREATED_EFFLUENT,
+};
+
+export const PERMIT_STATUS_BY_API: Record<string, PermitStatus> = {
+  valid: PERMIT_STATUS.ACTIVE,
+  expired: PERMIT_STATUS.EXPIRED,
+};

@@ -8,12 +8,7 @@ export type {
   Tanker,
   TankerType,
 } from './fleet';
-export {
-  PERMIT_STATUS,
-  TANKER_TYPE,
-  PERMIT_STATUS_BY_API,
-  TANKER_TYPE_BY_CODE,
-} from './fleet';
+export { PERMIT_STATUS, TANKER_TYPE } from './fleet';
 export type {
   Cluster,
   Governorate,

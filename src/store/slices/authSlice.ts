@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { ROUTE_ACCESS, type RouteKey } from '@/constants/routes';
+import { hasRouteAccess, type RouteKey } from '@/constants/routes';
 import type { AuthUser, JwtPayload } from '@/types';
 import type { RootState } from '../index';
 
@@ -89,8 +89,5 @@ export const selectUserAccess = (state: RootState) =>
  */
 export const selectCanAccessRoute =
   (route: RouteKey) =>
-  (state: RootState): boolean => {
-    const required = ROUTE_ACCESS[route];
-    if (required === null) return true;
-    return state.auth.user?.userAccess.includes(required) ?? false;
-  };
+  (state: RootState): boolean =>
+    hasRouteAccess(route, state.auth.user?.userAccess ?? []);
