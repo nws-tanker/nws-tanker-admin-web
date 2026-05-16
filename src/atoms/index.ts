@@ -24,3 +24,4 @@ export { Textarea } from './Textarea';
 export { Tabs } from './Tabs';
 export { TextInput } from './TextInput';
 export { ToastProvider, useToast } from './Toast';
+export { Toggle } from './Toggle';

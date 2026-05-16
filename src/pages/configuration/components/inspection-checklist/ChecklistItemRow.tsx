@@ -49,8 +49,6 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
     te: item.appliesToTe,
   });
 
-  // item.id change means the parent replaced this row's data (e.g. after a save);
-  // reset local state so the row doesn't show stale edits from the previous item.
   useEffect(() => {
     setLocalSeverity(item.severity);
     setLocalEvidenceType(item.evidenceType);
@@ -60,22 +58,12 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
       te: item.appliesToTe,
     });
     setEditable(false);
-  }, [
-    item.id,
-    item.severity,
-    item.evidenceType,
-    item.appliesToDw,
-    item.appliesToSw,
-    item.appliesToTe,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.id]);
 
   function toggleApplies(code: 'DW' | 'SW' | 'TE') {
-    setLocalApplies((prev) => ({
-      ...prev,
-      dw: code === 'DW' ? !prev.dw : prev.dw,
-      sw: code === 'SW' ? !prev.sw : prev.sw,
-      te: code === 'TE' ? !prev.te : prev.te,
-    }));
+    const key = APPLIES_KEY[code];
+    setLocalApplies((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
   function handleDone() {
