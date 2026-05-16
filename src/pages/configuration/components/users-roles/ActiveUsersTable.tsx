@@ -25,13 +25,13 @@ const ROLE_OPTIONS: SelectOption<UserRole>[] = (
 type Column = { header: string; width: string };
 
 const COLUMNS: Column[] = [
-  { header: 'User', width: 'auto' },
-  { header: 'Role', width: '18%' },
-  { header: 'Cluster', width: '12%' },
-  { header: 'Email', width: '22%' },
+  { header: 'User', width: '22%' },
+  { header: 'Role', width: '14%' },
+  { header: 'Cluster', width: '9%' },
+  { header: 'Email', width: '20%' },
   { header: 'Status', width: '9%' },
   { header: 'Last Active', width: '14%' },
-  { header: '', width: '15%' },
+  { header: '', width: '12%' },
 ];
 
 export function ActiveUsersTable({
@@ -81,8 +81,8 @@ export function ActiveUsersTable({
         </div>
       </div>
 
-      <div className="overflow-x-hidden border-t border-ink-200">
-        <table className="w-full table-fixed text-[13px]">
+      <div className="overflow-x-auto border-t border-ink-200">
+        <table className="w-full min-w-[960px] table-fixed text-[13px]">
           <colgroup>
             {COLUMNS.map((col, i) => (
               <col key={i} style={{ width: col.width }} />
