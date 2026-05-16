@@ -1,5 +1,8 @@
 import { Badge, Button } from '@/atoms';
-import type { ApiInspectionRecord } from '@/types/inspection';
+import {
+  INSPECTION_STATUS_LABEL,
+  type ApiInspectionRecord,
+} from '@/types/inspection';
 import { formatInspectionDate } from '../../inspectionHelpers';
 import { TankerTypeChip } from './TankerTypeChip';
 
@@ -11,7 +14,7 @@ type Props = {
 export function PendingReviewRow({ record, onReview }: Props) {
   const priorStage = (
     <Badge tone="blue" withDot>
-      {record.prior_stage}
+      {INSPECTION_STATUS_LABEL[record.prior_stage] ?? record.prior_stage}
     </Badge>
   );
 
