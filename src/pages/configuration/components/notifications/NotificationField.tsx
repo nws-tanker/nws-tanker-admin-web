@@ -8,6 +8,7 @@ type Props = {
   value: string;
   onChange: (v: string) => void;
   hint: string;
+  error?: string;
   type?: 'tel' | 'email';
   tone?: 'default' | 'accent';
 };
@@ -19,6 +20,7 @@ export function NotificationField({
   value,
   onChange,
   hint,
+  error,
   type = 'tel',
   tone = 'default',
 }: Props) {
@@ -29,13 +31,18 @@ export function NotificationField({
       </label>
       <Input
         type={type}
-        tone={tone}
+        tone={error ? 'default' : tone}
+        invalid={!!error}
         leftSlot={icon}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="font-mono"
       />
-      <p className="mt-1.5 text-[11px] leading-snug text-ink-500">{hint}</p>
+      {error ? (
+        <p className="mt-1.5 text-[11px] leading-snug text-red-600">{error}</p>
+      ) : (
+        <p className="mt-1.5 text-[11px] leading-snug text-ink-500">{hint}</p>
+      )}
     </div>
   );
 }

@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { fetchPermitSla } from '@/store/apiSlices/permitSlaApiSlice';
+import {
+  fetchPermitSla,
+  resetPermitSla,
+} from '@/store/apiSlices/permitSlaApiSlice';
 import { States } from '@/store/types';
 import { PermitSlaForm } from './PermitSlaForm';
 
@@ -10,6 +13,9 @@ export function PermitSlaTab() {
 
   useEffect(() => {
     dispatch(fetchPermitSla());
+    return () => {
+      dispatch(resetPermitSla());
+    };
   }, [dispatch]);
 
   if (apiState === States.ERROR) {

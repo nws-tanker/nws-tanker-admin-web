@@ -15,7 +15,7 @@ const LAST_MODIFIED_BY = 'Hamed Al-Rashdi';
 const LAST_MODIFIED_ON = '12 Apr 2026';
 
 export default function ConfigurationPage() {
-  const [activeTab, setActiveTab] = useState<ConfigTab>('users-roles');
+  const [activeTab, setActiveTab] = useState<ConfigTab>('notifications');
 
   return (
     <AppShell breadcrumbs={['Home', 'Configuration']}>

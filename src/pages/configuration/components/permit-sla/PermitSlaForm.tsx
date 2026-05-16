@@ -10,6 +10,16 @@ type Props = {
   data: PermitSlaApiResponse;
 };
 
+type FieldErrors = {
+  permitValidity?: string;
+  labSla?: string;
+  renewalReminder?: string;
+};
+
+function validatePositiveInt(v: number, label: string): string | undefined {
+  if (!Number.isInteger(v) || v < 1) return `${label} must be at least 1`;
+}
+
 export function PermitSlaForm({ data }: Props) {
   const toast = useToast();
   const dispatch = useAppDispatch();
@@ -20,9 +30,24 @@ export function PermitSlaForm({ data }: Props) {
   const [renewalReminder, setRenewalReminder] = useState(
     data.renewalReminderDays,
   );
+  const [errors, setErrors] = useState<FieldErrors>({});
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
+    const validationErrors: FieldErrors = {
+      permitValidity: validatePositiveInt(permitValidity, 'Permit validity'),
+      labSla: validatePositiveInt(labSla, 'Lab SLA'),
+      renewalReminder: validatePositiveInt(renewalReminder, 'Renewal reminder'),
+    };
+    if (
+      validationErrors.permitValidity ||
+      validationErrors.labSla ||
+      validationErrors.renewalReminder
+    ) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
     setIsSaving(true);
     try {
       const response = await updatePermitSlaApi({
@@ -65,6 +90,7 @@ export function PermitSlaForm({ data }: Props) {
               unit="months"
               value={permitValidity}
               onChange={setPermitValidity}
+              error={errors.permitValidity}
               hint="Validity period from permit issue date."
             />
             <SlaRuleField
@@ -72,6 +98,7 @@ export function PermitSlaForm({ data }: Props) {
               unit="days"
               value={labSla}
               onChange={setLabSla}
+              error={errors.labSla}
               hint="Max time from sample receipt to result."
             />
             <SlaRuleField
@@ -79,6 +106,7 @@ export function PermitSlaForm({ data }: Props) {
               unit="days"
               value={renewalReminder}
               onChange={setRenewalReminder}
+              error={errors.renewalReminder}
               hint="Days before expiry when owners are notified."
             />
           </div>

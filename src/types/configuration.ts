@@ -260,7 +260,7 @@ export type UpdatePermitSlaRequest = {
 };
 
 export type UpdateNotificationContactsRequest = {
-  contractorId: number;
+  contractorId: number | null;
   email: string;
   mobileNo: string;
 };

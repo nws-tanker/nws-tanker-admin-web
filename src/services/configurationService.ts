@@ -80,16 +80,13 @@ export async function updateUserStatusApi(
 export async function fetchPermitSlaApi(): Promise<
   ApiResponse<PermitSlaApiResponse>
 > {
-  return get<PermitSlaApiResponse>(ENDPOINTS.permitSla, undefined);
+  return get<PermitSlaApiResponse>(ENDPOINTS.permitSla);
 }
 
 export async function fetchNotificationContactsApi(): Promise<
   ApiResponse<NotificationContactsApiResponse>
 > {
-  return get<NotificationContactsApiResponse>(
-    ENDPOINTS.notificationContacts,
-    undefined,
-  );
+  return get<NotificationContactsApiResponse>(ENDPOINTS.notificationContacts);
 }
 
 export async function updatePermitSlaApi(

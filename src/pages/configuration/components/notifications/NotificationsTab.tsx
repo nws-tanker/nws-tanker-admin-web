@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { fetchNotificationContacts } from '@/store/apiSlices/notificationContactsApiSlice';
+import {
+  fetchNotificationContacts,
+  resetNotificationContacts,
+} from '@/store/apiSlices/notificationContactsApiSlice';
 import { States } from '@/store/types';
 import { NotificationsForm } from './NotificationsForm';
 
@@ -12,6 +15,9 @@ export function NotificationsTab() {
 
   useEffect(() => {
     dispatch(fetchNotificationContacts());
+    return () => {
+      dispatch(resetNotificationContacts());
+    };
   }, [dispatch]);
 
   if (apiState === States.ERROR) {

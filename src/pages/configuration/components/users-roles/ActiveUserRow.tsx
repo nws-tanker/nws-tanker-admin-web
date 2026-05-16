@@ -14,10 +14,13 @@ export function ActiveUserRow({ user, onToggleStatus }: Props) {
   const roleLabel = user.role ? ROLE_LABELS[user.role] : undefined;
   return (
     <tr className="hover:bg-ink-50">
-      <td className="border-b border-ink-100 px-4 py-3 align-middle whitespace-nowrap">
-        <div className="flex items-center gap-2.5">
+      <td className="border-b border-ink-100 px-4 py-3 align-middle">
+        <div className="flex min-w-0 items-center gap-2.5">
           <UserAvatar name={user.name} />
-          <span className="text-[13px] font-semibold text-ink-900">
+          <span
+            className="truncate text-[13px] font-semibold text-ink-900"
+            title={user.name}
+          >
             {user.name}
           </span>
         </div>

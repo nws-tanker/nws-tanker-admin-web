@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, useToast } from '@/atoms';
+import { MailIcon, PhoneIcon } from '@/atoms/icons';
 import { updateNotificationContactsApi } from '@/services/configurationService';
 import { useAppDispatch } from '@/store';
 import { fetchNotificationContacts } from '@/store/apiSlices/notificationContactsApiSlice';
@@ -10,20 +11,44 @@ type Props = {
   data: NotificationContactsApiResponse;
 };
 
+const OMAN_PHONE_RE = /^\+968\s?\d{4}\s?\d{4}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validatePhone(v: string): string | undefined {
+  if (!v.trim()) return 'WhatsApp number is required';
+  if (!OMAN_PHONE_RE.test(v.trim()))
+    return 'Enter a valid Omani number (e.g. +968 9123 4567)';
+}
+
+function validateEmail(v: string): string | undefined {
+  if (!v.trim()) return 'Sender email is required';
+  if (!EMAIL_RE.test(v.trim())) return 'Enter a valid email address';
+}
+
 export function NotificationsForm({ data }: Props) {
   const toast = useToast();
   const dispatch = useAppDispatch();
   const [whatsapp, setWhatsapp] = useState(data.mobileNo);
   const [email, setEmail] = useState(data.email);
+  const [errors, setErrors] = useState<{ whatsapp?: string; email?: string }>(
+    {},
+  );
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
+    const phoneError = validatePhone(whatsapp);
+    const emailError = validateEmail(email);
+    if (phoneError || emailError) {
+      setErrors({ whatsapp: phoneError, email: emailError });
+      return;
+    }
+    setErrors({});
     setIsSaving(true);
     try {
       const response = await updateNotificationContactsApi({
-        contractorId: data.contractorId ?? 0,
-        email,
-        mobileNo: whatsapp,
+        contractorId: data.contractorId,
+        email: email.trim(),
+        mobileNo: whatsapp.trim(),
       });
       if (response.success) {
         toast.show('Notification settings saved');
@@ -65,20 +90,22 @@ export function NotificationsForm({ data }: Props) {
               label="WhatsApp Sender Number"
               required
               tone="accent"
-              icon={<span>📱</span>}
+              icon={<PhoneIcon />}
               type="tel"
               value={whatsapp}
               onChange={setWhatsapp}
+              error={errors.whatsapp}
               hint="Omani number registered on WhatsApp Business. Permit PDFs & renewal reminders sent here."
             />
             <NotificationField
               label="Sender Email Address"
               required
               tone="accent"
-              icon={<span>✉</span>}
+              icon={<MailIcon />}
               type="email"
               value={email}
               onChange={setEmail}
+              error={errors.email}
               hint="All email notifications (permits, suspensions, lab alerts) will be sent from this address."
             />
           </div>

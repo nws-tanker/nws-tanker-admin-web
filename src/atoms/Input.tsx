@@ -48,17 +48,19 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
     );
   }
 
+  const plainBorderClass = invalid
+    ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
+    : tone === 'accent'
+      ? 'border-teal-600 focus:border-teal-600 focus:ring-teal-50'
+      : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50';
+
   return (
     <input
       ref={ref}
       {...rest}
       className={cn(
         'w-full border rounded-[8px] px-3 py-[10px] text-sm placeholder-gray-400 focus:outline-none focus:ring-[3px] transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white',
-        invalid
-          ? 'border-red-400 focus:border-red-400 focus:ring-red-100'
-          : tone === 'accent'
-            ? 'border-teal-600 focus:border-teal-600 focus:ring-teal-50'
-            : 'border-gray-300 focus:border-teal-600 focus:ring-teal-50',
+        plainBorderClass,
         className,
       )}
     />
