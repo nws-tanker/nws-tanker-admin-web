@@ -7,6 +7,7 @@ import { InspectionInfoPanel } from '../../components/InspectionInfoPanel';
 import { CancelInspectionModal } from '../../components/CancelInspectionModal';
 import { ReassignInspectorModal } from '../../components/ReassignInspectorModal';
 import { RejectInspectionModal } from '../../components/RejectInspectionModal';
+import { FailedItemsBanner } from '../../components/FailedItemsBanner';
 
 const NEXT_STEPS = [
   'Inspection moves to pending review queue',
@@ -28,6 +29,7 @@ export function SubmittedSidebar({ data, onRefetch }: Props) {
   return (
     <>
       <div className="flex flex-col gap-3">
+        <FailedItemsBanner data={data} />
         <div className="bg-[#fefce8] border border-[#fde68a] rounded-card p-3.5 flex gap-2.5">
           <span style={{ fontSize: 18 }}>⏳</span>
           <div>

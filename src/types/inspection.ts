@@ -26,6 +26,24 @@ export const INSPECTION_TAB_API_PARAM: Record<InspectionTab, string> = {
   rejected: 'rejected',
 };
 
+export const INSPECTION_STATUS_LABEL: Record<string, string> = {
+  submitted: 'Inspection Submitted',
+  in_review: 'Pending Review',
+  pending: 'Pending Inspection',
+  lab_pending: 'Lab Testing',
+  approved: 'Approved',
+  rejected: 'Rejected',
+};
+
+export const INSPECTION_STATUS_PILL_CLASS: Record<string, string> = {
+  approved: 'bg-green-50 text-green-600 border-green-200',
+  rejected: 'bg-red-50 text-red-600 border-red-200',
+  lab_pending: 'bg-purple-50 text-purple-600 border-purple-200',
+  submitted: 'bg-amber-50 text-amber-700 border-amber-100',
+  in_review: 'bg-amber-50 text-amber-700 border-amber-100',
+  pending: 'bg-amber-50 text-amber-700 border-amber-100',
+};
+
 export type ApiInspectionRecord = {
   id: string;
   inspection_id: number;

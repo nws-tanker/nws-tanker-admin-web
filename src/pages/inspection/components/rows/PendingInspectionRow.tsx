@@ -1,5 +1,4 @@
 import type { ApiInspectionRecord } from '@/types/inspection';
-import { formatInspectionDate } from '../../inspectionHelpers';
 import { TankerTypeChip } from './TankerTypeChip';
 
 type Props = { record: ApiInspectionRecord };
@@ -19,9 +18,6 @@ export function PendingInspectionRow({ record }: Props) {
       <td className="px-4 py-3 text-[13px] text-ink-700">{record.cluster}</td>
       <td className="px-4 py-3 text-[13px] text-ink-700">
         {record.inspector_name}
-      </td>
-      <td className="px-4 py-3 text-[12px] text-ink-600">
-        {formatInspectionDate(record.scheduled_date)}
       </td>
     </tr>
   );

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Modal, Select } from '@/atoms';
 import type { SelectOption } from '@/atoms';
+import { formatPhone } from '@/utils';
 import {
   ROLE_IDS,
   ROLE_LABELS,
@@ -100,8 +101,10 @@ export function ApproveRegistrationModal({
       {request && (
         <div className="flex flex-col gap-5">
           <div className="rounded-card border border-amber-200 bg-amber-50 px-4 py-3.5">
-            <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-amber-600">
-              {USER_TYPE_LABELS[request.type]}
+            <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink-500">
+              {request.crNumber
+                ? USER_TYPE_LABELS['contractor']
+                : USER_TYPE_LABELS['nama_employee']}
             </div>
             <div className="text-[13px] font-semibold text-ink-900">
               {request.name}
@@ -109,7 +112,7 @@ export function ApproveRegistrationModal({
               <span className="font-normal text-ink-600">{request.email}</span>
             </div>
             <div className="mt-0.5 text-[12px] text-ink-500">
-              Mobile: {request.mobile}
+              Mobile: {formatPhone(request.mobile)}
             </div>
           </div>
 

@@ -4,9 +4,9 @@ import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { formatDate } from '@/utils';
 
 const TANKER_TYPE_LABEL: Record<string, string> = {
-  DW: 'Drinking Water',
-  SW: 'Sewage Water',
-  TE: 'Treated Effluent',
+  DW: '💧 Drinking Water',
+  SW: '🚰 Sewage Water',
+  TE: '♻️ Treated Effluent',
 };
 
 function daysRemaining(expiresAt: string | null): number | null {

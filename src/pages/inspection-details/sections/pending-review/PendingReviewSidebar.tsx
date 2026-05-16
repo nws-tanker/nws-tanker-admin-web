@@ -8,6 +8,7 @@ import { ApprovePermitModal } from '../../components/ApprovePermitModal';
 import { CancelInspectionModal } from '../../components/CancelInspectionModal';
 import { ReassignInspectorModal } from '../../components/ReassignInspectorModal';
 import { RejectInspectionModal } from '../../components/RejectInspectionModal';
+import { FailedItemsBanner } from '../../components/FailedItemsBanner';
 
 const NEXT_STEPS = [
   'If approved, a permit will be generated',
@@ -27,6 +28,7 @@ export function PendingReviewSidebar({ data, onRefetch }: Props) {
   return (
     <>
       <div className="flex flex-col gap-3">
+        <FailedItemsBanner data={data} />
         <div className="rounded-card border border-ink-200 shadow-card-sm overflow-hidden bg-white">
           <div className="bg-ink-50 border-b border-ink-100 px-4 py-2.5">
             <span className="text-[11px] font-bold tracking-widest uppercase text-ink-500">
