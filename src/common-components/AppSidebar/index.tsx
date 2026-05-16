@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/store';
+import { resetAllApiData, useAppDispatch, useAppSelector } from '@/store';
 import {
   clearAuth,
   selectAuthUser,
@@ -40,6 +40,7 @@ export function AppSidebar() {
   function handleSignOut() {
     localStorage.removeItem(STORAGE_KEYS.accessToken);
     localStorage.removeItem(STORAGE_KEYS.userName);
+    dispatch(resetAllApiData());
     dispatch(clearAuth());
     navigate(ROUTES.authentication, { replace: true });
   }
