@@ -5,6 +5,7 @@ import type {
   ApiInspectionPagedData,
   InspectionDetailsApiResponse,
   InspectionTab,
+  SendNotificationRequest,
 } from '@/types/inspection';
 import { get, post, uploadFile } from './http';
 
@@ -107,4 +108,10 @@ export async function requeueInspection(
     inspectionId,
   );
   return post<unknown>(url, {});
+}
+
+export async function sendNotificationApi(
+  body: SendNotificationRequest,
+): Promise<ApiResponse<unknown>> {
+  return post<unknown>(ENDPOINTS.sendNotification, body);
 }

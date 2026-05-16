@@ -30,13 +30,16 @@ let queue: Array<(token: string) => void> = [];
 function flushQueue(token: string) {
   queue.forEach((cb) => cb(token));
   queue = [];
-} 
+}
 
 function forceLogout() {
   queue = [];
   clearAuthToken();
   localStorage.removeItem(STORAGE_KEYS.accessToken);
   localStorage.removeItem(STORAGE_KEYS.refreshToken);
+  import('@/store').then(({ store, resetAllApiData }) => {
+    store.dispatch(resetAllApiData());
+  });
   window.location.href = '/login';
 }
 

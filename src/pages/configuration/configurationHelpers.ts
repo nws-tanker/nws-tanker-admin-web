@@ -8,15 +8,6 @@ export function avatarColor(name: string): string {
   return AVATAR_PALETTE[Math.abs(hash) % AVATAR_PALETTE.length];
 }
 
-export function getInitials(name: string) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join('');
-}
-
 export function getGovCountForCluster(
   clusterId: number,
   governorates: ClusterSetupGovernorate[],

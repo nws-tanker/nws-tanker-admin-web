@@ -1,12 +1,8 @@
 import { ENDPOINTS } from '@/constants/endpoints';
 import type { ApiResponse } from '@/store/types';
 import type { Permit, Tanker } from '@/types';
-import {
-  PERMIT_STATUS,
-  TANKER_TYPE,
-  PERMIT_STATUS_BY_API,
-  TANKER_TYPE_BY_CODE,
-} from '@/types';
+import { PERMIT_STATUS, TANKER_TYPE } from '@/types';
+import { PERMIT_STATUS_BY_API, TANKER_TYPE_BY_CODE } from '@/constants/fleet';
 import { get } from './http';
 
 type ApiPermit = {

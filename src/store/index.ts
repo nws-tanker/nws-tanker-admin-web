@@ -4,7 +4,11 @@ import {
   useSelector,
 } from 'react-redux';
 
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  createAction,
+} from '@reduxjs/toolkit';
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
 import clustersApiReducer from './apiSlices/clustersApiSlice';
 import clusterSetupApiReducer from './apiSlices/clusterSetupApiSlice';
@@ -14,26 +18,41 @@ import inspectionApiReducer from './apiSlices/inspectionApiSlice';
 import inspectionChecklistApiReducer from './apiSlices/inspectionChecklistApiSlice';
 import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
+import notificationContactsApiReducer from './apiSlices/notificationContactsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
+import permitSlaApiReducer from './apiSlices/permitSlaApiSlice';
 // import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
 
-export const store = configureStore({
-  reducer: {
-    activeUsersApi: activeUsersApiReducer,
-    clustersApi: clustersApiReducer,
-    clusterSetupApi: clusterSetupApiReducer,
-    fleetRegistryApi: fleetRegistryApiReducer,
-    fleetTargetsApi: fleetTargetsApiReducer,
-    inspectionApi: inspectionApiReducer,
-    inspectionChecklistApi: inspectionChecklistApiReducer,
-    inspectionDetailsApi: inspectionDetailsApiReducer,
-    lookupsApi: lookupsApiReducer,
-    pendingUsersApi: pendingUsersApiReducer,
-    // sidebarApi: sidebarApiReducer,
-    auth: authReducer,
-  },
+export const resetAllApiData = createAction('store/resetAllApiData');
+
+const appReducer = combineReducers({
+  activeUsersApi: activeUsersApiReducer,
+  clustersApi: clustersApiReducer,
+  clusterSetupApi: clusterSetupApiReducer,
+  fleetRegistryApi: fleetRegistryApiReducer,
+  fleetTargetsApi: fleetTargetsApiReducer,
+  inspectionApi: inspectionApiReducer,
+  inspectionChecklistApi: inspectionChecklistApiReducer,
+  inspectionDetailsApi: inspectionDetailsApiReducer,
+  lookupsApi: lookupsApiReducer,
+  notificationContactsApi: notificationContactsApiReducer,
+  pendingUsersApi: pendingUsersApiReducer,
+  permitSlaApi: permitSlaApiReducer,
+  // sidebarApi: sidebarApiReducer,
+  auth: authReducer,
 });
+
+type AppState = ReturnType<typeof appReducer>;
+
+function rootReducer(state: AppState | undefined, action: { type: string }) {
+  if (action.type === resetAllApiData.type) {
+    return appReducer({ auth: state!.auth } as AppState, action);
+  }
+  return appReducer(state, action);
+}
+
+export const store = configureStore({ reducer: rootReducer });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
