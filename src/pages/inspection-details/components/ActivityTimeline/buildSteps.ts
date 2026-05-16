@@ -140,7 +140,9 @@ export function buildSteps(data: InspectionDetailsApiResponse): TimelineStep[] {
     ? false
     : reachedLabPending || reachedInReview || decisionMade;
   const labDone = !isDW ? false : reachedInReview || decisionMade;
-  const cmReviewDone = decisionMade && (!isDW || labDone);
+  const cmReviewDone =
+    (decisionMade && (!isDW || labDone)) ||
+    (!isDW && (status === 'in_review' || reachedInReview));
   const dwPrereqMet = !isDW || (sampleDone && labDone);
 
   const canonical: CanonicalKey[] = [
@@ -186,13 +188,16 @@ export function buildSteps(data: InspectionDetailsApiResponse): TimelineStep[] {
         isDW && labDone
           ? 'Inspection report and lab results reviewed'
           : 'Inspection report reviewed';
+      const nonDwInReview = !isDW && status === 'in_review' && !decisionMade;
       note =
         decisionEv?.note ??
         (!dwPrereqMet
           ? 'Will be available once sample is collected and lab report is uploaded'
-          : cmReviewDone
-            ? reviewedNote
-            : null);
+          : nonDwInReview
+            ? 'Inspection report in review'
+            : cmReviewDone && decisionMade
+              ? reviewedNote
+              : null);
     } else if (key === 'final_decision') {
       pending = !decisionMade;
       if (isApproved) dot = 'green';

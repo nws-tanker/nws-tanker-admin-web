@@ -1,5 +1,6 @@
 import { Button } from '@/atoms';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
+import { formatPhone } from '@/utils';
 
 type Props = { data: InspectionDetailsApiResponse };
 
@@ -28,7 +29,9 @@ export function NotifyOwnerPanel({ data }: Props) {
           <div>
             <p className="text-[11px] text-ink-400">Phone Number</p>
             <p className="text-[13px] font-semibold text-ink-800">
-              {data.tanker.owner.phone || '—'}
+              {data.tanker.owner.phone
+                ? formatPhone(data.tanker.owner.phone)
+                : '—'}
             </p>
           </div>
           <div>
