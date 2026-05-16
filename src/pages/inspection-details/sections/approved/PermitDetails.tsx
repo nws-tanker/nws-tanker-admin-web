@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Button } from '@/atoms';
 import { CheckIcon, DownloadIcon } from '@/atoms/icons';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
-import { formatDate } from '@/utils';
+import { downloadFile, formatDate } from '@/utils';
+import { PermitReportModal } from '../../components/PermitReportModal';
 
 const TANKER_TYPE_LABEL: Record<string, string> = {
   DW: '💧 Drinking Water',
@@ -52,10 +54,24 @@ type Props = { data: InspectionDetailsApiResponse };
 
 export function PermitDetails({ data }: Props) {
   const { permit, tanker } = data;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
   if (!permit.permit_number) return null;
 
   const days = daysRemaining(permit.expires_at);
   const hasWhatsapp = !!tanker.owner.whatsapp;
+  const permitUrl = permit.filePath;
+
+  const handleDownload = async () => {
+    if (!permitUrl) return;
+    setDownloading(true);
+    try {
+      await downloadFile(permitUrl, `${permit.permit_number}.pdf`);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <div className="overflow-hidden rounded-card border border-ink-200 shadow-card-sm">
@@ -144,7 +160,13 @@ export function PermitDetails({ data }: Props) {
             )}
           </div>
 
-          <Button variant="primary" size="lg" className="w-full justify-center">
+          <Button
+            variant="primary"
+            size="lg"
+            className="w-full justify-center"
+            onClick={() => setModalOpen(true)}
+            disabled={!permitUrl}
+          >
             View Permit Report
           </Button>
           <Button
@@ -152,11 +174,24 @@ export function PermitDetails({ data }: Props) {
             size="lg"
             leftIcon={<DownloadIcon width={14} height={14} />}
             className="w-full justify-center"
+            onClick={handleDownload}
+            disabled={!permitUrl || downloading}
           >
-            Download Permit (PDF)
+            {downloading ? 'Downloading…' : 'Download Permit (PDF)'}
           </Button>
         </div>
       </div>
+
+      {permitUrl && (
+        <PermitReportModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          url={permitUrl}
+          permitNumber={permit.permit_number}
+          onDownload={handleDownload}
+          downloading={downloading}
+        />
+      )}
     </div>
   );
 }
