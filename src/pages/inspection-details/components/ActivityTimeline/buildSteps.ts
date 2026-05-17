@@ -210,7 +210,7 @@ export function buildSteps(data: InspectionDetailsApiResponse): TimelineStep[] {
     } else if (key === 'permit_issued') {
       pending = !permitIssued && !isApproved;
       actor = 'System (auto-generated)';
-      at = permit.issued_at ?? undefined;
+      at = decisionEv?.at ?? permit.issued_at ?? undefined;
       note = permit.permit_number ? `Permit No: ${permit.permit_number}` : null;
     }
 
