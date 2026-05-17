@@ -28,6 +28,7 @@ function validateEmail(v: string): string | undefined {
 export function NotificationsForm({ data }: Props) {
   const toast = useToast();
   const dispatch = useAppDispatch();
+  const { editable } = data;
   const [whatsapp, setWhatsapp] = useState(data.mobileNo);
   const [email, setEmail] = useState(data.email);
   const [errors, setErrors] = useState<{ whatsapp?: string; email?: string }>(
@@ -96,6 +97,7 @@ export function NotificationsForm({ data }: Props) {
               onChange={setWhatsapp}
               error={errors.whatsapp}
               hint="Omani number registered on WhatsApp Business. Permit PDFs & renewal reminders sent here."
+              disabled={!editable}
             />
             <NotificationField
               label="Sender Email Address"
@@ -107,6 +109,7 @@ export function NotificationsForm({ data }: Props) {
               onChange={setEmail}
               error={errors.email}
               hint="All email notifications (permits, suspensions, lab alerts) will be sent from this address."
+              disabled={!editable}
             />
           </div>
 
@@ -119,11 +122,13 @@ export function NotificationsForm({ data }: Props) {
         </div>
       </div>
 
-      <div className="flex justify-end">
-        <Button variant="primary" onClick={handleSave} disabled={isSaving}>
-          {isSaving ? 'Saving…' : 'Save Changes'}
-        </Button>
-      </div>
+      {editable && (
+        <div className="flex justify-end">
+          <Button variant="primary" onClick={handleSave} disabled={isSaving}>
+            {isSaving ? 'Saving…' : 'Save Changes'}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
