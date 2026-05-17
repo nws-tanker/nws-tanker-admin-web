@@ -10,7 +10,7 @@ type TabDef = {
 const TABS: TabDef[] = [
   { key: 'submitted', label: 'Inspection Submitted', alert: true },
   { key: 'pending-review', label: 'Pending Review', alert: true },
-  { key: 'pending-inspection', label: 'Pending Inspection', alert: true },
+  { key: 'pending-inspection', label: 'Pending Re-inspection', alert: true },
   { key: 'lab-testing', label: 'Lab Testing', alert: true },
   { key: 'approved', label: 'Approved', alert: false },
   { key: 'rejected', label: 'Rejected', alert: false },

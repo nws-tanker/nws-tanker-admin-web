@@ -21,7 +21,7 @@ const KPI_CONFIG: KpiConfig[] = [
     valueClass: 'text-teal-800',
   },
   {
-    label: 'Pending Inspection',
+    label: 'Pending Re-inspection',
     tab: 'pending-inspection',
     sub: 'Scheduled, not done yet',
     valueClass: 'text-cyan-600',
