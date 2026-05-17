@@ -69,6 +69,7 @@ export type ApiInspectionRecord = {
   permit_expires_at: string | null;
   rejection_reason: string | null;
   rejection_stage: string | null;
+  is_reinspection: boolean | null;
 };
 
 export type ApiInspectionPagedData = {
