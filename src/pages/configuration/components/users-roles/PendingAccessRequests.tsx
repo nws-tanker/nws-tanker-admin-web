@@ -26,7 +26,7 @@ export function PendingAccessRequests({
 }: Props) {
   return (
     <div className="overflow-hidden rounded-card-lg border border-amber-200 bg-amber-50">
-      <div className="flex items-center justify-between border-b border-amber-200 bg-amber-50 px-5 py-3.5">
+      <div className="flex items-center justify-between border-b border-gray-200 bg-amber-50 px-5 py-3.5">
         <div className="flex items-center gap-2">
           <span className="text-[14px] font-semibold text-amber-900">
             Pending Access Requests
@@ -48,12 +48,12 @@ export function PendingAccessRequests({
               <col key={i} style={{ width: col.width }} />
             ))}
           </colgroup>
-          <thead className="bg-amber-100/60">
+          <thead className="bg-white">
             <tr>
               {COLUMNS.map((col, i) => (
                 <th
                   key={i}
-                  className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-amber-700"
+                  className="px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-600"
                 >
                   {col.header}
                 </th>
