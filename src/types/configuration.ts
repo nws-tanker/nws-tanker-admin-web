@@ -251,6 +251,7 @@ export type NotificationContactsApiResponse = {
   contractorId: number | null;
   email: string;
   mobileNo: string;
+  editable: boolean;
 };
 
 export type UpdatePermitSlaRequest = {

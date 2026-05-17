@@ -11,6 +11,7 @@ type Props = {
   error?: string;
   type?: 'tel' | 'email';
   tone?: 'default' | 'accent';
+  disabled?: boolean;
 };
 
 export function NotificationField({
@@ -23,6 +24,7 @@ export function NotificationField({
   error,
   type = 'tel',
   tone = 'default',
+  disabled,
 }: Props) {
   return (
     <div>
@@ -37,6 +39,7 @@ export function NotificationField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="font-mono"
+        disabled={disabled}
       />
       {error ? (
         <p className="mt-1.5 text-[11px] leading-snug text-red-600">{error}</p>
