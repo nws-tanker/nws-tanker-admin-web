@@ -142,7 +142,7 @@ export type InspectionDetailsApiResponse = {
       pass: number;
       fail: number | null;
     };
-    final_result: 'fit' | 'not_fit' | 'fit-with-remarks' | string | null;
+    final_result: 'fit' | 'not_fit' | 'fit-with-remarks';
     inspector_comments: string | null;
     required_documents: {
       id: string;

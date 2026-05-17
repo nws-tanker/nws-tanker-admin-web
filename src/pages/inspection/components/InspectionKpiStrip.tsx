@@ -5,6 +5,7 @@ type KpiConfig = {
   tab: InspectionTab;
   sub: string;
   valueClass: string;
+  note?: string;
 };
 
 const KPI_CONFIG: KpiConfig[] = [
@@ -13,6 +14,7 @@ const KPI_CONFIG: KpiConfig[] = [
     tab: 'submitted',
     sub: 'Submitted by inspector',
     valueClass: 'text-blue-600',
+    note: 'Only for drinking water',
   },
   {
     label: 'Pending Review',
@@ -83,9 +85,9 @@ export function InspectionKpiStrip({ counts, activeTab, onTabChange }: Props) {
               <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-500">
                 {cfg.label}
               </div>
-              {cfg.tab === 'submitted' && (
+              {cfg.note && (
                 <div className="mt-0.5 text-[10px] italic text-ink-400">
-                  Only for drinking water
+                  {cfg.note}
                 </div>
               )}
             </div>

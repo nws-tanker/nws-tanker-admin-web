@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { Button } from '@/atoms';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
-import { PhotoViewerModal } from './PhotoViewerModal';
-import type { ViewerState } from './PhotoViewerModal';
+import { PhotoViewerModal, ViewerState } from './PhotoViewerModal';
 
 type Props = { data: InspectionDetailsApiResponse };
 
@@ -34,21 +34,21 @@ export function RequiredDocuments({ data }: Props) {
           ) : (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
               {photos.map((p, idx) => (
-                <button
+                <Button
                   key={p.id}
-                  type="button"
+                  variant="ghost"
                   onClick={() => setViewer({ photos, idx })}
-                  className="group relative overflow-hidden rounded-lg border border-ink-200 bg-ink-50 hover:border-teal-500 transition-colors"
+                  className="group relative !block !p-0 overflow-hidden rounded-lg !border-ink-200 hover:!border-teal-500 hover:!bg-transparent"
                 >
                   <img
                     src={p.thumb ?? p.url}
                     alt={`Document ${idx + 1}`}
                     className="aspect-square w-full object-cover transition-transform group-hover:scale-105"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/55 px-2 py-1 text-left text-[10px] font-medium text-white">
+                  <span className="absolute bottom-0 left-0 right-0 bg-black/55 px-2 py-1 text-left text-[10px] font-medium text-white">
                     Doc {idx + 1}
-                  </div>
-                </button>
+                  </span>
+                </Button>
               ))}
             </div>
           )}

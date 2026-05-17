@@ -65,7 +65,7 @@ export function InspectionResultPanel({ data }: Props) {
   const { final_result, inspector_comments } = data.inspection;
   const normalized = final_result ? normalize(final_result) : null;
   const style = normalized ? RESULT_STYLES[normalized] : null;
-  const hasComments = !!inspector_comments && inspector_comments.trim() !== '';
+  const hasComments = inspector_comments?.trim() !== '';
 
   return (
     <div className="overflow-hidden rounded-card border border-ink-200 shadow-card-sm bg-white">

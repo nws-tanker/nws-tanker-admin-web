@@ -22,7 +22,7 @@ export function NotifyOwnerPanel({ data }: Props) {
   const permitGenerated = data.permit.permit_number !== null;
 
   const handleSend = async () => {
-    if (!hasChannel) return;
+    if (!hasChannel || !hasContact) return;
     setSubmitting(true);
     try {
       const res = await sendNotificationApi({
