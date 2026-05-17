@@ -10,6 +10,12 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
+import executiveDashboardLookupsApiReducer from './apiSlices/executiveDashboardLookupsApiSlice';
+import executiveDashboardSummaryApiReducer from './apiSlices/executiveDashboardSummaryApiSlice';
+import executiveDashboardComplianceApiReducer from './apiSlices/executiveDashboardComplianceApiSlice';
+import executiveDashboardTrendApiReducer from './apiSlices/executiveDashboardTrendApiSlice';
+import executiveDashboardClusterApiReducer from './apiSlices/executiveDashboardClusterApiSlice';
+import executiveDashboardHeatmapApiReducer from './apiSlices/executiveDashboardHeatmapApiSlice';
 import clustersApiReducer from './apiSlices/clustersApiSlice';
 import clusterSetupApiReducer from './apiSlices/clusterSetupApiSlice';
 import fleetRegistryApiReducer from './apiSlices/fleetRegistryApiSlice';
@@ -29,6 +35,12 @@ export const resetAllApiData = createAction('store/resetAllApiData');
 
 const appReducer = combineReducers({
   activeUsersApi: activeUsersApiReducer,
+  executiveDashboardLookupsApi: executiveDashboardLookupsApiReducer,
+  executiveDashboardSummaryApi: executiveDashboardSummaryApiReducer,
+  executiveDashboardComplianceApi: executiveDashboardComplianceApiReducer,
+  executiveDashboardTrendApi: executiveDashboardTrendApiReducer,
+  executiveDashboardClusterApi: executiveDashboardClusterApiReducer,
+  executiveDashboardHeatmapApi: executiveDashboardHeatmapApiReducer,
   clustersApi: clustersApiReducer,
   clusterSetupApi: clusterSetupApiReducer,
   fleetRegistryApi: fleetRegistryApiReducer,

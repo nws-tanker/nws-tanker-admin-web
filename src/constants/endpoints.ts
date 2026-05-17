@@ -36,4 +36,10 @@ export const ENDPOINTS = {
   requeueInspection: '/api/inspection/review-screen/{inspectionId}/requeue',
   sendNotification: '/api/inspection/review-screen/send-notification',
   inspectorDashboard: '/api/inspector/dashboard',
+  executiveDashboardSummary: '/api/executive-dashboard/summary',
+  executiveDashboardCompliance:
+    '/api/executive-dashboard/tanker-type-compliance',
+  executiveDashboardTrend: '/api/executive-dashboard/inspection-trend',
+  executiveDashboardCluster: '/api/executive-dashboard/cluster-breakdown',
+  executiveDashboardHeatmap: '/api/executive-dashboard/compliance-heatmap',
 } as const;

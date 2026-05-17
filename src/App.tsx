@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES, firstAllowedPath } from '@/constants/routes';
 import ProtectedRoute from '@/common-components/ProtectedRoute';
@@ -16,6 +17,8 @@ import ForbiddenPage from '@/pages/forbidden';
 import ConfigurationPage from './pages/configuration';
 import InspectionPage from './pages/inspection';
 import InspectionDetailsPage from '@/pages/inspection-details';
+
+const ExecutiveDashboard = lazy(() => import('@/pages/dashboard'));
 
 export default function App() {
   useAuthBootstrap();
@@ -77,7 +80,9 @@ export default function App() {
         path={ROUTES.dashboard}
         element={
           <ProtectedRoute route="dashboard">
-            <PlaceholderPage title="Executive Dashboard" />
+            <Suspense fallback={null}>
+              <ExecutiveDashboard />
+            </Suspense>
           </ProtectedRoute>
         }
       />

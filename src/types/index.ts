@@ -45,3 +45,23 @@ export type {
   InspectionTabCounts,
   InspectionTankerType,
 } from './inspection';
+export type {
+  ClusterContractorBreakdownResponse,
+  ClusterDetail,
+  ClusterMetrics,
+  ComplianceByTankerTypeResponse,
+  ComplianceHeatmapResponse,
+  DashboardParams,
+  ExecutiveDashboardLookupsResponse,
+  FiscalYear,
+  FiscalYearBound,
+  GovernorateAverage,
+  HeatmapCell,
+  HeatmapRow,
+  InspectionTotals,
+  MonthlyInspectionSeries,
+  MonthlyInspectionTrendResponse,
+  Quarter,
+  SummaryResponse,
+  TankerTypeCompliance,
+} from './executiveDashboard';
