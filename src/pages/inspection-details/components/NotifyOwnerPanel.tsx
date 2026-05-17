@@ -18,6 +18,7 @@ export function NotifyOwnerPanel({ data }: Props) {
   const phone = data.tanker.owner.phone;
   const email = data.tanker.owner.email;
   const hasChannel = sendWhatsapp || sendEmail;
+  const hasContact = Boolean(phone) || Boolean(email);
   const permitGenerated = data.permit.permit_number !== null;
 
   const handleSend = async () => {
@@ -104,7 +105,9 @@ export function NotifyOwnerPanel({ data }: Props) {
           size="lg"
           className="w-full justify-center"
           onClick={handleSend}
-          disabled={submitting || !hasChannel || !permitGenerated}
+          disabled={
+            submitting || !hasChannel || !permitGenerated || !hasContact
+          }
         >
           {submitting ? 'Sending…' : 'Send Now'}
         </Button>

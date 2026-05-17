@@ -142,9 +142,14 @@ export type InspectionDetailsApiResponse = {
       pass: number;
       fail: number | null;
     };
-    final_result: string | null;
+    final_result: 'fit' | 'not_fit' | 'fit-with-remarks' | string | null;
     inspector_comments: string | null;
-    required_documents: unknown[];
+    required_documents: {
+      id: string;
+      presigned_url: string;
+      presigned_thumbnail_url: string | null;
+      presigned_url_expires_at: string;
+    }[];
   };
   lab: {
     required: boolean;
