@@ -10,13 +10,13 @@ type Props = {
 type Column = { header: string; width: string };
 
 const COLUMNS: Column[] = [
-  { header: 'Name', width: 'auto' },
-  { header: 'Type', width: '14%' },
-  { header: 'Email', width: '20%' },
+  { header: 'Name', width: '20%' },
+  { header: 'Type', width: '10%' },
+  { header: 'Email', width: '18%' },
   { header: 'Mobile', width: '11%' },
   { header: 'CR Number', width: '11%' },
   { header: 'Submitted', width: '16%' },
-  { header: '', width: '18%' },
+  { header: '', width: '14%' },
 ];
 
 export function PendingAccessRequests({
