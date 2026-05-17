@@ -1,0 +1,89 @@
+/*
+ * PREVIEW ONLY — shared skeleton loader styles.
+ * Delete with src/pages/preview/ when real implementation begins.
+ */
+
+/* ── Wrapper that fades from skeleton → content ─────── */
+.fadeIn {
+  animation: previewFadeIn 0.35s ease both;
+}
+@keyframes previewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Skeleton shell ──────────────────────────────────── */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 28px;
+  gap: 20px;
+  background: #f9fafb;
+  overflow: hidden;
+}
+
+/* ── Pulse animation ─────────────────────────────────── */
+.pulse {
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+  background-size: 400% 100%;
+  animation: skeletonPulse 1.4s ease infinite;
+  border-radius: 8px;
+}
+@keyframes skeletonPulse {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ── Page-header skeleton ────────────────────────────── */
+.skHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.skTitle {
+  height: 26px;
+  width: 280px;
+}
+.skSub {
+  height: 14px;
+  width: 200px;
+}
+
+/* ── KPI tile row ────────────────────────────────────── */
+.skTiles {
+  display: grid;
+  gap: 16px;
+}
+.skTile {
+  height: 96px;
+  border-radius: 12px;
+}
+
+/* ── Card block ──────────────────────────────────────── */
+.skCard {
+  border-radius: 12px;
+}
+
+/* ── Table rows inside a card ────────────────────────── */
+.skRows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+.skRow {
+  height: 14px;
+  border-radius: 6px;
+}

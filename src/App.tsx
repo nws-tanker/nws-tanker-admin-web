@@ -9,13 +9,21 @@ import {
   selectUserAccess,
 } from '@/store/slices/authSlice';
 import FleetRegistryPage from '@/pages/fleet-registry';
-import PlaceholderPage from '@/pages/placeholder';
+// import PlaceholderPage from '@/pages/placeholder'; // restore when removing preview pages
 import TankerUploadPage from '@/pages/tanker-upload';
 import AuthenticationPage from '@/pages/authentication';
 import ForbiddenPage from '@/pages/forbidden';
 import ConfigurationPage from './pages/configuration';
 import InspectionPage from './pages/inspection';
 import InspectionDetailsPage from '@/pages/inspection-details';
+
+// ── PREVIEW imports — remove this block and delete src/pages/preview/ when real pages are built ──
+import ExecutiveDashboardPage from '@/pages/preview/dashboard';
+import OperationsPreviewPage from '@/pages/preview/operations';
+import FleetCompliancePreviewPage from '@/pages/preview/fleet-compliance';
+import PermitRenewalPreviewPage from '@/pages/preview/permit-renewal';
+import ReportsPreviewPage from '@/pages/preview/reports';
+// ─────────────────────────────────────────────────────────────────────────────────────────────────
 
 export default function App() {
   useAuthBootstrap();
@@ -73,11 +81,14 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+
+      {/* PREVIEW routes — swap each element back to <PlaceholderPage title="..." /> when removing */}
       <Route
         path={ROUTES.dashboard}
         element={
           <ProtectedRoute route="dashboard">
-            <PlaceholderPage title="Executive Dashboard" />
+            <ExecutiveDashboardPage />
+            {/* <PlaceholderPage title="Executive Dashboard" /> */}
           </ProtectedRoute>
         }
       />
@@ -85,7 +96,8 @@ export default function App() {
         path={ROUTES.operations}
         element={
           <ProtectedRoute route="operations">
-            <PlaceholderPage title="Operations" />
+            <OperationsPreviewPage />
+            {/* <PlaceholderPage title="Operations" /> */}
           </ProtectedRoute>
         }
       />
@@ -93,7 +105,8 @@ export default function App() {
         path={ROUTES.fleetCompliance}
         element={
           <ProtectedRoute route="fleetCompliance">
-            <PlaceholderPage title="Fleet Compliance" />
+            <FleetCompliancePreviewPage />
+            {/* <PlaceholderPage title="Fleet Compliance" /> */}
           </ProtectedRoute>
         }
       />
@@ -101,7 +114,8 @@ export default function App() {
         path={ROUTES.permitRenewal}
         element={
           <ProtectedRoute route="permitRenewal">
-            <PlaceholderPage title="Permit Renewal" />
+            <PermitRenewalPreviewPage />
+            {/* <PlaceholderPage title="Permit Renewal" /> */}
           </ProtectedRoute>
         }
       />
@@ -109,10 +123,13 @@ export default function App() {
         path={ROUTES.reports}
         element={
           <ProtectedRoute route="reports">
-            <PlaceholderPage title="Reports" />
+            <ReportsPreviewPage />
+            {/* <PlaceholderPage title="Reports" /> */}
           </ProtectedRoute>
         }
       />
+      {/* END PREVIEW routes */}
+
       <Route
         path={ROUTES.configuration}
         element={

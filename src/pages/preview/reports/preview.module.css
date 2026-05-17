@@ -1,0 +1,271 @@
+/*
+ * PREVIEW ONLY — scoped styles for Reports preview.
+ * Delete with src/pages/preview/ when real implementation begins.
+ */
+
+.root {
+  --teal-700: #117680;
+  --ink-900: #0b1220;
+  --ink-800: #111827;
+  --ink-700: #1f2937;
+  --ink-600: #374151;
+  --ink-500: #6b7280;
+  --ink-400: #9ca3af;
+  --ink-200: #e5e7eb;
+  --ink-100: #f3f4f6;
+  --ink-50: #f9fafb;
+
+  --amber-700: #b45309;
+  --amber-600: #d97706;
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+
+  --blue-700: #1d4ed8;
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+
+  --green-700: #047857;
+  --green-50: #ecfdf5;
+  --green-100: #d1fae5;
+
+  --r-sm: 6px;
+  --r: 8px;
+  --r-lg: 12px;
+  --sh-sm: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --f-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-800);
+}
+
+/* ── Preview banner ─────────────────────────────────── */
+.previewBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #fffbeb;
+  border-bottom: 1px solid #fde68a;
+  font-size: 12px;
+  font-weight: 500;
+  color: #92400e;
+  flex-shrink: 0;
+}
+
+/* ── Page ───────────────────────────────────────────── */
+.page {
+  padding: 28px;
+  background: var(--ink-50);
+  flex: 1;
+  overflow-y: auto;
+}
+.pageHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.pageHead h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink-900);
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.sub {
+  font-size: 13px;
+  color: var(--ink-500);
+  margin-top: 4px;
+}
+
+/* ── Sub-tabs ───────────────────────────────────────── */
+.subtabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--ink-200);
+  margin-bottom: 0;
+}
+.subtab {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-500);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition:
+    color 0.12s,
+    border-color 0.12s;
+  font-family: inherit;
+}
+.subtab:hover {
+  color: var(--ink-800);
+}
+.subtabActive {
+  color: var(--teal-700);
+  border-bottom-color: var(--teal-700);
+}
+
+/* ── Card ───────────────────────────────────────────── */
+.card {
+  background: white;
+  border: 1px solid var(--ink-200);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+  margin-top: 20px;
+}
+.cardHead {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--ink-100);
+  gap: 12px;
+}
+.cardHead h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-900);
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+.cardActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Buttons ────────────────────────────────────────── */
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--ink-700);
+  background: white;
+  border: 1px solid var(--ink-200);
+  cursor: pointer;
+}
+.btnSecondary:hover {
+  background: var(--ink-50);
+}
+
+.btnGhostSm {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--teal-700);
+  background: none;
+  border: 1px solid var(--ink-200);
+  cursor: pointer;
+}
+.btnGhostSm:hover {
+  background: var(--ink-100);
+}
+
+/* ── Table ──────────────────────────────────────────── */
+.tbl {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.tbl thead th {
+  background: var(--ink-50);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-500);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--ink-200);
+  white-space: nowrap;
+}
+.tbl thead th.num {
+  text-align: right;
+}
+.tbl tbody td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--ink-100);
+  color: var(--ink-800);
+  vertical-align: middle;
+}
+.tbl tbody td.num {
+  text-align: right;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+}
+.tbl tbody tr:last-child td {
+  border-bottom: none;
+}
+.tbl tbody tr:hover td {
+  background: var(--ink-50);
+}
+
+.rowTotal td {
+  background: var(--ink-50);
+  font-weight: 600;
+  border-top: 1px solid var(--ink-200);
+  border-bottom: none;
+}
+.rowTotal:hover td {
+  background: var(--ink-100) !important;
+}
+
+.muted {
+  color: var(--ink-500);
+  font-size: 12px;
+}
+.strong {
+  font-weight: 600;
+  color: var(--ink-900);
+}
+.mono {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+}
+
+/* ── Chips ──────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+  white-space: nowrap;
+}
+.chipDW {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  border-color: var(--blue-100);
+}
+.chipSW {
+  background: var(--amber-50);
+  color: var(--amber-700);
+  border-color: var(--amber-100);
+}
+.chipTE {
+  background: var(--green-50);
+  color: var(--green-700);
+  border-color: var(--green-100);
+}
