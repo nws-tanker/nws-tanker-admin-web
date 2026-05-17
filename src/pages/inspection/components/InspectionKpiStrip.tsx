@@ -79,8 +79,15 @@ export function InspectionKpiStrip({ counts, activeTab, onTabChange }: Props) {
                 : 'border-ink-200'
             }`}
           >
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-ink-500">
-              {cfg.label}
+            <div className="mb-2">
+              <div className="text-[11px] font-semibold uppercase tracking-widest text-ink-500">
+                {cfg.label}
+              </div>
+              {cfg.tab === 'submitted' && (
+                <div className="mt-0.5 text-[10px] italic text-ink-400">
+                  Only for drinking water
+                </div>
+              )}
             </div>
             <div
               className={`text-[28px] font-bold leading-none ${cfg.valueClass}`}
