@@ -22,6 +22,10 @@ import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import notificationContactsApiReducer from './apiSlices/notificationContactsApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
 import permitSlaApiReducer from './apiSlices/permitSlaApiSlice';
+import executiveDashboardSummaryApiReducer from './apiSlices/executiveDashboardSummaryApiSlice';
+import executiveDashboardTrendApiReducer from './apiSlices/executiveDashboardTrendApiSlice';
+import executiveDashboardClusterApiReducer from './apiSlices/executiveDashboardClusterApiSlice';
+import executiveDashboardHeatmapApiReducer from './apiSlices/executiveDashboardHeatmapApiSlice';
 // import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
 
@@ -41,6 +45,10 @@ const appReducer = combineReducers({
   notificationContactsApi: notificationContactsApiReducer,
   pendingUsersApi: pendingUsersApiReducer,
   permitSlaApi: permitSlaApiReducer,
+  executiveDashboardSummaryApi: executiveDashboardSummaryApiReducer,
+  executiveDashboardTrendApi: executiveDashboardTrendApiReducer,
+  executiveDashboardClusterApi: executiveDashboardClusterApiReducer,
+  executiveDashboardHeatmapApi: executiveDashboardHeatmapApiReducer,
   // sidebarApi: sidebarApiReducer,
   auth: authReducer,
 });
