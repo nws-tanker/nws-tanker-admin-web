@@ -100,6 +100,12 @@ export function NotifyOwnerPanel({ data }: Props) {
             be notified once the permit is issued.
           </div>
         )}
+        {!hasContact && (
+          <div className="rounded-card border border-amber-100 bg-amber-50 px-3 py-2 text-[11px] leading-snug text-amber-800">
+            Neither a phone number nor an email address is available for this
+            owner, so notifications cannot be sent.
+          </div>
+        )}
         <Button
           variant="primary"
           size="lg"
