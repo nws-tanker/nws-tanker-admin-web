@@ -7,12 +7,16 @@ type Step = { label: string; ref: string; done: boolean };
 type Props = { data: InspectionDetailsApiResponse };
 
 function buildSteps(data: InspectionDetailsApiResponse): Step[] {
-  const { tanker, assignment, lab, permit, status } = data;
+  const { tanker, assignment, lab, permit, status, timeline } = data;
   const isDW = tanker.type === 'DW';
   const decided = status === 'approved' || status === 'rejected';
   const inReview = status === 'in_review';
   const labUploaded = !!lab.report.id;
   const physDone = !!assignment.physical_date;
+  const sampleDispatchedAt = timeline.find(
+    (e) => e.event === 'sample_dispatched',
+  )?.at;
+  const sampleDispatched = !!sampleDispatchedAt;
 
   const decisionLabel =
     status === 'approved'
@@ -35,7 +39,15 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
         ref: formatDate(assignment.physical_date),
         done: physDone,
       },
-      { label: 'Sample\nDispatched', ref: '—', done: physDone },
+      {
+        label: 'Sample\nDispatched',
+        ref: sampleDispatched
+          ? formatDate(sampleDispatchedAt)
+          : status === 'submitted'
+            ? 'Pending'
+            : '—',
+        done: sampleDispatched,
+      },
       {
         label: 'Lab\nReport',
         ref: labUploaded ? 'Uploaded' : 'Pending',
