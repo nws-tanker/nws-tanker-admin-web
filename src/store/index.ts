@@ -20,6 +20,9 @@ import inspectionDetailsApiReducer from './apiSlices/inspectionDetailsApiSlice';
 import inspectorDashboardApiReducer from './apiSlices/inspectorDashboardApiSlice';
 import lookupsApiReducer from './apiSlices/lookupsApiSlice';
 import notificationContactsApiReducer from './apiSlices/notificationContactsApiSlice';
+import operationInspectionsApiReducer from './apiSlices/operationInspectionsApiSlice';
+import operationPermitRenewalsApiReducer from './apiSlices/operationPermitRenewalsApiSlice';
+import operationsSummaryApiReducer from './apiSlices/operationsSummaryApiSlice';
 import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
 import permitSlaApiReducer from './apiSlices/permitSlaApiSlice';
 // import sidebarApiReducer from './apiSlices/sidebarApiSlice';
@@ -39,6 +42,9 @@ const appReducer = combineReducers({
   inspectorDashboardApi: inspectorDashboardApiReducer,
   lookupsApi: lookupsApiReducer,
   notificationContactsApi: notificationContactsApiReducer,
+  operationInspectionsApi: operationInspectionsApiReducer,
+  operationPermitRenewalsApi: operationPermitRenewalsApiReducer,
+  operationsSummaryApi: operationsSummaryApiReducer,
   pendingUsersApi: pendingUsersApiReducer,
   permitSlaApi: permitSlaApiReducer,
   // sidebarApi: sidebarApiReducer,

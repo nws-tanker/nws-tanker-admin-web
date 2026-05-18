@@ -1,7 +1,7 @@
 import { Button } from '@/atoms';
 import type { ApiInspectionRecord } from '@/types/inspection';
 import { formatInspectionDate } from '../../inspectionHelpers';
-import { TankerTypeChip } from './TankerTypeChip';
+import { TankerTypeChip } from '@/common-components/TankerTypeChip';
 import RequeueInspectionModal from './RequeueInspectionModal';
 import { useState } from 'react';
 

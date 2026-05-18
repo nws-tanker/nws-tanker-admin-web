@@ -16,6 +16,7 @@ import ForbiddenPage from '@/pages/forbidden';
 import ConfigurationPage from './pages/configuration';
 import InspectionPage from './pages/inspection';
 import InspectionDetailsPage from '@/pages/inspection-details';
+import OperationsPage from '@/pages/operations';
 
 export default function App() {
   useAuthBootstrap();
@@ -85,7 +86,7 @@ export default function App() {
         path={ROUTES.operations}
         element={
           <ProtectedRoute route="operations">
-            <PlaceholderPage title="Operations" />
+            <OperationsPage />
           </ProtectedRoute>
         }
       />

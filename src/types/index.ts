@@ -45,3 +45,10 @@ export type {
   InspectionTabCounts,
   InspectionTankerType,
 } from './inspection';
+export type {
+  OperationInspectionItem,
+  OperationInspectionsResponse,
+  OperationPermitRenewalItem,
+  OperationPermitRenewalsResponse,
+  OperationsSummary,
+} from './operations';

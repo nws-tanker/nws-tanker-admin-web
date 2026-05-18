@@ -36,4 +36,7 @@ export const ENDPOINTS = {
   requeueInspection: '/api/inspection/review-screen/{inspectionId}/requeue',
   sendNotification: '/api/inspection/review-screen/send-notification',
   inspectorDashboard: '/api/inspector/dashboard',
+  operationsSummary: '/api/operations/summary',
+  operationInspections: '/api/operations/inspection-pipeline?limit={limit}',
+  operationsPermitRenewal: '/api/operations/permit-renewals?limit={limit}',
 } as const;
