@@ -1,8 +1,15 @@
+import { useState, useRef, useCallback } from 'react';
+
 import { AppShell } from '@/common-components/AppShell';
 import { useExecutiveDashboard } from './hooks/useExecutiveDashboard';
+import { exportDashboardPdf } from './utils/exportDashboardPdf';
 
 import DashboardSection from './components/DashboardSection';
 import ExecutiveDashboardFilters from './components/ExecutiveDashboardFilters';
+import PdfExportButton from './components/PdfExportButton';
+import DashboardPrintView, {
+  buildPdfFilename,
+} from './components/DashboardPrintView';
 
 import SummaryKpiStrip from './components/SummaryKpiStrip';
 import SummaryKpiStripSkeleton from './components/SummaryKpiStripSkeleton';
@@ -33,6 +40,25 @@ export default function ExecutiveDashboard() {
     heatmapState,
   } = useExecutiveDashboard();
 
+  const [isExporting, setIsExporting] = useState(false);
+  const filtersRef = useRef(filters);
+  filtersRef.current = filters;
+
+  const canExport =
+    summaryState.data != null &&
+    complianceState.data != null &&
+    trendState.data != null &&
+    clusterState.data != null &&
+    heatmapState.data != null;
+
+  const handlePrintReady = useCallback(async (sections: HTMLElement[]) => {
+    try {
+      await exportDashboardPdf(sections, buildPdfFilename(filtersRef.current));
+    } finally {
+      setIsExporting(false);
+    }
+  }, []);
+
   const fiscalYearData = lookupsState.data?.fiscal_year.find(
     (f) => f.year === filters.fiscalYear,
   );
@@ -54,13 +80,20 @@ export default function ExecutiveDashboard() {
           <h1 className="text-xl font-bold text-ink-800">
             Executive Dashboard
           </h1>
-          <ExecutiveDashboardFilters
-            lookupsData={lookupsState.data}
-            filters={filters}
-            onFiscalYearChange={setFiscalYear}
-            onQuarterChange={setQuarter}
-            onClusterChange={setClusterId}
-          />
+          <div className="flex flex-wrap items-center gap-3">
+            <ExecutiveDashboardFilters
+              lookupsData={lookupsState.data}
+              filters={filters}
+              onFiscalYearChange={setFiscalYear}
+              onQuarterChange={setQuarter}
+              onClusterChange={setClusterId}
+            />
+            <PdfExportButton
+              onClick={() => setIsExporting(true)}
+              disabled={!canExport}
+              isLoading={isExporting}
+            />
+          </div>
         </div>
 
         <DashboardSection
@@ -107,6 +140,28 @@ export default function ExecutiveDashboard() {
           {(data) => <ComplianceHeatmap data={data} />}
         </DashboardSection>
       </div>
+
+      {isExporting &&
+        summaryState.data &&
+        complianceState.data &&
+        trendState.data &&
+        clusterState.data &&
+        heatmapState.data && (
+          <div
+            style={{ position: 'absolute', left: -9999, top: 0, zIndex: -1 }}
+          >
+            <DashboardPrintView
+              filters={filters}
+              lookupsData={lookupsState.data}
+              summaryData={summaryState.data}
+              complianceData={complianceState.data}
+              trendData={trendState.data}
+              clusterData={clusterState.data}
+              heatmapData={heatmapState.data}
+              onReady={handlePrintReady}
+            />
+          </div>
+        )}
     </AppShell>
   );
 }

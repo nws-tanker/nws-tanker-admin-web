@@ -56,7 +56,7 @@ export async function fetchExecutiveDashboardSummaryApi(
       : MOCK_SUMMARY;
     return { success: true, data };
   }
-  return get<SummaryResponse>(ENDPOINTS.executiveDashboardSummary, { params });
+  return get<SummaryResponse>(ENDPOINTS.executiveDashboardSummary, params);
 }
 
 export async function fetchComplianceByTankerTypeApi(
@@ -76,7 +76,7 @@ export async function fetchComplianceByTankerTypeApi(
   }
   return get<ComplianceByTankerTypeResponse>(
     ENDPOINTS.executiveDashboardCompliance,
-    { params },
+    params,
   );
 }
 
@@ -89,7 +89,7 @@ export async function fetchMonthlyInspectionTrendApi(
   }
   return get<MonthlyInspectionTrendResponse>(
     ENDPOINTS.executiveDashboardTrend,
-    { params },
+    params,
   );
 }
 
@@ -102,7 +102,7 @@ export async function fetchClusterContractorBreakdownApi(
   }
   return get<ClusterContractorBreakdownResponse>(
     ENDPOINTS.executiveDashboardCluster,
-    { params },
+    params,
   );
 }
 
@@ -113,7 +113,8 @@ export async function fetchComplianceHeatmapApi(
     await mockDelay(3200);
     return { success: true, data: MOCK_COMPLIANCE_HEATMAP };
   }
-  return get<ComplianceHeatmapResponse>(ENDPOINTS.executiveDashboardHeatmap, {
+  return get<ComplianceHeatmapResponse>(
+    ENDPOINTS.executiveDashboardHeatmap,
     params,
-  });
+  );
 }
