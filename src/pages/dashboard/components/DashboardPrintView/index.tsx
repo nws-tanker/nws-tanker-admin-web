@@ -30,37 +30,48 @@ function buildFilterLabel(
   filters: ExecutiveDashboardFilters,
   lookupsData: ExecutiveDashboardLookupsResponse | null,
 ): string {
-  const parts: string[] = [`FY ${filters.fiscalYear}`];
+  const parts: string[] = [
+    filters.fiscalYears.length > 0
+      ? filters.fiscalYears.map((y) => `FY ${y}`).join(', ')
+      : 'All Years',
+  ];
 
-  if (filters.quarter && lookupsData) {
+  if (filters.quarters.length === 0) {
+    parts.push('All Quarters');
+  } else if (filters.quarters.length === 1 && lookupsData) {
     const q = lookupsData.quarters.find(
-      (item) => item.quarter === filters.quarter,
+      (item) => item.quarter === filters.quarters[0],
     );
     parts.push(
       q
-        ? `${filters.quarter} · ${q.start_month}–${q.end_month}`
-        : filters.quarter,
+        ? `${filters.quarters[0]} · ${q.start_month}–${q.end_month}`
+        : filters.quarters[0],
     );
   } else {
-    parts.push('All Quarters');
+    parts.push(filters.quarters.join(', '));
   }
 
-  if (filters.clusterId && lookupsData) {
-    const cluster = lookupsData.clusters.find(
-      (c) => c.id === filters.clusterId,
-    );
-    parts.push(cluster ? cluster.name : `Cluster ${filters.clusterId}`);
-  } else {
+  if (filters.clusterIds.length === 0) {
     parts.push('All Clusters');
+  } else if (filters.clusterIds.length === 1 && lookupsData) {
+    const cluster = lookupsData.clusters.find(
+      (c) => c.id === filters.clusterIds[0],
+    );
+    parts.push(cluster ? cluster.name : `Cluster ${filters.clusterIds[0]}`);
+  } else {
+    parts.push(`${filters.clusterIds.length} Clusters`);
   }
 
   return parts.join(' · ');
 }
 
 export function buildPdfFilename(filters: ExecutiveDashboardFilters): string {
-  let name = `executive-dashboard-fy${filters.fiscalYear}`;
-  if (filters.quarter) name += `-${filters.quarter}`;
-  if (filters.clusterId) name += `-cluster${filters.clusterId}`;
+  let name = 'executive-dashboard';
+  if (filters.fiscalYears.length > 0)
+    name += `-fy${filters.fiscalYears.join('-')}`;
+  if (filters.quarters.length > 0) name += `-${filters.quarters.join('')}`;
+  if (filters.clusterIds.length > 0)
+    name += `-cluster${filters.clusterIds.join('-')}`;
   return `${name}.pdf`;
 }
 
@@ -107,19 +118,27 @@ export default function DashboardPrintView({
     year: 'numeric',
   });
 
-  const selectedCluster = lookupsData?.clusters.find(
-    (c) => c.id === filters.clusterId,
-  );
-  const complianceSubtitle = selectedCluster
-    ? `${selectedCluster.name} only`
-    : 'Fleet-wide · all clusters';
+  const complianceSubtitle =
+    filters.clusterIds.length === 0
+      ? 'Fleet-wide · all clusters'
+      : filters.clusterIds.length === 1
+        ? (() => {
+            const c = lookupsData?.clusters.find(
+              (cl) => cl.id === filters.clusterIds[0],
+            );
+            return c ? `${c.name} only` : 'Selected cluster';
+          })()
+        : `${filters.clusterIds.length} clusters selected`;
 
-  const fiscalYearData = lookupsData?.fiscal_year.find(
-    (f) => f.year === filters.fiscalYear,
-  );
+  const fiscalYearData =
+    filters.fiscalYears.length === 1
+      ? lookupsData?.fiscal_year.find((f) => f.year === filters.fiscalYears[0])
+      : undefined;
   const trendSubtitle = fiscalYearData
     ? `${fiscalYearData.start.month} ${fiscalYearData.start.year} – ${fiscalYearData.end.month} ${fiscalYearData.end.year}`
-    : undefined;
+    : filters.fiscalYears.length > 1
+      ? `FY ${filters.fiscalYears.join(', ')}`
+      : undefined;
 
   return (
     // Outer wrapper gives every section a consistent 1190px render width

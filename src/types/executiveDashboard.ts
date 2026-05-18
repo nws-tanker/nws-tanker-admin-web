@@ -5,9 +5,9 @@ export type { FiscalYear, FiscalYearBound, Quarter };
 // ─── Filter params sent as query strings to all dashboard APIs ───────────────
 
 export type DashboardParams = {
-  fiscal_year: number;
-  quarter?: 'Q1' | 'Q2' | 'Q3' | 'Q4'; // omitted when All quarters selected
-  cluster?: string; // omitted when All clusters selected
+  fiscal_years?: number[];
+  quarters?: ('Q1' | 'Q2' | 'Q3' | 'Q4')[];
+  clusters?: string[];
 };
 
 // ─── Executive Dashboard Lookups ─────────────────────────────────────────────

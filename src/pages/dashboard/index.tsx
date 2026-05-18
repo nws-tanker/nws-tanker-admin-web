@@ -29,9 +29,9 @@ import ComplianceHeatmapSkeleton from './components/ComplianceHeatmapSkeleton';
 export default function ExecutiveDashboard() {
   const {
     filters,
-    setFiscalYear,
-    setQuarter,
-    setClusterId,
+    setFiscalYears,
+    setQuarters,
+    setClusterIds,
     lookupsState,
     summaryState,
     complianceState,
@@ -59,19 +59,29 @@ export default function ExecutiveDashboard() {
     }
   }, []);
 
-  const fiscalYearData = lookupsState.data?.fiscal_year.find(
-    (f) => f.year === filters.fiscalYear,
-  );
+  const fiscalYearData =
+    filters.fiscalYears.length === 1
+      ? lookupsState.data?.fiscal_year.find(
+          (f) => f.year === filters.fiscalYears[0],
+        )
+      : undefined;
   const trendSubtitle = fiscalYearData
     ? `${fiscalYearData.start.month} ${fiscalYearData.start.year} – ${fiscalYearData.end.month} ${fiscalYearData.end.year}`
-    : undefined;
+    : filters.fiscalYears.length > 1
+      ? `FY ${filters.fiscalYears.join(', ')}`
+      : undefined;
 
-  const selectedCluster = lookupsState.data?.clusters.find(
-    (c) => c.id === filters.clusterId,
-  );
-  const complianceSubtitle = selectedCluster
-    ? `${selectedCluster.name} only`
-    : 'Fleet-wide · all clusters';
+  const complianceSubtitle =
+    filters.clusterIds.length === 0
+      ? 'Fleet-wide · all clusters'
+      : filters.clusterIds.length === 1
+        ? (() => {
+            const c = lookupsState.data?.clusters.find(
+              (cl) => cl.id === filters.clusterIds[0],
+            );
+            return c ? `${c.name} only` : 'Selected cluster';
+          })()
+        : `${filters.clusterIds.length} clusters selected`;
 
   return (
     <AppShell breadcrumbs={['Executive Dashboard']}>
@@ -84,9 +94,9 @@ export default function ExecutiveDashboard() {
             <ExecutiveDashboardFilters
               lookupsData={lookupsState.data}
               filters={filters}
-              onFiscalYearChange={setFiscalYear}
-              onQuarterChange={setQuarter}
-              onClusterChange={setClusterId}
+              onFiscalYearsChange={setFiscalYears}
+              onQuartersChange={setQuarters}
+              onClusterIdsChange={setClusterIds}
             />
             <PdfExportButton
               onClick={() => setIsExporting(true)}

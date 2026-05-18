@@ -26,7 +26,7 @@ import type {
   MonthlyInspectionTrendResponse,
   SummaryResponse,
 } from '@/types/executiveDashboard';
-import { get } from './http';
+import { get, post } from './http';
 import { mockDelay, USE_MOCK } from './mockConfig';
 
 export async function fetchExecutiveDashboardLookupsApi(): Promise<
@@ -41,80 +41,82 @@ export async function fetchExecutiveDashboardLookupsApi(): Promise<
 }
 
 export async function fetchExecutiveDashboardSummaryApi(
-  params: DashboardParams,
+  body: DashboardParams,
 ): Promise<ApiResponse<SummaryResponse>> {
   if (USE_MOCK) {
     await mockDelay(600);
-    const mockMap = {
+    const mockMap: Record<string, SummaryResponse> = {
       Q1: MOCK_SUMMARY_Q1,
       Q2: MOCK_SUMMARY_Q2,
       Q3: MOCK_SUMMARY_Q3,
       Q4: MOCK_SUMMARY_Q4,
     };
-    const data = params.quarter
-      ? (mockMap[params.quarter] ?? MOCK_SUMMARY)
+    const firstQuarter = body.quarters?.[0];
+    const data = firstQuarter
+      ? (mockMap[firstQuarter] ?? MOCK_SUMMARY)
       : MOCK_SUMMARY;
     return { success: true, data };
   }
-  return get<SummaryResponse>(ENDPOINTS.executiveDashboardSummary, params);
+  return post<SummaryResponse>(ENDPOINTS.executiveDashboardSummary, body);
 }
 
 export async function fetchComplianceByTankerTypeApi(
-  params: DashboardParams,
+  body: DashboardParams,
 ): Promise<ApiResponse<ComplianceByTankerTypeResponse>> {
   if (USE_MOCK) {
     await mockDelay(1200);
-    const mockMap = {
+    const mockMap: Record<string, ComplianceByTankerTypeResponse> = {
       '1': MOCK_COMPLIANCE_CLUSTER_1,
       '2': MOCK_COMPLIANCE_CLUSTER_2,
       '3': MOCK_COMPLIANCE_CLUSTER_3,
     };
-    const data = params.cluster
-      ? (mockMap[params.cluster] ?? MOCK_COMPLIANCE_BY_TANKER_TYPE)
+    const firstCluster = body.clusters?.[0];
+    const data = firstCluster
+      ? (mockMap[firstCluster] ?? MOCK_COMPLIANCE_BY_TANKER_TYPE)
       : MOCK_COMPLIANCE_BY_TANKER_TYPE;
     return { success: true, data };
   }
-  return get<ComplianceByTankerTypeResponse>(
+  return post<ComplianceByTankerTypeResponse>(
     ENDPOINTS.executiveDashboardCompliance,
-    params,
+    body,
   );
 }
 
 export async function fetchMonthlyInspectionTrendApi(
-  params: DashboardParams,
+  body: DashboardParams,
 ): Promise<ApiResponse<MonthlyInspectionTrendResponse>> {
   if (USE_MOCK) {
     await mockDelay(1800);
     return { success: true, data: MOCK_MONTHLY_INSPECTION_TREND };
   }
-  return get<MonthlyInspectionTrendResponse>(
+  return post<MonthlyInspectionTrendResponse>(
     ENDPOINTS.executiveDashboardTrend,
-    params,
+    body,
   );
 }
 
 export async function fetchClusterContractorBreakdownApi(
-  params: DashboardParams,
+  body: DashboardParams,
 ): Promise<ApiResponse<ClusterContractorBreakdownResponse>> {
   if (USE_MOCK) {
     await mockDelay(2500);
     return { success: true, data: MOCK_CLUSTER_CONTRACTOR_BREAKDOWN };
   }
-  return get<ClusterContractorBreakdownResponse>(
+  return post<ClusterContractorBreakdownResponse>(
     ENDPOINTS.executiveDashboardCluster,
-    params,
+    body,
   );
 }
 
 export async function fetchComplianceHeatmapApi(
-  params: DashboardParams,
+  body: DashboardParams,
 ): Promise<ApiResponse<ComplianceHeatmapResponse>> {
   if (USE_MOCK) {
     await mockDelay(3200);
     return { success: true, data: MOCK_COMPLIANCE_HEATMAP };
   }
-  return get<ComplianceHeatmapResponse>(
+  return post<ComplianceHeatmapResponse>(
     ENDPOINTS.executiveDashboardHeatmap,
-    params,
+    body,
   );
 }

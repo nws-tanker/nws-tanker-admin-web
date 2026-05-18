@@ -9,7 +9,7 @@ export function useExecutiveDashboard() {
   const dispatch = useAppDispatch();
   const lookupsState = useAppSelector((s) => s.executiveDashboardLookupsApi);
 
-  const { filters, setFiscalYear, setQuarter, setClusterId } =
+  const { filters, setFiscalYears, setQuarters, setClusterIds } =
     useExecutiveDashboardFilters(lookupsState.data);
 
   const {
@@ -28,9 +28,9 @@ export function useExecutiveDashboard() {
 
   return {
     filters,
-    setFiscalYear,
-    setQuarter,
-    setClusterId,
+    setFiscalYears,
+    setQuarters,
+    setClusterIds,
     lookupsState,
     summaryState,
     complianceState,

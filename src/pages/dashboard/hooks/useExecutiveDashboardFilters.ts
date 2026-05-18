@@ -5,47 +5,47 @@ import type {
 } from '@/types/executiveDashboard';
 
 export type ExecutiveDashboardFilters = {
-  fiscalYear: number;
-  quarter: Quarter['quarter'] | null; // null = All quarters
-  clusterId: string | null; // null = All clusters
+  fiscalYears: number[];
+  quarters: Quarter['quarter'][];
+  clusterIds: string[];
 };
 
 type UseExecutiveDashboardFiltersReturn = {
   filters: ExecutiveDashboardFilters;
-  setFiscalYear: (year: number) => void;
-  setQuarter: (quarter: Quarter['quarter'] | null) => void;
-  setClusterId: (id: string | null) => void;
+  setFiscalYears: (years: number[]) => void;
+  setQuarters: (quarters: Quarter['quarter'][]) => void;
+  setClusterIds: (ids: string[]) => void;
 };
 
 export function useExecutiveDashboardFilters(
   lookupsData: ExecutiveDashboardLookupsResponse | null,
 ): UseExecutiveDashboardFiltersReturn {
   const [filters, setFilters] = useState<ExecutiveDashboardFilters>({
-    fiscalYear: new Date().getFullYear(),
-    quarter: null,
-    clusterId: null,
+    fiscalYears: [new Date().getFullYear()],
+    quarters: [],
+    clusterIds: [],
   });
 
-  // Once lookups load, initialise fiscalYear to the one marked default: true
+  // Once lookups load, initialise fiscalYears to the one marked default: true
   useEffect(() => {
     if (!lookupsData) return;
     const defaultYear = lookupsData.fiscal_year.find((fy) => fy.default);
     if (defaultYear) {
-      setFilters((prev) => ({ ...prev, fiscalYear: defaultYear.year }));
+      setFilters((prev) => ({ ...prev, fiscalYears: [defaultYear.year] }));
     }
   }, [lookupsData]);
 
-  function setFiscalYear(year: number) {
-    setFilters((prev) => ({ ...prev, fiscalYear: year }));
+  function setFiscalYears(fiscalYears: number[]) {
+    setFilters((prev) => ({ ...prev, fiscalYears }));
   }
 
-  function setQuarter(quarter: Quarter['quarter'] | null) {
-    setFilters((prev) => ({ ...prev, quarter }));
+  function setQuarters(quarters: Quarter['quarter'][]) {
+    setFilters((prev) => ({ ...prev, quarters }));
   }
 
-  function setClusterId(clusterId: string | null) {
-    setFilters((prev) => ({ ...prev, clusterId }));
+  function setClusterIds(clusterIds: string[]) {
+    setFilters((prev) => ({ ...prev, clusterIds }));
   }
 
-  return { filters, setFiscalYear, setQuarter, setClusterId };
+  return { filters, setFiscalYears, setQuarters, setClusterIds };
 }
