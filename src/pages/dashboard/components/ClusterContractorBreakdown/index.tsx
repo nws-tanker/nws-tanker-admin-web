@@ -1,10 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import type { ClusterContractorBreakdownResponse } from '@/types/executiveDashboard';
 import MetricsRow from './MetricsRow';
 import { COLUMNS } from './breakdownConfig';
+import { ROUTES } from '@/constants/routes';
 
 type Props = { data: ClusterContractorBreakdownResponse };
 
 export default function ClusterContractorBreakdown({ data }: Props) {
+  const navigate = useNavigate();
   const {
     cluster_details,
     total_details,
@@ -41,19 +44,33 @@ export default function ClusterContractorBreakdown({ data }: Props) {
             </tr>
           </thead>
           <tbody>
-            {cluster_details.map((cluster) => (
-              <MetricsRow
-                key={cluster.cluster_name}
-                label={`${cluster.cluster_name} · ${cluster.contractor_name}`}
-                subLabel={cluster.governorates.join(' / ')}
-                metrics={cluster}
-              />
-            ))}
-            <MetricsRow
-              label={`Totals · ${contractor_count} contractors`}
-              metrics={total_details}
-              isTotal
-            />
+            {cluster_details.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={12}
+                  className="py-12 text-center text-sm text-ink-400"
+                >
+                  No cluster data available for the selected filters.
+                </td>
+              </tr>
+            ) : (
+              <>
+                {cluster_details.map((cluster) => (
+                  <MetricsRow
+                    key={cluster.cluster_name}
+                    label={`${cluster.cluster_name} · ${cluster.contractor_name}`}
+                    subLabel={cluster.governorates.join(' / ')}
+                    metrics={cluster}
+                    onClick={() => navigate(ROUTES.fleetCompliance)}
+                  />
+                ))}
+                <MetricsRow
+                  label={`Totals · ${contractor_count} contractors`}
+                  metrics={total_details}
+                  isTotal
+                />
+              </>
+            )}
           </tbody>
         </table>
       </div>

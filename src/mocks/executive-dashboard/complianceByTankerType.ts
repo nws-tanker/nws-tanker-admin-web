@@ -8,6 +8,7 @@ export const MOCK_COMPLIANCE_CLUSTER_1: ComplianceByTankerTypeResponse = {
     valid: 882,
     expired: 52,
     no_permit: 46,
+    never_inspected: 46,
     tanker_health_percentage: 90,
   },
   sw: {
@@ -15,6 +16,7 @@ export const MOCK_COMPLIANCE_CLUSTER_1: ComplianceByTankerTypeResponse = {
     valid: 391,
     expired: 38,
     no_permit: 31,
+    never_inspected: 31,
     tanker_health_percentage: 85,
   },
   te: {
@@ -22,6 +24,7 @@ export const MOCK_COMPLIANCE_CLUSTER_1: ComplianceByTankerTypeResponse = {
     valid: 185,
     expired: 20,
     no_permit: 15,
+    never_inspected: 15,
     tanker_health_percentage: 84,
   },
 };
@@ -33,6 +36,7 @@ export const MOCK_COMPLIANCE_CLUSTER_2: ComplianceByTankerTypeResponse = {
     valid: 714,
     expired: 72,
     no_permit: 54,
+    never_inspected: 54,
     tanker_health_percentage: 85,
   },
   sw: {
@@ -40,6 +44,7 @@ export const MOCK_COMPLIANCE_CLUSTER_2: ComplianceByTankerTypeResponse = {
     valid: 289,
     expired: 58,
     no_permit: 43,
+    never_inspected: 43,
     tanker_health_percentage: 74,
   },
   te: {
@@ -47,6 +52,7 @@ export const MOCK_COMPLIANCE_CLUSTER_2: ComplianceByTankerTypeResponse = {
     valid: 111,
     expired: 40,
     no_permit: 34,
+    never_inspected: 34,
     tanker_health_percentage: 60,
   },
 };
@@ -58,6 +64,7 @@ export const MOCK_COMPLIANCE_CLUSTER_3: ComplianceByTankerTypeResponse = {
     valid: 389,
     expired: 132,
     no_permit: 139,
+    never_inspected: 139,
     tanker_health_percentage: 59,
   },
   sw: {
@@ -65,6 +72,7 @@ export const MOCK_COMPLIANCE_CLUSTER_3: ComplianceByTankerTypeResponse = {
     valid: 172,
     expired: 94,
     no_permit: 67,
+    never_inspected: 67,
     tanker_health_percentage: 52,
   },
   te: {
@@ -72,6 +80,7 @@ export const MOCK_COMPLIANCE_CLUSTER_3: ComplianceByTankerTypeResponse = {
     valid: 100,
     expired: 48,
     no_permit: 38,
+    never_inspected: 38,
     tanker_health_percentage: 54,
   },
 };
@@ -83,6 +92,7 @@ export const MOCK_COMPLIANCE_BY_TANKER_TYPE: ComplianceByTankerTypeResponse = {
     valid: 1985,
     expired: 256,
     no_permit: 239,
+    never_inspected: 239,
     tanker_health_percentage: 80,
   },
   sw: {
@@ -90,6 +100,7 @@ export const MOCK_COMPLIANCE_BY_TANKER_TYPE: ComplianceByTankerTypeResponse = {
     valid: 852,
     expired: 122,
     no_permit: 209,
+    never_inspected: 209,
     tanker_health_percentage: 72,
   },
   te: {
@@ -97,6 +108,7 @@ export const MOCK_COMPLIANCE_BY_TANKER_TYPE: ComplianceByTankerTypeResponse = {
     valid: 396,
     expired: 62,
     no_permit: 133,
+    never_inspected: 133,
     tanker_health_percentage: 67,
   },
 };

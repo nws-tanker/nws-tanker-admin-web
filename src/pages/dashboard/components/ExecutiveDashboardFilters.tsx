@@ -9,9 +9,10 @@ import type { ExecutiveDashboardFilters } from '../hooks/useExecutiveDashboardFi
 type Props = {
   lookupsData: ExecutiveDashboardLookupsResponse | null;
   filters: ExecutiveDashboardFilters;
+  isClusterLocked: boolean;
   onFiscalYearsChange: (years: number[]) => void;
   onQuartersChange: (quarters: Quarter['quarter'][]) => void;
-  onClusterIdsChange: (ids: string[]) => void;
+  onClusterIdsChange: (ids: number[]) => void;
 };
 
 function buildFiscalYearOptions(
@@ -35,12 +36,13 @@ function buildQuarterOptions(
 function buildClusterOptions(
   clusters: ExecutiveDashboardLookupsResponse['clusters'],
 ): SelectOption<string>[] {
-  return clusters.map((c) => ({ value: c.id, label: c.name }));
+  return clusters.map((c) => ({ value: String(c.id), label: c.name }));
 }
 
 export default function ExecutiveDashboardFilters({
   lookupsData,
   filters,
+  isClusterLocked,
   onFiscalYearsChange,
   onQuartersChange,
   onClusterIdsChange,
@@ -76,10 +78,10 @@ export default function ExecutiveDashboardFilters({
       <MultiSelect
         placeholder="All Clusters"
         options={clusterOptions}
-        value={filters.clusterIds}
-        onChange={onClusterIdsChange}
+        value={filters.clusterIds.map(String)}
+        onChange={(vals) => onClusterIdsChange(vals.map(Number))}
         minWidth={160}
-        disabled={!lookupsData}
+        disabled={!lookupsData || isClusterLocked}
       />
     </div>
   );

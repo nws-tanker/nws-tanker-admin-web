@@ -42,4 +42,9 @@ export const ENDPOINTS = {
   executiveDashboardTrend: '/api/executive-dashboard/inspection-trend',
   executiveDashboardCluster: '/api/executive-dashboard/cluster-breakdown',
   executiveDashboardHeatmap: '/api/executive-dashboard/compliance-heatmap',
+  fleetComplianceKpi: '/api/fleet-compliance/kpi-summary',
+  fleetComplianceGovernorate: '/api/fleet-compliance/governorate-compliance',
+  fleetComplianceInspectorPerformance:
+    '/api/fleet-compliance/inspector-performance',
+  currentUser: '/api/users/me',
 } as const;

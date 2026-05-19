@@ -7,6 +7,7 @@ type Props = {
   subLabel?: string;
   metrics: ClusterMetrics;
   isTotal?: boolean;
+  onClick?: () => void;
 };
 
 export default function MetricsRow({
@@ -14,13 +15,14 @@ export default function MetricsRow({
   subLabel,
   metrics,
   isTotal,
+  onClick,
 }: Props) {
   const rowClass = isTotal
     ? 'border-t-2 border-ink-300 bg-ink-50 font-semibold'
-    : 'border-b border-ink-100 hover:bg-ink-25';
+    : `border-b border-ink-100 hover:bg-ink-50${onClick ? ' cursor-pointer' : ''}`;
 
   return (
-    <tr className={rowClass}>
+    <tr className={rowClass} onClick={onClick}>
       <td className="px-4 py-3">
         <div
           className={

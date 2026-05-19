@@ -5,9 +5,10 @@ export type { FiscalYear, FiscalYearBound, Quarter };
 // ─── Filter params sent as query strings to all dashboard APIs ───────────────
 
 export type DashboardParams = {
-  fiscal_years?: number[];
-  quarters?: ('Q1' | 'Q2' | 'Q3' | 'Q4')[];
-  clusters?: string[];
+  fiscal_years: number[];
+  quarters: ('Q1' | 'Q2' | 'Q3' | 'Q4')[];
+  clusters: number[];
+  governorates: number[];
 };
 
 // ─── Executive Dashboard Lookups ─────────────────────────────────────────────
@@ -60,6 +61,7 @@ export type TankerTypeCompliance = {
   valid: number;
   expired: number;
   no_permit: number;
+  never_inspected: number;
   tanker_health_percentage: number; // valid / target
 };
 
