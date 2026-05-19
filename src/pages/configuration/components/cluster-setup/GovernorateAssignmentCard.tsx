@@ -26,6 +26,13 @@ export function GovernorateAssignmentCard({
     0,
   );
 
+  const clusterOrder = new Map(clusters.map((c, i) => [c.clusterId, i]));
+  const sortedGovernorates = [...governorates].sort((a, b) => {
+    const ai = clusterOrder.get(assignments[a.name]) ?? Number.MAX_SAFE_INTEGER;
+    const bi = clusterOrder.get(assignments[b.name]) ?? Number.MAX_SAFE_INTEGER;
+    return ai - bi;
+  });
+
   return (
     <div className="rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
       <div className="flex items-center justify-between border-b border-ink-200 px-5 py-3.5">
@@ -61,7 +68,7 @@ export function GovernorateAssignmentCard({
             </tr>
           </thead>
           <tbody>
-            {governorates.map((g, i) => (
+            {sortedGovernorates.map((g, i) => (
               <tr
                 key={g.id}
                 className="border-b border-ink-100 last:border-0 hover:bg-ink-50"
