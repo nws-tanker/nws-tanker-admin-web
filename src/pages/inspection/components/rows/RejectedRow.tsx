@@ -40,13 +40,15 @@ export function RejectedRow({ record, onView }: Props) {
             <Button size="sm" variant="ghost" onClick={() => onView(record)}>
               View Details
             </Button>
-            <Button
-              size="sm"
-              variant="danger"
-              onClick={() => setOpenRequeueInspectionModal(true)}
-            >
-              ↩ Queue Re-inspection
-            </Button>
+            {record.is_reinspection === null && (
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() => setOpenRequeueInspectionModal(true)}
+              >
+                ↩ Queue Re-inspection
+              </Button>
+            )}
           </div>
         </td>
       </tr>

@@ -10,6 +10,24 @@ export type Cluster = {
   name: string;
 };
 
+export type FiscalYearBound = {
+  month: string;
+  year: number;
+};
+
+export type FiscalYear = {
+  year: number;
+  default?: boolean;
+  start: FiscalYearBound;
+  end: FiscalYearBound;
+};
+
+export type Quarter = {
+  quarter: 'Q1' | 'Q2' | 'Q3' | 'Q4';
+  start_month: string;
+  end_month: string;
+};
+
 export type Governorate = {
   id: string;
   name: string;
@@ -33,4 +51,6 @@ export type Lookups = {
   permitStatuses: PermitStatusLookup[];
   inspectors: Inspector[];
   sampleCollectors: SampleCollector[];
+  fiscal_year: FiscalYear[];
+  quarters: Quarter[];
 };
