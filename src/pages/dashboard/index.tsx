@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 
 import { AppShell } from '@/common-components/AppShell';
+import SectionErrorCard from '@/common-components/SectionErrorCard';
 import { useExecutiveDashboard } from './hooks/useExecutiveDashboard';
 import { exportDashboardPdf } from './utils/exportDashboardPdf';
 
@@ -29,6 +30,7 @@ import ComplianceHeatmapSkeleton from './components/ComplianceHeatmapSkeleton';
 export default function ExecutiveDashboard() {
   const {
     filters,
+    isClusterLocked,
     setFiscalYears,
     setQuarters,
     setClusterIds,
@@ -84,7 +86,7 @@ export default function ExecutiveDashboard() {
         : `${filters.clusterIds.length} clusters selected`;
 
   return (
-    <AppShell breadcrumbs={['Executive Dashboard']}>
+    <AppShell breadcrumbs={['Home', 'Executive Dashboard']}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-xl font-bold text-ink-800">
@@ -94,6 +96,7 @@ export default function ExecutiveDashboard() {
             <ExecutiveDashboardFilters
               lookupsData={lookupsState.data}
               filters={filters}
+              isClusterLocked={isClusterLocked}
               onFiscalYearsChange={setFiscalYears}
               onQuartersChange={setQuarters}
               onClusterIdsChange={setClusterIds}
@@ -110,6 +113,9 @@ export default function ExecutiveDashboard() {
           state={summaryState}
           skeleton={<SummaryKpiStripSkeleton />}
           errorMessage="Failed to load summary."
+          errorComponent={
+            <SectionErrorCard message="Unable to load the KPI summary. Please try again." />
+          }
         >
           {(data) => <SummaryKpiStrip data={data} />}
         </DashboardSection>
@@ -118,6 +124,12 @@ export default function ExecutiveDashboard() {
           state={complianceState}
           skeleton={<ComplianceByTankerTypeSkeleton />}
           errorMessage="Failed to load compliance data."
+          errorComponent={
+            <SectionErrorCard
+              title="Compliance by Tanker Type"
+              message="Unable to load tanker type compliance data. Please try again."
+            />
+          }
         >
           {(data) => (
             <ComplianceByTankerType data={data} subtitle={complianceSubtitle} />
@@ -128,6 +140,12 @@ export default function ExecutiveDashboard() {
           state={trendState}
           skeleton={<MonthlyInspectionTrendSkeleton />}
           errorMessage="Failed to load inspection trend."
+          errorComponent={
+            <SectionErrorCard
+              title="Monthly Inspection Trend"
+              message="Unable to load inspection trend data. Please try again."
+            />
+          }
         >
           {(data) => (
             <MonthlyInspectionTrend data={data} subtitle={trendSubtitle} />
@@ -138,6 +156,12 @@ export default function ExecutiveDashboard() {
           state={clusterState}
           skeleton={<ClusterContractorBreakdownSkeleton />}
           errorMessage="Failed to load cluster breakdown."
+          errorComponent={
+            <SectionErrorCard
+              title="Cluster & Contractor Breakdown"
+              message="Unable to load cluster breakdown data. Please try again."
+            />
+          }
         >
           {(data) => <ClusterContractorBreakdown data={data} />}
         </DashboardSection>
@@ -146,6 +170,12 @@ export default function ExecutiveDashboard() {
           state={heatmapState}
           skeleton={<ComplianceHeatmapSkeleton />}
           errorMessage="Failed to load compliance heatmap."
+          errorComponent={
+            <SectionErrorCard
+              title="Compliance Heatmap"
+              message="Unable to load the compliance heatmap. Please try again."
+            />
+          }
         >
           {(data) => <ComplianceHeatmap data={data} />}
         </DashboardSection>

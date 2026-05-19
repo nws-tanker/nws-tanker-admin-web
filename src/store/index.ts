@@ -16,6 +16,9 @@ import executiveDashboardComplianceApiReducer from './apiSlices/executiveDashboa
 import executiveDashboardTrendApiReducer from './apiSlices/executiveDashboardTrendApiSlice';
 import executiveDashboardClusterApiReducer from './apiSlices/executiveDashboardClusterApiSlice';
 import executiveDashboardHeatmapApiReducer from './apiSlices/executiveDashboardHeatmapApiSlice';
+import fleetComplianceKpiApiReducer from './apiSlices/fleetComplianceKpiApiSlice';
+import fleetComplianceGovernorateApiReducer from './apiSlices/fleetComplianceGovernorateApiSlice';
+import fleetComplianceInspectorApiReducer from './apiSlices/fleetComplianceInspectorApiSlice';
 import clustersApiReducer from './apiSlices/clustersApiSlice';
 import clusterSetupApiReducer from './apiSlices/clusterSetupApiSlice';
 import fleetRegistryApiReducer from './apiSlices/fleetRegistryApiSlice';
@@ -30,6 +33,7 @@ import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
 import permitSlaApiReducer from './apiSlices/permitSlaApiSlice';
 // import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
+import currentUserApiReducer from './apiSlices/currentUserApiSlice';
 
 export const resetAllApiData = createAction('store/resetAllApiData');
 
@@ -41,6 +45,9 @@ const appReducer = combineReducers({
   executiveDashboardTrendApi: executiveDashboardTrendApiReducer,
   executiveDashboardClusterApi: executiveDashboardClusterApiReducer,
   executiveDashboardHeatmapApi: executiveDashboardHeatmapApiReducer,
+  fleetComplianceKpiApi: fleetComplianceKpiApiReducer,
+  fleetComplianceGovernorateApi: fleetComplianceGovernorateApiReducer,
+  fleetComplianceInspectorApi: fleetComplianceInspectorApiReducer,
   clustersApi: clustersApiReducer,
   clusterSetupApi: clusterSetupApiReducer,
   fleetRegistryApi: fleetRegistryApiReducer,
@@ -55,6 +62,7 @@ const appReducer = combineReducers({
   permitSlaApi: permitSlaApiReducer,
   // sidebarApi: sidebarApiReducer,
   auth: authReducer,
+  currentUserApi: currentUserApiReducer,
 });
 
 type AppState = ReturnType<typeof appReducer>;

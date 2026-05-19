@@ -7,33 +7,41 @@ import type {
 export type ExecutiveDashboardFilters = {
   fiscalYears: number[];
   quarters: Quarter['quarter'][];
-  clusterIds: string[];
+  clusterIds: number[];
 };
 
 type UseExecutiveDashboardFiltersReturn = {
   filters: ExecutiveDashboardFilters;
+  isInitialized: boolean;
+  isClusterLocked: boolean;
   setFiscalYears: (years: number[]) => void;
   setQuarters: (quarters: Quarter['quarter'][]) => void;
-  setClusterIds: (ids: string[]) => void;
+  setClusterIds: (ids: number[]) => void;
 };
 
+// userClusterId: undefined = currentUser still loading; null = no restriction; number = locked cluster
 export function useExecutiveDashboardFilters(
   lookupsData: ExecutiveDashboardLookupsResponse | null,
+  userClusterId: number | null | undefined,
 ): UseExecutiveDashboardFiltersReturn {
   const [filters, setFilters] = useState<ExecutiveDashboardFilters>({
     fiscalYears: [new Date().getFullYear()],
     quarters: [],
     clusterIds: [],
   });
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Once lookups load, initialise fiscalYears to the one marked default: true
+  // Wait for both lookups and current user profile before initialising
   useEffect(() => {
-    if (!lookupsData) return;
+    if (!lookupsData || userClusterId === undefined) return;
     const defaultYear = lookupsData.fiscal_year.find((fy) => fy.default);
-    if (defaultYear) {
-      setFilters((prev) => ({ ...prev, fiscalYears: [defaultYear.year] }));
-    }
-  }, [lookupsData]);
+    setFilters((prev) => ({
+      ...prev,
+      fiscalYears: defaultYear ? [defaultYear.year] : prev.fiscalYears,
+      clusterIds: userClusterId !== null ? [userClusterId] : prev.clusterIds,
+    }));
+    setIsInitialized(true);
+  }, [lookupsData, userClusterId]);
 
   function setFiscalYears(fiscalYears: number[]) {
     setFilters((prev) => ({ ...prev, fiscalYears }));
@@ -43,9 +51,16 @@ export function useExecutiveDashboardFilters(
     setFilters((prev) => ({ ...prev, quarters }));
   }
 
-  function setClusterIds(clusterIds: string[]) {
+  function setClusterIds(clusterIds: number[]) {
     setFilters((prev) => ({ ...prev, clusterIds }));
   }
 
-  return { filters, setFiscalYears, setQuarters, setClusterIds };
+  return {
+    filters,
+    isInitialized,
+    isClusterLocked: userClusterId !== null && userClusterId !== undefined,
+    setFiscalYears,
+    setQuarters,
+    setClusterIds,
+  };
 }

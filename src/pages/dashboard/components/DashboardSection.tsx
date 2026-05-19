@@ -11,6 +11,7 @@ type Props<T> = {
   state: ApiState<T>;
   skeleton: ReactNode;
   errorMessage: string;
+  errorComponent?: ReactNode;
   children: (data: NonNullable<T>) => ReactNode;
 };
 
@@ -18,11 +19,18 @@ export default function DashboardSection<T>({
   state,
   skeleton,
   errorMessage,
+  errorComponent,
   children,
 }: Props<T>) {
   if (isPending(state.apiState)) return <>{skeleton}</>;
   if (state.apiState === States.ERROR)
-    return <SectionError message={errorMessage} onRetry={() => {}} />;
+    return (
+      <>
+        {errorComponent ?? (
+          <SectionError message={errorMessage} onRetry={() => {}} />
+        )}
+      </>
+    );
   if (state.data != null) return <>{children(state.data)}</>;
   return null;
 }

@@ -6,7 +6,7 @@ import type {
 } from './fleet';
 
 export type Cluster = {
-  id: string;
+  id: number;
   name: string;
 };
 
@@ -29,7 +29,7 @@ export type Quarter = {
 };
 
 export type Governorate = {
-  id: string;
+  id: number;
   name: string;
   clusterId: string;
 };

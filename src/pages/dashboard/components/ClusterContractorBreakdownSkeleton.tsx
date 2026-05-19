@@ -13,10 +13,10 @@ export default function ClusterContractorBreakdownSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
-          className="flex gap-4 border-b border-ink-100 px-5 py-4 last:border-b-0"
+          className="flex gap-4 border-b border-ink-100 px-5 py-3 last:border-b-0"
         >
           {Array.from({ length: 12 }).map((_, j) => (
-            <SkeletonBlock key={j} className="h-4 flex-1" />
+            <SkeletonBlock key={j} className="h-[14px] flex-1" />
           ))}
         </div>
       ))}

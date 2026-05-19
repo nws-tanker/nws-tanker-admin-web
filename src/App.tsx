@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES, firstAllowedPath } from '@/constants/routes';
 import ProtectedRoute from '@/common-components/ProtectedRoute';
 import { useAuthBootstrap } from '@/hooks/useAuthBootstrap';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useAppSelector } from '@/store';
 import {
   selectIsAuthenticated,
@@ -19,9 +20,11 @@ import InspectionPage from './pages/inspection';
 import InspectionDetailsPage from '@/pages/inspection-details';
 
 const ExecutiveDashboard = lazy(() => import('@/pages/dashboard'));
+const FleetCompliancePage = lazy(() => import('@/pages/fleet-compliance'));
 
 export default function App() {
   useAuthBootstrap();
+  useCurrentUser();
 
   const isBootstrapped = useAppSelector(selectIsBootstrapped);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
@@ -98,7 +101,9 @@ export default function App() {
         path={ROUTES.fleetCompliance}
         element={
           <ProtectedRoute route="fleetCompliance">
-            <PlaceholderPage title="Fleet Compliance" />
+            <Suspense fallback={null}>
+              <FleetCompliancePage />
+            </Suspense>
           </ProtectedRoute>
         }
       />

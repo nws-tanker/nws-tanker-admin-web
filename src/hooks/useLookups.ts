@@ -23,8 +23,10 @@ type UseLookupsResult = {
   retry: () => void;
 };
 
-function indexById<T extends { id: string }>(rows: T[]): LookupIndex<T> {
-  return new Map(rows.map((r) => [r.id, r]));
+function indexById<T extends { id: string | number }>(
+  rows: T[],
+): LookupIndex<T> {
+  return new Map(rows.map((r) => [String(r.id), r]));
 }
 
 export function useLookups(): UseLookupsResult {
