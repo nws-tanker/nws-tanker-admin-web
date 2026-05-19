@@ -51,5 +51,6 @@ export interface OperationPermitRenewalItem {
 
 export interface OperationPermitRenewalsResponse {
   total_elements: number;
+  urgent_count: number;
   items: OperationPermitRenewalItem[];
 }

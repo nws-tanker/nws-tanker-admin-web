@@ -14,11 +14,8 @@ import TableCardSkeleton from './components/TableCardSkeleton';
 import { useOperationInspections } from './hooks/useOperationInspections';
 import { useOperationPermitRenewals } from './hooks/useOperationPermitRenewals';
 import { useOperationsSummary } from './hooks/useOperationsSummary';
-import { daysUntil } from './operationsHelpers';
-
 const INSPECTIONS_LIMIT = 10;
 const RENEWALS_LIMIT = 10;
-const URGENT_DAYS_THRESHOLD = 7;
 
 function isLoading(state: States): boolean {
   return state === States.LOADING || state === States.PRELOADING;
@@ -38,10 +35,6 @@ export default function OperationsPage() {
       </span>
     </>
   ) : null;
-
-  const urgentCount = renewals.data?.items.filter(
-    (r) => daysUntil(r.expires_at) <= URGENT_DAYS_THRESHOLD,
-  ).length;
 
   return (
     <AppShell breadcrumbs={['Home', 'Operations']}>
@@ -75,7 +68,7 @@ export default function OperationsPage() {
           ) : (
             <PermitRenewalCard
               items={renewals.data.items}
-              urgentCount={urgentCount}
+              urgentCount={renewals.data.urgent_count}
               onOpenAll={() => navigate(ROUTES.permitRenewal)}
             />
           )}
