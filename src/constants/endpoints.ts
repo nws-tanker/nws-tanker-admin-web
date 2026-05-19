@@ -26,6 +26,8 @@ export const ENDPOINTS = {
   inspectionDetails: '/api/inspection/review-screen/{inspectionId}/detail',
   fleetTargets: '/api/configurations/fleet-targets',
   clusterSetup: '/api/configurations/cluster-setup',
+  contractorOnboarding: '/api/configurations/contractor-onboarding',
+  governorateClusterMapping: '/api/configurations/governorate-cluster-mapping',
   labResult: '/api/inspection/review-screen/{inspectionId}/lab-result',
   approveInspection: '/api/inspection/review-screen/{inspectionId}/approve',
   rejectInspection: '/api/inspection/review-screen/{inspectionId}/reject',

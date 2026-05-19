@@ -82,6 +82,22 @@ export type FleetTarget = {
   custom: boolean;
 };
 
+export type OnboardContractorRequest = {
+  clusterName: string;
+  contractorName: string;
+  crNumber: string;
+  crDocument: File | null;
+};
+
+export type GovernorateClusterMapping = {
+  governorateId: number;
+  clusterId: number;
+};
+
+export type UpdateGovernorateClusterMappingRequest = {
+  mappings: GovernorateClusterMapping[];
+};
+
 export type SaveFleetTargetsRequest = {
   governorates: {
     id: number;

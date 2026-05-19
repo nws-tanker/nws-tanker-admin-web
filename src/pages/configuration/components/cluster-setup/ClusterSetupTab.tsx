@@ -84,6 +84,7 @@ export function ClusterSetupTab() {
           clusters={data.clusters}
           assignments={govAssignments}
           onAssign={handleGovAssign}
+          onSaved={() => dispatch(fetchClusterSetup())}
         />
 
         <div className="flex flex-col gap-4">
@@ -93,7 +94,9 @@ export function ClusterSetupTab() {
             assignments={contractorAssignments}
             onAssign={handleContractorAssign}
           />
-          <OnboardContractorCard />
+          <OnboardContractorCard
+            onSuccess={() => dispatch(fetchClusterSetup())}
+          />
           <div className="flex justify-end">
             <Button variant="primary">Save Changes</Button>
           </div>

@@ -8,6 +8,8 @@ import type {
   NotificationContactsApiResponse,
   UpdatePermitSlaRequest,
   UpdateNotificationContactsRequest,
+  UpdateGovernorateClusterMappingRequest,
+  OnboardContractorRequest,
 } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
@@ -17,6 +19,17 @@ import type {
   InspectionDataToBeEdited,
 } from '@/types';
 import { get, put } from './http';
+
+export async function onboardContractorApi(
+  body: OnboardContractorRequest,
+): Promise<ApiResponse<void>> {
+  const formData = new FormData();
+  formData.append('clusterName', body.clusterName);
+  formData.append('contractorName', body.contractorName);
+  formData.append('crNumber', body.crNumber);
+  if (body.crDocument) formData.append('crDocument', body.crDocument);
+  return put<void>(ENDPOINTS.contractorOnboarding, formData);
+}
 
 export async function fetchPendingUsersApi(): Promise<
   ApiResponse<PendingRequest[]>
@@ -112,4 +125,10 @@ export async function fetchClusterSetupApi(): Promise<
   ApiResponse<ClusterSetupApiResponse>
 > {
   return get<ClusterSetupApiResponse>(ENDPOINTS.clusterSetup, undefined);
+}
+
+export async function updateGovernorateClusterMappingApi(
+  body: UpdateGovernorateClusterMappingRequest,
+): Promise<ApiResponse<void>> {
+  return put<void>(ENDPOINTS.governorateClusterMapping, body);
 }
