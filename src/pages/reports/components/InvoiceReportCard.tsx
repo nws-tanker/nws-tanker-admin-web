@@ -1,3 +1,4 @@
+import { cn } from '@/utils';
 import { TankerTypeChip } from '@/common-components/TankerTypeChip';
 import type { InvoiceReportResponse } from '@/types';
 import { generateInvoiceExcel } from '../excel/invoiceExcel';
@@ -47,9 +48,10 @@ export function InvoiceReportCard({ report, periodLabel }: Props) {
               {HEADERS.map((h, i) => (
                 <th
                   key={h}
-                  className={`whitespace-nowrap border-b border-ink-200 bg-ink-50 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-ink-500 ${
-                    i >= 3 ? 'text-right' : 'text-left'
-                  }`}
+                  className={cn(
+                    'whitespace-nowrap border-b border-ink-200 bg-ink-50 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-ink-500',
+                    i >= 3 ? 'text-right' : 'text-left',
+                  )}
                 >
                   {h}
                 </th>
