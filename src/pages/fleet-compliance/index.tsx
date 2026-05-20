@@ -55,6 +55,7 @@ export default function FleetCompliancePage() {
     governorateOptions,
     fleetBody,
     tankerTypeBody,
+    tankerTypeSubtitle,
     ready,
   } = useFleetComplianceFilters(
     lookupsState.data,
@@ -247,7 +248,12 @@ export default function FleetCompliancePage() {
             />
           }
         >
-          {(tankerData) => <FleetTankerTypeCompliance data={tankerData} />}
+          {(tankerData) => (
+            <FleetTankerTypeCompliance
+              data={tankerData}
+              subtitle={tankerTypeSubtitle}
+            />
+          )}
         </DashboardSection>
 
         <DashboardSection
