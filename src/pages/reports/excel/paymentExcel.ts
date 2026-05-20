@@ -1,13 +1,25 @@
 import type { PaymentReportResponse } from '@/types';
-import { downloadSheet } from './excelHelpers';
+import {
+  type ExcelColumn,
+  buildReportWorkbook,
+  downloadWorkbook,
+} from './excelHelpers';
 
-const HEADERS = ['Month', 'Inspector', 'Contractor', 'DW', 'SW', 'TE', 'Total'];
+const COLUMNS: ExcelColumn[] = [
+  { header: 'Month', width: 14 },
+  { header: 'Inspector', width: 24 },
+  { header: 'Contractor', width: 18 },
+  { header: 'DW', width: 10, align: 'right' },
+  { header: 'SW', width: 10, align: 'right' },
+  { header: 'TE', width: 10, align: 'right' },
+  { header: 'Total', width: 12, align: 'right' },
+];
 
-export function generatePaymentExcel(
+export async function generatePaymentExcel(
   report: PaymentReportResponse,
   periodLabel: string,
 ) {
-  const dataRows = report.rows.map((r) => [
+  const rows = report.rows.map((r) => [
     r.month,
     r.inspector,
     r.contractor,
@@ -17,7 +29,7 @@ export function generatePaymentExcel(
     r.total,
   ]);
 
-  const totalsRow: (string | number)[] = [
+  const totals: (string | number)[] = [
     `Totals · ${report.totals.inspectors} inspectors`,
     '',
     '',
@@ -27,9 +39,17 @@ export function generatePaymentExcel(
     report.totals.total,
   ];
 
-  downloadSheet(
-    [HEADERS, ...dataRows, totalsRow],
-    'Payment Report',
+  const wb = await buildReportWorkbook({
+    sheetName: 'Payment Report',
+    title: `Payment Report · ${periodLabel}`,
+    subtitle: 'Permits issued per inspector by tanker type',
+    columns: COLUMNS,
+    rows,
+    totals,
+  });
+
+  await downloadWorkbook(
+    wb,
     `payment-report-${periodLabel.replace(/\s+/g, '-')}.xlsx`,
   );
 }

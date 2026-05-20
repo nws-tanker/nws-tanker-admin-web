@@ -27,8 +27,10 @@ function rgb(c: readonly [number, number, number]) {
   return c;
 }
 
-export function createReportDoc() {
-  return new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+export function createReportDoc(
+  orientation: 'portrait' | 'landscape' = 'portrait',
+) {
+  return new jsPDF({ unit: 'mm', format: 'a4', orientation });
 }
 
 export function drawDocHeader(doc: jsPDF, title: string, subtitle: string) {

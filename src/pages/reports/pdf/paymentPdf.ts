@@ -8,20 +8,20 @@ import {
 } from './pdfHelpers';
 
 const COLUMNS: PdfColumn[] = [
-  { header: 'Month', width: 22 },
-  { header: 'Inspector', width: 48 },
-  { header: 'Contractor', width: 38 },
-  { header: 'DW', width: 18, align: 'right' },
-  { header: 'SW', width: 18, align: 'right' },
-  { header: 'TE', width: 18, align: 'right' },
-  { header: 'Total', width: 20, align: 'right' },
+  { header: 'Month', width: 26 },
+  { header: 'Inspector', width: 64 },
+  { header: 'Contractor', width: 48 },
+  { header: 'DW', width: 28, align: 'right' },
+  { header: 'SW', width: 28, align: 'right' },
+  { header: 'TE', width: 28, align: 'right' },
+  { header: 'Total', width: 34, align: 'right' },
 ];
 
 export function generatePaymentPdf(
   report: PaymentReportResponse,
   periodLabel: string,
 ) {
-  const doc = createReportDoc();
+  const doc = createReportDoc('landscape');
   drawDocHeader(
     doc,
     `Payment Report · ${periodLabel}`,

@@ -8,19 +8,19 @@ import {
 } from './pdfHelpers';
 
 const COLUMNS: PdfColumn[] = [
-  { header: 'Month', width: 22 },
-  { header: 'Contractor (Cluster)', width: 58 },
-  { header: 'Tanker Type', width: 22 },
-  { header: 'Inspections Approved', width: 32, align: 'right' },
-  { header: 'Samples Collected', width: 28, align: 'right' },
-  { header: 'Permits Issued', width: 20, align: 'right' },
+  { header: 'Month', width: 26 },
+  { header: 'Contractor (Cluster)', width: 72 },
+  { header: 'Tanker Type', width: 28 },
+  { header: 'Inspections Approved', width: 48, align: 'right' },
+  { header: 'Samples Collected', width: 44, align: 'right' },
+  { header: 'Permits Issued', width: 38, align: 'right' },
 ];
 
 export function generateInvoicePdf(
   report: InvoiceReportResponse,
   periodLabel: string,
 ) {
-  const doc = createReportDoc();
+  const doc = createReportDoc('landscape');
   drawDocHeader(
     doc,
     `Invoice Report · ${periodLabel}`,

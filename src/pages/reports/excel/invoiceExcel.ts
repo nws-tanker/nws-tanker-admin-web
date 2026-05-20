@@ -1,14 +1,18 @@
 import type { InvoiceReportResponse } from '@/types';
-import { downloadSheet } from './excelHelpers';
+import {
+  type ExcelColumn,
+  buildReportWorkbook,
+  downloadWorkbook,
+} from './excelHelpers';
 
-const HEADERS = [
-  'Month',
-  'Cluster',
-  'Governorate',
-  'Tanker Type',
-  'Inspections Approved',
-  'Samples Collected',
-  'Permits Issued',
+const COLUMNS: ExcelColumn[] = [
+  { header: 'Month', width: 14 },
+  { header: 'Cluster', width: 14 },
+  { header: 'Governorate', width: 22 },
+  { header: 'Tanker Type', width: 14 },
+  { header: 'Inspections Approved', width: 22, align: 'right' },
+  { header: 'Samples Collected', width: 20, align: 'right' },
+  { header: 'Permits Issued', width: 18, align: 'right' },
 ];
 
 function splitContractor(contractor: string): [string, string] {
@@ -16,11 +20,11 @@ function splitContractor(contractor: string): [string, string] {
   return [cluster ?? '', governorate ?? ''];
 }
 
-export function generateInvoiceExcel(
+export async function generateInvoiceExcel(
   report: InvoiceReportResponse,
   periodLabel: string,
 ) {
-  const dataRows = report.rows.map((r) => {
+  const rows = report.rows.map((r) => {
     const [cluster, governorate] = splitContractor(r.contractor);
     return [
       r.month,
@@ -33,7 +37,7 @@ export function generateInvoiceExcel(
     ];
   });
 
-  const totalsRow: (string | number)[] = [
+  const totals: (string | number)[] = [
     `Totals · ${periodLabel}`,
     '',
     '',
@@ -43,9 +47,17 @@ export function generateInvoiceExcel(
     report.totals.permits_issued,
   ];
 
-  downloadSheet(
-    [HEADERS, ...dataRows, totalsRow],
-    'Invoice Report',
+  const wb = await buildReportWorkbook({
+    sheetName: 'Invoice Report',
+    title: `Invoice Report · ${periodLabel}`,
+    subtitle: 'Inspections approved, samples collected and permits issued',
+    columns: COLUMNS,
+    rows,
+    totals,
+  });
+
+  await downloadWorkbook(
+    wb,
     `invoice-report-${periodLabel.replace(/\s+/g, '-')}.xlsx`,
   );
 }
