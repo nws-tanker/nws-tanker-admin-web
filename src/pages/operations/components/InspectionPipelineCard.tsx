@@ -1,7 +1,6 @@
 import { Badge, Button, EmptyState } from '@/atoms';
 import { TankerTypeChip } from '@/common-components/TankerTypeChip';
 import type { OperationInspectionItem } from '@/types';
-import { formatDate } from '@/utils';
 import {
   inspectionStatusLabel,
   inspectionStatusTone,
@@ -71,9 +70,7 @@ export function InspectionPipelineCard({ items, onOpenAll }: Props) {
                     <TankerTypeChip type={r.tanker_type} compact />
                   </td>
                   <td className="px-4 py-2.5 text-ink-500">{r.governorate}</td>
-                  <td className="px-4 py-2.5 text-ink-500">
-                    {formatDate(r.submitted_at)}
-                  </td>
+                  <td className="px-4 py-2.5 text-ink-500">{r.submitted_at}</td>
                   <td className="px-4 py-2.5">
                     <Badge tone={inspectionStatusTone(r.status)}>
                       {inspectionStatusLabel(r.status)}
