@@ -46,6 +46,13 @@ export type {
   InspectionTankerType,
 } from './inspection';
 export type {
+  OperationInspectionItem,
+  OperationInspectionsResponse,
+  OperationPermitRenewalItem,
+  OperationPermitRenewalsResponse,
+  OperationsSummary,
+} from './operations';
+export type {
   ClusterContractorBreakdownResponse,
   ClusterDetail,
   ClusterMetrics,
