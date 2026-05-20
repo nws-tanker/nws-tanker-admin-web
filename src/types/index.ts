@@ -72,3 +72,11 @@ export type {
   SummaryResponse,
   TankerTypeCompliance,
 } from './executiveDashboard';
+export type {
+  InvoiceReportResponse,
+  InvoiceReportRow,
+  InvoiceReportTotals,
+  PaymentReportResponse,
+  PaymentReportRow,
+  PaymentReportTotals,
+} from './reports';
