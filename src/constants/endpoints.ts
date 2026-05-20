@@ -39,4 +39,15 @@ export const ENDPOINTS = {
   operationsSummary: '/api/operations/summary',
   operationInspections: '/api/operations/inspection-pipeline?limit={limit}',
   operationsPermitRenewal: '/api/operations/permit-renewals?limit={limit}',
+  executiveDashboardSummary: '/api/executive-dashboard/summary',
+  executiveDashboardCompliance:
+    '/api/executive-dashboard/tanker-type-compliance',
+  executiveDashboardTrend: '/api/executive-dashboard/inspection-trend',
+  executiveDashboardCluster: '/api/executive-dashboard/cluster-breakdown',
+  executiveDashboardHeatmap: '/api/executive-dashboard/compliance-heatmap',
+  fleetComplianceKpi: '/api/fleet-compliance/kpi-summary',
+  fleetComplianceGovernorate: '/api/fleet-compliance/governorate-compliance',
+  fleetComplianceInspectorPerformance:
+    '/api/fleet-compliance/inspector-performance',
+  currentUser: '/api/users/me',
 } as const;

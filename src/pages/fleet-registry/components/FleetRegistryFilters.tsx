@@ -8,8 +8,8 @@ type Props = {
   hasActive: boolean;
   lookups: Lookups;
   onSearch: (value: string) => void;
-  onClusterIds: (next: string[]) => void;
-  onGovernorateIds: (next: string[]) => void;
+  onClusterIds: (next: number[]) => void;
+  onGovernorateIds: (next: number[]) => void;
   onTankerTypes: (next: TankerType[]) => void;
   onPermitStatuses: (next: PermitStatus[]) => void;
   onReset: () => void;
@@ -27,14 +27,14 @@ export function FleetRegistryFilters({
   onReset,
 }: Props) {
   const clusterOptions = useMemo<SelectOption[]>(
-    () => lookups.clusters.map((c) => ({ value: c.id, label: c.name })),
+    () => lookups.clusters.map((c) => ({ value: String(c.id), label: c.name })),
     [lookups.clusters],
   );
 
   const governorateOptions = useMemo<SelectOption[]>(
     () =>
       governoratesForClusters(lookups.governorates, filters.clusterIds).map(
-        (g) => ({ value: g.id, label: g.name }),
+        (g) => ({ value: String(g.id), label: g.name }),
       ),
     [lookups.governorates, filters.clusterIds],
   );
@@ -62,15 +62,15 @@ export function FleetRegistryFilters({
         <MultiSelect
           placeholder="All Clusters"
           options={clusterOptions}
-          value={filters.clusterIds}
-          onChange={onClusterIds}
+          value={filters.clusterIds.map(String)}
+          onChange={(vals) => onClusterIds(vals.map(Number))}
         />
       ) : null}
       <MultiSelect
         placeholder="All Governorates"
         options={governorateOptions}
-        value={filters.governorateIds}
-        onChange={onGovernorateIds}
+        value={filters.governorateIds.map(String)}
+        onChange={(vals) => onGovernorateIds(vals.map(Number))}
       />
       <MultiSelect<TankerType>
         placeholder="All Types"

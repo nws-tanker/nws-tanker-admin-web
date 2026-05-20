@@ -65,19 +65,20 @@ export default function RequeueInspectionModal({
       footer={
         <>
           <Button
-            variant="secondary"
-            onClick={handleClose}
-            disabled={submitting}
-          >
-            Cancel
-          </Button>
-          <Button
             variant="primary"
             onClick={handleSubmit}
             disabled={submitting}
             className="bg-orange-600 border-orange-600 hover:bg-orange-700 hover:border-orange-700"
           >
             {submitting ? 'Queuing…' : 'Confirm & Queue'}
+          </Button>
+
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            disabled={submitting}
+          >
+            Cancel
           </Button>
         </>
       }
