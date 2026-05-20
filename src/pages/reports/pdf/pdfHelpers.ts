@@ -1,4 +1,5 @@
 import { jsPDF } from 'jspdf';
+import logoUrl from '@/assets/nama-logo.jpeg';
 
 export type PdfColumn = {
   header: string;
@@ -18,7 +19,8 @@ const COLOR = {
   ink200: [229, 231, 235] as const,
   ink100: [243, 244, 246] as const,
   ink50: [249, 250, 251] as const,
-  teal: [15, 118, 110] as const,
+  brandTeal: [2, 71, 78] as const,
+  subtitleLight: [209, 250, 229] as const,
 };
 
 const FONT = 'helvetica';
@@ -27,27 +29,56 @@ function rgb(c: readonly [number, number, number]) {
   return c;
 }
 
+let cachedLogo: string | null = null;
+async function loadLogoDataUrl(): Promise<string> {
+  if (cachedLogo) return cachedLogo;
+  const res = await fetch(logoUrl);
+  const blob = await res.blob();
+  const dataUrl: string = await new Promise((resolve) => {
+    const fr = new FileReader();
+    fr.onload = () => resolve(fr.result as string);
+    fr.readAsDataURL(blob);
+  });
+  cachedLogo = dataUrl;
+  return dataUrl;
+}
+
 export function createReportDoc(
   orientation: 'portrait' | 'landscape' = 'portrait',
 ) {
   return new jsPDF({ unit: 'mm', format: 'a4', orientation });
 }
 
-export function drawDocHeader(doc: jsPDF, title: string, subtitle: string) {
-  const x = 14;
+export async function drawDocHeader(
+  doc: jsPDF,
+  title: string,
+  subtitle: string,
+) {
+  const margin = 14;
+  const pageW = doc.internal.pageSize.getWidth();
+  const logoW = 30;
+  const logoH = 18;
+  const bannerY = 10;
+  const bannerH = 18;
+  const bannerX = margin + logoW + 2;
+  const bannerW = pageW - margin - bannerX;
+
+  doc.setFillColor(...rgb(COLOR.brandTeal));
+  doc.rect(bannerX, bannerY, bannerW, bannerH, 'F');
+
+  const logoData = await loadLogoDataUrl();
+  doc.addImage(logoData, 'JPEG', margin, bannerY, logoW, logoH);
+
+  const textRightX = bannerX + bannerW - 4;
   doc.setFont(FONT, 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(...rgb(COLOR.ink900));
-  doc.text(title, x, 18);
+  doc.setFontSize(14);
+  doc.setTextColor(255, 255, 255);
+  doc.text(title, textRightX, bannerY + 8, { align: 'right' });
 
   doc.setFont(FONT, 'normal');
-  doc.setFontSize(10);
-  doc.setTextColor(...rgb(COLOR.ink500));
-  doc.text(subtitle, x, 24);
-
-  doc.setDrawColor(...rgb(COLOR.teal));
-  doc.setLineWidth(0.6);
-  doc.line(x, 27, x + 30, 27);
+  doc.setFontSize(9);
+  doc.setTextColor(...rgb(COLOR.subtitleLight));
+  doc.text(subtitle, textRightX, bannerY + 14, { align: 'right' });
 }
 
 const ROW_H = 8;

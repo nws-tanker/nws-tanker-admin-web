@@ -16,12 +16,12 @@ const COLUMNS: PdfColumn[] = [
   { header: 'Permits Issued', width: 38, align: 'right' },
 ];
 
-export function generateInvoicePdf(
+export async function generateInvoicePdf(
   report: InvoiceReportResponse,
   periodLabel: string,
 ) {
   const doc = createReportDoc('landscape');
-  drawDocHeader(
+  await drawDocHeader(
     doc,
     `Invoice Report · ${periodLabel}`,
     'Inspections approved, samples collected and permits issued per contractor',
@@ -50,6 +50,6 @@ export function generateInvoicePdf(
     ],
   };
 
-  drawTable(doc, 14, 33, COLUMNS, rows, totals);
+  drawTable(doc, 14, 34, COLUMNS, rows, totals);
   doc.save(`invoice-report-${periodLabel.replace(/\s+/g, '-')}.pdf`);
 }

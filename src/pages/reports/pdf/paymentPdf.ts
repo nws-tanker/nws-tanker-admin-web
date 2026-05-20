@@ -17,12 +17,12 @@ const COLUMNS: PdfColumn[] = [
   { header: 'Total', width: 34, align: 'right' },
 ];
 
-export function generatePaymentPdf(
+export async function generatePaymentPdf(
   report: PaymentReportResponse,
   periodLabel: string,
 ) {
   const doc = createReportDoc('landscape');
-  drawDocHeader(
+  await drawDocHeader(
     doc,
     `Payment Report · ${periodLabel}`,
     'Permits issued per inspector by tanker type',
@@ -53,6 +53,6 @@ export function generatePaymentPdf(
     ],
   };
 
-  drawTable(doc, 14, 33, COLUMNS, rows, totals);
+  drawTable(doc, 14, 34, COLUMNS, rows, totals);
   doc.save(`payment-report-${periodLabel.replace(/\s+/g, '-')}.pdf`);
 }
