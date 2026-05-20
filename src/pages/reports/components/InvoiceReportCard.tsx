@@ -1,7 +1,9 @@
 import { TankerTypeChip } from '@/common-components/TankerTypeChip';
 import type { InvoiceReportResponse } from '@/types';
-import { InvoiceExcelButton } from './InvoiceExcelButton';
-import { InvoicePdfButton } from './InvoicePdfButton';
+import { generateInvoiceExcel } from '../excel/invoiceExcel';
+import { generateInvoicePdf } from '../pdf/invoicePdf';
+import { ExcelExportButton } from './ExcelExportButton';
+import { PdfExportButton } from './PdfExportButton';
 
 type Props = {
   report: InvoiceReportResponse;
@@ -27,8 +29,14 @@ export function InvoiceReportCard({ report, periodLabel }: Props) {
           Invoice Report · {periodLabel}
         </h3>
         <div className="flex items-center gap-2">
-          <InvoiceExcelButton report={report} periodLabel={periodLabel} />
-          <InvoicePdfButton report={report} periodLabel={periodLabel} />
+          <ExcelExportButton
+            reportLabel="Invoice"
+            onExport={() => generateInvoiceExcel(report, periodLabel)}
+          />
+          <PdfExportButton
+            reportLabel="Invoice"
+            onExport={() => generateInvoicePdf(report, periodLabel)}
+          />
         </div>
       </div>
 

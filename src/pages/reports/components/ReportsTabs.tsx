@@ -1,3 +1,4 @@
+import { Button } from '@/atoms';
 import { cn } from '@/utils';
 
 export type ReportTabKey = 'invoice' | 'payment';
@@ -18,19 +19,19 @@ export function ReportsTabs({ active, onChange }: Props) {
       {TABS.map((t) => {
         const isActive = active === t.key;
         return (
-          <button
+          <Button
             key={t.key}
-            type="button"
+            variant="ghost"
             onClick={() => onChange(t.key)}
             className={cn(
-              'relative -mb-px px-4 py-2.5 text-[13px] font-medium transition-colors',
+              'relative -mb-px rounded-none border-x-0 border-t-0 border-b-2 px-4 py-2.5 text-[13px] font-medium hover:bg-transparent',
               isActive
-                ? 'border-b-2 border-teal-700 text-ink-900'
-                : 'border-b-2 border-transparent text-ink-500 hover:text-ink-700',
+                ? 'border-b-teal-700 text-ink-900'
+                : 'border-b-transparent text-ink-500 hover:text-ink-700',
             )}
           >
             {t.label}
-          </button>
+          </Button>
         );
       })}
     </div>

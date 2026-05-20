@@ -25,10 +25,6 @@ const COLOR = {
 
 const FONT = 'helvetica';
 
-function rgb(c: readonly [number, number, number]) {
-  return c;
-}
-
 let cachedLogo: string | null = null;
 async function loadLogoDataUrl(): Promise<string> {
   if (cachedLogo) return cachedLogo;
@@ -63,7 +59,7 @@ export async function drawDocHeader(
   const bannerX = margin + logoW + 2;
   const bannerW = pageW - margin - bannerX;
 
-  doc.setFillColor(...rgb(COLOR.brandTeal));
+  doc.setFillColor(...COLOR.brandTeal);
   doc.rect(bannerX, bannerY, bannerW, bannerH, 'F');
 
   const logoData = await loadLogoDataUrl();
@@ -77,7 +73,7 @@ export async function drawDocHeader(
 
   doc.setFont(FONT, 'normal');
   doc.setFontSize(9);
-  doc.setTextColor(...rgb(COLOR.subtitleLight));
+  doc.setTextColor(...COLOR.subtitleLight);
   doc.text(subtitle, textRightX, bannerY + 14, { align: 'right' });
 }
 
@@ -110,15 +106,15 @@ export function drawTable(
   const totalWidth = columns.reduce((s, c) => s + c.width, 0);
   let y = startY;
 
-  doc.setFillColor(...rgb(COLOR.ink50));
+  doc.setFillColor(...COLOR.ink50);
   doc.rect(startX, y, totalWidth, HEADER_H, 'F');
-  doc.setDrawColor(...rgb(COLOR.ink200));
+  doc.setDrawColor(...COLOR.ink200);
   doc.setLineWidth(0.2);
   doc.line(startX, y + HEADER_H, startX + totalWidth, y + HEADER_H);
 
   doc.setFont(FONT, 'bold');
   doc.setFontSize(8);
-  doc.setTextColor(...rgb(COLOR.ink500));
+  doc.setTextColor(...COLOR.ink500);
   let cx = startX;
   columns.forEach((col) => {
     drawCell(
@@ -144,21 +140,22 @@ export function drawTable(
       const align = col.align ?? 'left';
       const isLast = row.emphasizeLast && i === row.cells.length - 1;
       doc.setFont(FONT, isLast ? 'bold' : 'normal');
-      doc.setTextColor(...rgb(isLast ? COLOR.ink900 : COLOR.ink700));
+      const [cr, cg, cb] = isLast ? COLOR.ink900 : COLOR.ink700;
+      doc.setTextColor(cr, cg, cb);
       drawCell(doc, cell, cx, y, col.width, ROW_H, align);
       cx += col.width;
     });
-    doc.setDrawColor(...rgb(COLOR.ink100));
+    doc.setDrawColor(...COLOR.ink100);
     doc.line(startX, y + ROW_H, startX + totalWidth, y + ROW_H);
     y += ROW_H;
   });
 
   if (totals) {
-    doc.setFillColor(...rgb(COLOR.ink50));
+    doc.setFillColor(...COLOR.ink50);
     doc.rect(startX, y, totalWidth, ROW_H, 'F');
     cx = startX;
     doc.setFont(FONT, 'bold');
-    doc.setTextColor(...rgb(COLOR.ink900));
+    doc.setTextColor(...COLOR.ink900);
     totals.cells.forEach((cell, i) => {
       const col = columns[i];
       drawCell(doc, cell, cx, y, col.width, ROW_H, col.align ?? 'left');

@@ -1,6 +1,8 @@
 import type { PaymentReportResponse } from '@/types';
-import { PaymentExcelButton } from './PaymentExcelButton';
-import { PaymentPdfButton } from './PaymentPdfButton';
+import { generatePaymentExcel } from '../excel/paymentExcel';
+import { generatePaymentPdf } from '../pdf/paymentPdf';
+import { ExcelExportButton } from './ExcelExportButton';
+import { PdfExportButton } from './PdfExportButton';
 
 type Props = {
   report: PaymentReportResponse;
@@ -19,8 +21,14 @@ export function PaymentReportCard({ report, periodLabel }: Props) {
           Payment Report · {periodLabel}
         </h3>
         <div className="flex items-center gap-2">
-          <PaymentExcelButton report={report} periodLabel={periodLabel} />
-          <PaymentPdfButton report={report} periodLabel={periodLabel} />
+          <ExcelExportButton
+            reportLabel="Payment"
+            onExport={() => generatePaymentExcel(report, periodLabel)}
+          />
+          <PdfExportButton
+            reportLabel="Payment"
+            onExport={() => generatePaymentPdf(report, periodLabel)}
+          />
         </div>
       </div>
 

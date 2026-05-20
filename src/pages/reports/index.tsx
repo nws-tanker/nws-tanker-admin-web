@@ -1,17 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
 import { ScreenStatus } from '@/common-components/ScreenStatus';
 import { States } from '@/store/types';
 import { InvoiceReportCard } from './components/InvoiceReportCard';
 import { PaymentReportCard } from './components/PaymentReportCard';
+import { ReportCardSkeleton } from './components/ReportCardSkeleton';
 import { ReportsTabs, type ReportTabKey } from './components/ReportsTabs';
 import { useInvoiceReport } from './hooks/useInvoiceReport';
 import { usePaymentReport } from './hooks/usePaymentReport';
-
-function isLoading(state: States): boolean {
-  return state === States.LOADING || state === States.PRELOADING;
-}
 
 export default function ReportsPage() {
   const [activeTab, setActiveTab] = useState<ReportTabKey>('invoice');
@@ -19,23 +16,37 @@ export default function ReportsPage() {
   const invoice = useInvoiceReport();
   const payment = usePaymentReport();
 
-  const currentPeriod = useMemo(
-    () =>
-      new Date().toLocaleString(undefined, {
-        month: 'long',
-        year: 'numeric',
-      }),
-    [],
-  );
+  const currentPeriod = new Date().toLocaleString(undefined, {
+    month: 'long',
+    year: 'numeric',
+  });
 
-  const invoicePeriod = useMemo(
-    () => invoice.data?.rows[0]?.month ?? '',
-    [invoice.data],
-  );
-  const paymentPeriod = useMemo(
-    () => payment.data?.rows[0]?.month ?? '',
-    [payment.data],
-  );
+  const invoicePeriod = invoice.data?.rows[0]?.month ?? '';
+  const paymentPeriod = payment.data?.rows[0]?.month ?? '';
+
+  const renderInvoice = () => {
+    if (invoice.state === States.ERROR) {
+      return <ScreenStatus state={invoice.state} onRetry={invoice.retry} />;
+    }
+    if (!invoice.data) {
+      return <ReportCardSkeleton />;
+    }
+    return (
+      <InvoiceReportCard report={invoice.data} periodLabel={invoicePeriod} />
+    );
+  };
+
+  const renderPayment = () => {
+    if (payment.state === States.ERROR) {
+      return <ScreenStatus state={payment.state} onRetry={payment.retry} />;
+    }
+    if (!payment.data) {
+      return <ReportCardSkeleton />;
+    }
+    return (
+      <PaymentReportCard report={payment.data} periodLabel={paymentPeriod} />
+    );
+  };
 
   return (
     <AppShell breadcrumbs={['Home', 'Reports']}>
@@ -50,27 +61,7 @@ export default function ReportsPage() {
         </div>
 
         <div className="mt-5">
-          {activeTab === 'invoice' ? (
-            invoice.state === States.ERROR ? (
-              <ScreenStatus state={invoice.state} onRetry={invoice.retry} />
-            ) : isLoading(invoice.state) || !invoice.data ? (
-              <ScreenStatus state={States.LOADING} />
-            ) : (
-              <InvoiceReportCard
-                report={invoice.data}
-                periodLabel={invoicePeriod}
-              />
-            )
-          ) : payment.state === States.ERROR ? (
-            <ScreenStatus state={payment.state} onRetry={payment.retry} />
-          ) : isLoading(payment.state) || !payment.data ? (
-            <ScreenStatus state={States.LOADING} />
-          ) : (
-            <PaymentReportCard
-              report={payment.data}
-              periodLabel={paymentPeriod}
-            />
-          )}
+          {activeTab === 'invoice' ? renderInvoice() : renderPayment()}
         </div>
       </div>
     </AppShell>
