@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useToast } from '@/atoms';
 import { saveInspectionChecklist } from '@/services/configurationService';
 import type {
+  CommentAppliesTo,
   InspectionDataToBeEdited,
   NewChecklistItemData,
 } from '@/types/configuration';
@@ -33,6 +34,8 @@ export function useInspectionChecklistForm() {
           appliesToSw: item.appliesToSw,
           appliesToTe: item.appliesToTe,
           sortOrder: item.sortOrder,
+          isYesComment: item.isYesComment,
+          isNoComment: item.isNoComment,
         })),
       })),
     });
@@ -62,6 +65,7 @@ export function useInspectionChecklistForm() {
     severity: string,
     evidenceType: string,
     appliesTo: { dw: boolean; sw: boolean; te: boolean },
+    commentAppliesTo: CommentAppliesTo,
   ) {
     setDataToBeEdited((prev) => ({
       categories: prev.categories.map((cat) =>
@@ -79,6 +83,8 @@ export function useInspectionChecklistForm() {
                       appliesToDw: appliesTo.dw,
                       appliesToSw: appliesTo.sw,
                       appliesToTe: appliesTo.te,
+                      isYesComment: commentAppliesTo.yes,
+                      isNoComment: commentAppliesTo.no,
                     },
               ),
             },
@@ -111,6 +117,8 @@ export function useInspectionChecklistForm() {
               appliesToSw: newItem.appliesToSw,
               appliesToTe: newItem.appliesToTe,
               sortOrder: maxSortOrder + 1,
+              isYesComment: newItem.isYesComment,
+              isNoComment: newItem.isNoComment,
             },
           ],
         };
