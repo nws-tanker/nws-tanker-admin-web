@@ -52,4 +52,6 @@ export const ENDPOINTS = {
   fleetComplianceInspectorPerformance:
     '/api/fleet-compliance/inspector-performance',
   currentUser: '/api/users/me',
+  invoiceReport: '/api/reports/invoice-report',
+  paymentReport: '/api/reports/payment-report',
 } as const;
