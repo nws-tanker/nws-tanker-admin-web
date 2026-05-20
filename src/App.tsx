@@ -19,6 +19,7 @@ import ConfigurationPage from './pages/configuration';
 import InspectionPage from './pages/inspection';
 import InspectionDetailsPage from '@/pages/inspection-details';
 import OperationsPage from '@/pages/operations';
+import ReportsPage from './pages/reports';
 
 const ExecutiveDashboard = lazy(() => import('@/pages/dashboard'));
 const FleetCompliancePage = lazy(() => import('@/pages/fleet-compliance'));
@@ -120,7 +121,7 @@ export default function App() {
         path={ROUTES.reports}
         element={
           <ProtectedRoute route="reports">
-            <PlaceholderPage title="Reports" />
+            <ReportsPage />
           </ProtectedRoute>
         }
       />
