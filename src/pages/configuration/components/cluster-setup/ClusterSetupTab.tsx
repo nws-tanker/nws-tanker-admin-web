@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react';
-import { Button, useToast } from '@/atoms';
-import { updateGovernorateClusterMappingApi } from '@/services/configurationService';
+import { useCallback, useEffect, useState } from 'react';
+import { Button } from '@/atoms';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchClusterSetup } from '@/store/apiSlices/clusterSetupApiSlice';
 import { States } from '@/store/types';
 import { ClusterContractorsCard } from './ClusterContractorsCard';
 import { ClusterKpiStrip } from './ClusterKpiStrip';
 import { GovernorateAssignmentCard } from './GovernorateAssignmentCard';
-import { buildMappingsPayload } from './governorateAssignmentHelpers';
 import { OnboardContractorCard } from './OnboardContractorCard';
+import { useGovAssignmentSave } from './useGovAssignmentSave';
 
 export function ClusterSetupTab() {
   const dispatch = useAppDispatch();
-  const toast = useToast();
   const { apiState, data, error } = useAppSelector((s) => s.clusterSetupApi);
 
   const [govAssignments, setGovAssignments] = useState<Record<string, number>>(
@@ -21,30 +19,17 @@ export function ClusterSetupTab() {
   const [contractorAssignments, setContractorAssignments] = useState<
     Record<string, number>
   >({});
-  const [savingGov, setSavingGov] = useState(false);
 
-  const handleSaveGov = async () => {
-    if (!data) return;
-    setSavingGov(true);
-    try {
-      const response = await updateGovernorateClusterMappingApi({
-        mappings: buildMappingsPayload(data.governorates, govAssignments),
-      });
-      if (response.success) {
-        toast.show('Governorate assignments saved');
-        dispatch(fetchClusterSetup());
-      } else {
-        toast.show(
-          response.error?.description ?? 'Failed to save assignments',
-          { tone: 'error' },
-        );
-      }
-    } catch {
-      toast.show('Failed to save assignments', { tone: 'error' });
-    } finally {
-      setSavingGov(false);
-    }
-  };
+  const onSaveSuccess = useCallback(
+    () => dispatch(fetchClusterSetup()),
+    [dispatch],
+  );
+
+  const { save: handleSaveGov, saving: savingGov } = useGovAssignmentSave(
+    data?.governorates ?? [],
+    govAssignments,
+    onSaveSuccess,
+  );
 
   useEffect(() => {
     dispatch(fetchClusterSetup());
@@ -127,7 +112,7 @@ export function ClusterSetupTab() {
             <Button
               variant="primary"
               onClick={handleSaveGov}
-              disabled={savingGov}
+              disabled={savingGov || !data}
             >
               {savingGov ? 'Saving…' : 'Save Changes'}
             </Button>
