@@ -45,3 +45,30 @@ export type {
   InspectionTabCounts,
   InspectionTankerType,
 } from './inspection';
+export type {
+  OperationInspectionItem,
+  OperationInspectionsResponse,
+  OperationPermitRenewalItem,
+  OperationPermitRenewalsResponse,
+  OperationsSummary,
+} from './operations';
+export type {
+  ClusterContractorBreakdownResponse,
+  ClusterDetail,
+  ClusterMetrics,
+  ComplianceByTankerTypeResponse,
+  ComplianceHeatmapResponse,
+  DashboardParams,
+  ExecutiveDashboardLookupsResponse,
+  FiscalYear,
+  FiscalYearBound,
+  GovernorateAverage,
+  HeatmapCell,
+  HeatmapRow,
+  InspectionTotals,
+  MonthlyInspectionSeries,
+  MonthlyInspectionTrendResponse,
+  Quarter,
+  SummaryResponse,
+  TankerTypeCompliance,
+} from './executiveDashboard';

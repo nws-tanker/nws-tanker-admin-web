@@ -16,10 +16,12 @@ export const EMPTY_FILTERS: FleetFilters = {
  */
 export function governoratesForClusters(
   governorates: Governorate[],
-  selectedClusterIds: string[],
+  selectedClusterIds: number[],
 ): Governorate[] {
   if (selectedClusterIds.length === 0) return governorates;
-  return governorates.filter((g) => selectedClusterIds.includes(g.clusterId));
+  return governorates.filter((g) =>
+    selectedClusterIds.some((id) => String(id) === g.clusterId),
+  );
 }
 
 export function filterTankers(

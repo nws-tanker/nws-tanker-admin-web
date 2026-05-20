@@ -1,7 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES, firstAllowedPath } from '@/constants/routes';
 import ProtectedRoute from '@/common-components/ProtectedRoute';
 import { useAuthBootstrap } from '@/hooks/useAuthBootstrap';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useAppSelector } from '@/store';
 import {
   selectIsAuthenticated,
@@ -16,9 +18,14 @@ import ForbiddenPage from '@/pages/forbidden';
 import ConfigurationPage from './pages/configuration';
 import InspectionPage from './pages/inspection';
 import InspectionDetailsPage from '@/pages/inspection-details';
+import OperationsPage from '@/pages/operations';
+
+const ExecutiveDashboard = lazy(() => import('@/pages/dashboard'));
+const FleetCompliancePage = lazy(() => import('@/pages/fleet-compliance'));
 
 export default function App() {
   useAuthBootstrap();
+  useCurrentUser();
 
   const isBootstrapped = useAppSelector(selectIsBootstrapped);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
@@ -77,7 +84,9 @@ export default function App() {
         path={ROUTES.dashboard}
         element={
           <ProtectedRoute route="dashboard">
-            <PlaceholderPage title="Executive Dashboard" />
+            <Suspense fallback={null}>
+              <ExecutiveDashboard />
+            </Suspense>
           </ProtectedRoute>
         }
       />
@@ -85,7 +94,7 @@ export default function App() {
         path={ROUTES.operations}
         element={
           <ProtectedRoute route="operations">
-            <PlaceholderPage title="Operations" />
+            <OperationsPage />
           </ProtectedRoute>
         }
       />
@@ -93,7 +102,9 @@ export default function App() {
         path={ROUTES.fleetCompliance}
         element={
           <ProtectedRoute route="fleetCompliance">
-            <PlaceholderPage title="Fleet Compliance" />
+            <Suspense fallback={null}>
+              <FleetCompliancePage />
+            </Suspense>
           </ProtectedRoute>
         }
       />
