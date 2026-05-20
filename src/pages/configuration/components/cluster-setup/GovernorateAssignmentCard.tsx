@@ -1,18 +1,23 @@
-import { ClusterPill } from '@/atoms/ClusterPill';
-import {
-  CLUSTER_COLORS,
-  DEFAULT_CLUSTER_COLOR,
-} from '@/constants/configuration';
+import { useMemo, useState } from 'react';
+import { Button, useToast } from '@/atoms';
+import { updateGovernorateClusterMappingApi } from '@/services/configurationService';
 import type {
   ClusterSetupCluster,
   ClusterSetupGovernorate,
 } from '@/types/configuration';
+import { GovernorateAssignmentRow } from './GovernorateAssignmentRow';
+import {
+  buildMappingsPayload,
+  countTotalTankers,
+  sortGovernoratesByCluster,
+} from './governorateAssignmentHelpers';
 
 type Props = {
   governorates: ClusterSetupGovernorate[];
   clusters: ClusterSetupCluster[];
   assignments: Record<string, number>;
   onAssign: (governorate: string, clusterId: number) => void;
+  onSaved?: () => void;
 };
 
 export function GovernorateAssignmentCard({
@@ -20,11 +25,38 @@ export function GovernorateAssignmentCard({
   clusters,
   assignments,
   onAssign,
+  onSaved,
 }: Props) {
-  const totalTankers = governorates.reduce(
-    (s, g) => s + g.dwCount + g.swCount + g.teCount,
-    0,
+  const toast = useToast();
+  const [saving, setSaving] = useState(false);
+
+  const totalTankers = countTotalTankers(governorates);
+  const sortedGovernorates = useMemo(
+    () => sortGovernoratesByCluster(governorates, clusters, assignments),
+    [governorates, clusters, assignments],
   );
+
+  const handleSubmit = async () => {
+    setSaving(true);
+    try {
+      const response = await updateGovernorateClusterMappingApi({
+        mappings: buildMappingsPayload(governorates, assignments),
+      });
+      if (response.success) {
+        toast.show('Governorate assignments saved');
+        onSaved?.();
+      } else {
+        toast.show(
+          response.error?.description ?? 'Failed to save assignments',
+          { tone: 'error' },
+        );
+      }
+    } catch {
+      toast.show('Failed to save assignments', { tone: 'error' });
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <div className="rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
@@ -61,36 +93,24 @@ export function GovernorateAssignmentCard({
             </tr>
           </thead>
           <tbody>
-            {governorates.map((g, i) => (
-              <tr
+            {sortedGovernorates.map((g, i) => (
+              <GovernorateAssignmentRow
                 key={g.id}
-                className="border-b border-ink-100 last:border-0 hover:bg-ink-50"
-              >
-                <td className="px-4 py-2.5 font-mono text-[12px] text-ink-400">
-                  {String(i + 1).padStart(2, '0')}
-                </td>
-                <td className="px-4 py-2.5 font-medium text-ink-800">
-                  {g.name}
-                </td>
-                <td className="px-4 py-2.5">
-                  <div className="flex flex-wrap gap-1">
-                    {clusters.map((c) => (
-                      <ClusterPill
-                        key={c.clusterId}
-                        label={c.name}
-                        color={
-                          CLUSTER_COLORS[c.clusterId] ?? DEFAULT_CLUSTER_COLOR
-                        }
-                        active={assignments[g.name] === c.clusterId}
-                        onClick={() => onAssign(g.name, c.clusterId)}
-                      />
-                    ))}
-                  </div>
-                </td>
-              </tr>
+                index={i}
+                governorate={g}
+                clusters={clusters}
+                selectedClusterId={assignments[g.name]}
+                onAssign={onAssign}
+              />
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex justify-end border-t border-ink-200 px-5 py-3">
+        <Button variant="primary" onClick={handleSubmit} disabled={saving}>
+          {saving ? 'Saving…' : 'Save Changes'}
+        </Button>
       </div>
     </div>
   );
