@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/atoms';
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { PhotoViewerModal, ViewerState } from './PhotoViewerModal';
@@ -6,21 +6,14 @@ import { PhotoViewerModal, ViewerState } from './PhotoViewerModal';
 type Props = { data: InspectionDetailsApiResponse };
 
 export function RequiredDocuments({ data }: Props) {
-  const docs = useMemo(
-    () => data.inspection.required_documents ?? [],
-    [data.inspection.required_documents],
-  );
+  const docs = data.inspection.required_documents;
   const [viewer, setViewer] = useState<ViewerState | null>(null);
 
-  const photos = useMemo(
-    () =>
-      docs.map((d) => ({
-        id: d.id,
-        url: d.presigned_url,
-        thumb: d.presigned_thumbnail_url,
-      })),
-    [docs],
-  );
+  const photos = docs.map((d) => ({
+    id: d.id,
+    url: d.presigned_url,
+    thumb: d.presigned_thumbnail_url,
+  }));
 
   return (
     <>

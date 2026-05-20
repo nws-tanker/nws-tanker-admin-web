@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, useToast } from '@/atoms';
 import { updateGovernorateClusterMappingApi } from '@/services/configurationService';
 import type {
@@ -31,10 +31,9 @@ export function GovernorateAssignmentCard({
   const [saving, setSaving] = useState(false);
 
   const totalTankers = countTotalTankers(governorates);
-  const sortedGovernorates = sortGovernoratesByCluster(
-    governorates,
-    clusters,
-    assignments,
+  const sortedGovernorates = useMemo(
+    () => sortGovernoratesByCluster(governorates, clusters, assignments),
+    [governorates, clusters, assignments],
   );
 
   const handleSubmit = async () => {

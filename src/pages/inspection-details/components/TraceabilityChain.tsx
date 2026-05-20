@@ -6,6 +6,16 @@ type Step = { label: string; ref: string; done: boolean };
 
 type Props = { data: InspectionDetailsApiResponse };
 
+function sampleDispatchedRef(
+  dispatched: boolean,
+  date: string | undefined,
+  status: string,
+): string {
+  if (dispatched && date) return formatDate(date);
+  if (status === 'submitted') return 'Pending';
+  return '—';
+}
+
 function buildSteps(data: InspectionDetailsApiResponse): Step[] {
   const { tanker, assignment, lab, permit, status, timeline } = data;
   const isDW = tanker.type === 'DW';
@@ -41,11 +51,7 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
       },
       {
         label: 'Sample\nDispatched',
-        ref: sampleDispatched
-          ? formatDate(sampleDispatchedAt)
-          : status === 'submitted'
-            ? 'Pending'
-            : '—',
+        ref: sampleDispatchedRef(sampleDispatched, sampleDispatchedAt, status),
         done: sampleDispatched,
       },
       {

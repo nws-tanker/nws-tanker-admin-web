@@ -1,3 +1,10 @@
+export type InspectionDocument = {
+  id: string;
+  presigned_url: string;
+  presigned_thumbnail_url: string | null;
+  presigned_url_expires_at: string;
+};
+
 export const INSPECTION_TANKER_TYPE = {
   DW: 'DW',
   SW: 'SW',
@@ -142,14 +149,9 @@ export type InspectionDetailsApiResponse = {
       pass: number;
       fail: number | null;
     };
-    final_result: 'fit' | 'not_fit' | 'fit-with-remarks';
+    final_result: 'fit' | 'not_fit' | 'fit_with_remarks';
     inspector_comments: string | null;
-    required_documents: {
-      id: string;
-      presigned_url: string;
-      presigned_thumbnail_url: string | null;
-      presigned_url_expires_at: string;
-    }[];
+    required_documents: InspectionDocument[];
   };
   lab: {
     required: boolean;
