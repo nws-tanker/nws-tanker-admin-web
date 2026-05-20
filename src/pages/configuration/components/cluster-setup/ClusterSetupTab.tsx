@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/atoms';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchClusterSetup } from '@/store/apiSlices/clusterSetupApiSlice';
@@ -7,6 +7,7 @@ import { ClusterContractorsCard } from './ClusterContractorsCard';
 import { ClusterKpiStrip } from './ClusterKpiStrip';
 import { GovernorateAssignmentCard } from './GovernorateAssignmentCard';
 import { OnboardContractorCard } from './OnboardContractorCard';
+import { useGovAssignmentSave } from './useGovAssignmentSave';
 
 export function ClusterSetupTab() {
   const dispatch = useAppDispatch();
@@ -18,6 +19,17 @@ export function ClusterSetupTab() {
   const [contractorAssignments, setContractorAssignments] = useState<
     Record<string, number>
   >({});
+
+  const onSaveSuccess = useCallback(
+    () => dispatch(fetchClusterSetup()),
+    [dispatch],
+  );
+
+  const { save: handleSaveGov, saving: savingGov } = useGovAssignmentSave(
+    data?.governorates ?? [],
+    govAssignments,
+    onSaveSuccess,
+  );
 
   useEffect(() => {
     dispatch(fetchClusterSetup());
@@ -84,7 +96,6 @@ export function ClusterSetupTab() {
           clusters={data.clusters}
           assignments={govAssignments}
           onAssign={handleGovAssign}
-          onSaved={() => dispatch(fetchClusterSetup())}
         />
 
         <div className="flex flex-col gap-4">
@@ -98,7 +109,13 @@ export function ClusterSetupTab() {
             onSuccess={() => dispatch(fetchClusterSetup())}
           />
           <div className="flex justify-end">
-            <Button variant="primary">Save Changes</Button>
+            <Button
+              variant="primary"
+              onClick={handleSaveGov}
+              disabled={savingGov || !data}
+            >
+              {savingGov ? 'Saving…' : 'Save Changes'}
+            </Button>
           </div>
         </div>
       </div>
