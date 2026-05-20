@@ -1,13 +1,11 @@
+import { BANNER_GRADIENT } from './FleetBanner';
 import SkeletonBlock from './SkeletonBlock';
 
 export default function FleetBannerSkeleton() {
   return (
     <div
       className="relative mb-5 overflow-hidden rounded-card-lg px-6 py-5"
-      style={{
-        background:
-          'linear-gradient(135deg, #02474E 0%, #0A5E66 60%, #117680 100%)',
-      }}
+      style={BANNER_GRADIENT}
     >
       <div className="relative flex flex-wrap items-center justify-between gap-6">
         <div className="flex items-center gap-12">

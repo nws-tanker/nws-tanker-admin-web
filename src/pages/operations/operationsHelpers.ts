@@ -31,7 +31,15 @@ export function daysUntil(iso: string, now: Date = new Date()): number {
   return Math.ceil((target - now.getTime()) / (1000 * 60 * 60 * 24));
 }
 
+export function formatDaysLeft(days: number): string {
+  if (days > 0) return `${days} days`;
+  if (days === 0) return 'Today';
+  const abs = Math.abs(days);
+  return abs === 1 ? '1 day ago' : `${abs} days ago`;
+}
+
 export function daysLeftTone(days: number): BadgeTone {
+  if (days <= 0) return 'red';
   if (days <= 7) return 'red';
   if (days <= 14) return 'amber';
   return 'gray';

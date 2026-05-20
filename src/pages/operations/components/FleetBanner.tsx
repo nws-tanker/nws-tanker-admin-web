@@ -1,4 +1,27 @@
+import type { CSSProperties } from 'react';
 import type { OperationsSummary } from '@/types';
+
+export const BANNER_GRADIENT = {
+  background: 'linear-gradient(135deg, #02474E 0%, #0A5E66 60%, #117680 100%)',
+} as const;
+
+const CIRCLE_TOP: CSSProperties = {
+  right: -40,
+  top: -40,
+  width: 240,
+  height: 240,
+  borderRadius: '50%',
+  background: 'rgba(255,255,255,0.04)',
+};
+
+const CIRCLE_BOTTOM: CSSProperties = {
+  right: 40,
+  bottom: -60,
+  width: 180,
+  height: 180,
+  borderRadius: '50%',
+  background: 'rgba(255,255,255,0.03)',
+};
 
 type Props = {
   summary: OperationsSummary;
@@ -22,50 +45,27 @@ export function FleetBanner({ summary }: Props) {
     {
       label: 'Pass Rate',
       value: `${compliance.pass_rate}%`,
-      valueClass: 'text-[#6EE7B7]',
+      valueClass: 'text-emerald-300',
     },
     {
       label: 'Lab SLA',
       value: `${compliance.lab_sla_rate}%`,
-      valueClass: 'text-[#FBBF24]',
+      valueClass: 'text-yellow-400',
     },
     {
       label: 'Lab Overdue',
       value: String(compliance.lab_overdue_count),
-      valueClass: 'text-[#F87171]',
+      valueClass: 'text-red-400',
     },
   ];
 
   return (
     <div
       className="relative mb-5 overflow-hidden rounded-card-lg px-6 py-5 text-white"
-      style={{
-        background:
-          'linear-gradient(135deg, #02474E 0%, #0A5E66 60%, #117680 100%)',
-      }}
+      style={BANNER_GRADIENT}
     >
-      <div
-        className="pointer-events-none absolute"
-        style={{
-          right: -40,
-          top: -40,
-          width: 240,
-          height: 240,
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.04)',
-        }}
-      />
-      <div
-        className="pointer-events-none absolute"
-        style={{
-          right: 40,
-          bottom: -60,
-          width: 180,
-          height: 180,
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.03)',
-        }}
-      />
+      <div className="pointer-events-none absolute" style={CIRCLE_TOP} />
+      <div className="pointer-events-none absolute" style={CIRCLE_BOTTOM} />
       <div className="relative flex flex-wrap items-center justify-between gap-6">
         <div className="flex items-center gap-12">
           <div>

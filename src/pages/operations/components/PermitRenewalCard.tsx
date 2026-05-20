@@ -1,9 +1,8 @@
 import { Badge, Button, EmptyState } from '@/atoms';
 import { TankerTypeChip } from '@/common-components/TankerTypeChip';
-import type { InspectionTankerType } from '@/types/inspection';
 import type { OperationPermitRenewalItem } from '@/types';
 import { formatDate } from '@/utils';
-import { daysLeftTone, daysUntil } from '../operationsHelpers';
+import { daysLeftTone, daysUntil, formatDaysLeft } from '../operationsHelpers';
 
 const HEADERS = ['Plate', 'Owner', 'Type', 'Expires', 'Days left', ''];
 
@@ -45,9 +44,9 @@ export function PermitRenewalCard({
           <table className="w-full text-[13px]">
             <thead>
               <tr>
-                {HEADERS.map((h, i) => (
+                {HEADERS.map((h) => (
                   <th
-                    key={i}
+                    key={h}
                     className="whitespace-nowrap border-b border-ink-200 bg-ink-50 px-4 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-ink-500"
                   >
                     {h}
@@ -68,16 +67,15 @@ export function PermitRenewalCard({
                     </td>
                     <td className="px-4 py-2.5 text-ink-700">{r.owner_name}</td>
                     <td className="px-4 py-2.5">
-                      <TankerTypeChip
-                        type={r.tanker_type as InspectionTankerType}
-                        compact
-                      />
+                      <TankerTypeChip type={r.tanker_type} compact />
                     </td>
                     <td className="px-4 py-2.5 font-mono text-[12px] text-ink-700">
                       {formatDate(r.expires_at)}
                     </td>
                     <td className="px-4 py-2.5">
-                      <Badge tone={daysLeftTone(days)}>{days} days</Badge>
+                      <Badge tone={daysLeftTone(days)}>
+                        {formatDaysLeft(days)}
+                      </Badge>
                     </td>
                     <td className="px-4 py-2.5 text-right">
                       <Button

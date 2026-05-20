@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { PageHeader } from '@/atoms';
 import { AppShell } from '@/common-components/AppShell';
+import { ScreenStatus } from '@/common-components/ScreenStatus';
 import { ROUTES } from '@/constants/routes';
 import { States } from '@/store/types';
 import { formatDate } from '@/utils';
@@ -14,6 +15,7 @@ import TableCardSkeleton from './components/TableCardSkeleton';
 import { useOperationInspections } from './hooks/useOperationInspections';
 import { useOperationPermitRenewals } from './hooks/useOperationPermitRenewals';
 import { useOperationsSummary } from './hooks/useOperationsSummary';
+
 const INSPECTIONS_LIMIT = 10;
 const RENEWALS_LIMIT = 10;
 
@@ -41,7 +43,9 @@ export default function OperationsPage() {
       <div className="flex flex-col px-7 pt-7 pb-6">
         <PageHeader title="Operations Dashboard" subtitle={subtitle} />
 
-        {isLoading(summary.state) || !summary.data ? (
+        {summary.state === States.ERROR ? (
+          <ScreenStatus state={summary.state} onRetry={summary.retry} />
+        ) : isLoading(summary.state) || !summary.data ? (
           <>
             <FleetBannerSkeleton />
             <OperationsKpiGridSkeleton />
@@ -54,7 +58,12 @@ export default function OperationsPage() {
         )}
 
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-          {isLoading(inspections.state) || !inspections.data ? (
+          {inspections.state === States.ERROR ? (
+            <ScreenStatus
+              state={inspections.state}
+              onRetry={inspections.retry}
+            />
+          ) : isLoading(inspections.state) || !inspections.data ? (
             <TableCardSkeleton title="Inspection Pipeline" columns={6} />
           ) : (
             <InspectionPipelineCard
@@ -63,7 +72,9 @@ export default function OperationsPage() {
             />
           )}
 
-          {isLoading(renewals.state) || !renewals.data ? (
+          {renewals.state === States.ERROR ? (
+            <ScreenStatus state={renewals.state} onRetry={renewals.retry} />
+          ) : isLoading(renewals.state) || !renewals.data ? (
             <TableCardSkeleton title="Permit Renewal Queue" columns={5} />
           ) : (
             <PermitRenewalCard
