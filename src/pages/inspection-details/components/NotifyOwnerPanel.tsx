@@ -18,10 +18,11 @@ export function NotifyOwnerPanel({ data }: Props) {
   const phone = data.tanker.owner.phone;
   const email = data.tanker.owner.email;
   const hasChannel = sendWhatsapp || sendEmail;
+  const hasContact = Boolean(phone) || Boolean(email);
   const permitGenerated = data.permit.permit_number !== null;
 
   const handleSend = async () => {
-    if (!hasChannel) return;
+    if (!hasChannel || !hasContact) return;
     setSubmitting(true);
     try {
       const res = await sendNotificationApi({
@@ -99,12 +100,20 @@ export function NotifyOwnerPanel({ data }: Props) {
             be notified once the permit is issued.
           </div>
         )}
+        {!hasContact && (
+          <div className="rounded-card border border-amber-100 bg-amber-50 px-3 py-2 text-[11px] leading-snug text-amber-800">
+            Neither a phone number nor an email address is available for this
+            owner, so notifications cannot be sent.
+          </div>
+        )}
         <Button
           variant="primary"
           size="lg"
           className="w-full justify-center"
           onClick={handleSend}
-          disabled={submitting || !hasChannel || !permitGenerated}
+          disabled={
+            submitting || !hasChannel || !permitGenerated || !hasContact
+          }
         >
           {submitting ? 'Sending…' : 'Send Now'}
         </Button>

@@ -13,8 +13,11 @@ const TONES = {
   TE: 'green',
 } as const;
 
-type Props = { type: InspectionTankerType };
+type Props = {
+  type: InspectionTankerType;
+  compact?: boolean;
+};
 
-export function TankerTypeChip({ type }: Props) {
-  return <Chip tone={TONES[type]}>{LABELS[type]}</Chip>;
+export function TankerTypeChip({ type, compact = false }: Props) {
+  return <Chip tone={TONES[type]}>{compact ? type : LABELS[type]}</Chip>;
 }

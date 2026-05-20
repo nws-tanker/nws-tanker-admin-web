@@ -1,7 +1,10 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchExecutiveDashboardSummary } from '@/store/apiSlices/executiveDashboardSummaryApiSlice';
-import { fetchExecutiveDashboardCompliance } from '@/store/apiSlices/executiveDashboardComplianceApiSlice';
+import {
+  fetchExecutiveDashboardCompliance,
+  resetExecutiveDashboardCompliance,
+} from '@/store/apiSlices/executiveDashboardComplianceApiSlice';
 import { fetchExecutiveDashboardTrend } from '@/store/apiSlices/executiveDashboardTrendApiSlice';
 import { fetchExecutiveDashboardCluster } from '@/store/apiSlices/executiveDashboardClusterApiSlice';
 import { fetchExecutiveDashboardHeatmap } from '@/store/apiSlices/executiveDashboardHeatmapApiSlice';
@@ -9,14 +12,15 @@ import type { DashboardParams } from '@/types/executiveDashboard';
 import type { ExecutiveDashboardFilters } from './useExecutiveDashboardFilters';
 
 function buildParams(filters: ExecutiveDashboardFilters): DashboardParams {
-  const params: DashboardParams = {};
-  if (filters.fiscalYears.length > 0) params.fiscal_years = filters.fiscalYears;
-  if (filters.quarters.length > 0) params.quarters = filters.quarters;
-  if (filters.clusterIds.length > 0) params.clusters = filters.clusterIds;
-  return params;
+  return {
+    fiscal_years: filters.fiscalYears,
+    quarters: filters.quarters,
+    clusters: filters.clusterIds,
+    governorates: [],
+  };
 }
 
-export function useExecutiveDashboardData(filters: ExecutiveDashboardFilters) {
+export function useExecutiveDashboardData() {
   const dispatch = useAppDispatch();
 
   const summaryState = useAppSelector((s) => s.executiveDashboardSummaryApi);
@@ -27,21 +31,23 @@ export function useExecutiveDashboardData(filters: ExecutiveDashboardFilters) {
   const clusterState = useAppSelector((s) => s.executiveDashboardClusterApi);
   const heatmapState = useAppSelector((s) => s.executiveDashboardHeatmapApi);
 
-  const { fiscalYears, quarters, clusterIds } = filters;
-  // Stable string keys prevent unnecessary re-fetches when array references change but values don't
-  const fiscalYearsKey = fiscalYears.join(',');
-  const quartersKey = quarters.join(',');
-  const clusterIdsKey = clusterIds.join(',');
-
   useEffect(() => {
-    const params = buildParams({ fiscalYears, quarters, clusterIds });
-    dispatch(fetchExecutiveDashboardSummary(params));
-    dispatch(fetchExecutiveDashboardCompliance(params));
-    dispatch(fetchExecutiveDashboardTrend(params));
-    dispatch(fetchExecutiveDashboardCluster(params));
-    dispatch(fetchExecutiveDashboardHeatmap(params));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, fiscalYearsKey, quartersKey, clusterIdsKey]);
+    return () => {
+      dispatch(resetExecutiveDashboardCompliance());
+    };
+  }, [dispatch]);
+
+  const fetchAllData = useCallback(
+    (filters: ExecutiveDashboardFilters) => {
+      const params = buildParams(filters);
+      dispatch(fetchExecutiveDashboardSummary(params));
+      dispatch(fetchExecutiveDashboardCompliance(params));
+      dispatch(fetchExecutiveDashboardTrend(params));
+      dispatch(fetchExecutiveDashboardCluster(params));
+      dispatch(fetchExecutiveDashboardHeatmap(params));
+    },
+    [dispatch],
+  );
 
   return {
     summaryState,
@@ -49,5 +55,6 @@ export function useExecutiveDashboardData(filters: ExecutiveDashboardFilters) {
     trendState,
     clusterState,
     heatmapState,
+    fetchAllData,
   };
 }

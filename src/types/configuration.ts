@@ -82,6 +82,22 @@ export type FleetTarget = {
   custom: boolean;
 };
 
+export type OnboardContractorRequest = {
+  clusterName: string;
+  contractorName: string;
+  crNumber: string;
+  crDocument: File | null;
+};
+
+export type GovernorateClusterMapping = {
+  governorateId: number;
+  clusterId: number;
+};
+
+export type UpdateGovernorateClusterMappingRequest = {
+  mappings: GovernorateClusterMapping[];
+};
+
 export type SaveFleetTargetsRequest = {
   governorates: {
     id: number;
@@ -123,6 +139,7 @@ export type ActiveUserResponse = {
 
 export type ChecklistEvidenceType = 'photo' | 'document';
 export type ChecklistSeverity = 'mandatory' | 'optional';
+export type CommentAppliesTo = { yes: boolean; no: boolean };
 
 export type ChecklistItemResponse = {
   id: number;
@@ -136,6 +153,8 @@ export type ChecklistItemResponse = {
   sortOrder: number;
   displayIndex: string;
   checkItem: string;
+  isYesComment: boolean;
+  isNoComment: boolean;
 };
 
 export type ChecklistCategoryResponse = {
@@ -213,6 +232,8 @@ export type NewChecklistItemData = {
   appliesToDw: boolean;
   appliesToSw: boolean;
   appliesToTe: boolean;
+  isYesComment: boolean;
+  isNoComment: boolean;
 };
 
 export type InspectionDataToBeEdited = {
@@ -227,6 +248,8 @@ export type InspectionDataToBeEdited = {
       appliesToSw: boolean;
       appliesToTe: boolean;
       sortOrder: number;
+      isYesComment: boolean;
+      isNoComment: boolean;
     }[];
   }[];
 };

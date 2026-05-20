@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES, firstAllowedPath } from '@/constants/routes';
 import ProtectedRoute from '@/common-components/ProtectedRoute';
 import { useAuthBootstrap } from '@/hooks/useAuthBootstrap';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useAppSelector } from '@/store';
 import {
   selectIsAuthenticated,
@@ -16,6 +17,7 @@ import ForbiddenPage from '@/pages/forbidden';
 import ConfigurationPage from './pages/configuration';
 import InspectionPage from './pages/inspection';
 import InspectionDetailsPage from '@/pages/inspection-details';
+// import OperationsPage from '@/pages/operations';
 
 // ── PREVIEW imports — remove this block and delete src/pages/preview/ when real pages are built ──
 import ExecutiveDashboardPage from '@/pages/preview/dashboard';
@@ -27,6 +29,7 @@ import ReportsPreviewPage from '@/pages/preview/reports';
 
 export default function App() {
   useAuthBootstrap();
+  useCurrentUser();
 
   const isBootstrapped = useAppSelector(selectIsBootstrapped);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);

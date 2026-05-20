@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import type {
   ChecklistCategoryResponse,
+  CommentAppliesTo,
   NewChecklistItemData,
 } from '@/types/configuration';
 import { ChecklistItemRow } from './ChecklistItemRow';
@@ -26,6 +27,7 @@ type Props = {
     severity: string,
     evidenceType: string,
     appliesTo: { dw: boolean; sw: boolean; te: boolean },
+    commentAppliesTo: CommentAppliesTo,
   ) => void;
   onAddItem: (categoryId: number, item: NewChecklistItemData) => void;
   onDraftChange: (categoryId: number, openCount: number) => void;
@@ -80,19 +82,22 @@ export function ChecklistSection({
         <table className="w-full text-[13px]">
           <thead>
             <tr className="border-b border-ink-100 bg-ink-50">
-              <th className="w-12 px-4 py-2.5 text-left font-medium text-ink-500">
+              <th className="w-10 px-4 py-2.5 text-left font-medium text-ink-500">
                 #
               </th>
               <th className="px-4 py-2.5 text-left font-medium text-ink-500">
                 Check Item
               </th>
-              <th className="w-56 px-4 py-2.5 text-left font-medium text-ink-500">
+              <th className="w-44 px-4 py-2.5 text-left font-medium text-ink-500">
                 Applies to
               </th>
-              <th className="w-28 px-4 py-2.5 text-left font-medium text-ink-500">
+              <th className="w-24 px-4 py-2.5 text-left font-medium text-ink-500">
                 Required
               </th>
-              <th className="w-40 px-4 py-2.5 text-left font-medium text-ink-500">
+              <th className="w-32 px-4 py-2.5 text-left font-medium text-ink-500">
+                Comment on
+              </th>
+              <th className="w-28 px-4 py-2.5 text-left font-medium text-ink-500">
                 Evidence
               </th>
               <th className="w-16 px-4 py-2.5" />
@@ -104,13 +109,14 @@ export function ChecklistSection({
                 key={item.id}
                 item={item}
                 itemNumber={item.displayIndex}
-                onSave={(severity, evidenceType, appliesTo) =>
+                onSave={(severity, evidenceType, appliesTo, commentAppliesTo) =>
                   onItemSave(
                     item.id,
                     category.id,
                     severity,
                     evidenceType,
                     appliesTo,
+                    commentAppliesTo,
                   )
                 }
               />

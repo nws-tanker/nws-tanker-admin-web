@@ -15,7 +15,7 @@ export function useFleetFilters() {
   }, []);
 
   const setClusterIds = useCallback(
-    (clusterIds: string[]) => {
+    (clusterIds: number[]) => {
       setFilters((prev) => {
         const allowedIds = governoratesForClusters(
           lookups?.governorates ?? [],
@@ -33,7 +33,7 @@ export function useFleetFilters() {
     [lookups],
   );
 
-  const setGovernorateIds = useCallback((governorateIds: string[]) => {
+  const setGovernorateIds = useCallback((governorateIds: number[]) => {
     setFilters((prev) => ({ ...prev, governorateIds }));
   }, []);
 

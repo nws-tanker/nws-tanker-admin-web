@@ -47,8 +47,8 @@ export type SampleCollector = {
 
 export type FleetFilters = {
   search: string;
-  clusterIds: string[];
-  governorateIds: string[];
+  clusterIds: number[];
+  governorateIds: number[];
   tankerTypes: TankerType[];
   permitStatuses: PermitStatus[];
 };

@@ -1,11 +1,20 @@
 import { useState } from 'react';
-import { Button, FileUploadZone, FormField, TextInput } from '@/atoms';
+import {
+  Button,
+  FileUploadZone,
+  FormField,
+  TextInput,
+  useToast,
+} from '@/atoms';
+import { onboardContractorApi } from '@/services/configurationService';
+
+type Props = {
+  onSuccess?: () => void;
+};
 
 type FormState = {
+  clusterName: string;
   name: string;
-  contact: string;
-  email: string;
-  phone: string;
   crNumber: string;
   crFile: File | null;
 };
@@ -13,38 +22,31 @@ type FormState = {
 type FormErrors = Partial<Record<keyof FormState, string>>;
 
 const EMPTY_FORM: FormState = {
+  clusterName: '',
   name: '',
-  contact: '',
-  email: '',
-  phone: '',
   crNumber: '',
   crFile: null,
 };
 
 function validate(form: FormState): FormErrors {
   const errors: FormErrors = {};
+  if (!form.clusterName.trim()) errors.clusterName = 'Required';
   if (!form.name.trim()) errors.name = 'Required';
-  if (!form.contact.trim()) errors.contact = 'Required';
-  if (!form.email.trim()) errors.email = 'Required';
-  if (!form.phone.trim()) errors.phone = 'Required';
-  if (!form.crFile) errors.crFile = 'Please upload the CR document.';
   return errors;
 }
 
-export function OnboardContractorCard() {
+export function OnboardContractorCard({ onSuccess }: Props) {
+  const toast = useToast();
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
-
-  const set = (field: keyof FormState) => (value: string) =>
-    setForm((prev) => ({ ...prev, [field]: value }));
 
   const handleClear = () => {
     setForm(EMPTY_FORM);
     setErrors({});
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const errs = validate(form);
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
@@ -52,11 +54,28 @@ export function OnboardContractorCard() {
     }
     setErrors({});
     setSubmitting(true);
-    // TODO: call register contractor API
-    // setTimeout(() => {
-    //   setSubmitting(false);
-    //   setForm(EMPTY_FORM);
-    // }, 2000);
+    try {
+      const response = await onboardContractorApi({
+        clusterName: form.clusterName.trim(),
+        contractorName: form.name.trim(),
+        crNumber: form.crNumber.trim(),
+        crDocument: form.crFile,
+      });
+      if (response.success) {
+        toast.show('Contractor onboarded');
+        setForm(EMPTY_FORM);
+        onSuccess?.();
+      } else {
+        toast.show(
+          response.error?.description ?? 'Failed to onboard contractor',
+          { tone: 'error' },
+        );
+      }
+    } catch {
+      toast.show('Failed to onboard contractor', { tone: 'error' });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -72,41 +91,25 @@ export function OnboardContractorCard() {
 
       <div className="p-5">
         <div className="mb-4 grid grid-cols-2 gap-3">
+          <FormField label="Cluster Name" required error={errors.clusterName}>
+            <TextInput
+              placeholder="e.g. Cluster 5"
+              value={form.clusterName}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, clusterName: e.target.value }))
+              }
+              invalid={!!errors.clusterName}
+            />
+          </FormField>
+
           <FormField label="Contractor Name" required error={errors.name}>
             <TextInput
               placeholder="e.g. Aldar"
               value={form.name}
-              onChange={(e) => set('name')(e.target.value)}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, name: e.target.value }))
+              }
               invalid={!!errors.name}
-            />
-          </FormField>
-
-          <FormField label="Contact Person" required error={errors.contact}>
-            <TextInput
-              placeholder="Full name"
-              value={form.contact}
-              onChange={(e) => set('contact')(e.target.value)}
-              invalid={!!errors.contact}
-            />
-          </FormField>
-
-          <FormField label="Email Address" required error={errors.email}>
-            <TextInput
-              type="email"
-              placeholder="contact@contractor.om"
-              value={form.email}
-              onChange={(e) => set('email')(e.target.value)}
-              invalid={!!errors.email}
-            />
-          </FormField>
-
-          <FormField label="Phone Number" required error={errors.phone}>
-            <TextInput
-              type="tel"
-              placeholder="+968 9XXX XXXX"
-              value={form.phone}
-              onChange={(e) => set('phone')(e.target.value)}
-              invalid={!!errors.phone}
             />
           </FormField>
 
@@ -114,17 +117,14 @@ export function OnboardContractorCard() {
             <TextInput
               placeholder="Commercial registration no."
               value={form.crNumber}
-              onChange={(e) => set('crNumber')(e.target.value)}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, crNumber: e.target.value }))
+              }
             />
           </FormField>
         </div>
 
-        <FormField
-          label="CR Document"
-          required
-          error={errors.crFile}
-          className="mb-4"
-        >
+        <FormField label="CR Document" error={errors.crFile} className="mb-4">
           <FileUploadZone
             file={form.crFile}
             onFile={(file) => setForm((prev) => ({ ...prev, crFile: file }))}

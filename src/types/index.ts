@@ -46,6 +46,13 @@ export type {
   InspectionTankerType,
 } from './inspection';
 export type {
+  OperationInspectionItem,
+  OperationInspectionsResponse,
+  OperationPermitRenewalItem,
+  OperationPermitRenewalsResponse,
+  OperationsSummary,
+} from './operations';
+export type {
   ClusterContractorBreakdownResponse,
   ClusterDetail,
   ClusterMetrics,
@@ -65,3 +72,11 @@ export type {
   SummaryResponse,
   TankerTypeCompliance,
 } from './executiveDashboard';
+export type {
+  InvoiceReportResponse,
+  InvoiceReportRow,
+  InvoiceReportTotals,
+  PaymentReportResponse,
+  PaymentReportRow,
+  PaymentReportTotals,
+} from './reports';

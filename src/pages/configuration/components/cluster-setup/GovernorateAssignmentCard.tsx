@@ -1,12 +1,13 @@
-import { ClusterPill } from '@/atoms/ClusterPill';
-import {
-  CLUSTER_COLORS,
-  DEFAULT_CLUSTER_COLOR,
-} from '@/constants/configuration';
+import { useMemo } from 'react';
 import type {
   ClusterSetupCluster,
   ClusterSetupGovernorate,
 } from '@/types/configuration';
+import { GovernorateAssignmentRow } from './GovernorateAssignmentRow';
+import {
+  countTotalTankers,
+  sortGovernoratesByCluster,
+} from './governorateAssignmentHelpers';
 
 type Props = {
   governorates: ClusterSetupGovernorate[];
@@ -21,9 +22,10 @@ export function GovernorateAssignmentCard({
   assignments,
   onAssign,
 }: Props) {
-  const totalTankers = governorates.reduce(
-    (s, g) => s + g.dwCount + g.swCount + g.teCount,
-    0,
+  const totalTankers = countTotalTankers(governorates);
+  const sortedGovernorates = useMemo(
+    () => sortGovernoratesByCluster(governorates, clusters, assignments),
+    [governorates, clusters, assignments],
   );
 
   return (
@@ -61,33 +63,15 @@ export function GovernorateAssignmentCard({
             </tr>
           </thead>
           <tbody>
-            {governorates.map((g, i) => (
-              <tr
+            {sortedGovernorates.map((g, i) => (
+              <GovernorateAssignmentRow
                 key={g.id}
-                className="border-b border-ink-100 last:border-0 hover:bg-ink-50"
-              >
-                <td className="px-4 py-2.5 font-mono text-[12px] text-ink-400">
-                  {String(i + 1).padStart(2, '0')}
-                </td>
-                <td className="px-4 py-2.5 font-medium text-ink-800">
-                  {g.name}
-                </td>
-                <td className="px-4 py-2.5">
-                  <div className="flex flex-wrap gap-1">
-                    {clusters.map((c) => (
-                      <ClusterPill
-                        key={c.clusterId}
-                        label={c.name}
-                        color={
-                          CLUSTER_COLORS[c.clusterId] ?? DEFAULT_CLUSTER_COLOR
-                        }
-                        active={assignments[g.name] === c.clusterId}
-                        onClick={() => onAssign(g.name, c.clusterId)}
-                      />
-                    ))}
-                  </div>
-                </td>
-              </tr>
+                index={i}
+                governorate={g}
+                clusters={clusters}
+                selectedClusterId={assignments[g.name]}
+                onAssign={onAssign}
+              />
             ))}
           </tbody>
         </table>
