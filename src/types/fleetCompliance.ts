@@ -3,6 +3,7 @@ export type GovernorateComplianceRow = {
   cluster: string;
   total_fleet: number;
   valid_permit: number;
+  in_progress?: number;
   expired: number;
   never_inspected: number;
   compliance_rate: number;
