@@ -74,8 +74,13 @@ export function ChecklistNewItemRow({ itemNumber, onSave, onCancel }: Props) {
   }
 
   function toggleComment(code: 'Yes' | 'No') {
-    if (code === 'Yes') setIsYesComment((v) => !v);
-    else setIsNoComment((v) => !v);
+    if (code === 'Yes') {
+      setIsYesComment(true);
+      setIsNoComment(false);
+    } else {
+      setIsNoComment(true);
+      setIsYesComment(false);
+    }
   }
 
   return (

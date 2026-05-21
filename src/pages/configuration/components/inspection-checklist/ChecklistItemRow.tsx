@@ -80,8 +80,9 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
   }
 
   function toggleComment(code: 'Yes' | 'No') {
-    const key = code === 'Yes' ? 'yes' : 'no';
-    setLocalComment((prev) => ({ ...prev, [key]: !prev[key] }));
+    setLocalComment(
+      code === 'Yes' ? { yes: true, no: false } : { yes: false, no: true },
+    );
   }
 
   function handleDone() {
