@@ -40,7 +40,7 @@ function forceLogout() {
   import('@/store').then(({ store, resetAllApiData }) => {
     store.dispatch(resetAllApiData());
   });
-  window.location.href = '/login';
+  window.location.href = '/auth';
 }
 
 /**
