@@ -54,4 +54,8 @@ export const ENDPOINTS = {
   currentUser: '/api/users/me',
   invoiceReport: '/api/reports/invoice-report',
   paymentReport: '/api/reports/payment-report',
+  alertsFeed: '/api/alerts/feed',
+  alertsUnreadCount: '/api/alerts/unread-count',
+  dismissAlert: '/api/alerts/dismiss',
+  dismissAllAlerts: '/api/alerts/dismiss-all',
 } as const;

@@ -18,6 +18,15 @@ export type {
 } from './lookups';
 export type { SidebarCounts, SidebarData } from './sidebar';
 export type {
+  AlertCategory,
+  AlertItem,
+  AlertReferenceType,
+  AlertSeverity,
+  AlertsFeedParams,
+  AlertsFeedResponse,
+  AlertsUnreadCountResponse,
+} from './alerts';
+export type {
   TankerUploadColumn,
   TankerUploadResponse,
   UploadError,

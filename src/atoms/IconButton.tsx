@@ -9,6 +9,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: Variant;
   size?: Size;
   showDot?: boolean;
+  count?: number;
 };
 
 const VARIANT_CLASS: Record<Variant, string> = {
@@ -26,9 +27,12 @@ export function IconButton({
   variant = 'default',
   size = 'md',
   showDot,
+  count,
   className,
   ...rest
 }: Props) {
+  const hasCount = typeof count === 'number' && count > 0;
+  const displayCount = hasCount && count! > 99 ? '99+' : count;
   return (
     <button
       type="button"
@@ -41,7 +45,11 @@ export function IconButton({
       )}
     >
       {icon}
-      {showDot ? (
+      {hasCount ? (
+        <span className="absolute -top-1 -right-1 grid h-[18px] min-w-[18px] place-items-center rounded-full border-2 border-white bg-red-500 px-1 text-[10px] font-semibold leading-none text-white">
+          {displayCount}
+        </span>
+      ) : showDot ? (
         <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full border-2 border-white bg-red-500" />
       ) : null}
     </button>
