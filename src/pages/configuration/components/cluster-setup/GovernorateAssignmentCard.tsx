@@ -1,8 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { Button } from '@/atoms';
 import type {
   ClusterSetupCluster,
   ClusterSetupGovernorate,
 } from '@/types/configuration';
+import { AddGovernorateModal } from './AddGovernorateModal';
 import { GovernorateAssignmentRow } from './GovernorateAssignmentRow';
 import {
   countTotalTankers,
@@ -14,6 +16,7 @@ type Props = {
   clusters: ClusterSetupCluster[];
   assignments: Record<string, number>;
   onAssign: (governorate: string, clusterId: number) => void;
+  onGovernorateAdded: () => void;
 };
 
 export function GovernorateAssignmentCard({
@@ -21,7 +24,9 @@ export function GovernorateAssignmentCard({
   clusters,
   assignments,
   onAssign,
+  onGovernorateAdded,
 }: Props) {
+  const [addOpen, setAddOpen] = useState(false);
   const totalTankers = countTotalTankers(governorates);
   const sortedGovernorates = useMemo(
     () => sortGovernoratesByCluster(governorates, clusters, assignments),
@@ -40,7 +45,18 @@ export function GovernorateAssignmentCard({
             total tankers
           </p>
         </div>
+        <Button variant="primary" size="sm" onClick={() => setAddOpen(true)}>
+          + Add Governorate
+        </Button>
       </div>
+
+      <AddGovernorateModal
+        key={addOpen ? 'open' : 'closed'}
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        clusters={clusters}
+        onSuccess={onGovernorateAdded}
+      />
 
       <div className="overflow-x-hidden">
         <table className="w-full table-fixed text-[13px]">

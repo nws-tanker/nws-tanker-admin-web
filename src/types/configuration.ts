@@ -114,6 +114,12 @@ export type FleetTotals = {
   total: number;
 };
 
+export type CreateGovernorateRequest = {
+  name: string;
+  code: string;
+  clusterId: number;
+};
+
 export type ClusterResponse = {
   id: number;
   name: string;
