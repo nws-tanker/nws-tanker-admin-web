@@ -51,6 +51,7 @@ export function GovernorateAssignmentCard({
       </div>
 
       <AddGovernorateModal
+        key={addOpen ? 'open' : 'closed'}
         open={addOpen}
         onClose={() => setAddOpen(false)}
         clusters={clusters}

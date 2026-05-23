@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Button,
   FormField,
@@ -42,10 +42,10 @@ export function AddGovernorateModal({
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
 
-  const clusterOptions: SelectOption[] = clusters.map((c) => ({
-    value: String(c.clusterId),
-    label: c.name,
-  }));
+  const clusterOptions = useMemo<SelectOption[]>(
+    () => clusters.map((c) => ({ value: String(c.clusterId), label: c.name })),
+    [clusters],
+  );
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
