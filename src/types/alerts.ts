@@ -20,19 +20,17 @@ export type AlertItem = {
   title: string;
   subtitle: string;
   dismissible: boolean;
-  alert_key: string;
-  reference_code?: string;
-  reference_type: AlertReferenceType;
-  reference_id: number;
-  occurred_at: string;
-  age_humanized: string;
-  deep_link_path: string;
+  alertKey: string;
+  referenceCode?: string;
+  referenceType: AlertReferenceType;
+  referenceId: number;
+  occurredAt: string;
+  ageHumanized: string;
+  deepLinkPath: string;
 };
 
 export type AlertsFeedResponse = {
   items: AlertItem[];
-  total_unread: number;
-  total_returned: number;
 };
 
 export type AlertsFeedParams = {
@@ -42,5 +40,5 @@ export type AlertsFeedParams = {
 };
 
 export type AlertsUnreadCountResponse = {
-  unread_count: number;
+  unreadCount: number;
 };

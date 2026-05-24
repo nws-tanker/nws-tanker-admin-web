@@ -1,4 +1,4 @@
-import { IconButton } from '@/atoms';
+import { ClickableCard, IconButton } from '@/atoms';
 import { CloseIcon } from '@/atoms/icons';
 import type { AlertItem } from '@/types/alerts';
 import {
@@ -15,41 +15,35 @@ type Props = {
 
 export function NotificationItem({ alert, onSelect, onDismiss }: Props) {
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={() => onSelect(alert)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onSelect(alert);
-      }}
-      className="flex cursor-pointer items-start gap-2.5 border-b border-ink-100 px-4 py-3 hover:bg-ink-50"
-    >
-      <div className="mt-0.5 flex-shrink-0 text-[18px] leading-none">
-        {CATEGORY_ICON[alert.category] ?? '🔔'}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div
-          className={`mb-0.5 text-[11px] font-semibold ${severityColorClass(alert.severity)}`}
-        >
-          {CATEGORY_LABEL[alert.category] ?? alert.category} ·{' '}
-          {alert.age_humanized}
+    <div className="relative border-b border-ink-100">
+      <ClickableCard
+        onClick={() => onSelect(alert)}
+        className="flex items-start gap-2.5 px-4 py-3 pr-12"
+      >
+        <div className="mt-0.5 flex-shrink-0 text-[18px] leading-none">
+          {CATEGORY_ICON[alert.category]}
         </div>
-        <div className="mb-0.5 truncate text-[12px] font-semibold text-ink-900">
-          {alert.title}
+        <div className="min-w-0 flex-1">
+          <div
+            className={`mb-0.5 text-[11px] font-semibold ${severityColorClass(alert.severity)}`}
+          >
+            {CATEGORY_LABEL[alert.category]} · {alert.ageHumanized}
+          </div>
+          <div className="mb-0.5 truncate text-[12px] font-semibold text-ink-900">
+            {alert.title}
+          </div>
+          <div className="truncate text-[11px] text-ink-500">
+            {alert.subtitle}
+          </div>
         </div>
-        <div className="truncate text-[11px] text-ink-500">
-          {alert.subtitle}
-        </div>
-      </div>
+      </ClickableCard>
       {alert.dismissible ? (
         <IconButton
           icon={<CloseIcon className="h-3.5 w-3.5" />}
           size="sm"
           aria-label="Dismiss"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDismiss(alert);
-          }}
+          onClick={() => onDismiss(alert)}
+          className="absolute top-3 right-3"
         />
       ) : null}
     </div>

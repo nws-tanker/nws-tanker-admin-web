@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/atoms';
+import { Button, useToast } from '@/atoms';
 import { dismissAlertApi, dismissAllAlertsApi } from '@/services/alertService';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchAlertsFeed } from '@/store/apiSlices/alertsFeedApiSlice';
@@ -15,6 +15,7 @@ type Props = {
 export function NotificationsPanel({ onClose }: Props) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const toast = useToast();
   const { apiState, data, error } = useAppSelector(
     (state) => state.alertsFeedApi,
   );
@@ -26,12 +27,12 @@ export function NotificationsPanel({ onClose }: Props) {
   }, [dispatch]);
 
   const visibleItems = (data?.items ?? []).filter(
-    (a) => !pendingKeys.has(a.alert_key),
+    (a) => !pendingKeys.has(a.alertKey),
   );
 
   const handleSelect = (alert: AlertItem) => {
     onClose();
-    if (alert.deep_link_path) navigate(alert.deep_link_path);
+    if (alert.deepLinkPath) navigate(alert.deepLinkPath);
   };
 
   const refreshAlerts = () => {
@@ -40,13 +41,16 @@ export function NotificationsPanel({ onClose }: Props) {
   };
 
   const handleDismiss = async (alert: AlertItem) => {
-    setPendingKeys((prev) => new Set(prev).add(alert.alert_key));
-    const response = await dismissAlertApi(alert.alert_key);
+    setPendingKeys((prev) => new Set(prev).add(alert.alertKey));
+    const response = await dismissAlertApi(alert.alertKey);
     if (!response.success) {
       setPendingKeys((prev) => {
         const next = new Set(prev);
-        next.delete(alert.alert_key);
+        next.delete(alert.alertKey);
         return next;
+      });
+      toast.show(response.error?.description ?? 'Failed to dismiss alert', {
+        tone: 'error',
       });
       return;
     }
@@ -54,18 +58,21 @@ export function NotificationsPanel({ onClose }: Props) {
   };
 
   const handleDismissAll = async () => {
-    const allKeys = (data?.items ?? []).map((a) => a.alert_key);
+    const allKeys = (data?.items ?? []).map((a) => a.alertKey);
     setPendingKeys(new Set(allKeys));
     const response = await dismissAllAlertsApi();
     if (!response.success) {
       setPendingKeys(new Set());
+      toast.show(response.error?.description ?? 'Failed to dismiss alerts', {
+        tone: 'error',
+      });
       return;
     }
     refreshAlerts();
   };
 
   return (
-    <div className="absolute top-[calc(100%+8px)] right-0 z-[300] w-[380px] overflow-hidden rounded-card-lg border border-ink-200 bg-white shadow-card-lg">
+    <div className="overflow-hidden rounded-card-lg border border-ink-200 bg-white shadow-card-lg">
       <div className="flex items-center justify-between border-b border-ink-100 px-4 py-3">
         <span className="text-[13px] font-bold text-ink-900">
           Notifications

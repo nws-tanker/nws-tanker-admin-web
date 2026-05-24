@@ -13,11 +13,11 @@ const initialState: AlertsFeedApiState = {
 
 export const fetchAlertsFeed = createAsyncThunk<
   AlertsFeedResponse,
-  AlertsFeedParams | void,
+  AlertsFeedParams | undefined,
   { rejectValue: ApiError }
 >('alertsFeedApi/fetchAlertsFeed', async (arg, { rejectWithValue }) => {
   try {
-    const response = await fetchAlertsFeedApi(arg ?? undefined);
+    const response = await fetchAlertsFeedApi(arg);
     if (!response.success) return rejectWithValue(response.error);
     return response.data;
   } catch {

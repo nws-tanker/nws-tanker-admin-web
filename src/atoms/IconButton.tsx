@@ -22,6 +22,23 @@ const SIZE_CLASS: Record<Size, string> = {
   md: 'h-9 w-9 rounded-card',
 };
 
+function renderBadge(count: number | undefined, showDot: boolean | undefined) {
+  if (typeof count === 'number' && count > 0) {
+    const label = count > 99 ? '99+' : count;
+    return (
+      <span className="absolute -top-1 -right-1 grid h-[18px] min-w-[18px] place-items-center rounded-full border-2 border-white bg-red-500 px-1 text-[10px] font-semibold leading-none text-white">
+        {label}
+      </span>
+    );
+  }
+  if (showDot) {
+    return (
+      <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full border-2 border-white bg-red-500" />
+    );
+  }
+  return null;
+}
+
 export function IconButton({
   icon,
   variant = 'default',
@@ -31,8 +48,6 @@ export function IconButton({
   className,
   ...rest
 }: Props) {
-  const hasCount = typeof count === 'number' && count > 0;
-  const displayCount = hasCount && count! > 99 ? '99+' : count;
   return (
     <button
       type="button"
@@ -45,13 +60,7 @@ export function IconButton({
       )}
     >
       {icon}
-      {hasCount ? (
-        <span className="absolute -top-1 -right-1 grid h-[18px] min-w-[18px] place-items-center rounded-full border-2 border-white bg-red-500 px-1 text-[10px] font-semibold leading-none text-white">
-          {displayCount}
-        </span>
-      ) : showDot ? (
-        <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full border-2 border-white bg-red-500" />
-      ) : null}
+      {renderBadge(count, showDot)}
     </button>
   );
 }

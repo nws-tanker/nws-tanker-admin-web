@@ -45,7 +45,7 @@ export function NotificationsList({
     <div className="max-h-[60vh] overflow-y-auto">
       {items.map((alert) => (
         <NotificationItem
-          key={alert.alert_key}
+          key={alert.alertKey}
           alert={alert}
           onSelect={onSelect}
           onDismiss={onDismiss}
