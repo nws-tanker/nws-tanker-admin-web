@@ -3,12 +3,14 @@ import { Button } from '@/atoms';
 type Props = {
   hasOpenDrafts: boolean;
   saving: boolean;
+  hasItems: boolean;
   onSave: () => void;
 };
 
 export default function ChecklistSaveFooter({
   hasOpenDrafts,
   saving,
+  hasItems,
   onSave,
 }: Props) {
   return (
@@ -21,7 +23,7 @@ export default function ChecklistSaveFooter({
       <Button
         variant="primary"
         onClick={onSave}
-        disabled={saving || hasOpenDrafts}
+        disabled={saving || hasOpenDrafts || !hasItems}
       >
         {saving ? 'Saving…' : 'Save Changes'}
       </Button>

@@ -6,12 +6,8 @@ import type {
   ChecklistSeverity,
   NewChecklistItemData,
 } from '@/types/configuration';
-
-const TANKER_TYPES = [
-  { code: 'DW' as const, tone: 'blue' as const },
-  { code: 'SW' as const, tone: 'amber' as const },
-  { code: 'TE' as const, tone: 'green' as const },
-];
+import { CommentChipsCell } from './CommentChipsCell';
+import { TANKER_TYPES } from './constants';
 
 const SEVERITY_OPTIONS: SelectOption<ChecklistSeverity>[] = [
   { value: 'mandatory', label: 'Mandatory' },
@@ -32,10 +28,13 @@ type Props = {
 export function ChecklistNewItemRow({ itemNumber, onSave, onCancel }: Props) {
   const [description, setDescription] = useState('');
   const [severity, setSeverity] = useState<ChecklistSeverity>('mandatory');
-  const [evidenceType, setEvidenceType] = useState<ChecklistEvidenceType>('photo');
+  const [evidenceType, setEvidenceType] =
+    useState<ChecklistEvidenceType>('photo');
   const [appliesToDw, setAppliesToDw] = useState(true);
   const [appliesToSw, setAppliesToSw] = useState(true);
   const [appliesToTe, setAppliesToTe] = useState(true);
+  const [isYesComment, setIsYesComment] = useState(false);
+  const [isNoComment, setIsNoComment] = useState(false);
   const [touched, setTouched] = useState(false);
 
   function handleSave() {
@@ -48,6 +47,8 @@ export function ChecklistNewItemRow({ itemNumber, onSave, onCancel }: Props) {
       appliesToDw,
       appliesToSw,
       appliesToTe,
+      isYesComment,
+      isNoComment,
     });
   }
 
@@ -61,6 +62,25 @@ export function ChecklistNewItemRow({ itemNumber, onSave, onCancel }: Props) {
     if (code === 'DW') return appliesToDw;
     if (code === 'SW') return appliesToSw;
     return appliesToTe;
+  }
+
+  function handleSeverityChange(v: string) {
+    const next = (v || 'mandatory') as ChecklistSeverity;
+    setSeverity(next);
+    if (next === 'optional') {
+      setIsYesComment(false);
+      setIsNoComment(false);
+    }
+  }
+
+  function toggleComment(code: 'Yes' | 'No') {
+    if (code === 'Yes') {
+      setIsYesComment(true);
+      setIsNoComment(false);
+    } else {
+      setIsNoComment(true);
+      setIsYesComment(false);
+    }
   }
 
   return (
@@ -103,15 +123,25 @@ export function ChecklistNewItemRow({ itemNumber, onSave, onCancel }: Props) {
         <Select
           options={SEVERITY_OPTIONS}
           value={severity}
-          onChange={(v) => setSeverity((v || 'mandatory') as ChecklistSeverity)}
+          onChange={handleSeverityChange}
           size="sm"
+        />
+      </td>
+      <td className="px-4 py-3">
+        <CommentChipsCell
+          value={{ yes: isYesComment, no: isNoComment }}
+          disabled={severity === 'optional'}
+          editable
+          onToggle={toggleComment}
         />
       </td>
       <td className="px-4 py-3">
         <Select
           options={EVIDENCE_OPTIONS}
           value={evidenceType}
-          onChange={(v) => setEvidenceType((v || 'photo') as ChecklistEvidenceType)}
+          onChange={(v) =>
+            setEvidenceType((v || 'photo') as ChecklistEvidenceType)
+          }
           size="sm"
         />
       </td>

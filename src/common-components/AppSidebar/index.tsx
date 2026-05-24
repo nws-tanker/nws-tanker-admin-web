@@ -37,6 +37,7 @@ export function AppSidebar() {
 
   function handleSignOut() {
     localStorage.removeItem(STORAGE_KEYS.accessToken);
+    localStorage.removeItem(STORAGE_KEYS.refreshToken);
     localStorage.removeItem(STORAGE_KEYS.userName);
     dispatch(resetAllApiData());
     dispatch(clearAuth());
