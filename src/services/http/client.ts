@@ -73,13 +73,15 @@ export async function refreshAccessToken(): Promise<string | null> {
   const refreshToken = localStorage.getItem(STORAGE_KEYS.refreshToken);
   if (!refreshToken) return null;
   try {
+    // Use bare axios (not `client`) to avoid triggering the 401 interceptor again
     const { data } = await axios.post(
       `${BASE_URL}${ENDPOINTS.refreshToken}`,
       { refresh_token: refreshToken },
       { timeout: DEFAULT_TIMEOUT },
     );
-    const newAccessToken: string = data.data.access_token;
-    const newRefreshToken: string = data.data.refresh_token;
+    const newAccessToken: string | undefined = data?.data?.access_token;
+    const newRefreshToken: string | undefined = data?.data?.refresh_token;
+    if (!newAccessToken || !newRefreshToken) return null;
     localStorage.setItem(STORAGE_KEYS.accessToken, newAccessToken);
     localStorage.setItem(STORAGE_KEYS.refreshToken, newRefreshToken);
     setAuthToken(newAccessToken);
