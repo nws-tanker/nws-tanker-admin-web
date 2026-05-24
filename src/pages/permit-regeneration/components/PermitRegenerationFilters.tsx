@@ -4,10 +4,10 @@ import type { Cluster, Governorate } from '@/types';
 import type { ApprovedInspectionTankerType } from '@/types/permitRegeneration';
 import { TANKER_TYPE_OPTIONS } from '../permitRegenerationHelpers';
 import { todayIso } from '@/utils/date';
-import type { PermitRegenerationFilters as Filters } from '../hooks/usePermitRegenerationFilters';
+import type { PermitRegenerationFilterState } from '../hooks/usePermitRegenerationFilters';
 
 type Props = {
-  filters: Filters;
+  filters: PermitRegenerationFilterState;
   clusters: Cluster[];
   governorates: Governorate[];
   onStartDate: (value: string) => void;

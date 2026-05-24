@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useToast } from '@/atoms';
 import { regeneratePermitsApi } from '@/services/permitRegenerationService';
 import { REGENERATE_PERMITS_DEFAULTS } from '../constants';
@@ -11,10 +11,12 @@ type Options = {
 export function useRegeneratePermits({ onSuccess }: Options = {}) {
   const toast = useToast();
   const [isRegenerating, setIsRegenerating] = useState(false);
+  const inFlight = useRef(false);
 
   const regenerate = useCallback(
     async (inspectionIds: number[]) => {
-      if (inspectionIds.length === 0 || isRegenerating) return;
+      if (inspectionIds.length === 0 || inFlight.current) return;
+      inFlight.current = true;
       setIsRegenerating(true);
       try {
         const response = await regeneratePermitsApi({
@@ -38,10 +40,11 @@ export function useRegeneratePermits({ onSuccess }: Options = {}) {
       } catch {
         toast.show('Failed to regenerate permits', { tone: 'error' });
       } finally {
+        inFlight.current = false;
         setIsRegenerating(false);
       }
     },
-    [isRegenerating, onSuccess, toast],
+    [onSuccess, toast],
   );
 
   return { isRegenerating, regenerate };

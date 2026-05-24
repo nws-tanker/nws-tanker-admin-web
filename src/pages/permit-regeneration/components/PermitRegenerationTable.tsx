@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Checkbox, CountBadge, EmptyState, Pagination } from '@/atoms';
 import type { ApprovedInspection } from '@/types/permitRegeneration';
+import { PermitPdfModal } from './PermitPdfModal';
 import { PermitRegenerationRow } from './PermitRegenerationRow';
 
 type Props = {
@@ -42,6 +44,7 @@ export function PermitRegenerationTable({
   onPageChange,
   loading,
 }: Props) {
+  const [pdfTarget, setPdfTarget] = useState<ApprovedInspection | null>(null);
   const pageIds = rows.map((r) => r.inspection_id);
   const allSelected = pageIds.length > 0 && pageIds.every(isSelected);
   const someSelected = !allSelected && pageIds.some(isSelected);
@@ -108,6 +111,7 @@ export function PermitRegenerationTable({
                     row={r}
                     selected={isSelected(r.inspection_id)}
                     onToggle={onToggleRow}
+                    onOpenPdf={setPdfTarget}
                   />
                 ))}
               </tbody>
@@ -129,6 +133,14 @@ export function PermitRegenerationTable({
           />
         </div>
       ) : null}
+
+      <PermitPdfModal
+        open={pdfTarget !== null}
+        onClose={() => setPdfTarget(null)}
+        url={pdfTarget?.current_permit_url ?? ''}
+        plateNumber={pdfTarget?.plate_number ?? ''}
+        permitNumber={pdfTarget?.permit_number ?? ''}
+      />
     </div>
   );
 }

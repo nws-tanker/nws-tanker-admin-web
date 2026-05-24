@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button, CountBadge, PageHeader, useToast } from '@/atoms';
 import { DownloadIcon, FileTextIcon } from '@/atoms/icons';
 import SpinnerIcon from '@/assets/icons/SpinnerIcon';
@@ -25,10 +25,6 @@ export default function PermitRegenerationPage() {
   const { filters } = filterBag;
   const [page, setPage] = useState(0);
   const debouncedSearch = useDebouncedValue(filters.search, 400);
-
-  useEffect(() => {
-    setPage(0);
-  }, [debouncedSearch]);
 
   const queryParams = useMemo(
     () => ({
@@ -74,7 +70,13 @@ export default function PermitRegenerationPage() {
     (v: T) => {
       setter(v);
       setPage(0);
+      selection.clear();
     };
+
+  const handleSearch = (value: string) => {
+    filterBag.setSearch(value);
+    setPage(0);
+  };
 
   const handleRegenerate = () => regenerate(Array.from(selection.selectedIds));
 
@@ -154,7 +156,7 @@ export default function PermitRegenerationPage() {
           onClusterId={handleFilterChange(filterBag.setClusterId)}
           onGovernorateId={handleFilterChange(filterBag.setGovernorateId)}
           onTankerType={handleFilterChange(filterBag.setTankerType)}
-          onSearch={filterBag.setSearch}
+          onSearch={handleSearch}
         />
 
         {apiState === States.SUCCESS || apiState === States.LOADING ? (

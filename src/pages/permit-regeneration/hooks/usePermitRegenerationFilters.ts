@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { ApprovedInspectionTankerType } from '@/types/permitRegeneration';
 
-export type PermitRegenerationFilters = {
+export type PermitRegenerationFilterState = {
   startDate: string;
   endDate: string;
   clusterId: number | null;
@@ -10,7 +10,7 @@ export type PermitRegenerationFilters = {
   search: string;
 };
 
-const INITIAL_FILTERS: PermitRegenerationFilters = {
+const INITIAL_FILTERS: PermitRegenerationFilterState = {
   startDate: '',
   endDate: '',
   clusterId: null,
@@ -21,7 +21,7 @@ const INITIAL_FILTERS: PermitRegenerationFilters = {
 
 export function usePermitRegenerationFilters() {
   const [filters, setFilters] =
-    useState<PermitRegenerationFilters>(INITIAL_FILTERS);
+    useState<PermitRegenerationFilterState>(INITIAL_FILTERS);
 
   return {
     filters,
