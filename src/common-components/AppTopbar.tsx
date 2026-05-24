@@ -1,13 +1,13 @@
 import { Fragment } from 'react';
-import { BellIcon, RightIcon } from '@/atoms/icons';
-import { IconButton } from '@/atoms';
+import { /* BellIcon, */ RightIcon } from '@/atoms/icons';
+// import { IconButton } from '@/atoms';
 
 type Props = {
   breadcrumbs: string[];
   onOpenNotifications?: () => void;
 };
 
-export function AppTopbar({ breadcrumbs, onOpenNotifications }: Props) {
+export function AppTopbar({ breadcrumbs /* onOpenNotifications */ }: Props) {
   return (
     <div className="flex items-center gap-5 border-b border-ink-200 bg-white px-7 py-3.5">
       <div className="flex items-center gap-2 text-[13px] text-ink-500">
@@ -26,12 +26,12 @@ export function AppTopbar({ breadcrumbs, onOpenNotifications }: Props) {
 
       <div className="flex-1" />
 
-      <IconButton
+      {/* <IconButton
         icon={<BellIcon />}
         showDot
         onClick={onOpenNotifications}
         aria-label="Notifications"
-      />
+      /> */}
     </div>
   );
 }

@@ -19,6 +19,7 @@ type UseFleetComplianceFiltersReturn = {
   governorateOptions: Governorate[];
   fleetBody: FleetComplianceParams;
   tankerTypeBody: DashboardParams;
+  tankerTypeSubtitle: string;
   ready: boolean;
 };
 
@@ -94,6 +95,18 @@ export function useFleetComplianceFilters(
     governorates: filters.governorateIds,
   };
 
+  const tankerTypeSubtitle =
+    filters.clusterIds.length === 0
+      ? 'Fleet-wide · all clusters'
+      : filters.clusterIds.length === 1
+        ? (() => {
+            const c = lookupsData?.clusters.find(
+              (cl) => cl.id === filters.clusterIds[0],
+            );
+            return c ? `${c.name} only` : 'Selected cluster';
+          })()
+        : `${filters.clusterIds.length} clusters selected`;
+
   return {
     filters,
     isClusterLocked: userClusterId !== null && userClusterId !== undefined,
@@ -103,6 +116,7 @@ export function useFleetComplianceFilters(
     governorateOptions,
     fleetBody,
     tankerTypeBody,
+    tankerTypeSubtitle,
     ready,
   };
 }

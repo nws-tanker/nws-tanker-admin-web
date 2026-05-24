@@ -96,6 +96,7 @@ export function ClusterSetupTab() {
           clusters={data.clusters}
           assignments={govAssignments}
           onAssign={handleGovAssign}
+          onGovernorateAdded={onSaveSuccess}
         />
 
         <div className="flex flex-col gap-4">
