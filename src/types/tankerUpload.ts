@@ -11,17 +11,11 @@ export type UploadError = {
   rowNumber: number | null;
   /** Human-readable error message (with the "Row N:" prefix already stripped). */
   message: string;
-  /** Original raw string returned by the backend. */
-  raw: string;
 };
 
-export type TankerUploadMode = 'UPSERT' | 'INSERT' | 'UPDATE';
-
 export type TankerUploadResponse = {
-  mode: TankerUploadMode;
   totalRows: number;
   successRows: number;
   failedRows: number;
-  softDeletedRows: number;
   errors: string[];
 };

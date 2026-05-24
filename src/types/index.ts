@@ -26,7 +26,6 @@ export type {
 } from './permitRegeneration';
 export type {
   TankerUploadColumn,
-  TankerUploadMode,
   TankerUploadResponse,
   UploadError,
 } from './tankerUpload';

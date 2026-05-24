@@ -9,9 +9,8 @@ export function parseUploadErrors(raws: string[]): UploadError[] {
       return {
         rowNumber: Number(match[1]),
         message: match[2].trim(),
-        raw,
       };
     }
-    return { rowNumber: null, message: raw.trim(), raw };
+    return { rowNumber: null, message: raw.trim() };
   });
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type {
   ChecklistCategoryResponse,
   CommentAppliesTo,
@@ -44,10 +44,6 @@ export function ChecklistSection({
   const [draftKeys, setDraftKeys] = useState<string[]>([]);
   const [committedItems, setCommittedItems] = useState<CommittedNewItem[]>([]);
   const draftCounter = useRef(0);
-
-  useEffect(() => {
-    setCommittedItems([]);
-  }, [category.items]);
 
   function handleAddDraft() {
     const newKey = `draft-${draftCounter.current++}`;

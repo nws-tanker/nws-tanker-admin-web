@@ -56,8 +56,8 @@ export function ErrorRowsTable({ errors }: Props) {
           </tr>
         </thead>
         <tbody>
-          {pageErrors.map((e) => (
-            <ErrorRow key={e.raw} error={e} />
+          {pageErrors.map((e, i) => (
+            <ErrorRow key={`${pageStart}-${i}`} error={e} />
           ))}
         </tbody>
       </table>

@@ -125,7 +125,7 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
           <Select
             options={REQUIRED_TYPES}
             value={localSeverity}
-            onChange={(v) => handleSeverityChange(v)}
+            onChange={handleSeverityChange}
             size="sm"
           />
         ) : (
