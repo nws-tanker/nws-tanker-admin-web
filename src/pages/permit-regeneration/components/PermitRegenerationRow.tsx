@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { Button, Checkbox, Chip } from '@/atoms';
 import { FileTextIcon } from '@/atoms/icons';
+import { TYPE_CHIP_COLOR, TYPE_LABELS } from '@/constants/fleet';
 import type { ApprovedInspection } from '@/types/permitRegeneration';
-import {
-  TANKER_TYPE_LABEL,
-  TANKER_TYPE_TONE,
-  expiryColorClass,
-  formatExpiryDate,
-} from '../permitRegenerationHelpers';
+import { formatDate } from '@/utils';
+import { expiryColorClass } from '../permitRegenerationHelpers';
 import { PermitPdfModal } from './PermitPdfModal';
 
 type Props = {
@@ -33,8 +30,8 @@ export function PermitRegenerationRow({ row, selected, onToggle }: Props) {
       </td>
       <td className="px-4 py-3 text-[13px] text-ink-800">{row.owner}</td>
       <td className="px-4 py-3">
-        <Chip tone={TANKER_TYPE_TONE[row.tanker_type]}>
-          {TANKER_TYPE_LABEL[row.tanker_type]}
+        <Chip tone={TYPE_CHIP_COLOR[row.tanker_type]}>
+          {TYPE_LABELS[row.tanker_type]}
         </Chip>
       </td>
       <td className="px-4 py-3 text-[13px] text-ink-700">{row.cluster}</td>
@@ -63,7 +60,7 @@ export function PermitRegenerationRow({ row, selected, onToggle }: Props) {
       <td
         className={`px-4 py-3 text-[13px] font-medium ${expiryColorClass(row.expiry_status)}`}
       >
-        {formatExpiryDate(row.expiry_date)}
+        {formatDate(row.expiry_date)}
       </td>
       <td className="px-4 py-3 text-[13px] text-ink-700">
         {row.last_inspector}

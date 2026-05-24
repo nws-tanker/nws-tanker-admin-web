@@ -1,3 +1,4 @@
+import { TYPE_LABELS } from '@/constants/fleet';
 import type { ApprovedInspection } from '@/types/permitRegeneration';
 import {
   type ExcelColumn,
@@ -21,12 +22,6 @@ const COLUMNS: ExcelColumn[] = [
   { header: 'Owner Contact', width: 18 },
 ];
 
-const TANKER_TYPE_LABEL: Record<ApprovedInspection['tanker_type'], string> = {
-  drinking_water: 'Drinking Water',
-  sewage_water: 'Sewage Water',
-  treated_effluent: 'Treated Effluent',
-};
-
 const EXPIRY_STATUS_LABEL: Record<ApprovedInspection['expiry_status'], string> =
   {
     valid: 'Valid',
@@ -42,7 +37,7 @@ export async function generatePermitRegenerationExcel(
     r.inspection_id,
     r.plate_number,
     r.owner,
-    TANKER_TYPE_LABEL[r.tanker_type] ?? r.tanker_type,
+    TYPE_LABELS[r.tanker_type] ?? r.tanker_type,
     r.cluster,
     r.governorate,
     r.permit_number,

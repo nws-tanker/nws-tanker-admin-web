@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { SearchInput, Select, TextInput, type SelectOption } from '@/atoms';
 import type { Cluster, Governorate } from '@/types';
 import type { ApprovedInspectionTankerType } from '@/types/permitRegeneration';
-import { TANKER_TYPE_OPTIONS, todayIso } from '../permitRegenerationHelpers';
+import { TANKER_TYPE_OPTIONS } from '../permitRegenerationHelpers';
+import { todayIso } from '@/utils/date';
 import type { PermitRegenerationFilters as Filters } from '../hooks/usePermitRegenerationFilters';
 
 type Props = {
