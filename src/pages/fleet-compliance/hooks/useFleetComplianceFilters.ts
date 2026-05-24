@@ -43,10 +43,8 @@ export function useFleetComplianceFilters(
     )
       return;
     if (!lookupsData || userClusterId === undefined) return;
-    const defaultYear = lookupsData.fiscal_year.find((fy) => fy.default);
     setFilters((prev) => ({
       ...prev,
-      fiscalYearIds: defaultYear ? [defaultYear.year] : prev.fiscalYearIds,
       clusterIds: userClusterId !== null ? [userClusterId] : prev.clusterIds,
     }));
     setReady(true);
