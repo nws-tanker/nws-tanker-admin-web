@@ -92,6 +92,12 @@ export default function TankerCard({ config, metrics }: Props) {
             {metrics.never_inspected.toLocaleString()}
           </span>
         </div>
+        <div>
+          <span className="text-ink-500">In Progress </span>
+          <span className="font-semibold tabular-nums text-amber-600">
+            {metrics.in_progress.toLocaleString()}
+          </span>
+        </div>
       </div>
     </div>
   );
