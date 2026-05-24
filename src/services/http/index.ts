@@ -1,4 +1,4 @@
-export { clearAuthToken, setAuthToken } from './client';
+export { clearAuthToken, refreshAccessToken, setAuthToken } from './client';
 export { hydrateUrl } from './hydrateUrl';
 export {
   apiRequest,

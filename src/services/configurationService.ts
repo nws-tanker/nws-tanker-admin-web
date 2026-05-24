@@ -10,6 +10,7 @@ import type {
   UpdateNotificationContactsRequest,
   UpdateGovernorateClusterMappingRequest,
   OnboardContractorRequest,
+  CreateGovernorateRequest,
 } from '@/types/configuration';
 import type { ApiResponse } from '@/store/types';
 import type {
@@ -18,7 +19,13 @@ import type {
   ClusterResponse,
   InspectionDataToBeEdited,
 } from '@/types';
-import { get, put } from './http';
+import { get, post, put } from './http';
+
+export async function createGovernorateApi(
+  body: CreateGovernorateRequest,
+): Promise<ApiResponse<void>> {
+  return post<void>(ENDPOINTS.governorates, body);
+}
 
 export async function onboardContractorApi(
   body: OnboardContractorRequest,

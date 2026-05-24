@@ -47,6 +47,7 @@ export function useInspectionChecklistForm() {
       const response = await saveInspectionChecklist(dataToBeEdited);
       if (response.success) {
         toast.show('Checklist saved successfully');
+        retry();
       } else {
         toast.show(response.error?.description ?? 'Failed to save checklist', {
           tone: 'error',

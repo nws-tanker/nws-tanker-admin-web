@@ -58,4 +58,7 @@ export const ENDPOINTS = {
   alertsUnreadCount: '/api/alerts/unread-count',
   dismissAlert: '/api/alerts/dismiss',
   dismissAllAlerts: '/api/alerts/dismiss-all',
+  approvedInspections: '/api/inspection/review-screen/approved-inspections',
+  regeneratePermits: '/api/inspection/review-screen/regenerate-permits',
+  governorates: '/api/configurations/governorates',
 } as const;

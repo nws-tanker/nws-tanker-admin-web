@@ -62,6 +62,7 @@ export type TankerTypeCompliance = {
   expired: number;
   no_permit: number;
   never_inspected: number;
+  in_progress: number;
   tanker_health_percentage: number; // valid / target
 };
 

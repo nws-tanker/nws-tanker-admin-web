@@ -2,10 +2,10 @@ import type { TankerUploadColumn } from '@/types';
 
 export const TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
   {
-    name: 'Reg No. (Mulkiya)',
+    name: 'Reg No. (V5C)',
     required: true,
-    description: 'Vehicle registration number from Mulkiya document',
-    example: 'ABC 1234',
+    description: 'Vehicle registration number from V5C document',
+    example: '4024/M',
   },
   {
     name: 'Owner / Driver Name',
@@ -26,10 +26,16 @@ export const TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
     example: 'Commercial',
   },
   {
-    name: 'Capacity M³',
+    name: 'Tanker Type',
+    required: true,
+    description: 'Drinking Water / Sewage Water / Treated Effluent',
+    example: 'Drinking Water',
+  },
+  {
+    name: 'Capacity M3',
     required: true,
     description: 'Tank capacity in cubic metres',
-    example: '12',
+    example: '2.9',
   },
   {
     name: 'Capacity Gallons',
@@ -46,8 +52,8 @@ export const TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
   {
     name: 'Governorate',
     required: true,
-    description: 'Oman governorate where the tanker primarily operates',
-    example: 'Muscat',
+    description: 'Governorate ID where the tanker primarily operates',
+    example: '10',
   },
   {
     name: 'Wilayat',
@@ -69,8 +75,14 @@ export const TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
   },
   {
     name: 'Contact Number',
-    required: false,
+    required: true,
     description: 'Driver or owner mobile number',
-    example: '+968 9123 4567',
+    example: '96891234567',
+  },
+  {
+    name: 'Email',
+    required: true,
+    description: 'Driver or owner email address',
+    example: 'driver@example.com',
   },
 ];

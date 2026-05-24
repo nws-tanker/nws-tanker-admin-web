@@ -27,10 +27,16 @@ export type {
   AlertsUnreadCountResponse,
 } from './alerts';
 export type {
+  ApprovedInspection,
+  ApprovedInspectionExpiryStatus,
+  ApprovedInspectionTankerType,
+  ApprovedInspectionsParams,
+  ApprovedInspectionsResponse,
+} from './permitRegeneration';
+export type {
   TankerUploadColumn,
   TankerUploadResponse,
   UploadError,
-  UploadErrorType,
 } from './tankerUpload';
 export type {
   ActiveUserResponse,

@@ -7,7 +7,7 @@ import { selectUserAccess } from '@/store/slices/authSlice';
 import type { ConfigTab } from '@/types/configuration';
 import { ClusterSetupTab } from './components/cluster-setup/ClusterSetupTab';
 import { ConfigurationTabs } from './components/ConfigurationTabs';
-import { FleetTargetsTab } from './components/fleet-targets/FleetTargetsTab';
+// import { FleetTargetsTab } from './components/fleet-targets/FleetTargetsTab';
 import { NotificationsTab } from './components/notifications/NotificationsTab';
 import { PermitSlaTab } from './components/permit-sla/PermitSlaTab';
 import { UsersAndRolesTab } from './components/users-roles/UsersAndRolesTab';
@@ -66,7 +66,7 @@ export default function ConfigurationPage() {
         {activeTab === 'users-roles' && <UsersAndRolesTab />}
         {activeTab === 'inspection-checklist' && <InspectionChecklist />}
         {activeTab === 'cluster-setup' && <ClusterSetupTab />}
-        {activeTab === 'fleet-targets' && <FleetTargetsTab />}
+        {/* {activeTab === 'fleet-targets' && <FleetTargetsTab />} */}
       </div>
     </AppShell>
   );

@@ -12,6 +12,7 @@ import {
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
 import alertsFeedApiReducer from './apiSlices/alertsFeedApiSlice';
 import alertsUnreadCountApiReducer from './apiSlices/alertsUnreadCountApiSlice';
+import approvedInspectionsApiReducer from './apiSlices/approvedInspectionsApiSlice';
 import executiveDashboardLookupsApiReducer from './apiSlices/executiveDashboardLookupsApiSlice';
 import executiveDashboardSummaryApiReducer from './apiSlices/executiveDashboardSummaryApiSlice';
 import executiveDashboardComplianceApiReducer from './apiSlices/executiveDashboardComplianceApiSlice';
@@ -48,6 +49,7 @@ const appReducer = combineReducers({
   activeUsersApi: activeUsersApiReducer,
   alertsFeedApi: alertsFeedApiReducer,
   alertsUnreadCountApi: alertsUnreadCountApiReducer,
+  approvedInspectionsApi: approvedInspectionsApiReducer,
   executiveDashboardLookupsApi: executiveDashboardLookupsApiReducer,
   executiveDashboardSummaryApi: executiveDashboardSummaryApiReducer,
   executiveDashboardComplianceApi: executiveDashboardComplianceApiReducer,

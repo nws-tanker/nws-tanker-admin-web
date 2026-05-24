@@ -46,7 +46,7 @@ export const CONFIG_TABS: { id: ConfigTab; label: string }[] = [
   { id: 'users-roles', label: 'Users & Roles' },
   { id: 'inspection-checklist', label: 'Inspection Checklist' },
   { id: 'cluster-setup', label: 'Cluster Setup' },
-  { id: 'fleet-targets', label: 'Fleet Targets' },
+  // { id: 'fleet-targets', label: 'Fleet Targets' },
 ];
 
 /* Per-tab access requirements. The user must hold the mapped permission for
