@@ -19,9 +19,9 @@ export type {
 export type { SidebarCounts, SidebarData } from './sidebar';
 export type {
   TankerUploadColumn,
+  TankerUploadMode,
   TankerUploadResponse,
   UploadError,
-  UploadErrorType,
 } from './tankerUpload';
 export type {
   ActiveUserResponse,

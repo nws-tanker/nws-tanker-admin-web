@@ -6,20 +6,22 @@ export type TankerUploadColumn = {
   example: string;
 };
 
-export type UploadErrorType = 'duplicate' | 'missing' | 'invalid';
-
 export type UploadError = {
-  rowNumber: number;
-  cardNumber: string;
-  field: string;
-  type: UploadErrorType;
-  reason: string;
-  badValue: string;
+  /** Row number in the source file, or null when the backend message has no row prefix. */
+  rowNumber: number | null;
+  /** Human-readable error message (with the "Row N:" prefix already stripped). */
+  message: string;
+  /** Original raw string returned by the backend. */
+  raw: string;
 };
 
+export type TankerUploadMode = 'UPSERT' | 'INSERT' | 'UPDATE';
+
 export type TankerUploadResponse = {
-  fileName: string;
+  mode: TankerUploadMode;
   totalRows: number;
-  importedCount: number;
-  errors: UploadError[];
+  successRows: number;
+  failedRows: number;
+  softDeletedRows: number;
+  errors: string[];
 };

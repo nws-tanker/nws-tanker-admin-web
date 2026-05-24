@@ -63,7 +63,19 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
 
   function toggleApplies(code: 'DW' | 'SW' | 'TE') {
     const key = APPLIES_KEY[code];
-    setLocalApplies((prev) => ({ ...prev, [key]: !prev[key] }));
+    const next = { ...localApplies, [key]: !localApplies[key] };
+    setLocalApplies(next);
+    onSave(localSeverity, localEvidenceType, next);
+  }
+
+  function handleSeverityChange(value: string) {
+    setLocalSeverity(value as typeof localSeverity);
+    onSave(value, localEvidenceType, localApplies);
+  }
+
+  function handleEvidenceChange(value: string) {
+    setLocalEvidenceType(value as typeof localEvidenceType);
+    onSave(localSeverity, value, localApplies);
   }
 
   function handleDone() {
@@ -106,7 +118,7 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
           <Select
             options={REQUIRED_TYPES}
             value={localSeverity}
-            onChange={(v) => setLocalSeverity(v as typeof localSeverity)}
+            onChange={(v) => handleSeverityChange(v)}
             size="sm"
           />
         ) : (
@@ -118,9 +130,7 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
           <Select
             options={EVIDENCE_TYPES}
             value={localEvidenceType}
-            onChange={(v) =>
-              setLocalEvidenceType(v as typeof localEvidenceType)
-            }
+            onChange={(v) => handleEvidenceChange(v)}
             size="sm"
             disabled
           />

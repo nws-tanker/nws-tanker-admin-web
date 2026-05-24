@@ -1,21 +1,30 @@
+import { useMemo, useState } from 'react';
+import { Pagination } from '@/atoms';
 import type { UploadError } from '@/types';
 import { ErrorRow } from './ErrorRow';
 
 type Props = {
   errors: UploadError[];
-  onDismiss: (rowNumber: number) => void;
 };
 
 const HEADERS: Array<{ label: string; width?: string }> = [
-  { label: 'Row #', width: '8%' },
-  { label: 'Card No.', width: '12%' },
-  { label: 'Field', width: '15%' },
+  { label: 'Row #', width: '10%' },
   { label: 'Error', width: 'auto' },
-  { label: '', width: '12%' },
 ];
 
-export function ErrorRowsTable({ errors, onDismiss }: Props) {
+const PAGE_SIZE = 10;
+
+export function ErrorRowsTable({ errors }: Props) {
   const count = errors.length;
+  const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+  const [page, setPage] = useState(1);
+
+  const currentPage = Math.min(page, totalPages);
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const pageErrors = useMemo(
+    () => errors.slice(pageStart, pageStart + PAGE_SIZE),
+    [errors, pageStart],
+  );
 
   return (
     <div className="mb-5 overflow-hidden rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
@@ -47,15 +56,24 @@ export function ErrorRowsTable({ errors, onDismiss }: Props) {
           </tr>
         </thead>
         <tbody>
-          {errors.map((e) => (
-            <ErrorRow
-              key={`${e.rowNumber}-${e.field}`}
-              error={e}
-              onSkip={() => onDismiss(e.rowNumber)}
-            />
+          {pageErrors.map((e) => (
+            <ErrorRow key={e.raw} error={e} />
           ))}
         </tbody>
       </table>
+      {totalPages > 1 ? (
+        <div className="flex items-center justify-between gap-4 border-t border-ink-100 px-5 py-3">
+          <div className="text-[12px] text-ink-500">
+            Showing {pageStart + 1}–{Math.min(pageStart + PAGE_SIZE, count)} of{' '}
+            {count}
+          </div>
+          <Pagination
+            page={currentPage}
+            totalPages={totalPages}
+            onChange={setPage}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

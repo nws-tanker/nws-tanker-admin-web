@@ -20,7 +20,7 @@ export default function InspectionChecklist() {
     handleAddItem,
   } = useInspectionChecklistForm();
 
-  if (state === States.LOADING || state === States.PRELOADING) {
+  if ((state === States.LOADING || state === States.PRELOADING) && !data) {
     return (
       <div className="flex h-48 items-center justify-center text-[13px] text-ink-400">
         Loading inspection checklist…
@@ -28,7 +28,20 @@ export default function InspectionChecklist() {
     );
   }
 
-  if (state === States.ERROR || !data) {
+  if (state === States.ERROR && !data) {
+    return (
+      <div className="flex h-48 flex-col items-center justify-center gap-3">
+        <p className="text-[13px] text-red-500">
+          {error ?? 'Failed to load inspection checklist'}
+        </p>
+        <Button variant="secondary" size="sm" onClick={retry}>
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
+  if (!data) {
     return (
       <div className="flex h-48 flex-col items-center justify-center gap-3">
         <p className="text-[13px] text-red-500">

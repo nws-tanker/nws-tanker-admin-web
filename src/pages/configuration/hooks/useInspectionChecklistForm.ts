@@ -40,10 +40,12 @@ export function useInspectionChecklistForm() {
 
   async function handleSaveChanges() {
     setSaving(true);
+    console.log('The data to be edited is ', dataToBeEdited);
     try {
       const response = await saveInspectionChecklist(dataToBeEdited);
       if (response.success) {
         toast.show('Checklist saved successfully');
+        retry();
       } else {
         toast.show(response.error?.description ?? 'Failed to save checklist', {
           tone: 'error',
