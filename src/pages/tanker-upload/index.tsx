@@ -5,10 +5,12 @@ import { TANKER_UPLOAD_COLUMNS } from '@/constants/tankerUpload';
 import { downloadCsv } from '@/utils';
 import { ColumnSpecTable } from './components/ColumnSpecTable';
 import { DropZone } from './components/DropZone';
+import { ErrorRowsTable } from './components/ErrorRowsTable';
 import { ProcessingCard } from './components/ProcessingCard';
 import { UploadSummaryCard } from './components/UploadSummaryCard';
 import { useTankerUploadColumns } from './hooks/useTankerUploadColumns';
 import { useTankerUploadFlow } from './hooks/useTankerUploadFlow';
+import { parseUploadErrors } from './tankerUploadHelpers';
 
 const TEMPLATE_FILENAME = 'tanker-upload-template.csv';
 
@@ -47,7 +49,16 @@ export default function TankerUploadPage() {
           <ProcessingCard fileName={phase.fileName} />
         ) : null}
         {phase.kind === 'done' ? (
-          <UploadSummaryCard result={phase.result} onUploadAnother={reset} />
+          <>
+            <UploadSummaryCard
+              fileName={phase.fileName}
+              result={phase.result}
+              onUploadAnother={reset}
+            />
+            {phase.result.errors.length ? (
+              <ErrorRowsTable errors={parseUploadErrors(phase.result.errors)} />
+            ) : null}
+          </>
         ) : null}
 
         <ColumnSpecTable columns={columns} state={state} onRetry={retry} />

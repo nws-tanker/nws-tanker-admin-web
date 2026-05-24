@@ -28,7 +28,6 @@ export type {
   TankerUploadColumn,
   TankerUploadResponse,
   UploadError,
-  UploadErrorType,
 } from './tankerUpload';
 export type {
   ActiveUserResponse,
