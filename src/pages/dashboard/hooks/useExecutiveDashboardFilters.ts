@@ -25,7 +25,7 @@ export function useExecutiveDashboardFilters(
   userClusterId: number | null | undefined,
 ): UseExecutiveDashboardFiltersReturn {
   const [filters, setFilters] = useState<ExecutiveDashboardFilters>({
-    fiscalYears: [new Date().getFullYear()],
+    fiscalYears: [],
     quarters: [],
     clusterIds: [],
   });
@@ -34,10 +34,8 @@ export function useExecutiveDashboardFilters(
   // Wait for both lookups and current user profile before initialising
   useEffect(() => {
     if (!lookupsData || userClusterId === undefined) return;
-    const defaultYear = lookupsData.fiscal_year.find((fy) => fy.default);
     setFilters((prev) => ({
       ...prev,
-      fiscalYears: defaultYear ? [defaultYear.year] : prev.fiscalYears,
       clusterIds: userClusterId !== null ? [userClusterId] : prev.clusterIds,
     }));
     setIsInitialized(true);

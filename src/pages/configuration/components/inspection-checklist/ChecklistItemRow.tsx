@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Button, Chip, Select } from '@/atoms';
-import type { ChecklistItemResponse } from '@/types/configuration';
-
-const TANKER_TYPES = [
-  { code: 'DW' as const, tone: 'blue' as const },
-  { code: 'SW' as const, tone: 'amber' as const },
-  { code: 'TE' as const, tone: 'green' as const },
-];
+import type {
+  ChecklistItemResponse,
+  CommentAppliesTo,
+} from '@/types/configuration';
+import { CommentChipsCell } from './CommentChipsCell';
+import { TANKER_TYPES } from './constants';
 
 const REQUIRED_TYPES: { value: string; label: string }[] = [
   { value: 'mandatory', label: 'Mandatory' },
@@ -26,6 +25,7 @@ type Props = {
     severity: string,
     evidenceType: string,
     appliesTo: AppliesTo,
+    commentAppliesTo: CommentAppliesTo,
   ) => void;
 };
 
@@ -48,6 +48,10 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
     sw: item.appliesToSw,
     te: item.appliesToTe,
   });
+  const [localComment, setLocalComment] = useState<CommentAppliesTo>({
+    yes: item.isYesComment,
+    no: item.isNoComment,
+  });
 
   useEffect(() => {
     setLocalSeverity(item.severity);
@@ -57,29 +61,32 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
       sw: item.appliesToSw,
       te: item.appliesToTe,
     });
+    setLocalComment({ yes: item.isYesComment, no: item.isNoComment });
     setEditable(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.id]);
 
   function toggleApplies(code: 'DW' | 'SW' | 'TE') {
     const key = APPLIES_KEY[code];
-    const next = { ...localApplies, [key]: !localApplies[key] };
-    setLocalApplies(next);
-    onSave(localSeverity, localEvidenceType, next);
+    setLocalApplies((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
-  function handleSeverityChange(value: string) {
-    setLocalSeverity(value as typeof localSeverity);
-    onSave(value, localEvidenceType, localApplies);
+  function handleSeverityChange(v: string) {
+    const next = v as typeof localSeverity;
+    setLocalSeverity(next);
+    if (next === 'optional') {
+      setLocalComment({ yes: false, no: false });
+    }
   }
 
-  function handleEvidenceChange(value: string) {
-    setLocalEvidenceType(value as typeof localEvidenceType);
-    onSave(localSeverity, value, localApplies);
+  function toggleComment(code: 'Yes' | 'No') {
+    setLocalComment(
+      code === 'Yes' ? { yes: true, no: false } : { yes: false, no: true },
+    );
   }
 
   function handleDone() {
-    onSave(localSeverity, localEvidenceType, localApplies);
+    onSave(localSeverity, localEvidenceType, localApplies, localComment);
     setEditable(false);
   }
 
@@ -125,12 +132,22 @@ export function ChecklistItemRow({ item, itemNumber, onSave }: Props) {
           <span className="capitalize">{localSeverity}</span>
         )}
       </td>
+      <td className="h-[56px] px-4 py-3">
+        <CommentChipsCell
+          value={localComment}
+          disabled={localSeverity === 'optional'}
+          editable={editable}
+          onToggle={toggleComment}
+        />
+      </td>
       <td className="h-[56px] px-4 py-3 text-ink-800">
         {editable ? (
           <Select
             options={EVIDENCE_TYPES}
             value={localEvidenceType}
-            onChange={(v) => handleEvidenceChange(v)}
+            onChange={(v) =>
+              setLocalEvidenceType(v as typeof localEvidenceType)
+            }
             size="sm"
             disabled
           />

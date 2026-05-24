@@ -55,29 +55,37 @@ export default function InspectionChecklist() {
   }
 
   const { summary, categories } = data;
+  const totalItems = summary?.totalItems ?? 0;
 
   return (
     <div className="flex flex-col gap-5">
       <ChecklistKpiStrip summary={summary} />
 
-      <ChecklistInfoBanner totalItems={summary.totalItems} />
+      <ChecklistInfoBanner totalItems={totalItems} />
 
       <div className="flex flex-col gap-4">
-        {categories.map((category, index) => (
-          <ChecklistSection
-            key={category.id}
-            category={category}
-            categoryIndex={index}
-            onItemSave={handleItemSave}
-            onAddItem={handleAddItem}
-            onDraftChange={handleDraftChange}
-          />
-        ))}
+        {!categories || categories.length === 0 || totalItems === 0 ? (
+          <div className="flex h-32 items-center justify-center rounded-card border border-dashed border-ink-200 text-[13px] text-ink-400">
+            There are currently no checklist items.
+          </div>
+        ) : (
+          categories.map((category, index) => (
+            <ChecklistSection
+              key={category.id}
+              category={category}
+              categoryIndex={index}
+              onItemSave={handleItemSave}
+              onAddItem={handleAddItem}
+              onDraftChange={handleDraftChange}
+            />
+          ))
+        )}
       </div>
 
       <ChecklistSaveFooter
         hasOpenDrafts={hasOpenDrafts}
         saving={saving}
+        hasItems={totalItems > 0}
         onSave={handleSaveChanges}
       />
     </div>

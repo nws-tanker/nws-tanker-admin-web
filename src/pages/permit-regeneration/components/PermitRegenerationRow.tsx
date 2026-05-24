@@ -1,0 +1,65 @@
+import { Button, Checkbox, Chip } from '@/atoms';
+import { FileTextIcon } from '@/atoms/icons';
+import { TYPE_CHIP_COLOR, TYPE_LABELS } from '@/constants/fleet';
+import type { ApprovedInspection } from '@/types/permitRegeneration';
+import { formatDate } from '@/utils';
+import { expiryColorClass } from '../permitRegenerationHelpers';
+
+type Props = {
+  row: ApprovedInspection;
+  selected: boolean;
+  onToggle: (id: number) => void;
+  onOpenPdf: (row: ApprovedInspection) => void;
+};
+
+export function PermitRegenerationRow({
+  row,
+  selected,
+  onToggle,
+  onOpenPdf,
+}: Props) {
+  return (
+    <tr className="border-b border-ink-100 last:border-b-0 hover:bg-ink-25">
+      <td className="px-4 py-3">
+        <Checkbox
+          checked={selected}
+          onChange={() => onToggle(row.inspection_id)}
+          aria-label={`Select ${row.plate_number}`}
+        />
+      </td>
+      <td className="px-4 py-3 font-mono text-[13px] font-medium text-ink-900">
+        {row.plate_number}
+      </td>
+      <td className="px-4 py-3 text-[13px] text-ink-800">{row.owner}</td>
+      <td className="px-4 py-3">
+        <Chip tone={TYPE_CHIP_COLOR[row.tanker_type]}>
+          {TYPE_LABELS[row.tanker_type]}
+        </Chip>
+      </td>
+      <td className="px-4 py-3 text-[13px] text-ink-700">{row.cluster}</td>
+      <td className="px-4 py-3 text-[13px] text-ink-700">{row.governorate}</td>
+      <td className="px-4 py-3 font-mono text-[12px] text-ink-700">
+        {row.permit_number}
+      </td>
+      <td className="px-4 py-3">
+        <Button
+          variant="ghost"
+          size="sm"
+          leftIcon={<FileTextIcon className="h-3.5 w-3.5" />}
+          onClick={() => onOpenPdf(row)}
+          className="!px-0 !text-teal-700 hover:!bg-transparent hover:!text-teal-800 hover:underline"
+        >
+          View PDF
+        </Button>
+      </td>
+      <td
+        className={`px-4 py-3 text-[13px] font-medium ${expiryColorClass(row.expiry_status)}`}
+      >
+        {formatDate(row.expiry_date)}
+      </td>
+      <td className="px-4 py-3 text-[13px] text-ink-700">
+        {row.last_inspector}
+      </td>
+    </tr>
+  );
+}

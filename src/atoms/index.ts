@@ -5,6 +5,7 @@ export { Input } from './Input';
 export { Badge } from './Badge';
 export type { BadgeTone } from './Badge';
 export { Button } from './Button';
+export { Checkbox } from './Checkbox';
 export { Chip } from './Chip';
 export type { ChipTone } from './Chip';
 export { CountBadge } from './CountBadge';

@@ -3,6 +3,8 @@ import type {
   ChecklistEvidenceType,
   ChecklistSeverity,
 } from '@/types/configuration';
+import { CommentChipsCell } from './CommentChipsCell';
+import { TANKER_TYPES } from './constants';
 
 export type CommittedNewItem = {
   localId: string;
@@ -13,13 +15,9 @@ export type CommittedNewItem = {
   appliesToDw: boolean;
   appliesToSw: boolean;
   appliesToTe: boolean;
+  isYesComment: boolean;
+  isNoComment: boolean;
 };
-
-const TANKER_TYPES = [
-  { code: 'DW' as const, tone: 'blue' as const },
-  { code: 'SW' as const, tone: 'amber' as const },
-  { code: 'TE' as const, tone: 'green' as const },
-];
 
 function getAppliesTo(
   item: CommittedNewItem,
@@ -56,6 +54,12 @@ export default function CommittedItemRow({ item }: Props) {
         </div>
       </td>
       <td className="px-4 py-3 capitalize text-ink-800">{item.severity}</td>
+      <td className="px-4 py-3">
+        <CommentChipsCell
+          value={{ yes: item.isYesComment, no: item.isNoComment }}
+          disabled={false}
+        />
+      </td>
       <td className="px-4 py-3 capitalize text-ink-800">{item.evidenceType}</td>
       <td className="px-4 py-3">
         <span className="rounded-full bg-teal-100 px-2.5 py-1 text-[11px] font-medium text-teal-800">
