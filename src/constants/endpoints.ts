@@ -56,4 +56,5 @@ export const ENDPOINTS = {
   paymentReport: '/api/reports/payment-report',
   approvedInspections: '/api/inspection/review-screen/approved-inspections',
   regeneratePermits: '/api/inspection/review-screen/regenerate-permits',
+  governorates: '/api/configurations/governorates',
 } as const;

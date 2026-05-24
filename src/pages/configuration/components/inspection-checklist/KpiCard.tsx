@@ -2,7 +2,7 @@ type Props = {
   label: string;
   value: string | number;
   unit?: string;
-  footnote: string;
+  footnote?: string;
 };
 
 export default function KpiCard({ label, value, unit, footnote }: Props) {
