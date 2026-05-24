@@ -63,6 +63,12 @@ export const NAV_SECTIONS: NavSection[] = [
         countKey: 'pendingInspectionReviews',
       },
       {
+        key: 'permit-regeneration',
+        label: 'Permit Regeneration',
+        icon: FileIcon,
+        routeKey: 'permitRegeneration',
+      },
+      {
         key: 'permit-renewal',
         label: 'Permit Renewal',
         icon: FileIcon,

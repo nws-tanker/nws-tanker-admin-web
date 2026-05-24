@@ -23,6 +23,9 @@ import OperationsPage from '@/pages/operations';
 const ExecutiveDashboard = lazy(() => import('@/pages/dashboard'));
 const FleetCompliancePage = lazy(() => import('@/pages/fleet-compliance'));
 const ReportsPage = lazy(() => import('@/pages/reports'));
+const PermitRegenerationPage = lazy(
+  () => import('@/pages/permit-regeneration'),
+);
 
 export default function App() {
   useAuthBootstrap();
@@ -105,6 +108,16 @@ export default function App() {
           <ProtectedRoute route="fleetCompliance">
             <Suspense fallback={null}>
               <FleetCompliancePage />
+            </Suspense>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.permitRegeneration}
+        element={
+          <ProtectedRoute route="permitRegeneration">
+            <Suspense fallback={null}>
+              <PermitRegenerationPage />
             </Suspense>
           </ProtectedRoute>
         }

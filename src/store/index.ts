@@ -10,6 +10,7 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 import activeUsersApiReducer from './apiSlices/activeUsersApiSlice';
+import approvedInspectionsApiReducer from './apiSlices/approvedInspectionsApiSlice';
 import executiveDashboardLookupsApiReducer from './apiSlices/executiveDashboardLookupsApiSlice';
 import executiveDashboardSummaryApiReducer from './apiSlices/executiveDashboardSummaryApiSlice';
 import executiveDashboardComplianceApiReducer from './apiSlices/executiveDashboardComplianceApiSlice';
@@ -44,6 +45,7 @@ export const resetAllApiData = createAction('store/resetAllApiData');
 
 const appReducer = combineReducers({
   activeUsersApi: activeUsersApiReducer,
+  approvedInspectionsApi: approvedInspectionsApiReducer,
   executiveDashboardLookupsApi: executiveDashboardLookupsApiReducer,
   executiveDashboardSummaryApi: executiveDashboardSummaryApiReducer,
   executiveDashboardComplianceApi: executiveDashboardComplianceApiReducer,

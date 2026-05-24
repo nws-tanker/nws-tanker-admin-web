@@ -18,6 +18,13 @@ export type {
 } from './lookups';
 export type { SidebarCounts, SidebarData } from './sidebar';
 export type {
+  ApprovedInspection,
+  ApprovedInspectionExpiryStatus,
+  ApprovedInspectionTankerType,
+  ApprovedInspectionsParams,
+  ApprovedInspectionsResponse,
+} from './permitRegeneration';
+export type {
   TankerUploadColumn,
   TankerUploadResponse,
   UploadError,
