@@ -6,17 +6,15 @@ import { AppShell } from '@/common-components/AppShell';
 import { ScreenStatus } from '@/common-components/ScreenStatus';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useLookups } from '@/hooks/useLookups';
-import { regeneratePermitsApi } from '@/services/permitRegenerationService';
 import { States } from '@/store/types';
+import { formatDateRangeLabel } from '@/utils';
 import { PermitRegenerationFilters } from './components/PermitRegenerationFilters';
 import { PermitRegenerationTable } from './components/PermitRegenerationTable';
-import {
-  PERMIT_REGENERATION_PAGE_SIZE,
-  REGENERATE_PERMITS_DEFAULTS,
-} from './constants';
+import { PERMIT_REGENERATION_PAGE_SIZE } from './constants';
 import { generatePermitRegenerationExcel } from './excel/permitRegenerationExcel';
 import { usePermitRegenerationData } from './hooks/usePermitRegenerationData';
 import { usePermitRegenerationFilters } from './hooks/usePermitRegenerationFilters';
+import { useRegeneratePermits } from './hooks/useRegeneratePermits';
 import { useRowSelection } from './hooks/useRowSelection';
 
 const PAGE_SIZE = PERMIT_REGENERATION_PAGE_SIZE;
@@ -57,13 +55,19 @@ export default function PermitRegenerationPage() {
   const { apiState, data, retry } = usePermitRegenerationData(queryParams);
   const selection = useRowSelection();
   const toast = useToast();
-  const [isRegenerating, setIsRegenerating] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
   const rows = data?.data ?? [];
   const totalCount = data?.total_elements ?? 0;
   const totalPages = data?.total_pages ?? 0;
   const selectedCount = selection.selectedIds.size;
+
+  const { isRegenerating, regenerate } = useRegeneratePermits({
+    onSuccess: () => {
+      selection.clear();
+      retry();
+    },
+  });
 
   const handleFilterChange =
     <T,>(setter: (v: T) => void) =>
@@ -72,33 +76,7 @@ export default function PermitRegenerationPage() {
       setPage(0);
     };
 
-  const handleRegenerate = async () => {
-    if (selectedCount === 0 || isRegenerating) return;
-    setIsRegenerating(true);
-    try {
-      const response = await regeneratePermitsApi({
-        inspection_ids: Array.from(selection.selectedIds),
-        send_email: REGENERATE_PERMITS_DEFAULTS.sendEmail,
-        send_whatsapp: REGENERATE_PERMITS_DEFAULTS.sendWhatsapp,
-      });
-      if (response.success) {
-        toast.show(
-          `Regenerated ${response.data?.regenerated_count ?? selectedCount} permit${selectedCount === 1 ? '' : 's'}`,
-        );
-        selection.clear();
-        retry();
-      } else {
-        toast.show(
-          response.error?.description ?? 'Failed to regenerate permits',
-          { tone: 'error' },
-        );
-      }
-    } catch {
-      toast.show('Failed to regenerate permits', { tone: 'error' });
-    } finally {
-      setIsRegenerating(false);
-    }
-  };
+  const handleRegenerate = () => regenerate(Array.from(selection.selectedIds));
 
   const handleExport = async () => {
     if (isExporting) return;
@@ -108,10 +86,10 @@ export default function PermitRegenerationPage() {
     }
     setIsExporting(true);
     try {
-      const periodLabel =
-        filters.startDate && filters.endDate
-          ? `${filters.startDate} to ${filters.endDate}`
-          : new Date().toISOString().slice(0, 10);
+      const periodLabel = formatDateRangeLabel(
+        filters.startDate,
+        filters.endDate,
+      );
       await generatePermitRegenerationExcel(rows, periodLabel);
       toast.show('Export downloaded');
     } catch {
