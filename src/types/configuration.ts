@@ -196,7 +196,7 @@ export type UserRole =
   | 'OPERATIONS_MANAGER'
   | 'SUPERVISOR'
   | 'CLUSTER_MANAGER'
-  | 'EXECUTIVE'
+  | 'EXECUTIVE_CXO'
   | 'INSPECTOR';
 
 export type UserStatus = 'active' | 'inactive';

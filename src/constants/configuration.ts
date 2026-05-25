@@ -75,7 +75,7 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   OPERATIONS_MANAGER: 'Operations Manager',
   SUPERVISOR: 'Supervisor',
   CLUSTER_MANAGER: 'Cluster Manager',
-  EXECUTIVE: 'Executive',
+  EXECUTIVE_CXO: 'Executive',
   INSPECTOR: 'Inspector',
 };
 
@@ -83,7 +83,7 @@ export const ROLE_IDS: Record<UserRole, number> = {
   OPERATIONS_MANAGER: 1,
   CLUSTER_MANAGER: 2,
   SUPERVISOR: 3,
-  EXECUTIVE: 4,
+  EXECUTIVE_CXO: 4,
   INSPECTOR: 5,
 };
 
@@ -91,7 +91,7 @@ export const ROLE_CHIP_TONE: Record<UserRole, ChipTone> = {
   OPERATIONS_MANAGER: 'teal',
   SUPERVISOR: 'amber',
   CLUSTER_MANAGER: 'blue',
-  EXECUTIVE: 'gray',
+  EXECUTIVE_CXO: 'gray',
   INSPECTOR: 'green',
 };
 

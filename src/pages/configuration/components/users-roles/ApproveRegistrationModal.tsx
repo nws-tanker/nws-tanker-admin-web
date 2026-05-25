@@ -25,7 +25,10 @@ const CONTRACTOR_ROLES = new Set<UserRole>([
   'SUPERVISOR',
   'INSPECTOR',
 ]);
-const EMPLOYEE_ROLES = new Set<UserRole>(['OPERATIONS_MANAGER', 'EXECUTIVE']);
+const EMPLOYEE_ROLES = new Set<UserRole>([
+  'OPERATIONS_MANAGER',
+  'EXECUTIVE_CXO',
+]);
 
 const CONTRACTOR_ROLE_OPTIONS = ALL_ROLE_OPTIONS.filter((o) =>
   CONTRACTOR_ROLES.has(o.value),
