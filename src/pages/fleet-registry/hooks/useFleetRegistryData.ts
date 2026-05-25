@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useLookups } from '@/hooks/useLookups';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchFleetTankers } from '@/store/apiSlices/fleetRegistryApiSlice';
-import { States } from '@/store/types';
 
 export function useFleetRegistryData() {
   const dispatch = useAppDispatch();
@@ -17,10 +16,8 @@ export function useFleetRegistryData() {
   } = useLookups();
 
   useEffect(() => {
-    if (fleet.apiState === States.PRELOADING) {
-      dispatch(fetchFleetTankers());
-    }
-  }, [dispatch, fleet.apiState]);
+    dispatch(fetchFleetTankers());
+  }, [dispatch]);
 
   return {
     tankers: fleet.data ?? [],

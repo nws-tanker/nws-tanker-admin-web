@@ -70,6 +70,7 @@ export default function InspectionPage() {
                 onPageChange={setPage}
                 onView={handleNavigateToDetails}
                 onReview={handleNavigateToDetails}
+                onRequeueSuccess={retry}
               />
             )}
           </>
