@@ -19,6 +19,7 @@ export function LabReport({ data, onUploadSuccess }: Props) {
   const inspectionId = data.id;
   const { report } = data.lab;
   const uploaded = !!report.id;
+  const workOrderRef = data.sample_collection?.work_order_reference;
 
   const uploadModal = (
     <UploadReportModal
@@ -33,14 +34,24 @@ export function LabReport({ data, onUploadSuccess }: Props) {
     return (
       <>
         <div className="overflow-hidden rounded-card border border-ink-200 shadow-card-sm">
-          <div className="flex items-center gap-2.5 border-b border-ink-100 px-5 py-3.5">
-            <span className="text-[14px] font-semibold text-ink-800">
-              Lab Test Report
-            </span>
-            <span className="flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-2 py-0.5 text-[10px] font-semibold text-green-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-              Uploaded
-            </span>
+          <div className="flex items-center justify-between gap-2.5 border-b border-ink-100 px-5 py-3.5">
+            <div className="flex items-center gap-2.5">
+              <span className="text-[14px] font-semibold text-ink-800">
+                Lab Test Report
+              </span>
+              <span className="flex items-center gap-1.5 rounded-full border border-green-200 bg-green-50 px-2 py-0.5 text-[10px] font-semibold text-green-700">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                Uploaded
+              </span>
+            </div>
+            {workOrderRef && (
+              <span className="flex items-center gap-1.5 text-[11px] font-medium text-ink-500">
+                Work Order Ref:
+                <span className="font-mono font-semibold text-ink-700">
+                  {workOrderRef}
+                </span>
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-3.5 bg-white px-5 py-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-card bg-red-100">
@@ -87,12 +98,22 @@ export function LabReport({ data, onUploadSuccess }: Props) {
     <>
       <div className="overflow-hidden rounded-card border border-ink-200 shadow-card-sm">
         <div className="flex items-center justify-between border-b border-ink-100 px-5 py-3.5">
-          <span className="text-[14px] font-semibold text-ink-800">
-            Lab Test Report
-          </span>
-          <span className="text-[11px] font-medium text-amber-600">
-            Required before approval
-          </span>
+          <div className="flex items-center gap-2.5">
+            <span className="text-[14px] font-semibold text-ink-800">
+              Lab Test Report
+            </span>
+            <span className="text-[11px] font-medium text-amber-600">
+              Required before approval
+            </span>
+          </div>
+          {workOrderRef && (
+            <span className="flex items-center gap-1.5 text-[11px] font-medium text-ink-500">
+              Work Order Ref:
+              <span className="font-mono font-semibold text-ink-700">
+                {workOrderRef}
+              </span>
+            </span>
+          )}
         </div>
         <div className="bg-white p-5">
           <div className="rounded-card-lg border-2 border-dashed border-ink-200 px-6 py-7 text-center">
