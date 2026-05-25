@@ -1,8 +1,12 @@
 import { Button } from '@/atoms';
 import { UploadIcon } from '@/atoms/icons';
+import { TANKER_UPLOAD_COLUMNS } from '@/constants/tankerUpload';
 import type { TankerUploadResponse } from '@/types';
+import { downloadCsv } from '@/utils';
 import { SummaryStat } from './SummaryStat';
 import { UploadResultBanner } from './UploadResultBanner';
+
+const ERRORS_FILENAME = 'tanker-upload-errors.csv';
 
 type Props = {
   fileName: string;
@@ -15,7 +19,17 @@ export function UploadSummaryCard({
   result,
   onUploadAnother,
 }: Props) {
-  const { totalRows, successRows, failedRows } = result;
+  const { totalRows, successRows, failedRows, failedRecords } = result;
+
+  const handleDownloadErrors = () => {
+    if (!failedRecords?.length) return;
+    const headers = [...TANKER_UPLOAD_COLUMNS.map((c) => c.name), 'Errors'];
+    const rows = failedRecords.map((r) => [
+      ...TANKER_UPLOAD_COLUMNS.map((c) => r[c.recordKey] ?? ''),
+      r.errorMsg ?? '',
+    ]);
+    downloadCsv(ERRORS_FILENAME, headers, rows);
+  };
 
   return (
     <div className="mb-5 overflow-hidden rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
@@ -49,6 +63,7 @@ export function UploadSummaryCard({
           totalRows={totalRows}
           importedCount={successRows}
           failedCount={failedRows}
+          onDownloadErrors={handleDownloadErrors}
         />
       </div>
     </div>

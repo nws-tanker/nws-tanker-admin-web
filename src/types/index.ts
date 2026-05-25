@@ -34,6 +34,7 @@ export type {
   ApprovedInspectionsResponse,
 } from './permitRegeneration';
 export type {
+  FailedRecord,
   TankerUploadColumn,
   TankerUploadResponse,
   UploadError,
