@@ -95,8 +95,12 @@ export async function rejectInspection(
 export async function uploadLabReport(
   inspectionId: string,
   file: File,
+  bypassWorkOrderValidation?: boolean,
 ): Promise<ApiResponse<unknown>> {
-  const url = ENDPOINTS.labResult.replace('{inspectionId}', inspectionId);
+  const baseUrl = ENDPOINTS.labResult.replace('{inspectionId}', inspectionId);
+  const url = bypassWorkOrderValidation
+    ? `${baseUrl}?bypassWorkOrderValidation=true`
+    : baseUrl;
   return uploadFile<unknown>(url, { file, fieldName: 'file' });
 }
 
