@@ -6,6 +6,7 @@ import { AppShell } from '@/common-components/AppShell';
 import { ScreenStatus } from '@/common-components/ScreenStatus';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useLookups } from '@/hooks/useLookups';
+import { useUserClusterId } from '@/hooks/useUserClusterId';
 import { States } from '@/store/types';
 import { formatDateRangeLabel } from '@/utils';
 import { PermitRegenerationFilters } from './components/PermitRegenerationFilters';
@@ -21,14 +22,28 @@ const PAGE_SIZE = PERMIT_REGENERATION_PAGE_SIZE;
 
 export default function PermitRegenerationPage() {
   const { lookups } = useLookups();
+  const userClusterId = useUserClusterId();
+
   const filterBag = usePermitRegenerationFilters();
-  const { filters } = filterBag;
+  const { filters, setClusterId } = filterBag;
   const [page, setPage] = useState(0);
   const debouncedSearch = useDebouncedValue(filters.search, 400);
 
   useEffect(() => {
     setPage(0);
   }, [debouncedSearch]);
+
+  useEffect(() => {
+    if (userClusterId != null && filters.clusterId !== userClusterId) {
+      setClusterId(userClusterId);
+    }
+  }, [userClusterId, filters.clusterId, setClusterId]);
+
+  const allClusters = lookups?.clusters ?? [];
+  const scopedClusters =
+    userClusterId == null
+      ? allClusters
+      : allClusters.filter((c) => c.id === userClusterId);
 
   const queryParams = useMemo(
     () => ({
@@ -147,7 +162,7 @@ export default function PermitRegenerationPage() {
 
         <PermitRegenerationFilters
           filters={filters}
-          clusters={lookups?.clusters ?? []}
+          clusters={scopedClusters}
           governorates={lookups?.governorates ?? []}
           onStartDate={handleFilterChange(filterBag.setStartDate)}
           onEndDate={handleFilterChange(filterBag.setEndDate)}
