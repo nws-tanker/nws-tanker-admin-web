@@ -8,10 +8,9 @@ export const COLUMNS: { key: keyof ClusterMetrics; label: string }[] = [
   { key: 'valid', label: 'Valid' },
   { key: 'expired', label: 'Expired' },
   { key: 'renewal_tankers', label: '≤30D' },
-  { key: 'pass_percentage', label: 'Pass' },
   { key: 'sla_percentage', label: 'SLA' },
   { key: 'lab', label: 'Lab' },
-  { key: 'compliance', label: 'Compliance' },
+  { key: 'compliance', label: 'Pass' },
 ];
 
 export const RED_COLS = new Set<keyof ClusterMetrics>([

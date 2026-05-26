@@ -17,16 +17,15 @@ export default function FleetComplianceFilters({
   filters,
   isClusterLocked,
   governorateOptions,
-  onFiscalYearIdsChange,
   onClusterIdsChange,
   onGovernorateIdsChange,
 }: Props) {
-  const fiscalYearOptions = lookupsData
-    ? lookupsData.fiscal_year.map((fy) => ({
-        value: String(fy.year),
-        label: `FY ${fy.year} (${fy.start.month} ${fy.start.year} – ${fy.end.month} ${fy.end.year})`,
-      }))
-    : [];
+  // const fiscalYearOptions = lookupsData
+  //   ? lookupsData.fiscal_year.map((fy) => ({
+  //       value: String(fy.year),
+  //       label: `FY ${fy.year} (${fy.start.month} ${fy.start.year} – ${fy.end.month} ${fy.end.year})`,
+  //     }))
+  //   : [];
 
   const clusterOptions = lookupsData
     ? lookupsData.clusters.map((c) => ({ value: String(c.id), label: c.name }))
@@ -39,14 +38,14 @@ export default function FleetComplianceFilters({
 
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <MultiSelect
+      {/* <MultiSelect
         placeholder="All Fiscal Years"
         options={fiscalYearOptions}
         value={filters.fiscalYearIds.map(String)}
         onChange={(vals) => onFiscalYearIdsChange(vals.map(Number))}
         minWidth={220}
         disabled={!lookupsData}
-      />
+      /> */}
       <MultiSelect
         placeholder="All Clusters"
         options={clusterOptions}

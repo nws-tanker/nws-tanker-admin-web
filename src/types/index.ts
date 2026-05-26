@@ -18,10 +18,26 @@ export type {
 } from './lookups';
 export type { SidebarCounts, SidebarData } from './sidebar';
 export type {
+  AlertCategory,
+  AlertItem,
+  AlertReferenceType,
+  AlertSeverity,
+  AlertsFeedParams,
+  AlertsFeedResponse,
+  AlertsUnreadCountResponse,
+} from './alerts';
+export type {
+  ApprovedInspection,
+  ApprovedInspectionExpiryStatus,
+  ApprovedInspectionTankerType,
+  ApprovedInspectionsParams,
+  ApprovedInspectionsResponse,
+} from './permitRegeneration';
+export type {
+  FailedRecord,
   TankerUploadColumn,
   TankerUploadResponse,
   UploadError,
-  UploadErrorType,
 } from './tankerUpload';
 export type {
   ActiveUserResponse,
@@ -72,3 +88,11 @@ export type {
   SummaryResponse,
   TankerTypeCompliance,
 } from './executiveDashboard';
+export type {
+  InvoiceReportResponse,
+  InvoiceReportRow,
+  InvoiceReportTotals,
+  PaymentReportResponse,
+  PaymentReportRow,
+  PaymentReportTotals,
+} from './reports';

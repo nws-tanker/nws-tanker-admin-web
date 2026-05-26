@@ -16,7 +16,7 @@ export default function InspectorPerformanceTable({
     <div className="rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
       <div className="flex items-center justify-between border-b border-ink-100 px-5 py-4">
         <h3 className="text-sm font-semibold text-ink-800">
-          Inspector Performance
+          Inspector Activity
         </h3>
         {data && (
           <span className="text-xs text-ink-400">
@@ -34,7 +34,7 @@ export default function InspectorPerformanceTable({
               <th className="px-4 py-3 text-right">Inspected</th>
               <th className="px-4 py-3 text-right">Rejected</th>
               <th className="px-4 py-3 text-right">Permits Issued</th>
-              <th className="px-5 py-3 text-right">Compliance Rate</th>
+              <th className="px-5 py-3 text-right">Approval Rate</th>
             </tr>
           </thead>
           <tbody>
