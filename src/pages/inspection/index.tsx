@@ -53,27 +53,23 @@ export default function InspectionPage() {
 
         {state === States.ERROR ? (
           <ScreenStatus state={state} onRetry={retry} />
+        ) : (state === States.LOADING || state === States.PRELOADING) &&
+          records.length === 0 ? (
+          <ScreenStatus state={state} />
         ) : (
-          <>
-            {(state === States.LOADING || state === States.PRELOADING) &&
-            records.length === 0 ? (
-              <ScreenStatus state={state} />
-            ) : (
-              <InspectionTable
-                activeTab={activeTab}
-                records={records}
-                totalElements={totalElements}
-                totalPages={totalPages}
-                page={page}
-                search={search}
-                onSearch={setSearch}
-                onPageChange={setPage}
-                onView={handleNavigateToDetails}
-                onReview={handleNavigateToDetails}
-                onRequeueSuccess={retry}
-              />
-            )}
-          </>
+          <InspectionTable
+            activeTab={activeTab}
+            records={records}
+            totalElements={totalElements}
+            totalPages={totalPages}
+            page={page}
+            search={search}
+            onSearch={setSearch}
+            onPageChange={setPage}
+            onView={handleNavigateToDetails}
+            onReview={handleNavigateToDetails}
+            onRequeueSuccess={retry}
+          />
         )}
       </div>
     </AppShell>
