@@ -8,9 +8,10 @@ import { useState } from 'react';
 type Props = {
   record: ApiInspectionRecord;
   onView: (record: ApiInspectionRecord) => void;
+  onRequeueSuccess?: () => void;
 };
 
-export function RejectedRow({ record, onView }: Props) {
+export function RejectedRow({ record, onView, onRequeueSuccess }: Props) {
   const [openRequeueInspectionModal, setOpenRequeueInspectionModal] =
     useState<boolean>(false);
   return (
@@ -56,6 +57,7 @@ export function RejectedRow({ record, onView }: Props) {
         open={openRequeueInspectionModal}
         onClose={() => setOpenRequeueInspectionModal(false)}
         record={record}
+        onSuccess={onRequeueSuccess}
       />
     </>
   );

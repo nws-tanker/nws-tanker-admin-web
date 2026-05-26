@@ -77,6 +77,7 @@ type Props = {
   onPageChange: (p: number) => void;
   onView: (record: ApiInspectionRecord) => void;
   onReview: (record: ApiInspectionRecord) => void;
+  onRequeueSuccess?: () => void;
 };
 
 export function InspectionTable({
@@ -90,6 +91,7 @@ export function InspectionTable({
   onPageChange,
   onView,
   onReview,
+  onRequeueSuccess,
 }: Props) {
   const headers = HEADERS[activeTab];
   const displayPage = page + 1;
@@ -160,7 +162,12 @@ export function InspectionTable({
                   ))}
                 {activeTab === 'rejected' &&
                   records.map((r) => (
-                    <RejectedRow key={r.id} record={r} onView={onView} />
+                    <RejectedRow
+                      key={r.id}
+                      record={r}
+                      onView={onView}
+                      onRequeueSuccess={onRequeueSuccess}
+                    />
                   ))}
               </tbody>
             </table>
