@@ -15,10 +15,10 @@ export type ForgotPasswordStep = 'email' | 'otp' | 'reset';
 
 type ResetValues = { newPassword: string; confirmPassword: string };
 
-export function useForgotPasswordFlow(onDone: () => void) {
+export function useForgotPasswordFlow(onDone: () => void, initialEmail = '') {
   const { show: showToast } = useToast();
   const [step, setStep] = useState<ForgotPasswordStep>('email');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(initialEmail);
   const [otp, setOtp] = useState('');
   const [resetValues, setResetValues] = useState<ResetValues>({
     newPassword: '',

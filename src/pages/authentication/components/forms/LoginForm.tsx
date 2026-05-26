@@ -5,7 +5,7 @@ import { useLoginForm } from '@/pages/authentication/hooks/useLoginForm';
 type Props = {
   onSwitchToEmployee: () => void;
   onSwitchToContractor: () => void;
-  onForgotPassword: () => void;
+  onForgotPassword: (email: string) => void;
 };
 
 export default function LoginForm({
@@ -94,7 +94,7 @@ export default function LoginForm({
             </label>
             <button
               type="button"
-              onClick={onForgotPassword}
+              onClick={() => onForgotPassword(values.email)}
               className="text-[12px] text-teal-700 font-medium hover:underline"
             >
               Forgot password?
