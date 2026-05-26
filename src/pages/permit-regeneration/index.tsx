@@ -28,6 +28,22 @@ export default function PermitRegenerationPage() {
   const [page, setPage] = useState(0);
   const debouncedSearch = useDebouncedValue(filters.search, 400);
 
+  useEffect(() => {
+    setPage(0);
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    if (userClusterId != null && filters.clusterId !== userClusterId) {
+      setClusterId(userClusterId);
+    }
+  }, [userClusterId, filters.clusterId, setClusterId]);
+
+  const allClusters = lookups?.clusters ?? [];
+  const scopedClusters =
+    userClusterId == null
+      ? allClusters
+      : allClusters.filter((c) => c.id === userClusterId);
+
   const queryParams = useMemo(
     () => ({
       page,
@@ -76,13 +92,7 @@ export default function PermitRegenerationPage() {
     (v: T) => {
       setter(v);
       setPage(0);
-      selection.clear();
     };
-
-  const handleSearch = (value: string) => {
-    filterBag.setSearch(value);
-    setPage(0);
-  };
 
   const handleRegenerate = () => regenerate(Array.from(selection.selectedIds));
 
@@ -119,7 +129,7 @@ export default function PermitRegenerationPage() {
           onClusterId={handleFilterChange(filterBag.setClusterId)}
           onGovernorateId={handleFilterChange(filterBag.setGovernorateId)}
           onTankerType={handleFilterChange(filterBag.setTankerType)}
-          onSearch={handleSearch}
+          onSearch={filterBag.setSearch}
         />
 
         {showTable ? (
