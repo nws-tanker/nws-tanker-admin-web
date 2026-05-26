@@ -99,7 +99,7 @@ export function InspectionTable({
   const to = Math.min(page * 20 + records.length, totalElements);
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-card-lg border border-ink-200 bg-white shadow-card-sm">
       <div className="flex shrink-0 items-center gap-2.5 border-b border-ink-100 px-5 py-3">
         <SearchInput
           value={search}
@@ -121,7 +121,7 @@ export function InspectionTable({
         />
       ) : (
         <>
-          <div className="min-h-0 flex-1 overflow-x-auto">
+          <div className="min-h-0 flex-1 overflow-auto">
             <table className="w-full text-[13px]">
               <thead>
                 <tr>

@@ -26,18 +26,14 @@ export default function InspectionPage() {
   const { state, counts, records, totalElements, totalPages, retry } =
     useInspectionData({ activeTab, search: debouncedSearch, page });
 
-  const subtitle = counts
-    ? `${counts.submitted} submitted · ${counts.in_review} pending review · ${counts.pending} pending re-inspection · ${counts.lab_pending} awaiting lab · ${counts.approved} approved · ${counts.rejected} rejected`
-    : 'Loading…';
-
   function handleNavigateToDetails(record: ApiInspectionRecord) {
     navigate(ROUTES.inspectionDetails.replace(':inspectionId', record.id));
   }
 
   return (
     <AppShell breadcrumbs={['Home', 'Inspection Review']}>
-      <div className="flex flex-col px-7 pt-7 pb-6">
-        <PageHeader title="Inspection Review" subtitle={subtitle} />
+      <div className="flex h-full min-h-0 flex-1 flex-col px-7 pt-7 pb-6">
+        <PageHeader title="Inspection Review" />
 
         <InspectionKpiStrip
           counts={counts}
