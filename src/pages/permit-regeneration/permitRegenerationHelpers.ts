@@ -2,6 +2,7 @@ import type {
   ApprovedInspectionTankerType,
   ApprovedInspectionExpiryStatus,
 } from '@/types/permitRegeneration';
+import type { Governorate } from '@/types';
 import { TYPE_LABELS } from '@/constants/fleet';
 
 export const TANKER_TYPE_OPTIONS: {
@@ -12,6 +13,14 @@ export const TANKER_TYPE_OPTIONS: {
   { value: 'sewage_water', label: TYPE_LABELS.sewage_water },
   { value: 'treated_effluent', label: TYPE_LABELS.treated_effluent },
 ];
+
+export function governoratesForCluster(
+  governorates: Governorate[],
+  selectedClusterId: number | null,
+): Governorate[] {
+  if (selectedClusterId == null) return governorates;
+  return governorates.filter((g) => g.clusterId === String(selectedClusterId));
+}
 
 export function expiryColorClass(
   status: ApprovedInspectionExpiryStatus,

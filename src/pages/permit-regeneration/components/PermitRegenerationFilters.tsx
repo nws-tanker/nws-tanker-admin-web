@@ -2,7 +2,10 @@ import { useMemo } from 'react';
 import { SearchInput, Select, TextInput, type SelectOption } from '@/atoms';
 import type { Cluster, Governorate } from '@/types';
 import type { ApprovedInspectionTankerType } from '@/types/permitRegeneration';
-import { TANKER_TYPE_OPTIONS } from '../permitRegenerationHelpers';
+import {
+  TANKER_TYPE_OPTIONS,
+  governoratesForCluster,
+} from '../permitRegenerationHelpers';
 import { todayIso } from '@/utils/date';
 import type { PermitRegenerationFilterState } from '../hooks/usePermitRegenerationFilters';
 
@@ -35,8 +38,12 @@ export function PermitRegenerationFilters({
   );
 
   const govOptions = useMemo<SelectOption[]>(
-    () => governorates.map((g) => ({ value: String(g.id), label: g.name })),
-    [governorates],
+    () =>
+      governoratesForCluster(governorates, filters.clusterId).map((g) => ({
+        value: String(g.id),
+        label: g.name,
+      })),
+    [governorates, filters.clusterId],
   );
 
   return (
@@ -62,12 +69,14 @@ export function PermitRegenerationFilters({
         aria-label="End date"
       />
 
-      <Select
-        placeholder="All Clusters"
-        options={clusterOptions}
-        value={filters.clusterId == null ? '' : String(filters.clusterId)}
-        onChange={(v) => onClusterId(v === '' ? null : Number(v))}
-      />
+      {clusters.length > 1 ? (
+        <Select
+          placeholder="All Clusters"
+          options={clusterOptions}
+          value={filters.clusterId == null ? '' : String(filters.clusterId)}
+          onChange={(v) => onClusterId(v === '' ? null : Number(v))}
+        />
+      ) : null}
       <Select
         placeholder="All Governorates"
         options={govOptions}
