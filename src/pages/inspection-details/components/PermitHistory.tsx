@@ -1,10 +1,8 @@
 import type { InspectionDetailsApiResponse } from '@/types/inspection';
 import { formatDate } from '@/utils';
 
-function isActive(status: string, expiresAt: string | null): boolean {
-  if (status?.toLowerCase() === 'active') return true;
-  if (expiresAt && new Date(expiresAt) > new Date()) return true;
-  return false;
+function isActive(status: string): boolean {
+  return status?.toLowerCase() !== 'expired';
 }
 
 type Props = { data: InspectionDetailsApiResponse };
@@ -53,7 +51,7 @@ export function PermitHistory({ data }: Props) {
           </thead>
           <tbody>
             {permit_history!.map((entry, i) => {
-              const active = isActive(entry.status, entry.expires_at);
+              const active = isActive(entry.status);
               return (
                 <tr
                   key={entry.permit_number + i}
