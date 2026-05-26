@@ -1,12 +1,11 @@
 import { Button } from '@/atoms';
 import { UploadIcon } from '@/atoms/icons';
-import { TANKER_UPLOAD_COLUMNS } from '@/constants/tankerUpload';
 import type { TankerUploadResponse } from '@/types';
-import { downloadCsv } from '@/utils';
+import { generateTankerUploadErrorsExcel } from '../excel/tankerUploadErrorsExcel';
 import { SummaryStat } from './SummaryStat';
 import { UploadResultBanner } from './UploadResultBanner';
 
-const ERRORS_FILENAME = 'tanker-upload-errors.csv';
+const ERRORS_FILENAME = 'tanker-upload-errors.xlsx';
 
 type Props = {
   fileName: string;
@@ -23,12 +22,7 @@ export function UploadSummaryCard({
 
   const handleDownloadErrors = () => {
     if (!failedRecords?.length) return;
-    const headers = [...TANKER_UPLOAD_COLUMNS.map((c) => c.name), 'Errors'];
-    const rows = failedRecords.map((r) => [
-      ...TANKER_UPLOAD_COLUMNS.map((c) => r[c.recordKey] ?? ''),
-      r.errorMsg ?? '',
-    ]);
-    downloadCsv(ERRORS_FILENAME, headers, rows);
+    void generateTankerUploadErrorsExcel(failedRecords, ERRORS_FILENAME);
   };
 
   return (

@@ -1,25 +1,20 @@
 import { Button, PageHeader } from '@/atoms';
 import { DownloadIcon } from '@/atoms/icons';
 import { AppShell } from '@/common-components/AppShell';
-import { TANKER_UPLOAD_COLUMNS } from '@/constants/tankerUpload';
-import { downloadCsv } from '@/utils';
 import { ColumnSpecTable } from './components/ColumnSpecTable';
 import { DropZone } from './components/DropZone';
 // import { ErrorRowsTable } from './components/ErrorRowsTable';
 import { ProcessingCard } from './components/ProcessingCard';
 import { UploadSummaryCard } from './components/UploadSummaryCard';
+import { generateTankerUploadTemplateExcel } from './excel/tankerUploadTemplateExcel';
 import { useTankerUploadColumns } from './hooks/useTankerUploadColumns';
 import { useTankerUploadFlow } from './hooks/useTankerUploadFlow';
 // import { parseUploadErrors } from './tankerUploadHelpers';
 
-const TEMPLATE_FILENAME = 'tanker-upload-template.csv';
+const TEMPLATE_FILENAME = 'tanker-upload-template.xlsx';
 
 function handleDownloadTemplate() {
-  downloadCsv(
-    TEMPLATE_FILENAME,
-    TANKER_UPLOAD_COLUMNS.map((c) => c.name),
-    [TANKER_UPLOAD_COLUMNS.map((c) => c.example)],
-  );
+  void generateTankerUploadTemplateExcel(TEMPLATE_FILENAME);
 }
 
 export default function TankerUploadPage() {
@@ -31,7 +26,7 @@ export default function TankerUploadPage() {
       <div className="min-h-0 flex-1 overflow-y-auto px-7 pt-7 pb-6">
         <PageHeader
           title="Tanker Upload"
-          subtitle="Bulk-import tankers from Excel / CSV · Accepts .xlsx, .xls, .csv"
+          subtitle="Bulk-import tankers from Excel / CSV · Accepts .xlsx, .csv"
           actions={
             <Button
               variant="ghost"
