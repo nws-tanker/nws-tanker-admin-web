@@ -102,6 +102,8 @@ export default function EmployeeRegistrationForm({ onSwitchToLogin }: Props) {
             </span>
             <input
               type="tel"
+              inputMode="numeric"
+              maxLength={8}
               value={values.mobile.slice(3)}
               onChange={(e) => handleChange('mobile', '968' + e.target.value)}
               placeholder="XXXXXXXX"

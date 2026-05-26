@@ -2,9 +2,19 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { handleEmployeeRegistration } from '@/services/registrationService';
 import { useToast } from '@/atoms';
+import { OMAN_MOBILE_FULL_LENGTH, sanitizeOmanMobileInput } from '@/utils';
 import { namaEmployeeSchema } from '../schema/employeeSchema';
 
 type FormValues = z.infer<typeof namaEmployeeSchema>;
+
+const INITIAL_VALUES: FormValues = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  mobile: '968',
+  password: '',
+  confirmPassword: '',
+};
 
 interface FormErrors {
   firstName?: string;
@@ -16,14 +26,7 @@ interface FormErrors {
 }
 
 export function useEmployeeRegistrationForm() {
-  const [values, setValues] = useState<FormValues>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobile: '968',
-    password: '',
-    confirmPassword: '',
-  });
+  const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<
     Partial<Record<keyof FormErrors, boolean>>
@@ -38,13 +41,21 @@ export function useEmployeeRegistrationForm() {
     value: FormValues[K],
   ) {
     if (field === 'mobile') {
-      const digits = (value as string).replace(/\D/g, '');
-      value = (digits.startsWith('968') ? digits : '968') as FormValues[K];
+      value = sanitizeOmanMobileInput(value as string) as FormValues[K];
     }
     const updated = { ...values, [field]: value } as FormValues;
     setValues(updated);
 
-    if (!touched[field as keyof FormErrors]) return;
+    const mobileReachedFullLength =
+      field === 'mobile' &&
+      (value as string).length === OMAN_MOBILE_FULL_LENGTH;
+    if (mobileReachedFullLength && !touched.mobile) {
+      setTouched((t) => ({ ...t, mobile: true }));
+    }
+
+    const isTouched =
+      touched[field as keyof FormErrors] || mobileReachedFullLength;
+    if (!isTouched) return;
 
     const result = namaEmployeeSchema.safeParse(updated);
     const fieldErrors: FormErrors = {};
@@ -111,6 +122,9 @@ export function useEmployeeRegistrationForm() {
         return;
       }
       showToast('Registration submitted successfully');
+      setValues(INITIAL_VALUES);
+      setErrors({});
+      setTouched({});
     } catch {
       showToast('Something went wrong. Please try again.', { tone: 'error' });
     } finally {

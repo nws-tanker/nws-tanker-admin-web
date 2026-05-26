@@ -10,6 +10,7 @@ type AuthView = 'login' | 'employee' | 'contractor' | 'forgot';
 
 export default function AuthenticationPage() {
   const [view, setView] = useState<AuthView>('login');
+  const [forgotEmail, setForgotEmail] = useState('');
 
   const isTabbedView = view !== 'forgot';
 
@@ -22,7 +23,10 @@ export default function AuthenticationPage() {
         <LoginForm
           onSwitchToEmployee={() => setView('employee')}
           onSwitchToContractor={() => setView('contractor')}
-          onForgotPassword={() => setView('forgot')}
+          onForgotPassword={(email) => {
+            setForgotEmail(email);
+            setView('forgot');
+          }}
         />
       )}
       {view === 'employee' && (
@@ -32,7 +36,10 @@ export default function AuthenticationPage() {
         <ContractorRegistrationForm onSwitchToLogin={() => setView('login')} />
       )}
       {view === 'forgot' && (
-        <ForgotPasswordForm onBackToLogin={() => setView('login')} />
+        <ForgotPasswordForm
+          initialEmail={forgotEmail}
+          onBackToLogin={() => setView('login')}
+        />
       )}
     </AuthLayout>
   );

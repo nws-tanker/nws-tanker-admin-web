@@ -8,6 +8,7 @@ import {
 } from '@/store/slices/authSlice';
 import { ROUTES, hasRouteAccess } from '@/constants/routes';
 import { STORAGE_KEYS } from '@/constants/storageKeys';
+import { clearAuthToken } from '@/services/http';
 import { SidebarBrand } from './SidebarBrand';
 import { SidebarNavItem } from './SidebarNavItem';
 import { SidebarUser } from './SidebarUser';
@@ -39,6 +40,7 @@ export function AppSidebar() {
     localStorage.removeItem(STORAGE_KEYS.accessToken);
     localStorage.removeItem(STORAGE_KEYS.refreshToken);
     localStorage.removeItem(STORAGE_KEYS.userName);
+    clearAuthToken();
     dispatch(resetAllApiData());
     dispatch(clearAuth());
     navigate(ROUTES.authentication, { replace: true });

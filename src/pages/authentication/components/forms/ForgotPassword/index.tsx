@@ -5,9 +5,13 @@ import ResetStep from './ResetStep';
 
 type Props = {
   onBackToLogin: () => void;
+  initialEmail?: string;
 };
 
-export default function ForgotPasswordForm({ onBackToLogin }: Props) {
+export default function ForgotPasswordForm({
+  onBackToLogin,
+  initialEmail = '',
+}: Props) {
   const {
     step,
     email,
@@ -18,7 +22,7 @@ export default function ForgotPasswordForm({ onBackToLogin }: Props) {
     submitReset,
     resendOtp,
     goBackToEmail,
-  } = useForgotPasswordFlow(onBackToLogin);
+  } = useForgotPasswordFlow(onBackToLogin, initialEmail);
 
   return (
     <div>

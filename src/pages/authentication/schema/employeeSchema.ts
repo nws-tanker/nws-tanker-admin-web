@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { OMAN_MOBILE_ERROR, OMAN_MOBILE_REGEX } from '@/utils';
 
 export const namaEmployeeSchema = z
   .object({
@@ -8,9 +9,7 @@ export const namaEmployeeSchema = z
       .string()
       .min(1, 'Work email address is required')
       .email('Please enter a valid email address'),
-    mobile: z
-      .string()
-      .regex(/^968\d{8}$/, 'Enter a valid 8-digit mobile number'),
+    mobile: z.string().regex(OMAN_MOBILE_REGEX, OMAN_MOBILE_ERROR),
     password: z
       .string()
       .min(1, 'Password is required')
