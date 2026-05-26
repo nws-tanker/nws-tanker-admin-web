@@ -16,13 +16,13 @@ const initialState: ApprovedInspectionsApiState = {
 
 export const fetchApprovedInspections = createAsyncThunk<
   ApprovedInspectionsResponse,
-  ApprovedInspectionsParams | void,
+  ApprovedInspectionsParams,
   { rejectValue: ApiError }
 >(
   'approvedInspectionsApi/fetchApprovedInspections',
   async (arg, { rejectWithValue }) => {
     try {
-      const response = await fetchApprovedInspectionsApi(arg ?? undefined);
+      const response = await fetchApprovedInspectionsApi(arg);
       if (!response.success) return rejectWithValue(response.error);
       return response.data;
     } catch {

@@ -7,10 +7,10 @@ import {
   governoratesForCluster,
 } from '../permitRegenerationHelpers';
 import { todayIso } from '@/utils/date';
-import type { PermitRegenerationFilters as Filters } from '../hooks/usePermitRegenerationFilters';
+import type { PermitRegenerationFilterState } from '../hooks/usePermitRegenerationFilters';
 
 type Props = {
-  filters: Filters;
+  filters: PermitRegenerationFilterState;
   clusters: Cluster[];
   governorates: Governorate[];
   onStartDate: (value: string) => void;

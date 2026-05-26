@@ -173,6 +173,10 @@ export type InspectionDetailsApiResponse = {
   inspection_ref: string;
   is_reinspection: boolean;
   reinspection_of: string | null;
+  sample_collection: {
+    work_order_reference: string;
+    is_work_order_reference_modified: boolean;
+  };
   permit_history: {
     permit_number: string;
     issued_at: string | null;

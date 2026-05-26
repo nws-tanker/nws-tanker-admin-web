@@ -18,6 +18,15 @@ export type {
 } from './lookups';
 export type { SidebarCounts, SidebarData } from './sidebar';
 export type {
+  AlertCategory,
+  AlertItem,
+  AlertReferenceType,
+  AlertSeverity,
+  AlertsFeedParams,
+  AlertsFeedResponse,
+  AlertsUnreadCountResponse,
+} from './alerts';
+export type {
   ApprovedInspection,
   ApprovedInspectionExpiryStatus,
   ApprovedInspectionTankerType,
@@ -25,10 +34,10 @@ export type {
   ApprovedInspectionsResponse,
 } from './permitRegeneration';
 export type {
+  FailedRecord,
   TankerUploadColumn,
   TankerUploadResponse,
   UploadError,
-  UploadErrorType,
 } from './tankerUpload';
 export type {
   ActiveUserResponse,
