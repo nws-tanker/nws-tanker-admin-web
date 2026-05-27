@@ -25,6 +25,7 @@ export function useLoginForm() {
     remember: true,
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [formError, setFormError] = useState<string | null>(null);
   const [touched, setTouched] = useState<{
     email?: boolean;
     password?: boolean;
@@ -74,6 +75,7 @@ export function useLoginForm() {
     e.preventDefault();
 
     setTouched({ email: true, password: true });
+    setFormError(null);
 
     if (!validateForm()) return;
 
@@ -81,9 +83,8 @@ export function useLoginForm() {
     try {
       const result = await handleLogin(values.email, values.password);
       if (!result.success) {
-        showToast(
+        setFormError(
           result.error?.description ?? 'Sign in failed. Please try again.',
-          { tone: 'error' },
         );
         return;
       }
@@ -91,7 +92,7 @@ export function useLoginForm() {
       const { access_token, refresh_token, user_name } = result.data;
       const payload = decodeJwt(access_token);
       if (!payload) {
-        showToast('Invalid token received from server.', { tone: 'error' });
+        setFormError('Invalid token received from server.');
         return;
       }
 
@@ -103,7 +104,7 @@ export function useLoginForm() {
       showToast('Signed in successfully');
       navigate(firstAllowedPath(payload.user_access), { replace: true });
     } catch {
-      showToast('Something went wrong. Please try again.', { tone: 'error' });
+      setFormError('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -112,6 +113,7 @@ export function useLoginForm() {
   return {
     values,
     errors,
+    formError,
     touched,
     showPassword,
     isLoading,

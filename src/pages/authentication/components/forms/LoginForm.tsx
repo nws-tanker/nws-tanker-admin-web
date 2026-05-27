@@ -16,6 +16,7 @@ export default function LoginForm({
   const {
     values,
     errors,
+    formError,
     touched,
     showPassword,
     isLoading,
@@ -36,6 +37,11 @@ export default function LoginForm({
         </p>
 
         <form onSubmit={handleSubmit} noValidate>
+          {formError && (
+            <div className="mb-3 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-[12px] text-red-600">
+              {formError}
+            </div>
+          )}
           <div className="grid gap-1.5 mb-[14px]">
             <label className="text-[12px] font-medium text-gray-700">
               Email address
