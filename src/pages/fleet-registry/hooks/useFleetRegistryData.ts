@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLookups } from '@/hooks/useLookups';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { fetchFleetTankers } from '@/store/apiSlices/fleetRegistryApiSlice';
+import { fetchLookups } from '@/store/apiSlices/lookupsApiSlice';
 
 export function useFleetRegistryData() {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ export function useFleetRegistryData() {
 
   useEffect(() => {
     dispatch(fetchFleetTankers());
+    dispatch(fetchLookups());
   }, [dispatch]);
 
   return {
