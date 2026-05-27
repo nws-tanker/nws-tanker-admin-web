@@ -38,7 +38,9 @@ export function useForgotPasswordFlow(onDone: () => void, initialEmail = '') {
     const res = await forgetPasswordApi(value);
     setIsLoading(false);
     if (!res.success) {
-      setError(res.error.description);
+      setError(
+        res.error?.description ?? 'Unable to send OTP. Please try again.',
+      );
       return;
     }
     setEmail(value);
@@ -57,7 +59,9 @@ export function useForgotPasswordFlow(onDone: () => void, initialEmail = '') {
     const res = await validateOtpApi(email, value);
     setIsLoading(false);
     if (!res.success) {
-      setError(res.error.description);
+      setError(
+        res.error?.description ?? 'Invalid or expired verification code.',
+      );
       return;
     }
     setOtp(value);
@@ -75,7 +79,9 @@ export function useForgotPasswordFlow(onDone: () => void, initialEmail = '') {
     const res = await resetPasswordApi(email, otp, values.newPassword);
     setIsLoading(false);
     if (!res.success) {
-      setError(res.error.description);
+      setError(
+        res.error?.description ?? 'Unable to reset password. Please try again.',
+      );
       return;
     }
     showToast('Password reset successfully. Please sign in.');
@@ -88,7 +94,10 @@ export function useForgotPasswordFlow(onDone: () => void, initialEmail = '') {
     const res = await forgetPasswordApi(email);
     setIsLoading(false);
     if (!res.success) {
-      showToast(res.error.description, { tone: 'error' });
+      showToast(
+        res.error?.description ?? 'Unable to resend OTP. Please try again.',
+        { tone: 'error' },
+      );
       return;
     }
     showToast('A new OTP has been sent');

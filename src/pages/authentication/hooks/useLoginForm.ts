@@ -81,7 +81,10 @@ export function useLoginForm() {
     try {
       const result = await handleLogin(values.email, values.password);
       if (!result.success) {
-        showToast(result.error.description, { tone: 'error' });
+        showToast(
+          result.error?.description ?? 'Sign in failed. Please try again.',
+          { tone: 'error' },
+        );
         return;
       }
 
