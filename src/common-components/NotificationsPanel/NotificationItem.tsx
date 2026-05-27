@@ -38,13 +38,14 @@ export function NotificationItem({ alert, onSelect, onDismiss }: Props) {
         </div>
       </ClickableCard>
       {alert.dismissible ? (
-        <IconButton
-          icon={<CloseIcon className="h-3.5 w-3.5" />}
-          size="sm"
-          aria-label="Dismiss"
-          onClick={() => onDismiss(alert)}
-          className="absolute top-3 right-3"
-        />
+        <span className="absolute top-3 right-3">
+          <IconButton
+            icon={<CloseIcon className="h-3.5 w-3.5" />}
+            size="sm"
+            aria-label="Dismiss"
+            onClick={() => onDismiss(alert)}
+          />
+        </span>
       ) : null}
     </div>
   );
