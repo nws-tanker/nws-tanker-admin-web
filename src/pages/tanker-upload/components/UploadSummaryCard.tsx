@@ -1,4 +1,4 @@
-import { Button } from '@/atoms';
+import { Button, useToast } from '@/atoms';
 import { UploadIcon } from '@/atoms/icons';
 import type { TankerUploadResponse } from '@/types';
 import { generateTankerUploadErrorsExcel } from '../excel/tankerUploadExcel';
@@ -19,10 +19,15 @@ export function UploadSummaryCard({
   onUploadAnother,
 }: Props) {
   const { totalRows, successRows, failedRows, failedRecords } = result;
+  const toast = useToast();
 
-  const handleDownloadErrors = () => {
+  const handleDownloadErrors = async () => {
     if (!failedRecords?.length) return;
-    void generateTankerUploadErrorsExcel(failedRecords, ERRORS_FILENAME);
+    try {
+      await generateTankerUploadErrorsExcel(failedRecords, ERRORS_FILENAME);
+    } catch {
+      toast.show('Failed to download error report', { tone: 'error' });
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import { Button, PageHeader } from '@/atoms';
+import { Button, PageHeader, useToast } from '@/atoms';
 import { DownloadIcon } from '@/atoms/icons';
 import { AppShell } from '@/common-components/AppShell';
 import { ColumnSpecTable } from './components/ColumnSpecTable';
@@ -13,13 +13,18 @@ import { useTankerUploadFlow } from './hooks/useTankerUploadFlow';
 
 const TEMPLATE_FILENAME = 'tanker-upload-template.xlsx';
 
-function handleDownloadTemplate() {
-  void generateTankerUploadTemplateExcel(TEMPLATE_FILENAME);
-}
-
 export default function TankerUploadPage() {
   const { columns, state, retry } = useTankerUploadColumns();
   const { phase, submit, reset } = useTankerUploadFlow();
+  const toast = useToast();
+
+  const handleDownloadTemplate = async () => {
+    try {
+      await generateTankerUploadTemplateExcel(TEMPLATE_FILENAME);
+    } catch {
+      toast.show('Failed to download template', { tone: 'error' });
+    }
+  };
 
   return (
     <AppShell breadcrumbs={['Home', 'Tanker Upload']}>

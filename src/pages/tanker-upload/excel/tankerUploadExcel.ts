@@ -49,54 +49,64 @@ async function writeAndDownload(wb: ExcelJS.Workbook, fileName: string) {
 }
 
 export async function generateTankerUploadTemplateExcel(fileName: string) {
-  const wb = createWorkbook();
+  try {
+    const wb = createWorkbook();
 
-  const ws = wb.addWorksheet('Template', {
-    views: [{ showGridLines: false }],
-  });
+    const ws = wb.addWorksheet('Template', {
+      views: [{ showGridLines: false }],
+    });
 
-  const headers = TANKER_UPLOAD_COLUMNS.map((c) => c.name);
-  ws.columns = headers.map((h) => ({ width: Math.max(18, h.length + 2) }));
+    const headers = TANKER_UPLOAD_COLUMNS.map((c) => c.name);
+    ws.columns = headers.map((h) => ({ width: Math.max(18, h.length + 2) }));
 
-  styleHeaderRow(ws.addRow(headers));
-  ws.addRow(TANKER_UPLOAD_COLUMNS.map((c) => c.example));
+    styleHeaderRow(ws.addRow(headers));
+    ws.addRow(TANKER_UPLOAD_COLUMNS.map((c) => c.example));
 
-  ws.views = [{ state: 'frozen', ySplit: 1 }];
+    ws.views = [{ state: 'frozen', ySplit: 1 }];
 
-  await writeAndDownload(wb, fileName);
+    await writeAndDownload(wb, fileName);
+  } catch (err) {
+    console.error('Failed to generate tanker upload template Excel', err);
+    throw err;
+  }
 }
 
 export async function generateTankerUploadErrorsExcel(
   failedRecords: FailedRecord[],
   fileName: string,
 ) {
-  const wb = createWorkbook();
+  try {
+    const wb = createWorkbook();
 
-  const ws = wb.addWorksheet('Errors', {
-    views: [{ showGridLines: false }],
-  });
-
-  const headers = [...TANKER_UPLOAD_COLUMNS.map((c) => c.name), 'Errors'];
-  ws.columns = headers.map((h) => ({
-    width: h === 'Errors' ? 50 : Math.max(16, h.length + 2),
-  }));
-
-  styleHeaderRow(ws.addRow(headers));
-
-  failedRecords.forEach((r) => {
-    const row = ws.addRow([
-      ...TANKER_UPLOAD_COLUMNS.map((c) => r[c.recordKey] ?? ''),
-      r.errorMsg ?? '',
-    ]);
-    row.eachCell((cell) => {
-      cell.alignment = { vertical: 'middle', wrapText: true };
-      cell.border = {
-        bottom: { style: 'hair', color: { argb: BORDER } },
-      };
+    const ws = wb.addWorksheet('Errors', {
+      views: [{ showGridLines: false }],
     });
-  });
 
-  ws.views = [{ state: 'frozen', ySplit: 1 }];
+    const headers = [...TANKER_UPLOAD_COLUMNS.map((c) => c.name), 'Errors'];
+    ws.columns = headers.map((h) => ({
+      width: h === 'Errors' ? 50 : Math.max(16, h.length + 2),
+    }));
 
-  await writeAndDownload(wb, fileName);
+    styleHeaderRow(ws.addRow(headers));
+
+    failedRecords.forEach((r) => {
+      const row = ws.addRow([
+        ...TANKER_UPLOAD_COLUMNS.map((c) => r[c.recordKey] ?? ''),
+        r.errorMsg ?? '',
+      ]);
+      row.eachCell((cell) => {
+        cell.alignment = { vertical: 'middle', wrapText: true };
+        cell.border = {
+          bottom: { style: 'hair', color: { argb: BORDER } },
+        };
+      });
+    });
+
+    ws.views = [{ state: 'frozen', ySplit: 1 }];
+
+    await writeAndDownload(wb, fileName);
+  } catch (err) {
+    console.error('Failed to generate tanker upload errors Excel', err);
+    throw err;
+  }
 }
