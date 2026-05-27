@@ -3,7 +3,7 @@ import { Button } from '@/atoms';
 import { UploadIcon } from '@/atoms/icons';
 import { cn } from '@/utils';
 
-const ACCEPT = '.xlsx,.xls,.csv';
+const ACCEPT = '.xlsx,.csv';
 
 type Props = {
   onFile: (file: File) => void;
@@ -40,9 +40,7 @@ export function DropZone({ onFile }: Props) {
       <div className="mb-1.5 text-[15px] font-semibold text-ink-800">
         Drag &amp; drop your file here
       </div>
-      <div className="mb-5 text-[13px] text-ink-500">
-        Supports .xlsx, .xls, .csv
-      </div>
+      <div className="mb-5 text-[13px] text-ink-500">Supports .xlsx, .csv</div>
       <Button
         variant="secondary"
         onClick={(e) => {
