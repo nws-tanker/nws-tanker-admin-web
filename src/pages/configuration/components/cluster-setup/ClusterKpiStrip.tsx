@@ -8,10 +8,7 @@ import type {
   ClusterSetupSummary,
 } from '@/types/configuration';
 
-import {
-  getGovCountForCluster,
-  getTankerCountForCluster,
-} from '../../configurationHelpers';
+import { getGovCountForCluster } from '../../configurationHelpers';
 
 type Props = {
   summary: ClusterSetupSummary;
@@ -68,12 +65,7 @@ export function ClusterKpiStrip({
               <span className="text-[13px] text-ink-400">govs</span>
             </div>
             <div className="mt-1 text-[11.5px] text-ink-500">
-              {getTankerCountForCluster(
-                c.clusterId,
-                governorates,
-                govAssignments,
-              ).toLocaleString()}{' '}
-              tankers · {c.contractorName}
+              {c.tankerCount} tankers · {c.contractorName}
             </div>
           </div>
         );
