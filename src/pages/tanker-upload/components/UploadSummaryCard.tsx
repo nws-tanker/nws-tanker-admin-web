@@ -1,7 +1,7 @@
 import { Button } from '@/atoms';
 import { UploadIcon } from '@/atoms/icons';
 import type { TankerUploadResponse } from '@/types';
-import { generateTankerUploadErrorsExcel } from '../excel/tankerUploadErrorsExcel';
+import { generateTankerUploadErrorsExcel } from '../excel/tankerUploadExcel';
 import { SummaryStat } from './SummaryStat';
 import { UploadResultBanner } from './UploadResultBanner';
 

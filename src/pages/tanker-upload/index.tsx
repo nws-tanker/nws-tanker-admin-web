@@ -6,7 +6,7 @@ import { DropZone } from './components/DropZone';
 // import { ErrorRowsTable } from './components/ErrorRowsTable';
 import { ProcessingCard } from './components/ProcessingCard';
 import { UploadSummaryCard } from './components/UploadSummaryCard';
-import { generateTankerUploadTemplateExcel } from './excel/tankerUploadTemplateExcel';
+import { generateTankerUploadTemplateExcel } from './excel/tankerUploadExcel';
 import { useTankerUploadColumns } from './hooks/useTankerUploadColumns';
 import { useTankerUploadFlow } from './hooks/useTankerUploadFlow';
 // import { parseUploadErrors } from './tankerUploadHelpers';

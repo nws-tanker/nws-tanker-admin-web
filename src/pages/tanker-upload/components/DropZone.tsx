@@ -3,7 +3,7 @@ import { Button } from '@/atoms';
 import { UploadIcon } from '@/atoms/icons';
 import { cn } from '@/utils';
 
-const ACCEPT = '.xlsx,.xls,.csv';
+const ACCEPT = '.xlsx,.csv';
 
 type Props = {
   onFile: (file: File) => void;
