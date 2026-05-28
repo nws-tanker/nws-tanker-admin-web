@@ -41,7 +41,7 @@ export function RejectedRow({ record, onView, onRequeueSuccess }: Props) {
             <Button size="sm" variant="ghost" onClick={() => onView(record)}>
               View Details
             </Button>
-            {record.is_reinspection === null && (
+            {!record.is_reinspection && (
               <Button
                 size="sm"
                 variant="danger"

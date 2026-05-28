@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import namaLogo from '@/assets/nama-logo.jpeg';
 import type {
   ClusterContractorBreakdownResponse,
   ComplianceByTankerTypeResponse,
@@ -145,11 +146,18 @@ export default function DashboardPrintView({
     <div style={{ width: 1190 }} className="bg-white">
       <div ref={headerRef} className="bg-white px-8 pb-4 pt-8">
         <div className="flex items-end justify-between border-b border-ink-200 pb-4">
-          <div>
-            <h1 className="text-xl font-bold text-ink-800">
-              Executive Dashboard
-            </h1>
-            <p className="mt-1 text-sm text-ink-500">{filterLabel}</p>
+          <div className="flex items-center gap-4">
+            <img
+              src={namaLogo}
+              alt="Nama"
+              className="h-12 w-auto object-contain"
+            />
+            <div>
+              <h1 className="text-xl font-bold text-ink-800">
+                Executive Dashboard
+              </h1>
+              <p className="mt-1 text-sm text-ink-500">{filterLabel}</p>
+            </div>
           </div>
           <p className="text-xs text-ink-400">Generated {generatedDate}</p>
         </div>

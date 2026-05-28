@@ -42,7 +42,7 @@ const KPI_CONFIG: KpiConfig[] = [
     valueClass: 'text-green-700',
   },
   {
-    label: 'Rejected',
+    label: 'Rejected — awaiting requeue decision',
     tab: 'rejected',
     sub: 'Failed / sent back',
     valueClass: 'text-red-600',

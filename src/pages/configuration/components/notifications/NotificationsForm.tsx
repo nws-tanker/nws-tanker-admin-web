@@ -81,9 +81,9 @@ export function NotificationsForm({ data }: Props) {
 
         <div className="px-6 py-5">
           <p className="mb-4 text-[12px] leading-relaxed text-ink-500">
-            These are Nama Water Service&apos;s own contact details. All
-            outbound permit confirmations, renewal reminders, suspension alerts,
-            and lab result notifications will be sent from these addresses.
+            These are Aldar&apos;s own contact details. All outbound permit
+            confirmations, renewal reminders, suspension alerts, and lab result
+            notifications will be sent from these addresses.
           </p>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

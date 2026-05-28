@@ -39,8 +39,11 @@ export default function ExpiredPermitsCard({ permitDetail, onClick }: Props) {
         </span>
       </div>
       <p className="mt-1.5 text-xs font-medium text-red-600">
-        Action required · {permitDetail.expired_cluster_count} in{' '}
-        {permitDetail.cluster_name}
+        Action required
+        {permitDetail.expired_permits > 0 &&
+        permitDetail.expired_cluster_count > 0
+          ? ` · ${permitDetail.expired_cluster_count} in ${permitDetail.cluster_name}`
+          : ''}
       </p>
       <Sparkline values={SPARK_VALUES} color="#ef4444" />
     </div>

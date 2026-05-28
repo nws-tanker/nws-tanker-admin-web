@@ -57,7 +57,7 @@ const CANONICAL_TITLE: Record<CanonicalKey, string> = {
   physical_inspection: 'Physical Inspection Checklist',
   sample_collected: 'Sample Collected',
   lab_report: 'Lab Report Uploaded',
-  cm_review: 'CM Review',
+  cm_review: 'Cluster Manager Review',
   final_decision: 'Final Decision',
   permit_issued: 'Permit Issued',
 };

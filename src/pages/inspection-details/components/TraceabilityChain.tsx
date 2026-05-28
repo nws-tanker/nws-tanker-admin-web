@@ -60,7 +60,7 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
         done: labUploaded,
       },
       {
-        label: 'CM\nReview',
+        label: 'Cluster Manager\nReview',
         ref: decided ? 'Reviewed' : inReview ? 'In Review' : 'Pending',
         done: decided || inReview,
       },
@@ -75,7 +75,7 @@ function buildSteps(data: InspectionDetailsApiResponse): Step[] {
       done: physDone,
     },
     {
-      label: 'CM\nReview',
+      label: 'Cluster Manager\nReview',
       ref: decided ? 'Reviewed' : inReview ? 'In Review' : 'Pending',
       done: decided || inReview,
     },
