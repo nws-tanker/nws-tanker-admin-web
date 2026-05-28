@@ -2,9 +2,10 @@ import type { TankerUploadColumn } from '@/types';
 
 export const TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
   {
-    name: 'Reg No. (V5C)',
+    name: 'Reg No. (Mulkiya)',
     required: true,
-    description: 'Vehicle registration number from V5C document',
+    description:
+      'Vehicle registration number from the Mulkiya (ROP registration card)',
     example: '4024/M',
     recordKey: 'plateNumber',
   },
@@ -46,7 +47,7 @@ export const TANKER_UPLOAD_COLUMNS: TankerUploadColumn[] = [
   {
     name: 'Capacity Gallons',
     required: false,
-    description: 'Auto-computed from M³ if omitted (× 219.969)',
+    description: 'Auto-computed from M³ if omitted (× 264.172)',
     example: '2642',
     recordKey: 'capacityGallons',
   },

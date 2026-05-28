@@ -43,7 +43,7 @@ export function FleetBanner({ summary }: Props) {
 
   const rightStats: Stat[] = [
     {
-      label: 'Pass Rate',
+      label: 'Fleet Compliance',
       value: `${compliance.pass_rate}%`,
       valueClass: 'text-emerald-300',
     },

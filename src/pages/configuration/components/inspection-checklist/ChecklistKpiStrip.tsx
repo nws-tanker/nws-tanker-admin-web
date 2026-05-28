@@ -20,7 +20,7 @@ export default function ChecklistKpiStrip({ summary }: Props) {
         label="Applies To"
         value={summary?.appliesToDisplay ?? '—'}
         unit="types"
-        footnote="DW · SW · TE (current)"
+        footnote="DW · SW · TE "
       />
     </div>
   );
