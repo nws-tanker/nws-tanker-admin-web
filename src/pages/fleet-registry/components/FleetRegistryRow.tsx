@@ -21,7 +21,6 @@ export function FleetRegistryRow({
   clusterName,
   onView,
 }: Props) {
-  console.log('permit status ', tanker.permit.status);
   return (
     <tr className="hover:bg-ink-50">
       <td className="border-b border-ink-100 px-4 py-3 font-mono text-[12.5px] font-semibold text-ink-900">
