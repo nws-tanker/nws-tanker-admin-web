@@ -32,6 +32,7 @@ export default function InspectorPerformanceTable({
               <th className="px-5 py-3 text-left">Inspector</th>
               <th className="px-4 py-3 text-left">Cluster</th>
               <th className="px-4 py-3 text-right">Inspected</th>
+              <th className="px-4 py-3 text-right">In Progress</th>
               <th className="px-4 py-3 text-right">Rejected</th>
               <th className="px-4 py-3 text-right">Permits Issued</th>
               <th className="px-5 py-3 text-right">Approval Rate</th>
@@ -41,7 +42,7 @@ export default function InspectorPerformanceTable({
             {error ? (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="py-12 text-center text-sm text-red-500"
                 >
                   {error}
@@ -50,7 +51,7 @@ export default function InspectorPerformanceTable({
             ) : !data || data.rows.length === 0 ? (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="py-12 text-center text-sm text-ink-400"
                 >
                   No inspector data available for the selected filters.
@@ -68,6 +69,9 @@ export default function InspectorPerformanceTable({
                   <td className="px-4 py-3 text-ink-400">{row.cluster}</td>
                   <td className="px-4 py-3 text-right font-mono text-ink-800">
                     {row.inspected.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 text-right font-mono text-amber-600">
+                    {row.in_progress_count.toLocaleString()}
                   </td>
                   <td className="px-4 py-3 text-right font-mono text-red-600">
                     {row.rejected.toLocaleString()}

@@ -50,6 +50,7 @@ export type RegeneratePermitsRequest = {
   inspection_ids: number[];
   send_email: boolean;
   send_whatsapp: boolean;
+  regeneration_remark: string;
 };
 
 export type RegeneratePermitsResponse = {

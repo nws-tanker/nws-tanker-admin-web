@@ -36,6 +36,7 @@ export default function GovernorateComplianceTable({
               <th className="px-4 py-3 text-right">In Progress</th>
               <th className="px-4 py-3 text-right">Expired</th>
               <th className="px-4 py-3 text-right">Never Inspected</th>
+              <th className="px-4 py-3 text-right">Rejected</th>
               <th className="px-5 py-3 text-left" style={{ width: '240px' }}>
                 Compliance Rate
               </th>
@@ -45,7 +46,7 @@ export default function GovernorateComplianceTable({
             {error ? (
               <tr>
                 <td
-                  colSpan={7}
+                  colSpan={8}
                   className="py-12 text-center text-sm text-red-500"
                 >
                   {error}
@@ -54,7 +55,7 @@ export default function GovernorateComplianceTable({
             ) : !data || data.rows.length === 0 ? (
               <tr>
                 <td
-                  colSpan={7}
+                  colSpan={8}
                   className="py-12 text-center text-sm text-ink-400"
                 >
                   No governorate data available for the selected filters.
@@ -90,6 +91,9 @@ export default function GovernorateComplianceTable({
                     </td>
                     <td className="px-4 py-3 text-right font-mono text-red-600">
                       {row.never_inspected.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 text-right font-mono text-red-600">
+                      {row.rejected_count.toLocaleString()}
                     </td>
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">

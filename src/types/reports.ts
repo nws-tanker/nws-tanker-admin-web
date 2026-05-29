@@ -28,6 +28,7 @@ export type PaymentReportRow = {
   sw: number;
   te: number;
   total: number;
+  inspections_done: number;
 };
 
 export type PaymentReportTotals = {
@@ -36,6 +37,7 @@ export type PaymentReportTotals = {
   sw: number;
   te: number;
   total: number;
+  inspections_done: number;
 };
 
 export type PaymentReportResponse = {

@@ -39,7 +39,7 @@ const CLIENT_PERMIT_STATUSES: PermitStatusLookup[] = [
   { id: PERMIT_STATUS.ACTIVE, name: 'Valid' },
   { id: PERMIT_STATUS.EXPIRED, name: 'Expired' },
   { id: PERMIT_STATUS.NO_PERMIT, name: 'No Permit' },
-  { id: PERMIT_STATUS.INSPECTION_IN_PROGRESS, name: 'Inspection In Progress' },
+  { id: PERMIT_STATUS.INSPECTION_IN_PROGRESS, name: 'In Progress' },
 ];
 
 function mergePermitStatuses(api: PermitStatusLookup[]): PermitStatusLookup[] {

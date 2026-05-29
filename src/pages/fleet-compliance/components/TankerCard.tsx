@@ -98,6 +98,12 @@ export default function TankerCard({ config, metrics }: Props) {
             {metrics.in_progress.toLocaleString()}
           </span>
         </div>
+        <div>
+          <span className="text-ink-500">Rejected </span>
+          <span className="font-semibold tabular-nums text-red-600">
+            {metrics.rejected_count.toLocaleString()}
+          </span>
+        </div>
       </div>
     </div>
   );

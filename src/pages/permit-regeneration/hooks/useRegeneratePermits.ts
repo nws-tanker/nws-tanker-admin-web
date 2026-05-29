@@ -14,7 +14,7 @@ export function useRegeneratePermits({ onSuccess }: Options = {}) {
   const inFlight = useRef(false);
 
   const regenerate = useCallback(
-    async (inspectionIds: number[]) => {
+    async (inspectionIds: number[], regenerationRemark: string) => {
       if (inspectionIds.length === 0 || inFlight.current) return;
       inFlight.current = true;
       setIsRegenerating(true);
@@ -23,6 +23,7 @@ export function useRegeneratePermits({ onSuccess }: Options = {}) {
           inspection_ids: inspectionIds,
           send_email: REGENERATE_PERMITS_DEFAULTS.sendEmail,
           send_whatsapp: REGENERATE_PERMITS_DEFAULTS.sendWhatsapp,
+          regeneration_remark: regenerationRemark,
         });
         if (response.success) {
           const count =

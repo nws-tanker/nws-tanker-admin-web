@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 
 import { AppShell } from '@/common-components/AppShell';
 import SectionErrorCard from '@/common-components/SectionErrorCard';
+import { formatTime } from '@/utils';
 import { useExecutiveDashboard } from './hooks/useExecutiveDashboard';
 import { exportDashboardPdf } from './utils/exportDashboardPdf';
 
@@ -89,9 +90,16 @@ export default function ExecutiveDashboard() {
     <AppShell breadcrumbs={['Home', 'Executive Dashboard']}>
       <div className="flex flex-col gap-6 p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-xl font-bold text-ink-800">
-            Executive Dashboard
-          </h1>
+          <div className="flex flex-col gap-0.5">
+            <h1 className="text-xl font-bold text-ink-800">
+              Executive Dashboard
+            </h1>
+            {summaryState.data?.refreshed_at && (
+              <span className="text-xs text-ink-500">
+                Last refreshed at: {formatTime(summaryState.data.refreshed_at)}
+              </span>
+            )}
+          </div>
           <div className="flex flex-wrap items-center gap-3">
             <ExecutiveDashboardFilters
               lookupsData={lookupsState.data}

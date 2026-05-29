@@ -10,6 +10,7 @@ import { ExportButton } from './components/ExportButton';
 import { PermitRegenerationFilters } from './components/PermitRegenerationFilters';
 import { PermitRegenerationTable } from './components/PermitRegenerationTable';
 import { RegenerateButton } from './components/RegenerateButton';
+import { RegenerationRemarkModal } from './components/RegenerationRemarkModal';
 import { PERMIT_REGENERATION_PAGE_SIZE } from './constants';
 import { usePermitExport } from './hooks/usePermitExport';
 import { usePermitRegenerationData } from './hooks/usePermitRegenerationData';
@@ -26,6 +27,7 @@ export default function PermitRegenerationPage() {
   const filterBag = usePermitRegenerationFilters();
   const { filters, setClusterId } = filterBag;
   const [page, setPage] = useState(0);
+  const [isRemarkModalOpen, setIsRemarkModalOpen] = useState(false);
   const debouncedSearch = useDebouncedValue(filters.search, 400);
 
   useEffect(() => {
@@ -78,6 +80,7 @@ export default function PermitRegenerationPage() {
     onSuccess: () => {
       selection.clear();
       retry();
+      setIsRemarkModalOpen(false);
     },
   });
 
@@ -94,7 +97,9 @@ export default function PermitRegenerationPage() {
       setPage(0);
     };
 
-  const handleRegenerate = () => regenerate(Array.from(selection.selectedIds));
+  const handleOpenRemarkModal = () => setIsRemarkModalOpen(true);
+  const handleConfirmRegenerate = (remark: string) =>
+    regenerate(Array.from(selection.selectedIds), remark);
 
   const showTable = apiState === States.SUCCESS || apiState === States.LOADING;
 
@@ -114,7 +119,7 @@ export default function PermitRegenerationPage() {
               <RegenerateButton
                 isRegenerating={isRegenerating}
                 selectedCount={selectedCount}
-                onClick={handleRegenerate}
+                onClick={handleOpenRemarkModal}
               />
             </>
           }
@@ -149,6 +154,16 @@ export default function PermitRegenerationPage() {
           <ScreenStatus state={apiState} onRetry={retry} />
         )}
       </div>
+
+      <RegenerationRemarkModal
+        open={isRemarkModalOpen}
+        selectedCount={selectedCount}
+        isSubmitting={isRegenerating}
+        onClose={() => {
+          if (!isRegenerating) setIsRemarkModalOpen(false);
+        }}
+        onConfirm={handleConfirmRegenerate}
+      />
     </AppShell>
   );
 }
