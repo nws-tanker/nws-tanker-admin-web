@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button, Modal, Textarea } from '@/atoms';
 
 type Props = {
-  open: boolean;
   selectedCount: number;
   isSubmitting: boolean;
   onClose: () => void;
@@ -10,7 +9,6 @@ type Props = {
 };
 
 export function RegenerationRemarkModal({
-  open,
   selectedCount,
   isSubmitting,
   onClose,
@@ -18,13 +16,6 @@ export function RegenerationRemarkModal({
 }: Props) {
   const [remark, setRemark] = useState('');
   const [touched, setTouched] = useState(false);
-
-  useEffect(() => {
-    if (!open) {
-      setRemark('');
-      setTouched(false);
-    }
-  }, [open]);
 
   const trimmed = remark.trim();
   const isInvalid = touched && trimmed.length === 0;
@@ -39,7 +30,7 @@ export function RegenerationRemarkModal({
 
   return (
     <Modal
-      open={open}
+      open
       onClose={onClose}
       title="Regenerate Permits"
       subtitle={`A remark is required to regenerate ${selectedCount} permit${selectedCount === 1 ? '' : 's'}.`}

@@ -155,15 +155,16 @@ export default function PermitRegenerationPage() {
         )}
       </div>
 
-      <RegenerationRemarkModal
-        open={isRemarkModalOpen}
-        selectedCount={selectedCount}
-        isSubmitting={isRegenerating}
-        onClose={() => {
-          if (!isRegenerating) setIsRemarkModalOpen(false);
-        }}
-        onConfirm={handleConfirmRegenerate}
-      />
+      {isRemarkModalOpen && (
+        <RegenerationRemarkModal
+          selectedCount={selectedCount}
+          isSubmitting={isRegenerating}
+          onClose={() => {
+            if (!isRegenerating) setIsRemarkModalOpen(false);
+          }}
+          onConfirm={handleConfirmRegenerate}
+        />
+      )}
     </AppShell>
   );
 }
