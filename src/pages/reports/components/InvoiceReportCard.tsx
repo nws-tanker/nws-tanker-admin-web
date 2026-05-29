@@ -1,4 +1,3 @@
-import { cn } from '@/utils';
 import { TankerTypeChip } from '@/common-components/TankerTypeChip';
 import type { InvoiceReportResponse } from '@/types';
 import { generateInvoiceExcel } from '../excel/invoiceExcel';
@@ -45,13 +44,10 @@ export function InvoiceReportCard({ report, periodLabel }: Props) {
         <table className="w-full text-[13px]">
           <thead>
             <tr>
-              {HEADERS.map((h, i) => (
+              {HEADERS.map((h) => (
                 <th
                   key={h}
-                  className={cn(
-                    'whitespace-nowrap border-b border-ink-200 bg-ink-50 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-ink-500',
-                    i >= 3 ? 'text-right' : 'text-left',
-                  )}
+                  className="whitespace-nowrap border-b border-ink-200 bg-ink-50 px-4 py-2.5 text-center text-[11px] font-semibold uppercase tracking-wider text-ink-500"
                 >
                   {h}
                 </th>
@@ -64,18 +60,24 @@ export function InvoiceReportCard({ report, periodLabel }: Props) {
                 key={`${r.month}-${r.contractor}-${r.tanker_type}-${idx}`}
                 className="border-b border-ink-100 last:border-0"
               >
-                <td className="px-4 py-2.5 text-ink-500">{r.month}</td>
-                <td className="px-4 py-2.5 text-ink-800">{r.contractor}</td>
-                <td className="px-4 py-2.5">
-                  <TankerTypeChip type={r.tanker_type} compact />
+                <td className="px-4 py-2.5 text-center text-ink-500">
+                  {r.month}
                 </td>
-                <td className="px-4 py-2.5 text-right font-mono text-ink-800">
+                <td className="px-4 py-2.5 text-center text-ink-800">
+                  {r.contractor}
+                </td>
+                <td className="px-4 py-2.5 text-center">
+                  <div className="flex justify-center">
+                    <TankerTypeChip type={r.tanker_type} compact />
+                  </div>
+                </td>
+                <td className="px-4 py-2.5 text-center font-mono text-ink-800">
                   {r.inspections_approved}
                 </td>
-                <td className="px-4 py-2.5 text-right font-mono text-ink-800">
+                <td className="px-4 py-2.5 text-center font-mono text-ink-800">
                   {r.samples_collected}
                 </td>
-                <td className="px-4 py-2.5 text-right font-mono font-semibold text-ink-900">
+                <td className="px-4 py-2.5 text-center font-mono font-semibold text-ink-900">
                   {r.permits_issued}
                 </td>
               </tr>
@@ -87,13 +89,13 @@ export function InvoiceReportCard({ report, periodLabel }: Props) {
               >
                 Totals · {periodLabel}
               </td>
-              <td className="px-4 py-2.5 text-right font-mono font-semibold text-ink-900">
+              <td className="px-4 py-2.5 text-center font-mono font-semibold text-ink-900">
                 {totals.inspections_approved}
               </td>
-              <td className="px-4 py-2.5 text-right font-mono font-semibold text-ink-900">
+              <td className="px-4 py-2.5 text-center font-mono font-semibold text-ink-900">
                 {totals.samples_collected}
               </td>
-              <td className="px-4 py-2.5 text-right font-mono font-semibold text-ink-900">
+              <td className="px-4 py-2.5 text-center font-mono font-semibold text-ink-900">
                 {totals.permits_issued}
               </td>
             </tr>

@@ -52,6 +52,7 @@ export type SummaryResponse = {
     expired_cluster_count: number;
     expired_fleet_percentage: number;
   };
+  refreshed_at?: string;
 };
 
 // ─── Compliance by Tanker Type ────────────────────────────────────────────────
@@ -63,6 +64,7 @@ export type TankerTypeCompliance = {
   no_permit: number;
   never_inspected: number;
   in_progress: number;
+  rejected_count: number;
   tanker_health_percentage: number; // valid / target
 };
 

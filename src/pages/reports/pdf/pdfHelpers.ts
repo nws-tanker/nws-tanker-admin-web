@@ -4,7 +4,7 @@ import logoUrl from '@/assets/nama-logo.jpeg';
 export type PdfColumn = {
   header: string;
   width: number;
-  align?: 'left' | 'right';
+  align?: 'left' | 'right' | 'center';
 };
 
 export type PdfDataRow = {
@@ -81,6 +81,16 @@ const ROW_H = 8;
 const HEADER_H = 9;
 const PAD_X = 3;
 
+function cellTextX(
+  x: number,
+  w: number,
+  align: 'left' | 'right' | 'center',
+): number {
+  if (align === 'right') return x + w - PAD_X;
+  if (align === 'center') return x + w / 2;
+  return x + PAD_X;
+}
+
 function drawCell(
   doc: jsPDF,
   text: string,
@@ -88,9 +98,9 @@ function drawCell(
   y: number,
   w: number,
   h: number,
-  align: 'left' | 'right',
+  align: 'left' | 'right' | 'center',
 ) {
-  const tx = align === 'right' ? x + w - PAD_X : x + PAD_X;
+  const tx = cellTextX(x, w, align);
   const ty = y + h / 2 + 1.4;
   doc.text(text, tx, ty, { align });
 }

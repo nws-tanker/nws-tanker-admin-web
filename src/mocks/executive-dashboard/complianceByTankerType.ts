@@ -10,6 +10,7 @@ export const MOCK_COMPLIANCE_CLUSTER_1: ComplianceByTankerTypeResponse = {
     no_permit: 46,
     never_inspected: 46,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 90,
   },
   sw: {
@@ -19,6 +20,7 @@ export const MOCK_COMPLIANCE_CLUSTER_1: ComplianceByTankerTypeResponse = {
     no_permit: 31,
     never_inspected: 31,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 85,
   },
   te: {
@@ -28,6 +30,7 @@ export const MOCK_COMPLIANCE_CLUSTER_1: ComplianceByTankerTypeResponse = {
     no_permit: 15,
     never_inspected: 15,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 84,
   },
 };
@@ -41,6 +44,7 @@ export const MOCK_COMPLIANCE_CLUSTER_2: ComplianceByTankerTypeResponse = {
     no_permit: 54,
     never_inspected: 54,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 85,
   },
   sw: {
@@ -50,6 +54,7 @@ export const MOCK_COMPLIANCE_CLUSTER_2: ComplianceByTankerTypeResponse = {
     no_permit: 43,
     never_inspected: 43,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 74,
   },
   te: {
@@ -59,6 +64,7 @@ export const MOCK_COMPLIANCE_CLUSTER_2: ComplianceByTankerTypeResponse = {
     no_permit: 34,
     never_inspected: 34,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 60,
   },
 };
@@ -72,6 +78,7 @@ export const MOCK_COMPLIANCE_CLUSTER_3: ComplianceByTankerTypeResponse = {
     no_permit: 139,
     never_inspected: 139,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 59,
   },
   sw: {
@@ -81,6 +88,7 @@ export const MOCK_COMPLIANCE_CLUSTER_3: ComplianceByTankerTypeResponse = {
     no_permit: 67,
     never_inspected: 67,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 52,
   },
   te: {
@@ -90,6 +98,7 @@ export const MOCK_COMPLIANCE_CLUSTER_3: ComplianceByTankerTypeResponse = {
     no_permit: 38,
     never_inspected: 38,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 54,
   },
 };
@@ -103,6 +112,7 @@ export const MOCK_COMPLIANCE_BY_TANKER_TYPE: ComplianceByTankerTypeResponse = {
     no_permit: 239,
     never_inspected: 239,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 80,
   },
   sw: {
@@ -112,6 +122,7 @@ export const MOCK_COMPLIANCE_BY_TANKER_TYPE: ComplianceByTankerTypeResponse = {
     no_permit: 209,
     never_inspected: 209,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 72,
   },
   te: {
@@ -121,6 +132,7 @@ export const MOCK_COMPLIANCE_BY_TANKER_TYPE: ComplianceByTankerTypeResponse = {
     no_permit: 133,
     never_inspected: 133,
     in_progress: 0,
+    rejected_count: 0,
     tanker_health_percentage: 67,
   },
 };

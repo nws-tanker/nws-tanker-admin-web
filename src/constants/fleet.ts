@@ -21,7 +21,7 @@ export const PERMIT_LABELS: Record<PermitStatus, string> = {
   [PERMIT_STATUS.ACTIVE]: 'Valid',
   [PERMIT_STATUS.EXPIRED]: 'Expired',
   [PERMIT_STATUS.NO_PERMIT]: 'No Permit',
-  [PERMIT_STATUS.INSPECTION_IN_PROGRESS]: 'Inspection In Progress',
+  [PERMIT_STATUS.INSPECTION_IN_PROGRESS]: 'In Progress',
 };
 
 export const PERMIT_BADGE_COLOR: Record<

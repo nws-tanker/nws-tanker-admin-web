@@ -1,6 +1,6 @@
 import { ENDPOINTS } from '@/constants/endpoints';
 import type { ApiResponse } from '@/store/types';
-import type { Permit, Tanker } from '@/types';
+import type { Permit, PermitStatus, Tanker } from '@/types';
 import { PERMIT_STATUS, TANKER_TYPE } from '@/types';
 import { PERMIT_STATUS_BY_API, TANKER_TYPE_BY_CODE } from '@/constants/fleet';
 import { get } from './http';
@@ -43,18 +43,28 @@ type ApiFleetResponse = {
   metaData: { renewalThresholdDays: number };
 };
 
-const IN_PROGRESS_INSPECTION_STATES = new Set(['submitted']);
+const TERMINAL_INSPECTION_STATES = new Set(['approved', 'rejected', 'pending']);
+
+function resolvePermitlessStatus(
+  inspectionStatus: string | null,
+): PermitStatus {
+  if (!inspectionStatus || TERMINAL_INSPECTION_STATES.has(inspectionStatus)) {
+    return PERMIT_STATUS.NO_PERMIT;
+  }
+  return PERMIT_STATUS.INSPECTION_IN_PROGRESS;
+}
 
 function mapPermit(
   raw: ApiPermit | null,
   inspectionStatus: string | null,
 ): Permit {
   if (!raw) {
-    const status =
-      inspectionStatus && IN_PROGRESS_INSPECTION_STATES.has(inspectionStatus)
-        ? PERMIT_STATUS.INSPECTION_IN_PROGRESS
-        : PERMIT_STATUS.NO_PERMIT;
-    return { status, permitNumber: null, issuedAt: null, validUntil: null };
+    return {
+      status: resolvePermitlessStatus(inspectionStatus),
+      permitNumber: null,
+      issuedAt: null,
+      validUntil: null,
+    };
   }
   return {
     status: PERMIT_STATUS_BY_API[raw.permitStatus] ?? PERMIT_STATUS.NO_PERMIT,

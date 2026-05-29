@@ -8,13 +8,14 @@ import {
 } from './pdfHelpers';
 
 const COLUMNS: PdfColumn[] = [
-  { header: 'Month', width: 26 },
-  { header: 'Inspector', width: 64 },
-  { header: 'Contractor', width: 48 },
-  { header: 'DW', width: 28, align: 'right' },
-  { header: 'SW', width: 28, align: 'right' },
-  { header: 'TE', width: 28, align: 'right' },
-  { header: 'Total', width: 34, align: 'right' },
+  { header: 'Month', width: 24, align: 'center' },
+  { header: 'Inspector', width: 48, align: 'center' },
+  { header: 'Contractor', width: 36, align: 'center' },
+  { header: 'Inspections Done', width: 36, align: 'center' },
+  { header: 'DW', width: 24, align: 'center' },
+  { header: 'SW', width: 24, align: 'center' },
+  { header: 'TE', width: 24, align: 'center' },
+  { header: 'Total', width: 30, align: 'center' },
 ];
 
 export async function generatePaymentPdf(
@@ -33,6 +34,7 @@ export async function generatePaymentPdf(
       r.month,
       r.inspector,
       r.contractor,
+      String(r.inspections_done),
       String(r.dw),
       String(r.sw),
       String(r.te),
@@ -46,6 +48,7 @@ export async function generatePaymentPdf(
       `Totals · ${report.totals.inspectors} inspectors`,
       '',
       '',
+      String(report.totals.inspections_done),
       String(report.totals.dw),
       String(report.totals.sw),
       String(report.totals.te),

@@ -6,6 +6,7 @@ export type GovernorateComplianceRow = {
   in_progress?: number;
   expired: number;
   never_inspected: number;
+  rejected_count: number;
   compliance_rate: number;
 };
 
@@ -18,6 +19,7 @@ export type InspectorPerformanceRow = {
   cluster: string;
   inspected: number;
   rejected: number;
+  in_progress_count: number;
   permits_issued: number;
   compliance_rate: number;
 };

@@ -19,7 +19,7 @@ const KPI_CONFIG: KpiConfig[] = [
   {
     label: 'Pending Review',
     tab: 'pending-review',
-    sub: 'Awaiting CM decision',
+    sub: 'Awaiting Cluster Manager decision',
     valueClass: 'text-teal-800',
   },
   {
