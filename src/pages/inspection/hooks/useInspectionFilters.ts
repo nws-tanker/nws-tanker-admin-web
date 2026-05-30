@@ -1,7 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { INSPECTION_TAB_API_PARAM } from '@/types/inspection';
 import type { InspectionTab } from '@/types/inspection';
 
 const SEARCH_DEBOUNCE_MS = 400;
+const DEFAULT_TAB: InspectionTab = 'pending-review';
+
+// Read the active tab from the URL (?tab=...) so it survives navigating to a
+// details page and coming back. Falls back to the default for missing/unknown
+// values.
+function parseTab(value: string | null): InspectionTab {
+  return value && value in INSPECTION_TAB_API_PARAM
+    ? (value as InspectionTab)
+    : DEFAULT_TAB;
+}
 
 export type InspectionFilters = {
   activeTab: InspectionTab;
@@ -17,8 +29,8 @@ type UseInspectionFiltersReturn = InspectionFilters & {
 };
 
 export function useInspectionFilters(): UseInspectionFiltersReturn {
-  const [activeTab, setActiveTabRaw] =
-    useState<InspectionTab>('pending-review');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = parseTab(searchParams.get('tab'));
   const [search, setSearchRaw] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [page, setPageRaw] = useState(0);
@@ -29,7 +41,14 @@ export function useInspectionFilters(): UseInspectionFiltersReturn {
   }, [search]);
 
   function setActiveTab(tab: InspectionTab) {
-    setActiveTabRaw(tab);
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.set('tab', tab);
+        return next;
+      },
+      { replace: true },
+    );
     setPageRaw(0);
     setSearchRaw('');
     setDebouncedSearch('');
