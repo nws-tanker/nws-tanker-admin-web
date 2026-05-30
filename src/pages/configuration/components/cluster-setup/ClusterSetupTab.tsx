@@ -9,7 +9,11 @@ import { GovernorateAssignmentCard } from './GovernorateAssignmentCard';
 import { OnboardContractorCard } from './OnboardContractorCard';
 import { useGovAssignmentSave } from './useGovAssignmentSave';
 
-export function ClusterSetupTab() {
+type Props = {
+  onValueChange: (modifiedBy: string | null, modifiedOn: string | null) => void;
+};
+
+export function ClusterSetupTab({ onValueChange }: Props) {
   const dispatch = useAppDispatch();
   const { apiState, data, error } = useAppSelector((s) => s.clusterSetupApi);
 
@@ -47,6 +51,12 @@ export function ClusterSetupTab() {
       );
     }
   }, [apiState, data]);
+
+  useEffect(() => {
+    if (apiState === States.SUCCESS && data) {
+      onValueChange(data.lastModifiedBy ?? null, data.lastModifiedTime ?? null);
+    }
+  }, [apiState, data, onValueChange]);
 
   const handleGovAssign = (gov: string, clusterId: number) =>
     setGovAssignments((prev) => ({ ...prev, [gov]: clusterId }));

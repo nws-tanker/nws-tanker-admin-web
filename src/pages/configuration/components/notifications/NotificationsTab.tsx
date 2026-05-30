@@ -7,7 +7,11 @@ import {
 import { States } from '@/store/types';
 import { NotificationsForm } from './NotificationsForm';
 
-export function NotificationsTab() {
+type Props = {
+  onValueChange: (modifiedBy: string | null, modifiedOn: string | null) => void;
+};
+
+export function NotificationsTab({ onValueChange }: Props) {
   const dispatch = useAppDispatch();
   const { apiState, data, error } = useAppSelector(
     (s) => s.notificationContactsApi,
@@ -19,6 +23,12 @@ export function NotificationsTab() {
       dispatch(resetNotificationContacts());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (data) {
+      onValueChange(data.lastModifiedBy, data.lastModifiedTime);
+    }
+  }, [onValueChange, data]);
 
   if (apiState === States.ERROR) {
     return (
