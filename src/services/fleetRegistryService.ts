@@ -36,6 +36,7 @@ type ApiTanker = {
   createdAt: string | null;
   submittedAt: string | null;
   permit: ApiPermit | null;
+  inspectionID: number;
 };
 
 type ApiFleetResponse = {
@@ -47,7 +48,13 @@ const TERMINAL_INSPECTION_STATES = new Set(['approved', 'rejected', 'pending']);
 
 function resolvePermitlessStatus(
   inspectionStatus: string | null,
+  inspectionID: number,
 ): PermitStatus {
+  //for pending re-inspection tankers
+  if (inspectionStatus === 'pending' && inspectionID !== 0) {
+    return PERMIT_STATUS.INSPECTION_IN_PROGRESS;
+  }
+
   if (!inspectionStatus || TERMINAL_INSPECTION_STATES.has(inspectionStatus)) {
     return PERMIT_STATUS.NO_PERMIT;
   }
@@ -57,10 +64,11 @@ function resolvePermitlessStatus(
 function mapPermit(
   raw: ApiPermit | null,
   inspectionStatus: string | null,
+  inspectionID: number,
 ): Permit {
   if (!raw) {
     return {
-      status: resolvePermitlessStatus(inspectionStatus),
+      status: resolvePermitlessStatus(inspectionStatus, inspectionID),
       permitNumber: null,
       issuedAt: null,
       validUntil: null,
@@ -84,7 +92,7 @@ function mapApiTanker(raw: ApiTanker): Tanker {
     governorate: raw.governorate ?? '',
     cluster: raw.cluster ?? '',
     contact: raw.contactNumber,
-    permit: mapPermit(raw.permit, raw.inspectionStatus),
+    permit: mapPermit(raw.permit, raw.inspectionStatus, raw.inspectionID),
   };
 }
 

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { States } from '@/store/types';
 import { useInspectionChecklistForm } from '../../hooks/useInspectionChecklistForm';
 import ChecklistErrorState from './ChecklistErrorState';
@@ -6,7 +7,11 @@ import ChecklistKpiStrip from './ChecklistKpiStrip';
 import ChecklistSaveFooter from './ChecklistSaveFooter';
 import { ChecklistSection } from './ChecklistSection';
 
-export default function InspectionChecklist() {
+type Props = {
+  onValueChange: (modifiedBy: string | null, modifiedOn: string | null) => void;
+};
+
+export default function InspectionChecklist({ onValueChange }: Props) {
   const {
     data,
     state,
@@ -19,6 +24,12 @@ export default function InspectionChecklist() {
     handleDraftChange,
     handleAddItem,
   } = useInspectionChecklistForm();
+
+  useEffect(() => {
+    if (data) {
+      onValueChange(data.lastModifiedBy ?? null, data.lastModifiedTime ?? null);
+    }
+  }, [data, onValueChange]);
 
   if ((state === States.LOADING || state === States.PRELOADING) && !data) {
     return (

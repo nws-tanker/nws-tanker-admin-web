@@ -7,7 +7,11 @@ import {
 import { States } from '@/store/types';
 import { PermitSlaForm } from './PermitSlaForm';
 
-export function PermitSlaTab() {
+type Props = {
+  onValueChange: (modifiedBy: string | null, modifiedOn: string | null) => void;
+};
+
+export function PermitSlaTab({ onValueChange }: Props) {
   const dispatch = useAppDispatch();
   const { apiState, data, error } = useAppSelector((s) => s.permitSlaApi);
 
@@ -17,6 +21,12 @@ export function PermitSlaTab() {
       dispatch(resetPermitSla());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (data) {
+      onValueChange(data.lastModifiedBy, data.lastModifiedTime);
+    }
+  }, [onValueChange, data]);
 
   if (apiState === States.ERROR) {
     return (

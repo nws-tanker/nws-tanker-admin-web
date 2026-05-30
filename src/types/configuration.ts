@@ -38,6 +38,8 @@ export type ClusterSetupApiResponse = {
   clusters: ClusterSetupCluster[];
   governorates: ClusterSetupGovernorate[];
   contractors: ClusterSetupContractor[];
+  lastModifiedBy?: string | null;
+  lastModifiedTime?: string | null;
 };
 
 export type ClusterMeta = {
@@ -189,6 +191,8 @@ export type InspectionChecklistResponse = {
   isActive: boolean;
   summary: ChecklistSummary;
   categories: ChecklistCategoryResponse[];
+  lastModifiedBy?: string | null;
+  lastModifiedTime?: string | null;
 };
 
 export type ConfigTab =
@@ -274,6 +278,8 @@ export type PermitSlaApiResponse = {
   permitValidityMonths: number;
   labSlaDays: number;
   renewalReminderDays: number;
+  lastModifiedBy: string | null;
+  lastModifiedTime: string | null;
 };
 
 export type NotificationContactsApiResponse = {
@@ -281,6 +287,8 @@ export type NotificationContactsApiResponse = {
   email: string;
   mobileNo: string;
   editable: boolean;
+  lastModifiedBy: string | null;
+  lastModifiedTime: string | null;
 };
 
 export type UpdatePermitSlaRequest = {
