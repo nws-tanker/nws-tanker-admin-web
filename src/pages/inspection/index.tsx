@@ -49,8 +49,7 @@ export default function InspectionPage() {
 
         {state === States.ERROR ? (
           <ScreenStatus state={state} onRetry={retry} />
-        ) : (state === States.LOADING || state === States.PRELOADING) &&
-          records.length === 0 ? (
+        ) : state === States.PRELOADING ? (
           <ScreenStatus state={state} />
         ) : (
           <InspectionTable
