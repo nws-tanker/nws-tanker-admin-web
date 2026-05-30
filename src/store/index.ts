@@ -39,7 +39,6 @@ import pendingUsersApiReducer from './apiSlices/pendingUsersApiSlice';
 import permitSlaApiReducer from './apiSlices/permitSlaApiSlice';
 import invoiceReportApiReducer from './apiSlices/invoiceReportApiSlice';
 import paymentReportApiReducer from './apiSlices/paymentReportApiSlice';
-// import sidebarApiReducer from './apiSlices/sidebarApiSlice';
 import authReducer from './slices/authSlice';
 import currentUserApiReducer from './apiSlices/currentUserApiSlice';
 
@@ -76,7 +75,6 @@ const appReducer = combineReducers({
   permitSlaApi: permitSlaApiReducer,
   invoiceReportApi: invoiceReportApiReducer,
   paymentReportApi: paymentReportApiReducer,
-  // sidebarApi: sidebarApiReducer,
   auth: authReducer,
   currentUserApi: currentUserApiReducer,
 });
