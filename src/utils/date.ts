@@ -1,3 +1,16 @@
+import { format, parseISO } from 'date-fns';
+
+/**
+ * Backend timestamps are UTC but sometimes omit a timezone designator
+ * (e.g. "2026-05-30T10:00:00"). JS parses such strings as *local* time, so no
+ * conversion happens. Append a "Z" when no offset is present so the value is
+ * read as UTC; date-fns `format` then renders it in the browser's local zone.
+ */
+function parseUtc(iso: string): Date {
+  const hasTz = /([zZ]|[+-]\d{2}:?\d{2})$/.test(iso);
+  return parseISO(hasTz ? iso : `${iso}Z`);
+}
+
 export function formatDate(iso: string | null | undefined): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleDateString('en-GB', {
@@ -22,12 +35,10 @@ export function formatDateTime(iso: string | null | undefined): string {
 
 export function formatTime(iso: string | null | undefined): string {
   if (!iso) return '';
-  const d = new Date(iso);
+  const d = parseUtc(iso);
   if (Number.isNaN(d.getTime())) return '';
-  return d.toLocaleTimeString('en-GB', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  // format renders in the browser's local timezone.
+  return format(d, 'HH:mm');
 }
 
 export function todayIso(): string {

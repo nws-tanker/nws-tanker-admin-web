@@ -54,7 +54,9 @@ export default function InspectionDetailsPage() {
       <div className="flex flex-col px-7 pt-7 pb-6">
         <Button
           variant="ghost"
-          onClick={() => navigate(ROUTES.inspectionReview)}
+          // Go back to the previous entry so the list's active tab (kept in the
+          // URL as ?tab=...) is preserved instead of resetting to the default.
+          onClick={() => navigate(-1)}
           className="mb-4 w-fit -ml-2.5 text-teal-800 hover:text-teal-900"
         >
           ← Back to Inspection Review
